@@ -144,6 +144,19 @@ form.add .wide { grid-column: 1 / -1; }
 .notice { border: 1px dashed var(--line); border-radius: var(--r-md); padding: 16px; color: var(--muted); }
 .flag { border-left: 3px solid var(--sig-warn); padding: 8px 12px; background: var(--s1); border-radius: 0 var(--r-sm) var(--r-sm) 0; font-size: 14px; }
 .flag b { color: var(--sig-warn); font-weight: 500; }
+/* tonight: big type, readable at arm's length in a dark room */
+.tonight { display: grid; gap: 16px; }
+.tn-now { background: var(--night-band); color: var(--night-ink); border-radius: var(--r-lg); padding: 20px; display: grid; gap: 6px; border: 1px solid var(--a-night); }
+.tn-now .clock { font-family: var(--f-mono); font-size: clamp(40px, 12vw, 72px); line-height: 1; font-variant-numeric: tabular-nums; }
+.tn-now .lbl { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--night-ink) 65%, transparent); }
+.tn-now .moment { font-size: clamp(22px, 6vw, 32px); font-weight: 500; text-wrap: balance; }
+.tn-now .sub { color: color-mix(in srgb, var(--night-ink) 75%, transparent); font-size: 15px; }
+.tn-next { background: var(--s1); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; font-size: 16px; }
+.tn-next b { font-weight: 500; }
+.tn-rules { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 15px; }
+.tile.past { opacity: .45; }
+.tile.soon .v { color: var(--sig-warn); }
+.role-in { width: 100%; font-size: 15px; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom,0px)); background: var(--ink); color: var(--s0); padding: 8px 16px; border-radius: var(--r-pill); font-size: 14px; z-index: 20; }
 </style>
 
@@ -155,9 +168,11 @@ form.add .wide { grid-column: 1 / -1; }
     </div>
     <nav id="tabs" aria-label="Sections">
       <a href="#home" data-to="home">Home</a>
+      <a href="#tonight" data-to="tonight"><span class="sw" style="background:var(--a-night)"></span>Tonight</a>
       <a href="#library" data-to="library"><span class="sw" style="background:var(--a-lib)"></span>Panda Library</a>
       <a href="#studio" data-to="studio"><span class="sw" style="background:var(--a-venue)"></span>Room Studio</a>
       <a href="#night" data-to="night"><span class="sw" style="background:var(--a-night)"></span>Tasks + Night</a>
+      <a href="#crew" data-to="crew"><span class="sw" style="background:var(--a-night)"></span>Crew</a>
       <a href="#budget" data-to="budget"><span class="sw" style="background:var(--a-money)"></span>Budget</a>
       <a href="#learning" data-to="learning"><span class="sw" style="background:var(--a-learn)"></span>Learning</a>
     </nav>
@@ -286,6 +301,43 @@ form.add .wide { grid-column: 1 / -1; }
     <p class="lede">Type receipts into Actual as you shop. Pool lines count against the $450 pool; DJ, rental and merch are paid separately.</p>
   </section>
 
+  <!-- TONIGHT (phone-first, for the night itself) -->
+  <section data-tab="tonight" hidden>
+    <div class="toolbar" style="justify-content:space-between">
+      <div class="seg" id="tnMode" role="group" aria-label="Clock">
+        <button type="button" data-m="live" aria-pressed="true">Live</button>
+        <button type="button" data-m="preview" aria-pressed="false">Preview</button>
+      </div>
+      <label class="lede" id="tnPreviewWrap" style="display:flex;gap:8px;align-items:center;font-size:13px" hidden>Time
+        <input type="range" id="tnTime" min="0" max="540" step="5" value="180" aria-label="Preview time" style="width:180px">
+        <span class="mono" id="tnTimeLbl"></span></label>
+    </div>
+    <div class="tonight">
+      <div class="tn-now" id="tnNow"></div>
+      <div class="tiles" id="tnTimers"></div>
+      <div class="tn-next" id="tnNext"></div>
+      <div class="panel">
+        <h2>Rules all night</h2>
+        <ul class="tn-rules">
+          <li>Check IDs. Never serve under 21 or anyone already drunk.</li>
+          <li>Water visible and lit. Exits and the hall to the bath stay clear.</li>
+          <li>No phones on the dance floor. Ask before posting faces.</li>
+          <li>Keep it near 80 dB. The 2:00 AM cut is not a judgement call.</li>
+        </ul>
+      </div>
+      <div class="panel"><h2>Who's on</h2><div class="rows" id="tnRoles"></div></div>
+    </div>
+  </section>
+
+  <!-- CREW ROLES -->
+  <section data-tab="crew" hidden>
+    <div>
+      <h2>Crew roles · Fri 30 Oct</h2>
+      <p class="lede">Type a name and press Enter. Sober roles are marked; nobody covers two sober roles at once. Jovanni can't run the door while performing.</p>
+    </div>
+    <div class="rows" id="roles"></div>
+  </section>
+
   <!-- LEARNING -->
   <section data-tab="learning" hidden>
     <div>
@@ -317,7 +369,7 @@ form.add .wide { grid-column: 1 / -1; }
 (() => {
   const DOORS = Date.UTC(2026, 9, 31, 2, 0); // Fri 30 Oct 2026 21:00 Austin (CDT, UTC-5)
   const POOL = 450;
-  const S = { library: [], tasks: [], runofshow: [], budget: [], metrics: [], lessons: [], events: [], driveignore: [], dates: [], flags: [] };
+  const S = { library: [], tasks: [], runofshow: [], budget: [], metrics: [], lessons: [], events: [], driveignore: [], roles: [], dates: [], flags: [] };
   let db = null, canWrite = false, taskFilter = 'open', armedDelete = null, raf = null;
 
   const $ = (s) => document.querySelector(s);
@@ -329,7 +381,7 @@ form.add .wide { grid-column: 1 / -1; }
   const store = { get(k, d) { try { return localStorage.getItem(k) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
 
   /* ---------- tabs ---------- */
-  const TABS = ['home','library','studio','night','budget','learning'];
+  const TABS = ['home','tonight','library','studio','night','crew','budget','learning'];
   function showTab(name) {
     if (!TABS.includes(name)) name = 'home';
     document.querySelectorAll('section[data-tab]').forEach(s => s.hidden = s.dataset.tab !== name);
@@ -339,7 +391,7 @@ form.add .wide { grid-column: 1 / -1; }
   window.addEventListener('hashchange', () => showTab(location.hash.slice(1)));
 
   /* ---------- render ---------- */
-  function renderAll() { renderHome(); renderLibrary(); renderStudio(); renderTasks(); renderRos(); renderBudget(); renderLearning(); }
+  function renderAll() { renderHome(); renderLibrary(); renderStudio(); renderTasks(); renderRos(); renderBudget(); renderLearning(); renderCrew(); renderTonight(); }
 
   function renderHome() {
     const ms = DOORS - Date.now();
@@ -349,10 +401,13 @@ form.add .wide { grid-column: 1 / -1; }
     const open = S.tasks.filter(t => t.status !== 'done');
     const blocked = open.filter(t => t.status === 'blocked');
     const cap = S.metrics.find(m => m.metric === 'passes_issued');
+    const L = sheet.vals, live = sheet.state === 'ok' && L;
+    const src = live ? `Live from Logistics Control · ${esc(rel(new Date(sheet.at).toISOString()))}` : '';
     $('#tiles').innerHTML = `
       <div class="tile anchor"><span class="k">Doors · Fri 10.30</span><span class="v">${ms > 0 ? `${days}d ${hrs}h` : 'Live'}</span><span class="s">Devil's Night · AFTERIMAGE 001</span></div>
-      <div class="tile"><span class="k">Pool buffer</span><span class="v">${S.budget.length ? money(POOL - spend) : '—'}</span><span class="s">of ${money(POOL)} · estimate until receipts</span></div>
-      <div class="tile"><span class="k">Working cap</span><span class="v">${cap ? esc(cap.planned) : '—'}</span><span class="s">${cap ? esc(cap.notes || '') : 'passes'}</span></div>
+      <div class="tile"><span class="k">Pool buffer</span><span class="v">${live && L['Pool buffer'] ? esc(L['Pool buffer']) : S.budget.length ? money(POOL - spend) : '—'}</span><span class="s">${live ? `spend ${esc(L['Updated pool spend'] || '—')} of ${esc(L['Pool available'] || money(POOL))} · ${src}` : `of ${money(POOL)} · estimate until receipts`}</span></div>
+      <div class="tile"><span class="k">Guests</span><span class="v">${live ? `${esc(L['Confirmed'] || '—')}<span style="font-size:15px;color:var(--muted)"> / ${esc(L['Named guests'] || '—')} named</span>` : '—'}</span><span class="s">${live ? `confirmed · cap ${esc(L['Working cap'] || '—')} · ${src}` : 'counts load from Logistics Control'}</span></div>
+      <div class="tile"><span class="k">Working cap</span><span class="v">${live && L['Working cap'] ? esc(L['Working cap']) : cap ? esc(cap.planned) : '—'}</span><span class="s">${cap ? esc(cap.notes || '') : 'passes'}</span></div>
       <div class="tile"><span class="k">Open tasks</span><span class="v">${S.tasks.length ? open.length : '—'}</span><span class="s">${blocked.length} blocked</span></div>`;
     const fresh = driveNew().length;
     $('#flags').innerHTML = S.flags.map(f => `<div class="flag"><b>Check:</b> ${esc(f.text)}</div>`).join('') +
@@ -533,6 +588,87 @@ form.add .wide { grid-column: 1 / -1; }
     if (k && db && canWrite) { try { await db.collection('driveignore').doc(k.dataset.dskip).set({ at: new Date().toISOString() }); toast('Hidden from the Drive list'); } catch { toast('Couldn\'t save. Try again.'); } }
   });
 
+  /* ---------- live Logistics Control numbers (read-only) ---------- */
+  const SHEETS = 'Google Sheets', LC_ID = '1Bcdu-27ykECBOqn2Ih5thULI0TQx_AxmARQd-dWmZRo';
+  const sheet = { vals: null, state: 'idle', code: null, at: null };
+  function takeSheet(result) {
+    const rows = (result && result.payload && result.payload.values) || [];
+    const h = rows.findIndex(r => (r || []).includes('Pool buffer'));   // labels row; numbers sit right under it
+    if (h < 0 || !rows[h + 1]) { sheet.state = 'err'; sheet.code = 'layout'; return; }
+    const vals = {}; rows[h].forEach((k, i) => { if (k) vals[k] = (rows[h + 1][i] || '').trim(); });
+    sheet.vals = vals; sheet.state = 'ok'; sheet.code = null; sheet.at = result.cache?.storedAt || Date.now();
+  }
+  async function connectSheet() {
+    const mcp = window.claude?.use ? await window.claude.use('mcp') : null;
+    if (!mcp) return;
+    mcp.watchTool(SHEETS, 'get_values', { spreadsheetId: LC_ID, range: 'Control!A1:H8' }, (ev) => {
+      if (ev.type === 'data') takeSheet(ev.result);
+      else if (['needs_reauth', 'server_not_connected', 'blocked_by_policy', 'approval_required', 'not_in_manifest', 'selection_required'].includes(ev.error.code)) { sheet.vals = null; sheet.state = 'err'; sheet.code = ev.error.code; }
+      renderHome();
+    }, { refetchInterval: 5 * 60 * 1000 });
+  }
+
+  /* ---------- crew roles ---------- */
+  function renderCrew() {
+    const list = S.roles.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    const people = {}; list.forEach(r => { if (r.person && r.sober) (people[r.person.toLowerCase()] ||= []).push(r.role); });
+    $('#roles').innerHTML = list.map(r => {
+      const clash = r.person && r.sober && people[r.person.toLowerCase()]?.length > 1;
+      return `<div class="row">
+        <div class="title"><b style="font-weight:500">${esc(r.role)}</b>${r.sober ? ' <span class="pill warn">sober</span>' : ''}</div>
+        <span class="pill ${r.person ? 'ok' : 'attn'}">${r.person ? 'filled' : 'open'}</span>
+        <div style="grid-column:1/-1;display:grid;gap:6px">
+          <input class="role-in" data-role="${esc(r.id)}" value="${esc(r.person || '')}" placeholder="Who? (type a name, press Enter)" aria-label="Person for ${esc(r.role)}" ${canWrite ? '' : 'disabled'}>
+          <div class="meta"><span class="mono">${esc(r.shift || '')}</span><span>${esc(r.duty || '')}</span>${clash ? '<span class="pill attn">same person on two sober roles</span>' : ''}</div>
+        </div></div>`;
+    }).join('') || '<div class="notice">Roles load here once the hub connects.</div>';
+  }
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' && ev.target.matches('[data-role]')) ev.target.blur(); });
+  document.addEventListener('change', async (ev) => {
+    const el = ev.target.closest('[data-role]'); if (!el) return;
+    await write('roles/' + el.dataset.role, { person: el.value.trim() }, el.value.trim() ? 'Role filled' : 'Role cleared');
+  });
+
+  /* ---------- tonight: clock-driven view of the run of show ---------- */
+  const T0 = Date.UTC(2026, 9, 30, 23, 0);           // Fri 30 Oct 6:00 PM Austin (CDT, UTC-5)
+  const atSort = (s) => Date.UTC(2026, 9, 30, Math.floor(s / 100) + 5, s % 100);   // 2415 = 12:15 AM next day
+  const KEY = [['Doors', 2100], ['Last entry', 2430], ['Last pour', 2545], ['Hard stop', 2600]];
+  let tnMode = 'live';
+  const fmtClock = (t) => new Date(t).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' });
+  const fmtIn = (ms) => { const m = Math.round(ms / 6e4); if (m <= 0) return 'now'; if (m < 60) return `in ${m} min`; const h = Math.floor(m / 60); return `in ${h} h ${m % 60} min`; };
+  function tonightNow() {
+    if (tnMode === 'preview') return T0 + Number($('#tnTime').value) * 6e4;
+    return Date.now();
+  }
+  function renderTonight() {
+    const t = tonightNow();
+    $('#tnTimeLbl').textContent = fmtClock(T0 + Number($('#tnTime').value) * 6e4);
+    const ros = S.runofshow.slice().sort((a, b) => a.sort - b.sort);
+    const before = t < T0, after = t > atSort(2601) + 59 * 6e4;
+    const cur = ros.filter(r => atSort(r.sort) <= t).pop(), next = ros.find(r => atSort(r.sort) > t);
+    let head;
+    if (!ros.length) head = '<div class="sub">The run of show loads here once the hub connects.</div>';
+    else if (before) head = `<div class="lbl">${tnMode === 'live' ? 'Not tonight yet' : 'Preview'}</div><div class="moment">Load-in starts Fri 30 Oct at 6:00 PM</div><div class="sub">Doors ${fmtIn(atSort(2100) - t)}. Tap Preview to rehearse the night.</div>`;
+    else if (after) head = '<div class="lbl">Done</div><div class="moment">Night over. Fill the debrief in Learning.</div>';
+    else head = `<div class="lbl">On now · ${esc(cur.time)}</div><div class="moment">${esc(cur.moment)}</div>
+      <div class="sub">${esc(cur.lead)}${cur.support ? ' · ' + esc(cur.support) : ''}</div>
+      <div class="sub">${esc([cur.cue, cur.guests].filter(Boolean).join(' · '))}</div>`;
+    $('#tnNow').innerHTML = `<div class="clock">${esc(fmtClock(t))}</div>${head}`;
+    $('#tnTimers').innerHTML = KEY.map(([k, s]) => { const d = atSort(s) - t;
+      return `<div class="tile ${d < 0 ? 'past' : d < 30 * 6e4 ? 'soon' : ''}"><span class="k">${k}</span><span class="v">${esc(fmtClock(atSort(s)))}</span><span class="s">${d < 0 ? 'passed' : fmtIn(d)}</span></div>`; }).join('');
+    $('#tnNext').innerHTML = next && !before ? `Next · <b>${esc(next.time)} ${esc(next.moment)}</b> · ${esc(next.lead)} · ${fmtIn(atSort(next.sort) - t)}` : next ? `First up · <b>${esc(next.time)} ${esc(next.moment)}</b> · ${esc(next.lead)}` : 'Nothing left on the run of show.';
+    const roles = S.roles.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    $('#tnRoles').innerHTML = roles.map(r => `<div class="row"><div class="title">${esc(r.role)}</div><span class="pill ${r.person ? 'ok' : 'attn'}">${esc(r.person || 'open')}</span></div>`).join('') || '<p class="lede">Assign people in Crew.</p>';
+  }
+  document.addEventListener('click', (ev) => {
+    const b = ev.target.closest('#tnMode button'); if (!b) return;
+    tnMode = b.dataset.m;
+    document.querySelectorAll('#tnMode button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    $('#tnPreviewWrap').hidden = tnMode !== 'preview';
+    renderTonight();
+  });
+  $('#tnTime').addEventListener('input', renderTonight);
+
   /* ---------- writes ---------- */
   async function write(path, data, msg) {
     if (!db || !canWrite) { toast('Open the hub on claude.ai to save changes.'); return false; }
@@ -601,7 +737,7 @@ form.add .wide { grid-column: 1 / -1; }
     const can = user ? await user.can('data.write') : null;
     canWrite = can !== false;
     let loaded = 0;
-    const cols = ['library', 'tasks', 'runofshow', 'budget', 'metrics', 'lessons', 'events', 'driveignore'];
+    const cols = ['library', 'tasks', 'runofshow', 'budget', 'metrics', 'lessons', 'events', 'driveignore', 'roles'];
     cols.forEach(c => db.collection(c).onSnapshot(snap => {
       S[c] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       if (++loaded >= cols.length) setSync('ok', canWrite ? 'Saved to your hub' : 'Read only');
@@ -617,6 +753,8 @@ form.add .wide { grid-column: 1 / -1; }
   showTab(location.hash.slice(1) || 'home');
   connect();
   connectDrive();
+  connectSheet();
+  setInterval(() => { if (tnMode === 'live') renderTonight(); }, 30000);  // display only; nothing is written
   setInterval(renderHome, 60000); // countdown only; nothing is written
 
   /* ---------- studio ambience: a few dots drifting toward the island ---------- */

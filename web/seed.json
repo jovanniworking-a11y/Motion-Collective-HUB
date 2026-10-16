@@ -972,7 +972,7 @@
    "area": "venue",
    "due": "2026-10-17",
    "ref": "T-001",
-   "note": "Waiting on the 16 Oct measurements",
+   "note": "Venue visit moved; date TBD",
    "order": 0
   },
   {
@@ -1183,6 +1183,17 @@
    "ref": "SoT",
    "note": "",
    "order": 19
+  },
+  {
+   "id": "c-visit",
+   "title": "Reschedule the venue visit: measure kitchen + hall, tape the DJ wall, hand neighbours the flyer",
+   "owner": "Jovanni",
+   "status": "open",
+   "area": "venue",
+   "due": null,
+   "ref": "moved from 16 Oct",
+   "note": "Decides 50 vs 70 passes",
+   "order": 20
   }
  ],
  "runofshow": [
@@ -1322,12 +1333,12 @@
  "budget": [
   {
    "id": "drinks",
-   "item": "Drinks: 150-cocktail menu, ice, cups",
+   "item": "Drinks, ice + cups (150-cocktail menu)",
    "from": "pool",
    "planned": 231.13,
    "actual": null,
    "status": "estimate",
-   "note": "Derived: the 15 Oct sheet's $381.13 pool total minus the decor, DIY and smoking lines. Reprice in T-002.",
+   "note": "Logistics Control 15 Oct: drinks, ice and cups total $231.13 incl. tax. Menu locked: 90 lemonades + 60 Palomas.",
    "order": 0
   },
   {
@@ -1763,12 +1774,6 @@
   "home": {
    "dates": [
     {
-     "date": "2026-10-16",
-     "title": "Venue visit: measure kitchen + hall, tape the DJ wall",
-     "area": "venue",
-     "note": "Same trip: flyers to the neighbours"
-    },
-    {
      "date": "2026-10-19",
      "title": "$60 from your brother",
      "area": "money"
@@ -1808,11 +1813,90 @@
      "area": "venue"
     }
    ],
-   "flags": [
-    {
-     "text": "Two sources disagree. The 15 Oct Logistics Control sheet has a 150-cocktail menu and the lineup iamariology b2b raymixes, then Glamz (if he confirms), then HE//THEY at 12:15 AM. The 14 Oct Source of Truth still has jungle juice and a Glamz 23:00 slot. The hub follows the newer sheet until you confirm."
-    }
-   ]
+   "flags": []
   }
- }
+ },
+ "roles": [
+  {
+   "id": "door",
+   "role": "Door + ID / welfare lead",
+   "person": "",
+   "sober": true,
+   "shift": "8:45 PM–12:30 AM",
+   "duty": "IDs, pass list, refuse anyone too drunk, incident lead",
+   "order": 1
+  },
+  {
+   "id": "host2",
+   "role": "Second sober host",
+   "person": "",
+   "sober": true,
+   "shift": "Full night",
+   "duty": "Cover the welfare lead; rides and exits",
+   "order": 2
+  },
+  {
+   "id": "fader",
+   "role": "Master fader",
+   "person": "Jovanni",
+   "sober": true,
+   "shift": "Sound check–2:00 AM",
+   "duty": "Owns mixer-to-PA level; outside sound checks",
+   "order": 3
+  },
+  {
+   "id": "water",
+   "role": "Water lead (Water Minister)",
+   "person": "Jovanni",
+   "sober": false,
+   "shift": "9:00 PM–2:00 AM",
+   "duty": "Water, ice, cups, refills; last-pour switch. Preferably sober",
+   "order": 4
+  },
+  {
+   "id": "photo",
+   "role": "Photographer",
+   "person": "",
+   "sober": false,
+   "shift": "9:30 PM–1:45 AM",
+   "duty": "Official camera; ask before posting faces",
+   "order": 5
+  },
+  {
+   "id": "cleanup",
+   "role": "Cleanup / trash lead",
+   "person": "Jovanni",
+   "sober": false,
+   "shift": "Midnight + 1:45 AM",
+   "duty": "Floor sweep and bin changes",
+   "order": 6
+  },
+  {
+   "id": "cdj",
+   "role": "CDJ renter + pickup",
+   "person": "",
+   "sober": false,
+   "shift": "Pick up Tue 27–Thu 29 · return Mon 2 Nov",
+   "duty": "Driver's license + card in the renter's name",
+   "order": 7
+  },
+  {
+   "id": "ops",
+   "role": "Load-in, crew briefing + load-out lead",
+   "person": "Alex",
+   "sober": false,
+   "shift": "6:00 PM, 8:30 PM, 2:00–3:00 AM",
+   "duty": "Room reset, briefing on ID/welfare/exits/water/phones, reset after",
+   "order": 8
+  },
+  {
+   "id": "judge",
+   "role": "Costume judging",
+   "person": "Jovanni",
+   "sober": false,
+   "shift": "1:30 AM",
+   "duty": "Crew scorecard: originality 40 · execution 30 · commitment 30",
+   "order": 9
+  }
+ ]
 }

@@ -1,5 +1,15 @@
 # MOTION · AFTERIMAGE 001 — Devil's Night — Source of Truth
-Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cut)
+Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cut) · **16 Oct update below wins where it conflicts**
+
+## Decided 16 Oct (Jovanni confirmed the 15 Oct Logistics Control sheet)
+- **Logistics Control (15 Oct) is the current plan** where it differs from the sections below.
+- **Drinks: 150-cocktail menu, locked** — 90 entry lemonades + 60 mid-level Palomas, bulk 1.75 L. The jungle-juice recipe and carts below are **superseded**. Drinks, ice and cups total **$231.13** incl. tax (estimate until receipts); pool spend **$381.13**, buffer **$68.87**. The optional jungle-juice add-on is superseded.
+- **Lineup:** 9:00 PM opening set **iamariology b2b raymixes** (locked core) → 11:00 PM friends set / **Glamz b3b if he confirms** → **12:15 AM HE//THEY** (confirmed). Replaces the draft set times below. Glamz still unconfirmed: no promo naming him until he is.
+- **Working cap: 50 passes** until the kitchen + hall measurement. Named guests 50 (incl. crew), confirmed 25 (sheet count).
+- **Venue visit moved** from 16 Oct; new date TBD. Still needed: kitchen + hall clear floor, DJ-wall tape, neighbour flyers.
+- **Costume judging locked:** crew scorecard at 1:30 AM — originality 40 · execution 30 · commitment 30. Prize amount ($20–50) still open.
+- Room Studio drink-stock sims assumed jungle juice and must be rerun for the cocktail menu (T-009).
+- Live tracker: MOTION Collective Hub (https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM) reads these numbers from the sheet.
 
 This is the master record for MOTION's first event. When sources disagree, this doc wins. Update it whenever a decision is made.
 
