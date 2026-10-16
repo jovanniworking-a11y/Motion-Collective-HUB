@@ -5,7 +5,7 @@ One place for everything MOTION builds and learns. Event #1: **Devil's Night · 
 ## Web hub (any computer)
 **https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM** is private to the owner and needs a claude.ai sign-in.
 Tabs: Home, Panda Library, Room Studio, Tasks + Night, Budget, Learning. Edits save to the hub's own database.
-Source: `web/index.html` + `web/studio.html` (Room Studio). First-load data: `web/seed.json`.
+Source: `web/index.html`. Room Studio opens the original studio artifact (https://claude.ai/artifact/49y1uMCWh1em8QAfMbvBiV). First-load data: `web/seed.json`.
 
 ## Python hub (this repo)
 ```bash
