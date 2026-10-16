@@ -1,0 +1,297 @@
+<title>MOTION Collective</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Jost:wght@300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style id="app-style">
+/* One column, editorial: a black stage with a single red line of heat. Dark-first (it's a night);
+   light theme kept for daylight readers. Red stays under ~10% of any screen. */
+:root {
+  --bg:#f3f0ea; --bg2:#e9e5dd; --ink:#121214; --muted:#5e5c58; --line:#d4cfc5; --red:#c8241a; --on-red:#fff;
+  --f-display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --f-ui:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#0a0a0b; --bg2:#141416; --ink:#ede6da; --muted:#9a948a; --line:#2a2a2e; --red:#ff3b30; --on-red:#0a0a0b; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg:#0a0a0b; --bg2:#141416; --ink:#ede6da; --muted:#9a948a; --line:#2a2a2e; --red:#ff3b30; --on-red:#0a0a0b; color-scheme: dark; }
+*,*::before,*::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--f-ui); }
+a { color: inherit; }
+.wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left,0px)); padding-right: max(16px, env(safe-area-inset-right,0px)); }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: 12px; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+
+header.top { position: sticky; top: env(safe-area-inset-top,0px); z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+body::before { content:""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top,0px); z-index: 10; background: var(--bg); }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.mark { font-family: var(--f-display); font-style: italic; font-size: 24px; letter-spacing: .02em; text-decoration: none; }
+.mark span { color: var(--red); }
+nav.links { display: flex; gap: 18px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
+nav.links a { text-decoration: none; color: var(--muted); }
+nav.links a:hover { color: var(--ink); }
+@media (max-width: 640px) { nav.links { display: none; } }
+.cta { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font: 500 13px/1 var(--f-ui); letter-spacing: .18em; text-transform: uppercase; padding: 12px 18px; border-radius: 999px; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); white-space: nowrap; cursor: pointer; }
+.cta.red { background: var(--red); border-color: var(--red); color: var(--on-red); }
+.cta.ghost { background: transparent; color: var(--ink); }
+
+.hero { padding-block: clamp(48px, 10vw, 112px) 48px; display: grid; gap: 20px; position: relative; }
+.hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: linear-gradient(90deg, var(--red) 0 18%, var(--line) 18%); }
+.hero h1 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: clamp(56px, 14vw, 148px); line-height: .9; margin: 0; letter-spacing: -.01em; text-wrap: balance; font-optical-sizing: auto; }
+.hero .date { font-family: var(--f-display); font-size: clamp(34px, 8vw, 72px); line-height: 1; }
+.hero .info { font-size: 13px; letter-spacing: .24em; text-transform: uppercase; }
+.count { display: flex; gap: 22px; flex-wrap: wrap; }
+.count div { display: grid; }
+.count b { font: 500 clamp(26px, 5vw, 40px)/1 var(--f-mono); font-variant-numeric: tabular-nums; }
+.count span { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.hero .note { color: var(--muted); max-width: 52ch; }
+.hero .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+section.block { padding-block: 56px; border-bottom: 1px solid var(--line); display: grid; gap: 24px; }
+section.block h2 { margin: 0; font-size: 12px; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.lineup { display: grid; gap: 4px; }
+.act { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: baseline; padding-block: 16px; border-top: 1px solid var(--line); }
+.act:first-child { border-top: 0; }
+.act .name { font: 500 clamp(26px, 6vw, 44px)/1.05 var(--f-ui); letter-spacing: .02em; text-transform: uppercase; overflow-wrap: anywhere; }
+.act .credit { font-family: var(--f-display); font-style: italic; font-size: 18px; color: var(--muted); }
+.act .role { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--red); white-space: nowrap; }
+.act .genres { grid-column: 1 / -1; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.details { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.details div { padding: 16px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; padding-right: 16px; }
+.details dt { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
+.details dd { margin: 0; }
+.about p { font-family: var(--f-display); font-size: clamp(22px, 3.6vw, 32px); line-height: 1.3; margin: 0; max-width: 30ch; text-wrap: balance; }
+.about p + p { font-family: var(--f-ui); font-size: 17px; line-height: 1.6; max-width: 62ch; color: var(--muted); }
+.news { display: grid; gap: 28px; }
+.post { display: grid; grid-template-columns: 120px 1fr; gap: 6px 24px; }
+.post time { font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
+.post h3 { margin: 0; font-weight: 500; font-size: 20px; }
+.post p { margin: 0; color: var(--muted); grid-column: 2; max-width: 62ch; }
+@media (max-width: 560px) { .post { grid-template-columns: 1fr; } .post p { grid-column: 1; } }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+.gallery figure { margin: 0; display: grid; gap: 6px; }
+.gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--bg2); filter: grayscale(.15); }
+.gallery figcaption { font-size: 12px; color: var(--muted); }
+.past { display: grid; gap: 8px; }
+footer { padding-block: 40px 64px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: 13px; }
+.empty { color: var(--muted); }
+
+/* admin (owner only) */
+.fab { position: fixed; right: calc(16px + env(safe-area-inset-right,0px)); bottom: calc(16px + env(safe-area-inset-bottom,0px)); z-index: 20; }
+.admin { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 60%, transparent); backdrop-filter: blur(4px); display: grid; justify-items: end; }
+.sheet { width: min(560px, 100%); height: 100%; overflow-y: auto; background: var(--bg2); border-left: 1px solid var(--line); padding: 20px max(16px, env(safe-area-inset-right,0px)) 120px 20px; display: grid; gap: 16px; align-content: start; }
+.sheet h3 { margin: 0; font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { font: 500 13px var(--f-ui); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; }
+.tabs button[aria-pressed="true"] { color: var(--ink); border-color: var(--ink); }
+.card { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 8px; background: var(--bg); }
+.card label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+.card input, .card textarea, .card select { font: 400 15px var(--f-ui); color: var(--ink); background: var(--bg2); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; width: 100%; }
+.card textarea { min-height: 84px; resize: vertical; }
+.check { display: flex !important; grid-template-columns: none; align-items: center; gap: 8px; }
+.check input { width: auto; }
+.mini { font: 500 12px var(--f-ui); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+.mini.warn { color: var(--red); border-color: var(--red); }
+.savebar { position: sticky; bottom: 0; display: flex; gap: 8px; justify-content: space-between; align-items: center; padding-block: 12px; background: var(--bg2); border-top: 1px solid var(--line); flex-wrap: wrap; }
+.msg { font-size: 13px; color: var(--muted); }
+.thumb { width: 64px; height: 80px; object-fit: cover; border-radius: 4px; background: var(--bg); }
+</style>
+
+<div id="root"></div>
+
+<script type="application/json" id="motion-state">{"site":{"name":"MOTION","tagline":"Show off the artists. Put them in front of a room that's ready for them.","about":["Show off the artists. Put them in front of a room that's ready for them.","We asked the people coming what they play, save and sing, and built the sound from their answers and ours. Art and science on the same floor. MOTION is a collective of six friends in Austin who grew up on music, EDM and fashion."],"instagram":"motioncollective.atx","rsvp_url":"https://tally.so/r/Ekj7zA","city":"Austin"},"events":[{"id":"E001","name":"Devil's Night","series":"AFTERIMAGE 001","date":"2026-10-30","doors":"9:00 PM","until":"2:00 AM","where":"Austin. The address comes by DM once you're counted.","admission":"Free. Invite only, numbered passes.","details":["21+. ID at the door.","Costumes encouraged. Best look wins $40.","Drinks provided. BYOB recommended.","No phones on the dance floor. The photo corner is yours."],"status":"upcoming","flyer":""}],"lineup":[{"id":"a1","event":"E001","name":"HE//THEY","credit":"co.b b2b NiiON","genres":"UKG · Hard house / Electro · Bass house","role":"Headliner","public":true,"order":1},{"id":"a2","event":"E001","name":"Glamz","credit":"","genres":"","role":"b3b","public":true,"order":2},{"id":"a3","event":"E001","name":"iamariology b2b raymixes","credit":"","genres":"","role":"Opening","public":true,"order":3}],"news":[{"id":"n1","date":"2026-10-16","title":"AFTERIMAGE 001 · Devil's Night","body":"Our first night. Friday 10.30, doors at 9. RSVP to get counted and the address comes to you by DM.","public":true}],"gallery":[]}</script>
+
+<script id="app-script">
+(() => {
+  const SKELETON = '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>';
+  const HEAD = '<title>MOTION Collective</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Jost:wght@300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">\n';
+  const DRAFT_KEY = 'motion.site.draft';
+  const $ = (s, el = document) => el.querySelector(s);
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const safeUrl = (u) => /^(https:\/\/|\/_blob\/)/.test(String(u || '')) ? u : '';
+  const published = JSON.parse($('#motion-state').textContent);
+  let state = published, editing = false, adminTab = 'event', isAdmin = false;
+  try { const d = sessionStorage.getItem(DRAFT_KEY); if (d) { state = JSON.parse(d); sessionStorage.removeItem(DRAFT_KEY); } } catch {}
+
+  /* ---------- dates (Austin) ---------- */
+  const doorsAt = (ev) => { // "9:00 PM" on ev.date, Central time (CDT -5 / CST -6)
+    const m = /(\d{1,2}):(\d{2})\s*(AM|PM)/i.exec(ev.doors || '9:00 PM'); if (!m) return null;
+    let h = +m[1] % 12 + (/pm/i.test(m[3]) ? 12 : 0); const [y, mo, d] = ev.date.split('-').map(Number);
+    const off = (mo > 3 && mo < 11) || (mo === 11 && d < 2) || (mo === 3 && d > 8) ? 5 : 6;
+    return Date.UTC(y, mo - 1, d, h + off, +m[2]);
+  };
+  const dotDate = (iso) => { const [y, m, d] = iso.split('-'); return `${+m}.${+d}.${y.slice(2)}`; };
+  const longDate = (iso) => new Date(iso + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/,/g, '').replace(/\//g, '.').toUpperCase();
+  const pub = (arr) => (arr || []).filter(x => x.public !== false);
+
+  /* ---------- public page ---------- */
+  function render() {
+    const S = state, site = S.site || {};
+    const upcoming = (S.events || []).filter(e => e.status === 'upcoming').sort((a, b) => a.date.localeCompare(b.date));
+    const past = (S.events || []).filter(e => e.status === 'past').sort((a, b) => b.date.localeCompare(a.date));
+    const ev = upcoming[0];
+    const acts = ev ? pub(S.lineup).filter(a => a.event === ev.id).sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) : [];
+    const ig = (site.instagram || '').replace(/^@/, '');
+    const rsvp = safeUrl(site.rsvp_url);
+    const rsvpBtn = rsvp ? `<a class="cta red" href="${esc(rsvp)}" target="_blank" rel="noopener">RSVP · get counted</a>`
+      : ig ? `<a class="cta red" href="https://instagram.com/${esc(ig)}" target="_blank" rel="noopener">DM us to RSVP</a>` : `<span class="cta ghost" aria-disabled="true">RSVP opens soon</span>`;
+    const news = pub(S.news).sort((a, b) => b.date.localeCompare(a.date));
+    const gal = pub(S.gallery).filter(g => safeUrl(g.src));
+    $('#root').innerHTML = `
+      <header class="top"><div class="wrap bar">
+        <a class="mark" href="#top">${esc(site.name || 'MOTION')}<span>.</span></a>
+        <nav class="links" aria-label="Sections">${ev ? '<a href="#night">The night</a>' : ''}${acts.length ? '<a href="#lineup">Lineup</a>' : ''}<a href="#about">About</a>${news.length ? '<a href="#news">News</a>' : ''}${gal.length ? '<a href="#gallery">Gallery</a>' : ''}</nav>
+        ${ev ? rsvpBtn.replace('RSVP · get counted', 'RSVP') : ''}
+      </div></header>
+      <main class="wrap" id="top">
+        ${ev ? `<section class="hero" id="night">
+          <div class="eyebrow">${esc(site.name || 'MOTION')} collective presents · ${esc(ev.series || '')}</div>
+          <h1>${esc(ev.name)}</h1>
+          <div class="date">${esc(dotDate(ev.date))}</div>
+          <div class="info">${esc(longDate(ev.date))} · Doors ${esc(ev.doors || '')}${ev.until ? ' · until ' + esc(ev.until) : ''}</div>
+          <div class="count" id="count" aria-live="off"></div>
+          <div class="row">${rsvpBtn}${acts.length ? '<a class="cta ghost" href="#lineup">See the lineup</a>' : ''}</div>
+          <p class="note">${esc(ev.where || '')}</p>
+        </section>` : `<section class="hero"><div class="eyebrow">${esc(site.city || '')}</div><h1>${esc(site.name || 'MOTION')}</h1><p class="note">${esc(site.tagline || '')}</p><p class="note">The next night is being planned. ${ig ? `Follow <a href="https://instagram.com/${esc(ig)}" target="_blank" rel="noopener">@${esc(ig)}</a> to hear first.` : ''}</p></section>`}
+        ${acts.length ? `<section class="block" id="lineup"><h2>Lineup</h2><div class="lineup">${acts.map(a => `
+          <div class="act"><div><div class="name">${esc(a.name)}</div>${a.credit ? `<div class="credit">${esc(a.credit)}</div>` : ''}</div>
+          <div class="role">${esc(a.role || '')}</div>${a.genres ? `<div class="genres">${esc(a.genres)}</div>` : ''}</div>`).join('')}</div></section>` : ''}
+        ${ev ? `<section class="block"><h2>The details</h2><dl class="details">
+          <div><dt>When</dt><dd>${esc(longDate(ev.date))}<br>Doors ${esc(ev.doors || '')}${ev.until ? ', until ' + esc(ev.until) : ''}</dd></div>
+          <div><dt>Where</dt><dd>${esc(ev.where || '')}</dd></div>
+          <div><dt>Entry</dt><dd>${esc(ev.admission || '')}</dd></div>
+          ${(ev.details || []).map((d, i) => `<div><dt>${['Know', 'Wear', 'Drink', 'Floor', 'Also'][i] || 'Also'}</dt><dd>${esc(d)}</dd></div>`).join('')}
+        </dl></section>` : ''}
+        <section class="block about" id="about"><h2>About</h2>${(site.about || []).map(p => `<p>${esc(p)}</p>`).join('')}</section>
+        ${news.length ? `<section class="block" id="news"><h2>News</h2><div class="news">${news.map(n => `<article class="post"><time datetime="${esc(n.date)}">${esc(dotDate(n.date))}</time><h3>${esc(n.title)}</h3><p>${esc(n.body)}</p></article>`).join('')}</div></section>` : ''}
+        ${gal.length ? `<section class="block" id="gallery"><h2>Gallery</h2><div class="gallery">${gal.map(g => `<figure><img src="${esc(g.src)}" alt="${esc(g.alt || g.caption || '')}" loading="lazy">${g.caption ? `<figcaption>${esc(g.caption)}</figcaption>` : ''}</figure>`).join('')}</div></section>` : ''}
+        ${past.length ? `<section class="block"><h2>Past nights</h2><div class="past">${past.map(p => `<div><span class="mono">${esc(dotDate(p.date))}</span> · ${esc(p.series || '')} · ${esc(p.name)}</div>`).join('')}</div></section>` : ''}
+        <footer><span>${esc(site.name || 'MOTION')} collective · ${esc(site.city || '')}</span>${ig ? `<span>Instagram <a href="https://instagram.com/${esc(ig)}" target="_blank" rel="noopener">@${esc(ig)}</a></span>` : ''}</footer>
+      </main>
+      ${isAdmin ? `<button class="cta fab" id="openAdmin" type="button">${editing ? 'Editing…' : 'Edit site'}</button>` : ''}
+      ${isAdmin && editing ? adminHtml() : ''}`;
+    tick();
+  }
+  function tick() {
+    const el = $('#count'); if (!el) return;
+    const ev = (state.events || []).filter(e => e.status === 'upcoming').sort((a, b) => a.date.localeCompare(b.date))[0];
+    const t = ev && doorsAt(ev); if (!t) { el.innerHTML = ''; return; }
+    const ms = t - Date.now();
+    if (ms <= 0) { el.innerHTML = '<div><b>Tonight</b><span>doors open</span></div>'; return; }
+    const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60;
+    el.innerHTML = `<div><b>${d}</b><span>days</span></div><div><b>${String(h).padStart(2, '0')}</b><span>hours</span></div><div><b>${String(m).padStart(2, '0')}</b><span>min</span></div>`;
+  }
+  setInterval(tick, 30000);
+
+  /* ---------- admin (owner only) ---------- */
+  const uid = () => Math.random().toString(36).slice(2, 8);
+  const field = (path, label, val, type = 'text') => type === 'textarea'
+    ? `<label>${label}<textarea data-path="${path}">${esc(val)}</textarea></label>`
+    : type === 'check' ? `<label class="check"><input type="checkbox" data-path="${path}" ${val !== false ? 'checked' : ''}>${label}</label>`
+    : `<label>${label}<input type="${type}" data-path="${path}" value="${esc(val)}"></label>`;
+  function adminHtml() {
+    const S = state, T = adminTab;
+    const tabs = [['event', 'Events'], ['lineup', 'Lineup'], ['news', 'News'], ['gallery', 'Gallery'], ['site', 'Site']]
+      .map(([k, l]) => `<button type="button" data-tab="${k}" aria-pressed="${T === k}">${l}</button>`).join('');
+    let body = '';
+    if (T === 'site') body = `<div class="card">${field('site.name', 'Name', S.site.name)}${field('site.tagline', 'Tagline', S.site.tagline)}${field('site.city', 'City', S.site.city)}
+      ${field('site.instagram', 'Instagram handle (no @)', S.site.instagram)}${field('site.rsvp_url', 'RSVP form link (https://…)', S.site.rsvp_url, 'url')}
+      ${(S.site.about || []).map((p, i) => field(`site.about.${i}`, i ? 'About, more' : 'About, first line (big type)', p, 'textarea')).join('')}</div>`;
+    if (T === 'event') body = (S.events || []).map((e, i) => `<div class="card">
+      ${field(`events.${i}.name`, 'Name', e.name)}${field(`events.${i}.series`, 'Series', e.series)}${field(`events.${i}.date`, 'Date', e.date, 'date')}
+      ${field(`events.${i}.doors`, 'Doors (e.g. 9:00 PM)', e.doors)}${field(`events.${i}.until`, 'Until', e.until)}
+      ${field(`events.${i}.where`, 'Where (never the address)', e.where)}${field(`events.${i}.admission`, 'Entry', e.admission)}
+      ${field(`events.${i}.details`, 'Details, one per line', (e.details || []).join('\n'), 'textarea')}
+      <label>Status<select data-path="events.${i}.status">${['upcoming', 'past', 'draft'].map(s => `<option${e.status === s ? ' selected' : ''}>${s}</option>`).join('')}</select></label>
+      <div><button class="mini warn" type="button" data-del="events.${i}">Remove event</button></div></div>`).join('') + '<button class="mini" type="button" data-add="events">Add event</button>';
+    if (T === 'lineup') body = (S.lineup || []).map((a, i) => `<div class="card">
+      ${field(`lineup.${i}.name`, 'Name', a.name)}${field(`lineup.${i}.credit`, 'Credit line', a.credit)}${field(`lineup.${i}.genres`, 'Genres', a.genres)}
+      ${field(`lineup.${i}.role`, 'Billing (Headliner, b2b, Opening…)', a.role)}${field(`lineup.${i}.order`, 'Order', a.order, 'number')}
+      <label>Event<select data-path="lineup.${i}.event">${(S.events || []).map(e => `<option value="${esc(e.id)}"${a.event === e.id ? ' selected' : ''}>${esc(e.series || e.name)}</option>`).join('')}</select></label>
+      ${field(`lineup.${i}.public`, 'Show on the site (only once the artist has said yes)', a.public, 'check')}
+      <div><button class="mini warn" type="button" data-del="lineup.${i}">Remove</button></div></div>`).join('') + '<button class="mini" type="button" data-add="lineup">Add artist</button>';
+    if (T === 'news') body = (S.news || []).map((n, i) => `<div class="card">
+      ${field(`news.${i}.date`, 'Date', n.date, 'date')}${field(`news.${i}.title`, 'Title', n.title)}${field(`news.${i}.body`, 'Text', n.body, 'textarea')}
+      ${field(`news.${i}.public`, 'Show on the site', n.public, 'check')}
+      <div><button class="mini warn" type="button" data-del="news.${i}">Remove</button></div></div>`).join('') + '<button class="mini" type="button" data-add="news">Add announcement</button>';
+    if (T === 'gallery') body = `<div class="card"><label>Add photos or flyers (JPG, PNG, WebP)<input type="file" id="upload" accept="image/*" multiple></label><span class="msg" id="upMsg">No faces without permission. Never the address.</span></div>` +
+      (S.gallery || []).map((g, i) => `<div class="card" style="grid-template-columns:64px 1fr"><img class="thumb" src="${esc(safeUrl(g.src))}" alt="">
+      <div style="display:grid;gap:8px">${field(`gallery.${i}.caption`, 'Caption', g.caption)}${field(`gallery.${i}.alt`, 'Describe the image (for screen readers)', g.alt)}${field(`gallery.${i}.public`, 'Show on the site', g.public, 'check')}
+      <div><button class="mini warn" type="button" data-del="gallery.${i}">Remove</button></div></div></div>`).join('');
+    return `<div class="admin" role="dialog" aria-label="Edit site"><div class="sheet">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h3>Edit site · only you see this</h3><button class="mini" type="button" id="closeAdmin">Close</button></div>
+      <div class="tabs">${tabs}</div>${body}
+      <div class="savebar"><span class="msg" id="saveMsg">${JSON.stringify(state) === JSON.stringify(published) ? 'No changes yet.' : 'Unpublished changes.'}</span>
+        <span style="display:flex;gap:8px"><button class="mini" type="button" id="discard">Discard</button><button class="cta red" type="button" id="publish">Publish changes</button></span></div>
+    </div></div>`;
+  }
+  const getAt = (path) => path.split('.').reduce((o, k) => o?.[k], state);
+  function setAt(path, val) {
+    const ks = path.split('.'); const last = ks.pop(); const o = ks.reduce((o, k) => o[k], state);
+    o[last] = val;
+  }
+  document.addEventListener('input', (e) => {
+    const p = e.target.dataset?.path; if (!p) return;
+    let v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    if (p.endsWith('.details')) v = v.split('\n').map(s => s.trim()).filter(Boolean);
+    if (p.endsWith('.order')) v = Number(v) || 0;
+    setAt(p, v); const m = $('#saveMsg'); if (m) m.textContent = 'Unpublished changes.';
+  });
+  document.addEventListener('change', (e) => { if (e.target.dataset?.path) render(); });
+  document.addEventListener('click', async (e) => {
+    const t = e.target.closest('button'); if (!t) return;
+    if (t.id === 'openAdmin') { editing = true; render(); return; }
+    if (t.id === 'closeAdmin') { editing = false; render(); return; }
+    if (t.dataset.tab) { adminTab = t.dataset.tab; render(); return; }
+    if (t.id === 'discard') { state = JSON.parse(JSON.stringify(published)); render(); return; }
+    if (t.dataset.add) {
+      const k = t.dataset.add, today = new Date().toISOString().slice(0, 10);
+      const blank = { events: { id: 'E' + uid(), name: 'New night', series: '', date: today, doors: '9:00 PM', until: '', where: 'Austin. The address comes by DM once you\'re counted.', admission: '', details: [], status: 'draft', flyer: '' },
+        lineup: { id: uid(), event: (state.events[0] || {}).id, name: 'New artist', credit: '', genres: '', role: '', public: false, order: state.lineup.length + 1 },
+        news: { id: uid(), date: today, title: 'New announcement', body: '', public: false } }[k];
+      state[k].push(blank); render(); return;
+    }
+    if (t.dataset.del) { const [k, i] = t.dataset.del.split('.'); if (t.dataset.armed) { state[k].splice(+i, 1); render(); } else { t.dataset.armed = '1'; t.textContent = 'Click again to remove'; } return; }
+    if (t.id === 'publish') await publishSite(t);
+  });
+  document.addEventListener('change', async (e) => {
+    if (e.target.id !== 'upload') return;
+    const msg = $('#upMsg'), assets = await window.claude?.use?.('assets');
+    if (!assets) { msg.textContent = 'Uploading works when you open the site on claude.ai as its owner.'; return; }
+    for (const f of e.target.files) {
+      msg.textContent = `Uploading ${f.name}…`;
+      try { const a = await assets.upload(f); state.gallery.push({ id: uid(), src: a.url, caption: '', alt: '', public: false }); }
+      catch (err) { msg.textContent = `Couldn't upload ${f.name}. Try a smaller image (under 20 MB).`; return; }
+    }
+    render();
+  });
+  function pageHtml(S) {
+    const json = JSON.stringify(S).replace(/</g, '\\u003c');
+    return SKELETON + HEAD + `<style id="app-style">${$('#app-style').textContent}</style>\n\n<div id="root"></div>\n\n<script type="application/json" id="motion-state">${json}<\/script>\n\n<script id="app-script">${$('#app-script').textContent}<\/script>\n</body></html>`;
+  }
+  async function publishSite(btn) {
+    const msg = $('#saveMsg'), art = await window.claude?.use?.('artifact');
+    if (!art) { msg.textContent = 'Publishing works when you open the site on claude.ai.'; return; }
+    btn.disabled = true; msg.textContent = 'Publishing…';
+    try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(state)); } catch {}
+    try { await art.publish(pageHtml(state)); try { sessionStorage.removeItem(DRAFT_KEY); } catch {} msg.textContent = 'Published. Reloading…'; }
+    catch (err) {
+      const c = err && err.code;
+      msg.textContent = c === 'conflict' ? 'A newer version was published first. Reloading to it; your edits are kept for one more try.'
+        : c === 'not_writer' || c === 'not_granted' ? 'This view is read-only, so changes can\'t be published here.'
+        : c === 'too_large' ? 'The page got too big. Remove a few gallery images and try again.'
+        : c === 'rate_limited' ? 'Publishing too often. Wait a minute, then publish again.'
+        : 'Publishing failed. Try again in a moment.';
+      if (c !== 'conflict') { try { sessionStorage.removeItem(DRAFT_KEY); } catch {} }
+      btn.disabled = false;
+    }
+  }
+
+  render();
+  (async () => { const u = await window.claude?.use?.('user'); if (u && await u.isOwner()) { isAdmin = true; render(); } })();
+})();
+</script>

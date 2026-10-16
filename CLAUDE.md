@@ -24,5 +24,7 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 ## Where things are
 - Web hub: https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM (source `web/index.html`, data seeded from `web/seed.json`)
 - Room Studio: https://claude.ai/artifact/49y1uMCWh1em8QAfMbvBiV
+- Fan site (public once shared): https://claude.ai/artifact/Fjd1GpHBNFyu21EJtNBCgB (source `site/index.html`; content lives in the page's `motion-state` JSON; owner edits via "Edit site")
+- RSVP: Tally form https://tally.so/r/Ekj7zA · Instagram @motioncollective.atx
 - Python hub: `python hub.py` (catalog, event learning, Excel export)
 - Agent kit + project context: `orch/`
