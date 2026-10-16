@@ -1,0 +1,5 @@
+# Work log, Room Studio + college-crowd pass (12–16 Oct)
+Latest studio: v8. Asks fulfilled: vector/flow arrows; locked, wall-square placements; ±5% @95% CI; best DJ+speaker spot (sound model); guided night tour + written Night Report (Claude Doc: https://claude.ai/artifact/6NP68GaRg3VGjikbxixJQW); essentials: DJ rig, drinks, trash+recycling, disco ball. Then: Rohan cut ($375); second restroom (Bed 3 bath) opened; college-crowd profile; kitchen counters/stove tested; bins spread; extra alcohol proposed.
+Key findings: Bed 3 bath → wait ~25→~2 min, peak line ~26→~8. Island drinks setup holds. Counter tubs score worse than cooler+cart upper-right. Extra floor bins add jams; a front-door bin narrows door path to ~30 in. ~60 cans left around over the night. Balcony peaks 9–10 people. Stock ~134 drinks covers light drinking only (medium 180–230, heavy 285–375). Score = jamMin + 0.5·cutMin + 0.15·drinkMin + 0.4·litter + door-path penalty.
+Backups of earlier studio versions are not included; `context/studio/index.html` is v8.
+Local-only (too large to bundle, ask Jovanni/Claude): flyer_af renders, anime_phone, cap renders, teaser exports, higgsfield pack, Rio photos.

@@ -1,0 +1,393 @@
+{
+ "ms": 102151,
+ "sound": {
+  "cands": 32,
+  "top": [
+   {
+    "t": null,
+    "score": 53.64,
+    "ciPct": 4.4,
+    "n": 6,
+    "ok": true,
+    "tie": false,
+    "jam": 33.5,
+    "litter": 3.3,
+    "resc": 0,
+    "s": 4.5,
+    "spread": 4.6,
+    "depth": 4.25,
+    "snd": {
+     "sd": 3.37,
+     "w3": 0.66,
+     "hot": 6.8,
+     "dj": -15.5
+    },
+    "eg": 47,
+    "rest": 35
+   },
+   {
+    "t": null,
+    "score": 55.7,
+    "ciPct": 4.8,
+    "n": 6,
+    "ok": true,
+    "tie": true,
+    "jam": 34.3,
+    "litter": 4.7,
+    "resc": 0,
+    "s": 5,
+    "spread": 4.6,
+    "depth": 4.25,
+    "snd": {
+     "sd": 3.68,
+     "w3": 0.64,
+     "hot": 6.9,
+     "dj": -15.5
+    },
+    "eg": 47,
+    "rest": 35
+   },
+   {
+    "t": null,
+    "score": 56.44,
+    "ciPct": 3.3,
+    "n": 5,
+    "ok": true,
+    "tie": true,
+    "jam": 35.3,
+    "litter": 3.6,
+    "resc": 0,
+    "s": 5.5,
+    "spread": 4.6,
+    "depth": 4.25,
+    "snd": {
+     "sd": 3.83,
+     "w3": 0.62,
+     "hot": 6.9,
+     "dj": -15.5
+    },
+    "eg": 47,
+    "rest": 30
+   },
+   {
+    "t": null,
+    "score": 56.29,
+    "ciPct": 4.5,
+    "n": 7,
+    "ok": true,
+    "tie": true,
+    "jam": 34.9,
+    "litter": 3,
+    "resc": 0,
+    "s": 6,
+    "spread": 4.6,
+    "depth": 4.25,
+    "snd": {
+     "sd": 4.03,
+     "w3": 0.6,
+     "hot": 7,
+     "dj": -15.4
+    },
+    "eg": 47,
+    "rest": 30
+   }
+  ],
+  "win": {
+   "s": 4.5,
+   "spread": 4.6,
+   "depth": 4.25
+  }
+ },
+ "drinks": {
+  "tested": 37,
+  "top": [
+   {
+    "t": "Dispensers: island \u00b7 Beer: upper right corner \u00b7 White Claw: cart \u00b7 upper right corner",
+    "score": 55.81,
+    "ciPct": 4.6,
+    "n": 5,
+    "ok": true,
+    "tie": false,
+    "jam": 32.2,
+    "litter": 14.2,
+    "resc": 0
+   },
+   {
+    "t": "Dispensers: island \u00b7 Beer: upper wall by Bed 3 \u00b7 White Claw: cart \u00b7 upper right corner",
+    "score": 57.28,
+    "ciPct": 4.8,
+    "n": 7,
+    "ok": true,
+    "tie": true,
+    "jam": 32.7,
+    "litter": 14.6,
+    "resc": 0
+   },
+   {
+    "t": "Dispensers: island \u00b7 Beer: kitchen counters \u00b7 White Claw: cart \u00b7 upper right corner",
+    "score": 57.41,
+    "ciPct": 4.9,
+    "n": 8,
+    "ok": true,
+    "tie": true,
+    "jam": 32.8,
+    "litter": 15.4,
+    "resc": 0
+   },
+   {
+    "t": "Dispensers: island \u00b7 Beer: laundry wall \u00b7 White Claw: cart \u00b7 upper right corner",
+    "score": 58.29,
+    "ciPct": 4.7,
+    "n": 15,
+    "ok": true,
+    "tie": true,
+    "jam": 34.3,
+    "litter": 13.8,
+    "resc": 0
+   },
+   {
+    "t": "Dispensers: island \u00b7 Beer: pantry corner \u00b7 White Claw: cart \u00b7 upper right corner",
+    "score": 58.38,
+    "ciPct": 4.7,
+    "n": 8,
+    "ok": true,
+    "tie": true,
+    "jam": 33.9,
+    "litter": 14.3,
+    "resc": 0
+   },
+   {
+    "t": "Dispensers: island \u00b7 Beer: laundry wall \u00b7 White Claw: cart \u00b7 upper right corner",
+    "score": 60.13,
+    "ciPct": 4.6,
+    "n": 8,
+    "ok": true,
+    "tie": true,
+    "jam": 34.8,
+    "litter": 14.5,
+    "resc": 0
+   }
+  ]
+ },
+ "bins": {
+  "top": [
+   {
+    "t": "No bins",
+    "score": 309.98,
+    "ciPct": 2,
+    "n": 5,
+    "ok": true,
+    "tie": false,
+    "jam": 110.3,
+    "litter": 327,
+    "resc": 0
+   },
+   {
+    "t": "island",
+    "score": 237.26,
+    "ciPct": 4.8,
+    "n": 6,
+    "ok": true,
+    "tie": true,
+    "jam": 127.8,
+    "litter": 72.8,
+    "resc": 0
+   },
+   {
+    "t": "island + pantry corner",
+    "score": 236.61,
+    "ciPct": 3.7,
+    "n": 5,
+    "ok": true,
+    "tie": false,
+    "jam": 129.9,
+    "litter": 68,
+    "resc": 0
+   }
+  ],
+  "none": {
+   "t": "No bins",
+   "score": 309.98,
+   "ciPct": 2,
+   "n": 5,
+   "ok": true,
+   "tie": false,
+   "jam": 110.3,
+   "litter": 327,
+   "resc": 0
+  }
+ },
+ "ball": {
+  "top": [
+   {
+    "t": "Ceiling hook \u00b7 above the DJ, behind the decks",
+    "score": 5.57,
+    "ciPct": 0,
+    "n": 15,
+    "ok": true,
+    "tie": false,
+    "jam": null,
+    "litter": null,
+    "resc": null,
+    "m": "0.0 person-min of raised hands within reach \u00b7 ball bottom 7 ft 0 in \u00b7 9 ft from the dance-floor centre"
+   },
+   {
+    "t": "Ceiling hook \u00b7 upper wall by Bed 3",
+    "score": 33.27,
+    "ciPct": 4.7,
+    "n": 15,
+    "ok": true,
+    "tie": false,
+    "jam": null,
+    "litter": null,
+    "resc": null,
+    "m": "27.4 person-min of raised hands within reach \u00b7 ball bottom 7 ft 0 in \u00b7 9 ft from the dance-floor centre"
+   },
+   {
+    "t": "Ceiling hook \u00b7 upper wall by Bed 3",
+    "score": 49.82,
+    "ciPct": 4,
+    "n": 15,
+    "ok": true,
+    "tie": false,
+    "jam": null,
+    "litter": null,
+    "resc": null,
+    "m": "44.0 person-min of raised hands within reach \u00b7 ball bottom 7 ft 0 in \u00b7 9 ft from the dance-floor centre"
+   },
+   {
+    "t": "Ceiling hook \u00b7 laundry wall",
+    "score": 61.53,
+    "ciPct": 4.2,
+    "n": 15,
+    "ok": true,
+    "tie": false,
+    "jam": null,
+    "litter": null,
+    "resc": null,
+    "m": "56.3 person-min of raised hands within reach \u00b7 ball bottom 7 ft 0 in \u00b7 8 ft from the dance-floor centre"
+   },
+   {
+    "t": "T-bar stand \u00b7 upper wall by Bed 3, ball upper wall by Bed 3",
+    "score": 125.85,
+    "ciPct": 2.5,
+    "n": 15,
+    "ok": true,
+    "tie": false,
+    "jam": null,
+    "litter": null,
+    "resc": null,
+    "m": "59.8 person-min of raised hands within reach \u00b7 ball bottom 6 ft 7 in \u00b7 8 ft from the dance-floor centre \u00b7 stand brushed 40.7 person-min"
+   },
+   {
+    "t": "T-bar stand \u00b7 laundry wall, ball laundry wall",
+    "score": 135.74,
+    "ciPct": 4.7,
+    "n": 15,
+    "ok": true,
+    "tie": false,
+    "jam": null,
+    "litter": null,
+    "resc": null,
+    "m": "64.3 person-min of raised hands within reach \u00b7 ball bottom 6 ft 7 in \u00b7 9 ft from the dance-floor centre \u00b7 stand brushed 43.9 person-min"
+   },
+   {
+    "t": "T-bar stand \u00b7 front door, ball pantry corner",
+    "score": 337.43,
+    "ciPct": 2.3,
+    "n": 15,
+    "ok": true,
+    "tie": false,
+    "jam": null,
+    "litter": null,
+    "resc": null,
+    "m": "147.7 person-min of raised hands within reach \u00b7 ball bottom 6 ft 7 in \u00b7 7 ft from the dance-floor centre \u00b7 stand brushed 124.1 person-min"
+   }
+  ]
+ },
+ "final": {
+  "t": "Final layout",
+  "score": 53.64,
+  "ciPct": 4.4,
+  "n": 6,
+  "ok": true,
+  "tie": null,
+  "jam": 33.5,
+  "litter": 3.3,
+  "resc": 0
+ },
+ "items": [
+  {
+   "t": "dj_rig",
+   "x": 3.75,
+   "z": 3.25,
+   "rot": 90,
+   "s": null,
+   "l": true,
+   "serves": null
+  },
+  {
+   "t": "speaker",
+   "x": 4.75,
+   "z": -1.25,
+   "rot": 90,
+   "s": null,
+   "l": true,
+   "serves": null
+  },
+  {
+   "t": "speaker",
+   "x": 4.75,
+   "z": 8,
+   "rot": 90,
+   "s": null,
+   "l": true,
+   "serves": null
+  },
+  {
+   "t": "counter_bar",
+   "x": 0,
+   "z": 0,
+   "rot": 0,
+   "s": "island",
+   "l": true,
+   "serves": "jj"
+  },
+  {
+   "t": "cooler",
+   "x": 14.678055242085584,
+   "z": -2.7113629822185876,
+   "rot": 0,
+   "s": null,
+   "l": true,
+   "serves": "beer"
+  },
+  {
+   "t": "bar_cart",
+   "x": 17.178760949996455,
+   "z": -2.5890458552012086,
+   "rot": 0,
+   "s": null,
+   "l": true,
+   "serves": "seltzer"
+  },
+  {
+   "t": "trash",
+   "x": 13.75,
+   "z": 2.75,
+   "rot": 180,
+   "s": null,
+   "l": true,
+   "serves": null
+  },
+  {
+   "t": "ball_hook",
+   "x": 2.1846436573428782,
+   "z": 3.2615101364750174,
+   "rot": 0,
+   "s": null,
+   "l": true,
+   "serves": null
+  }
+ ]
+}

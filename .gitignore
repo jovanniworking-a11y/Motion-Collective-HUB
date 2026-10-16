@@ -1,0 +1,20 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# guest data stays local (real names) - never commit
+orch/context/assets/guest_list/
+orch/context/project_docs/11 MOTION — Guest List & Pass Tracker.md
+
+# generated
+hub_out/
+hub_catalog.xlsx
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+~$*

@@ -1,0 +1,38 @@
+id,name,kind,area,path,action,command,needs,status,owner,notes
+room-studio,Afterimage Room Studio (3D plan + crowd sim),app,venue,orch/context/studio/index.html,open,,browser + internet (three.js CDN),ready,Codex,"Drag gear at real size, rank drink spots, run night sims"
+studio-test,Room Studio headless test,test,venue,orch/context/studio/test_studio.py,run,python,playwright,needs-path-fix,Codex,Hard-coded /home/claude paths and a local three.js copy
+studio-sims,Room Studio sim checks (_chk*.py / _night2 / _all2),test,venue,orch/context/studio,open,,playwright + _t2.py,missing-file,Codex,All exec() a _t2.py helper that is not in the kit
+room-geo,3D room renderer (template),library,venue,orch/context/assets/geo.js,open,,three.js,template,Codex,__FLOOR__ / __GEOM__ placeholders get filled by a build step
+room-geom,Rio floor-plan geometry,data,venue,orch/context/assets/geom.py,open,,,ready,Codex,Plan px polygons; 0.875 in per px
+vision-items,Decor vision-board item list,data,decor,orch/context/assets/items.py,open,,,ready,Claude,Prices as of 1 Oct - re-check
+drinks-build,Drinks workbook builder,builder,drinks,orch/context/assets/drinks/build.py,run,python,openpyxl,ready,Codex,Writes Devils_Night_Drinks.xlsx into hub_out/drinks-build/
+budget-shopping-build,Budget + shopping workbook builder (5 Oct),builder,money,orch/context/assets/drinks/combined.py,run,python,openpyxl,ready,Codex,Writes Devils_Night_Budget_and_Shopping.xlsx into hub_out/
+budget-xlsx-build,Budget & carts workbook builder (13 Oct),builder,money,orch/context/assets/budget/build_xlsx.py,run,python,openpyxl,needs-path-fix,Codex,OUT points at /home/claude/... - T-002 rebuilds this
+budget-pdf-build,Drinks budget one-pager builder,builder,money,orch/context/assets/budget/build_pdf.py,run,python,reportlab,needs-path-fix,Codex,Output path hard-coded
+budget-deck-build,Budget slide deck builder,builder,money,orch/context/assets/budget/build_deck.js,run,node,node + pptxgenjs,needs-path-fix,Codex,Output path hard-coded
+flyer-v4,Flyer v4 (Glamz) renderer,builder,promo,orch/context/assets/flyer_v4_glamz/FINAL4_src.py,run,python,playwright + numpy + pillow + bignames.py,missing-file,Claude,Imports bignames from a folder not in the kit; still names Rohan (cut 14 Oct)
+flyer-v4-nogenres,Flyer v4 no-genres renderer,builder,promo,orch/context/assets/flyer_v4_glamz/FINAL4_no_genres_src.py,run,python,playwright + numpy + pillow + bignames.py,missing-file,Claude,Same as flyer-v4
+guest-list-build,Guest list workbook builder,builder,guests,orch/context/assets/guest_list/build_guest_list.py,run,python,openpyxl,local-only,Claude,Kept out of git (real names)
+budget-xlsx,MOTION_Budget_and_Carts.xlsx,output,money,orch/context/assets/budget/exports/MOTION_Budget_and_Carts.xlsx,open,,Excel,stale,Codex,Pre 13 Oct evening prices - T-002
+budget-pdf,MOTION_Drinks_Budget_Summary.pdf,output,money,orch/context/assets/budget/exports/MOTION_Drinks_Budget_Summary.pdf,open,,PDF viewer,stale,Codex,
+budget-deck,MOTION_Budget_Deck.pptx,output,money,orch/context/assets/budget/exports/MOTION_Budget_Deck.pptx,open,,PowerPoint,stale,Codex,
+drinks-xlsx,Devils_Night_Drinks.xlsx,output,drinks,orch/context/assets/drinks/Devils_Night_Drinks.xlsx,open,,Excel,stale,Codex,5 Oct version
+budget-shopping-xlsx,Devils_Night_Budget_and_Shopping.xlsx,output,money,orch/context/assets/drinks/Devils_Night_Budget_and_Shopping.xlsx,open,,Excel,stale,Codex,5 Oct version
+guest-list-xlsx,MOTION_Guest_List.xlsx,output,guests,orch/context/assets/guest_list/MOTION_Guest_List.xlsx,open,,Excel,local-only,Claude,Kept out of git (real names)
+brand-mark,MOTION mark,asset,brand,orch/context/assets/brand/motion_mark.png,open,,image viewer,ready,Claude,
+brand-lockup,MOTION lockup,asset,brand,orch/context/assets/brand/motion_lockup.png,open,,image viewer,ready,Claude,
+floor-plan,Rio clean floor plan,asset,venue,orch/context/assets/MOTION_clean_plan.png,open,,image viewer,ready,Claude,
+dj-packet-hethey,DJ packet data - HE//THEY,data,lineup,orch/context/assets/packet/hethey.csv,open,,Excel,ready,Claude,
+dj-packet-rohan,DJ packet data - Rohan Rali,data,lineup,orch/context/assets/packet/rohan.csv,open,,Excel,archived,Claude,Rohan cut 14 Oct
+sot,Source of Truth (mirror),doc,core,orch/context/SOURCE_OF_TRUTH_latest.md,open,,text editor,ready,Claude,Only Claude edits it
+board,Task board,doc,core,orch/tasks/BOARD.md,open,,text editor,ready,Claude,python hub.py board
+task-template,Task brief template,doc,core,orch/tasks/TEMPLATE.md,open,,text editor,ready,Claude,
+orchestra,How the agent orchestra works,doc,core,orch/README_ORCHESTRATION.md,open,,text editor,ready,Claude,
+brief-codex,Codex / agent brief,doc,core,orch/AGENTS.md,open,,text editor,ready,Claude,
+brief-gemini,Gemini brief,doc,core,orch/GEMINI.md,open,,text editor,ready,Claude,
+brief-chatgpt,ChatGPT custom instructions,doc,core,orch/workers/chatgpt_custom_instructions.md,open,,text editor,ready,Claude,
+project-docs,Project docs 00-12,doc,core,orch/context/project_docs,open,,file explorer,ready,Claude,
+drive-exports,Drive exports,doc,core,orch/context/drive,open,,file explorer,stale,Claude,21 Sep sheets - superseded by the SoT
+flyer-lessons,Flyer lessons,doc,promo,orch/context/assets/LESSONS.md,open,,text editor,ready,Claude,
+event-data,Event data (events / metrics / lessons),data,learning,data,open,,Excel,ready,Claude,python hub.py events | compare | lessons
+debrief,After-event debrief template,doc,learning,data/DEBRIEF_TEMPLATE.md,open,,text editor,ready,Claude,Fill within 48 h of every event

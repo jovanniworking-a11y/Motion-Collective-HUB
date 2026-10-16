@@ -1,0 +1,4 @@
+pandas>=2.0
+openpyxl>=3.1
+# optional, only for some builders (see `python hub.py check`):
+# reportlab   playwright   numpy   pillow
