@@ -196,6 +196,13 @@ form.add .wide { grid-column: 1 / -1; }
       <select id="fProject" aria-label="Project"></select>
       <select id="fType" aria-label="Type"></select>
     </div>
+    <div class="panel" id="drivePanel">
+      <div class="toolbar" style="justify-content:space-between">
+        <h2 style="margin:0">Live from Google Drive</h2>
+        <span class="sync" id="driveStatus"><span class="dot"></span><span>Checking Drive…</span></span>
+      </div>
+      <div class="rows" id="driveNew" style="margin-top:12px"></div>
+    </div>
     <div class="lib" id="lib"></div>
     <details class="panel">
       <summary>Add an item</summary>
@@ -309,7 +316,7 @@ form.add .wide { grid-column: 1 / -1; }
 (() => {
   const DOORS = Date.UTC(2026, 9, 31, 2, 0); // Fri 30 Oct 2026 21:00 Austin (CDT, UTC-5)
   const POOL = 450;
-  const S = { library: [], tasks: [], runofshow: [], budget: [], metrics: [], lessons: [], events: [], dates: [], flags: [] };
+  const S = { library: [], tasks: [], runofshow: [], budget: [], metrics: [], lessons: [], events: [], driveignore: [], dates: [], flags: [] };
   let db = null, canWrite = false, taskFilter = 'open', armedDelete = null;
 
   const $ = (s) => document.querySelector(s);
@@ -347,7 +354,9 @@ form.add .wide { grid-column: 1 / -1; }
       <div class="tile"><span class="k">Pool buffer</span><span class="v">${S.budget.length ? money(POOL - spend) : '—'}</span><span class="s">of ${money(POOL)} · estimate until receipts</span></div>
       <div class="tile"><span class="k">Working cap</span><span class="v">${cap ? esc(cap.planned) : '—'}</span><span class="s">${cap ? esc(cap.notes || '') : 'passes'}</span></div>
       <div class="tile"><span class="k">Open tasks</span><span class="v">${S.tasks.length ? open.length : '—'}</span><span class="s">${blocked.length} blocked</span></div>`;
-    $('#flags').innerHTML = S.flags.map(f => `<div class="flag"><b>Check:</b> ${esc(f.text)}</div>`).join('');
+    const fresh = driveNew().length;
+    $('#flags').innerHTML = S.flags.map(f => `<div class="flag"><b>Check:</b> ${esc(f.text)}</div>`).join('') +
+      (fresh ? `<div class="flag"><b>Drive:</b> ${fresh} new or changed MOTION file${fresh > 1 ? 's are' : ' is'} not in the library yet. <a href="#library">Review in Panda Library</a></div>` : '');
     const mine = open.filter(t => /jovanni/i.test(t.owner || '')).sort(byDue).slice(0, 6);
     $('#needs').innerHTML = mine.length ? mine.map(taskRow).join('') : `<p class="lede">${S.tasks.length ? 'Nothing open on you.' : 'Your tasks load here once the hub connects.'}</p>`;
     const now = Date.now();
@@ -381,7 +390,7 @@ form.add .wide { grid-column: 1 / -1; }
         <div class="src">${esc(i.source)} · ${esc(i.type)}</div>
         <h3>${esc(i.title)}</h3>
         ${i.description ? `<p>${esc(i.description)}</p>` : ''}
-        <div class="meta" style="display:flex;gap:6px;flex-wrap:wrap">${(i.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join('')}${i.status ? `<span class="pill ${statusClass(i.status)}">${esc(i.status)}</span>` : ''}</div>
+        <div class="meta" style="display:flex;gap:6px;flex-wrap:wrap">${(i.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join('')}${i.status ? `<span class="pill ${statusClass(i.status)}">${esc(i.status)}</span>` : ''}${edited(i) ? `<span class="tag mono">Edited ${esc(edited(i))}</span>` : ''}</div>
         <div class="foot"><span class="tag">${esc(i.project)}</span>
           <span>${canWrite && i.user ? `<button class="btn quiet" data-del="library/${esc(i.id)}">${armedDelete === 'library/' + i.id ? 'Confirm delete' : 'Delete'}</button>` : ''}
           <a class="btn" href="${esc(i.url)}" ${i.url.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>Open</a></span></div>
@@ -449,6 +458,80 @@ form.add .wide { grid-column: 1 / -1; }
         <div class="meta"><span>${esc(l.lesson)}</span>${l.date ? `<span class="mono">${esc(l.date)}</span>` : ''}</div>
         ${canWrite && l.user ? `<button class="btn quiet" data-del="lessons/${esc(l.id)}">${armedDelete === 'lessons/' + l.id ? 'Confirm delete' : 'Delete'}</button>` : ''}</div>`).join('') || '<p class="lede">No lessons yet for this event.</p>';
   }
+
+  /* ---------- live Google Drive (read-only search) ---------- */
+  const DRIVE = 'Google Drive';
+  const drive = { files: null, state: 'idle', code: null, at: null };
+  const decode = (s) => String(s || '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+  const rel = (iso) => { const m = (Date.now() - new Date(iso).getTime()) / 6e4; if (!isFinite(m)) return ''; if (m < 60) return Math.max(1, Math.round(m)) + ' min ago'; if (m < 1440) return Math.round(m / 60) + ' h ago'; if (m < 10080) return Math.round(m / 1440) + ' d ago'; return new Date(iso).toLocaleDateString('en-US', { day: 'numeric', month: 'short' }); };
+  const driveById = () => new Map((drive.files || []).map(f => [f.id, f]));
+  const edited = (i) => { const f = i.drive_id && driveById().get(i.drive_id); return f ? rel(f.modifiedTime) : (i.modified ? rel(i.modified) : ''); };
+  const kindOf = (m) => /spreadsheet|sheet/.test(m) ? 'sheet' : /folder/.test(m) ? 'folder' : /image/.test(m) ? 'asset' : /zip|octet/.test(m) ? 'archive' : /site/.test(m) ? 'app' : /presentation/.test(m) ? 'design' : 'doc';
+  function driveNew() {
+    if (!drive.files) return [];
+    const have = new Set(S.library.map(i => i.drive_id).filter(Boolean)), skip = new Set(S.driveignore.map(d => d.id));
+    return drive.files.filter(f => !have.has(f.id) && !skip.has(f.id) && !/\.part\d+$/.test(f.title || ''))
+      .sort((a, b) => (b.modifiedTime || '').localeCompare(a.modifiedTime || ''));
+  }
+  const DRIVE_MSG = {
+    off: 'Live Drive checks run when the hub is open on claude.ai.',
+    server_not_connected: 'Add Google Drive in claude.ai Settings → Connectors to see new files here.',
+    needs_reauth: 'Reconnect Google Drive in claude.ai Settings → Connectors.',
+    selection_required: 'Pick which Google Drive account to use when claude.ai asks, then reload.',
+    not_in_manifest: 'Drive is turned off for this page. Turn it on in the page\'s Permissions menu.',
+    blocked_by_policy: 'Your organization blocks Drive for this page.',
+    approval_required: 'The hub needs your OK to search Drive.',
+  };
+  function renderDrive() {
+    const st = $('#driveStatus'), list = $('#driveNew');
+    if (drive.state === 'ok') {
+      const n = driveNew();
+      st.innerHTML = `<span class="dot ok"></span><span>Checked ${esc(rel(new Date(drive.at).toISOString()))} · last 30 days</span>`;
+      list.innerHTML = n.length ? n.slice(0, 20).map(f => `<div class="row">
+          <div class="title">${esc(decode(f.title))}</div>
+          <span class="toolbar"><a class="btn quiet" href="${esc(f.viewUrl)}" target="_blank" rel="noopener">Open</a>
+            <button class="btn" data-dadd="${esc(f.id)}" ${canWrite ? '' : 'disabled'}>Add</button>
+            <button class="btn quiet" data-dskip="${esc(f.id)}" ${canWrite ? '' : 'disabled'}>Ignore</button></span>
+          <div class="meta"><span class="tag">${esc(kindOf(f.mimeType))}</span><span class="mono">Edited ${esc(rel(f.modifiedTime))}</span></div></div>`).join('')
+        : '<p class="lede">Every MOTION file edited in Drive in the last 30 days is in the library.</p>';
+      return;
+    }
+    const code = drive.state === 'off' ? 'off' : drive.code;
+    const msg = DRIVE_MSG[code] || (drive.state === 'idle' ? 'Checking Drive…' : 'Drive didn\'t answer. The hub will try again in a few minutes.');
+    st.innerHTML = `<span class="dot ${drive.state === 'idle' ? '' : 'warn'}"></span><span>${drive.state === 'idle' ? 'Checking Drive…' : 'Not connected'}</span>`;
+    list.innerHTML = `<p class="lede">${esc(msg)}</p>${code === 'approval_required' ? '<button class="btn primary" id="driveAllow" style="margin-top:8px">Allow Drive search</button>' : ''}`;
+  }
+  function driveInput() {
+    const since = new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10) + 'T00:00:00Z';
+    return { query: `(title contains 'MOTION' or title contains 'Motion' or title contains 'Devil' or title contains 'AFTERIMAGE' or title contains 'Afterimage' or title contains 'CH 31') and modifiedTime > '${since}'`, excludeContentSnippets: true, pageSize: 100 };
+  }
+  function takeDrive(result) { const p = result && result.payload; drive.files = (p && Array.isArray(p.files)) ? p.files : []; drive.state = 'ok'; drive.code = null; drive.at = result.cache?.storedAt || Date.now(); }
+  async function connectDrive() {
+    const mcp = window.claude?.use ? await window.claude.use('mcp') : null;
+    if (!mcp) { drive.state = 'off'; renderDrive(); return; }
+    connectDrive.mcp = mcp;
+    mcp.watchTool(DRIVE, 'search_files', driveInput(), (ev) => {
+      if (ev.type === 'data') takeDrive(ev.result);
+      else {
+        const c = ev.error.code;
+        if (['needs_reauth', 'server_not_connected', 'blocked_by_policy', 'approval_required', 'not_in_manifest', 'selection_required'].includes(c)) drive.files = null;
+        if (drive.files == null || drive.state !== 'ok') { drive.state = 'err'; drive.code = c; }
+      }
+      renderDrive(); renderLibrary(); renderHome();
+    }, { refetchInterval: 5 * 60 * 1000 });
+  }
+  document.addEventListener('click', async (ev) => {
+    if (ev.target.closest('#driveAllow')) {
+      try { takeDrive(await connectDrive.mcp.callTool(DRIVE, 'search_files', driveInput())); }
+      catch (e) { drive.state = 'err'; drive.code = e && e.code; }
+      renderDrive(); renderLibrary(); renderHome(); return;
+    }
+    const a = ev.target.closest('[data-dadd]');
+    if (a) { const f = driveById().get(a.dataset.dadd); if (!f) return;
+      await create('library', { title: decode(f.title), url: f.viewUrl, drive_id: f.id, modified: f.modifiedTime, project: 'AFTERIMAGE 001', type: kindOf(f.mimeType), source: 'Drive', description: '', tags: [], visibility: 'private' }, 'Added to the library'); return; }
+    const k = ev.target.closest('[data-dskip]');
+    if (k && db && canWrite) { try { await db.collection('driveignore').doc(k.dataset.dskip).set({ at: new Date().toISOString() }); toast('Hidden from the Drive list'); } catch { toast('Couldn\'t save. Try again.'); } }
+  });
 
   /* ---------- writes ---------- */
   async function write(path, data, msg) {
@@ -518,11 +601,11 @@ form.add .wide { grid-column: 1 / -1; }
     const can = user ? await user.can('data.write') : null;
     canWrite = can !== false;
     let loaded = 0;
-    const cols = ['library', 'tasks', 'runofshow', 'budget', 'metrics', 'lessons', 'events'];
+    const cols = ['library', 'tasks', 'runofshow', 'budget', 'metrics', 'lessons', 'events', 'driveignore'];
     cols.forEach(c => db.collection(c).onSnapshot(snap => {
       S[c] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       if (++loaded >= cols.length) setSync('ok', canWrite ? 'Saved to your hub' : 'Read only');
-      renderAll();
+      renderAll(); renderDrive();
     }, () => setSync('attn', 'Lost connection · reload the page')));
     db.doc('meta/home').onSnapshot(snap => {
       const d = snap.exists ? snap.data() : {};
@@ -532,6 +615,7 @@ form.add .wide { grid-column: 1 / -1; }
   taskFilter = store.get('hub.taskFilter', 'open');
   renderAll();
   connect();
+  connectDrive();
   setInterval(renderHome, 60000); // countdown only; nothing is written
 
   /* ---------- studio ambience: a few dots drifting toward the island ---------- */

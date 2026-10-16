@@ -23,7 +23,7 @@
    "source": "Drive",
    "type": "sheet",
    "project": "AFTERIMAGE 001",
-   "url": "https://docs.google.com/spreadsheets/d/1Bcdu-27ykECBOqn2Ih5thULI0TQx_AxmARQd-dWmZRo",
+   "url": "https://docs.google.com/spreadsheets/d/1Bcdu-27ykECBOqn2Ih5thULI0TQx_AxmARQd-dWmZRo/edit",
    "description": "Newest working board: run of show, roles, 150-cocktail menu, venue visit checklist.",
    "tags": [
     "run of show",
@@ -32,7 +32,9 @@
    ],
    "status": "current",
    "pinned": true,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "1Bcdu-27ykECBOqn2Ih5thULI0TQx_AxmARQd-dWmZRo",
+   "modified": "2026-10-15T09:33:49Z"
   },
   {
    "id": "sot",
@@ -71,14 +73,16 @@
    "source": "Drive",
    "type": "sheet",
    "project": "AFTERIMAGE 001",
-   "url": "https://docs.google.com/spreadsheets/d/1Cmw9kqpbMNL2BWl2E04vUxvk66oSqS6-KiuzAtnN-_Q",
+   "url": "https://docs.google.com/spreadsheets/d/1Cmw9kqpbMNL2BWl2E04vUxvk66oSqS6-KiuzAtnN-_Q/edit",
    "description": "The main planning sheet.",
    "tags": [
     "planning"
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "1Cmw9kqpbMNL2BWl2E04vUxvk66oSqS6-KiuzAtnN-_Q",
+   "modified": "2026-10-12T20:19:50Z"
   },
   {
    "id": "ch31-folder",
@@ -93,7 +97,9 @@
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "1Mq09qPawTXvU-wKT5H2zF8H3XdLZP4L1",
+   "modified": "2026-09-21T17:08:38Z"
   },
   {
    "id": "songs-hethey",
@@ -101,7 +107,7 @@
    "source": "Drive",
    "type": "music",
    "project": "AFTERIMAGE 001",
-   "url": "https://docs.google.com/spreadsheets/d/1eKUQ-AdmoJxPCy6ff1mUEMih1-o_ZOVz1BjB-vul4Ho",
+   "url": "https://docs.google.com/spreadsheets/d/1eKUQ-AdmoJxPCy6ff1mUEMih1-o_ZOVz1BjB-vul4Ho/edit",
    "description": "Taste reference sheet for the headliner.",
    "tags": [
     "music",
@@ -109,7 +115,9 @@
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "1eKUQ-AdmoJxPCy6ff1mUEMih1-o_ZOVz1BjB-vul4Ho",
+   "modified": "2026-10-06T03:09:39Z"
   },
   {
    "id": "dj-packet",
@@ -133,14 +141,16 @@
    "source": "Drive",
    "type": "app",
    "project": "AFTERIMAGE 001",
-   "url": "https://drive.google.com/open?id=19lN5ugvFP6gitMrLtrrJUricl1Idg9mA",
+   "url": "https://sites.google.com/d/19lN5ugvFP6gitMrLtrrJUricl1Idg9mA/edit",
    "description": "Google Site for the crew.",
    "tags": [
     "crew"
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "19lN5ugvFP6gitMrLtrrJUricl1Idg9mA",
+   "modified": "2026-10-08T14:33:57Z"
   },
   {
    "id": "artist-brief",
@@ -148,7 +158,7 @@
    "source": "Drive",
    "type": "doc",
    "project": "AFTERIMAGE 001",
-   "url": "https://drive.google.com/open?id=1sVFQJBfOtuaAt4HT9uEe7wu_SjjKWXZU",
+   "url": "https://drive.google.com/file/d/1sVFQJBfOtuaAt4HT9uEe7wu_SjjKWXZU/view",
    "description": "Zip of artist briefing material. Keep private.",
    "tags": [
     "lineup",
@@ -156,7 +166,9 @@
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "1sVFQJBfOtuaAt4HT9uEe7wu_SjjKWXZU",
+   "modified": "2026-10-12T20:24:06Z"
   },
   {
    "id": "floorplan",
@@ -164,14 +176,16 @@
    "source": "Drive",
    "type": "asset",
    "project": "AFTERIMAGE 001",
-   "url": "https://drive.google.com/open?id=1mPj42j1Rmg8rNqq0j7yhr5YpUO3ytt9z",
+   "url": "https://drive.google.com/file/d/1mPj42j1Rmg8rNqq0j7yhr5YpUO3ytt9z/view",
    "description": "Floor plan PNG of the Rio 3×2 A Premium.",
    "tags": [
     "venue"
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "1mPj42j1Rmg8rNqq0j7yhr5YpUO3ytt9z",
+   "modified": "2026-10-08T14:16:52Z"
   },
   {
    "id": "budget-xlsx",
@@ -183,7 +197,8 @@
    "description": "13 Oct workbook. Stale: still jungle juice and Rohan (T-002 rebuilds).",
    "tags": [
     "money",
-    "drinks"
+    "drinks",
+    "excel"
    ],
    "status": "stale",
    "pinned": false,
@@ -403,7 +418,9 @@
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "18rVRyN_BO6i4bDhzKpOUFHL_waehhoOe",
+   "modified": "2026-10-13T21:13:13Z"
   },
   {
    "id": "cap-sheet",
@@ -411,7 +428,7 @@
    "source": "Drive",
    "type": "doc",
    "project": "Cap 01",
-   "url": "https://drive.google.com/open?id=1JPliQRS_TDGWH6dvDsn4Afr4ZcZ69rLu",
+   "url": "https://drive.google.com/file/d/1JPliQRS_TDGWH6dvDsn4Afr4ZcZ69rLu/view",
    "description": "20 caps, variation 09 + horns, DEVIL'S NIGHT under, OCT 30 on brim. Nothing ordered.",
    "tags": [
     "caps",
@@ -419,7 +436,9 @@
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "1JPliQRS_TDGWH6dvDsn4Afr4ZcZ69rLu",
+   "modified": "2026-10-15T20:29:16Z"
   },
   {
    "id": "cap-project",
@@ -427,7 +446,7 @@
    "source": "Drive",
    "type": "code",
    "project": "Cap 01",
-   "url": "https://drive.google.com/open?id=1SjCB97GApZ2xp_fw4y87DwBobJFQnOv-",
+   "url": "https://drive.google.com/file/d/1SjCB97GApZ2xp_fw4y87DwBobJFQnOv-/view",
    "description": "Cap project files as of 15 Oct.",
    "tags": [
     "caps",
@@ -435,7 +454,9 @@
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "1SjCB97GApZ2xp_fw4y87DwBobJFQnOv-",
+   "modified": "2026-10-15T21:07:00Z"
   },
   {
    "id": "cap-live",
@@ -497,7 +518,9 @@
    ],
    "status": "",
    "pinned": false,
-   "visibility": "private"
+   "visibility": "private",
+   "drive_id": "1QDQluSi7q8l9uY20t8b4HRPe2Pse72DA",
+   "modified": "2026-10-16T16:50:51Z"
   },
   {
    "id": "ch31-planner",
@@ -510,6 +533,430 @@
    "tags": [
     "archive",
     "code"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "logistics-control-dup",
+   "title": "MOTION_Logistics_Control (duplicate)",
+   "source": "Drive",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://docs.google.com/spreadsheets/d/11WW4jLYNCGNenk1RCvHRiweTXoEvFQCgXXthkhlV9sw/edit",
+   "drive_id": "11WW4jLYNCGNenk1RCvHRiweTXoEvFQCgXXthkhlV9sw",
+   "modified": "2026-10-15T09:12:29Z",
+   "description": "Earlier copy made 20 min before the current one. Use the other Logistics Control.",
+   "tags": [
+    "duplicate"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "songs-rohan",
+   "title": "Songs We Love · Rohan Rali",
+   "source": "Drive",
+   "type": "music",
+   "project": "Archive",
+   "url": "https://docs.google.com/spreadsheets/d/11kRAiX8OLQSIsU93Mcg1XGNqCVwHMa363ZeG9p8dKxA/edit",
+   "drive_id": "11kRAiX8OLQSIsU93Mcg1XGNqCVwHMa363ZeG9p8dKxA",
+   "modified": "2026-10-06T03:08:17Z",
+   "description": "Rohan was cut on 14 Oct. Kept for reference.",
+   "tags": [
+    "music",
+    "archive"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ch31-01-tasks",
+   "title": "01 Tasks · CH 31",
+   "source": "Drive",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://docs.google.com/spreadsheets/d/199S3zDrKb0caBjunI81iK4M7f_ZFPNTWZzkMiAR7_-o/edit",
+   "drive_id": "199S3zDrKb0caBjunI81iK4M7f_ZFPNTWZzkMiAR7_-o",
+   "modified": "2026-09-21T17:08:53Z",
+   "description": "21 Sep planning sheet. Superseded by the hub's task list.",
+   "tags": [
+    "planning"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ch31-02-ros",
+   "title": "02 Run of show · CH 31",
+   "source": "Drive",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://docs.google.com/spreadsheets/d/1-LipTwBCCXQzShGlM5FHzO07r91_j8lVS-pAsykgoPA/edit",
+   "drive_id": "1-LipTwBCCXQzShGlM5FHzO07r91_j8lVS-pAsykgoPA",
+   "modified": "2026-09-21T17:09:02Z",
+   "description": "21 Sep. Superseded by Logistics Control.",
+   "tags": [
+    "planning",
+    "run of show"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ch31-03-budget",
+   "title": "03 Budget · CH 31",
+   "source": "Drive",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://docs.google.com/spreadsheets/d/104MQSNatGdcXRhPHD4jAdCLYjwacTK42czUEubdLs6A/edit",
+   "drive_id": "104MQSNatGdcXRhPHD4jAdCLYjwacTK42czUEubdLs6A",
+   "modified": "2026-09-21T17:09:16Z",
+   "description": "21 Sep. Superseded by the hub budget.",
+   "tags": [
+    "planning",
+    "money"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ch31-04-decisions",
+   "title": "04 Decisions · CH 31",
+   "source": "Drive",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://docs.google.com/spreadsheets/d/1MW5Q33vhc71RqJRG1ejoMsFAb93FL8ueiblgZSYWxkE/edit",
+   "drive_id": "1MW5Q33vhc71RqJRG1ejoMsFAb93FL8ueiblgZSYWxkE",
+   "modified": "2026-09-21T17:09:27Z",
+   "description": "21 Sep. The Source of Truth holds current decisions.",
+   "tags": [
+    "planning",
+    "decisions"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ch31-05-venue",
+   "title": "05 Venue checklist & open questions · CH 31",
+   "source": "Drive",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://docs.google.com/spreadsheets/d/1Rbo1-FRn8x5RIR3l9Th6J2g6QqD3R4cKMs3QR9A0Pvk/edit",
+   "drive_id": "1Rbo1-FRn8x5RIR3l9Th6J2g6QqD3R4cKMs3QR9A0Pvk",
+   "modified": "2026-09-21T17:09:42Z",
+   "description": "21 Sep venue questions.",
+   "tags": [
+    "planning",
+    "venue"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "projection-spec",
+   "title": "Projection Mapping MVP Spec",
+   "source": "Drive",
+   "type": "doc",
+   "project": "Projection mapping",
+   "url": "https://drive.google.com/file/d/1KrxNTtoS8SwtivfJpSPyfyFdSuRqjGc-/view",
+   "drive_id": "1KrxNTtoS8SwtivfJpSPyfyFdSuRqjGc-",
+   "modified": "2026-10-16T17:23:43Z",
+   "description": "New 16 Oct: spec for a MOTION projection-mapping MVP.",
+   "tags": [
+    "projection",
+    "spec"
+   ],
+   "status": "current",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ig-post1-logo",
+   "title": "IG post 1 · logo (feed)",
+   "source": "Drive",
+   "type": "asset",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/file/d/1ivyV_QQnqiUSh1Q7F2QXD43RidQ_GYXt/view",
+   "drive_id": "1ivyV_QQnqiUSh1Q7F2QXD43RidQ_GYXt",
+   "modified": "2026-10-06T19:44:04Z",
+   "description": "Teaser post 1, export for the feed.",
+   "tags": [
+    "promo",
+    "instagram"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ig-post1-logo-png",
+   "title": "IG post 1 · logo (master PNG)",
+   "source": "Drive",
+   "type": "asset",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/file/d/1ZPoGCl6ZexIGCWp6qXM6sTUADP-E--XP/view",
+   "drive_id": "1ZPoGCl6ZexIGCWp6qXM6sTUADP-E--XP",
+   "modified": "2026-10-06T19:39:45Z",
+   "description": "",
+   "tags": [
+    "promo",
+    "instagram"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ig-post2-eyes",
+   "title": "IG post 2 · slide 1 eyes (feed)",
+   "source": "Drive",
+   "type": "asset",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/file/d/1b5VYb0hrdCBD_by7bJG0_-GcjOmuZOoM/view",
+   "drive_id": "1b5VYb0hrdCBD_by7bJG0_-GcjOmuZOoM",
+   "modified": "2026-10-06T19:51:01Z",
+   "description": "Eye artwork used with permission.",
+   "tags": [
+    "promo",
+    "instagram"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ig-post2-eyes-png",
+   "title": "IG post 2 · slide 1 eyes (master PNG)",
+   "source": "Drive",
+   "type": "asset",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/file/d/1Rv3driIPHyt32Phpf3L-CC4shymjsJm8/view",
+   "drive_id": "1Rv3driIPHyt32Phpf3L-CC4shymjsJm8",
+   "modified": "2026-10-06T19:40:09Z",
+   "description": "",
+   "tags": [
+    "promo",
+    "instagram"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ig-post2-dates",
+   "title": "IG post 2 · slide 2 dates (feed)",
+   "source": "Drive",
+   "type": "asset",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/file/d/1vlndZnWv9kijQsaVaRJ-Zjes38WBELEz/view",
+   "drive_id": "1vlndZnWv9kijQsaVaRJ-Zjes38WBELEz",
+   "modified": "2026-10-06T19:49:07Z",
+   "description": "10.30.26 between the eyes.",
+   "tags": [
+    "promo",
+    "instagram"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ig-mockups",
+   "title": "All IG post mockups",
+   "source": "Drive",
+   "type": "asset",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/file/d/1pzn8O9S8z5y0RJUJ4-u8mtYhGaSC9zmw/view",
+   "drive_id": "1pzn8O9S8z5y0RJUJ4-u8mtYhGaSC9zmw",
+   "modified": "2026-10-06T19:39:59Z",
+   "description": "Grid mockup of the teaser rollout.",
+   "tags": [
+    "promo",
+    "instagram"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "flyer-alts",
+   "title": "Flyer alternatives",
+   "source": "Drive",
+   "type": "asset",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/file/d/1llgcsalhpRjpyi68esYj64nf2nBDYDB3/view",
+   "drive_id": "1llgcsalhpRjpyi68esYj64nf2nBDYDB3",
+   "modified": "2026-10-06T16:16:19Z",
+   "description": "Flyer options board (6 Oct).",
+   "tags": [
+    "promo",
+    "flyer"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "fashion-1",
+   "title": "MOTION 2 · fashion (a)",
+   "source": "Drive",
+   "type": "asset",
+   "project": "Brand",
+   "url": "https://drive.google.com/file/d/1qGPJIYFck3xaEG0aUnbQ7kL8VUmR-Vxs/view",
+   "drive_id": "1qGPJIYFck3xaEG0aUnbQ7kL8VUmR-Vxs",
+   "modified": "2026-10-13T13:24:36Z",
+   "description": "Fashion-campaign image.",
+   "tags": [
+    "brand",
+    "promo"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "fashion-2",
+   "title": "MOTION 2 · fashion (b)",
+   "source": "Drive",
+   "type": "asset",
+   "project": "Brand",
+   "url": "https://drive.google.com/file/d/14cwTzwqB0znExbGT1DLpB91vBQ2XXYKl/view",
+   "drive_id": "14cwTzwqB0znExbGT1DLpB91vBQ2XXYKl",
+   "modified": "2026-10-13T13:26:16Z",
+   "description": "Second version, saved 2 min later.",
+   "tags": [
+    "brand",
+    "promo"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "hat-flyer-decision",
+   "title": "Hat + flyer decision deck (PDF)",
+   "source": "Drive",
+   "type": "doc",
+   "project": "Cap 01",
+   "url": "https://drive.google.com/file/d/1AKmcYjyxty6vgq_lNnrOBXWAxpvroPmF/view",
+   "drive_id": "1AKmcYjyxty6vgq_lNnrOBXWAxpvroPmF",
+   "modified": "2026-09-29T19:42:11Z",
+   "description": "Cap and flyer decision document (29 Sep).",
+   "tags": [
+    "caps",
+    "promo"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "cap-quote-brief",
+   "title": "Cap schematic + quote brief (PDF)",
+   "source": "Drive",
+   "type": "doc",
+   "project": "Cap 01",
+   "url": "https://drive.google.com/file/d/1LN44ymyYGV3y65ZlpoHIE5PyvMpykBPj/view",
+   "drive_id": "1LN44ymyYGV3y65ZlpoHIE5PyvMpykBPj",
+   "modified": "2026-10-13T21:15:57Z",
+   "description": "What to send vendors for a quote.",
+   "tags": [
+    "caps",
+    "vendors"
+   ],
+   "status": "current",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "cap-portable",
+   "title": "Cap portable project (zip)",
+   "source": "Drive",
+   "type": "code",
+   "project": "Cap 01",
+   "url": "https://drive.google.com/file/d/11LnqV56jJCOcHbjjsl-M9GNzzX9yJeA4/view",
+   "drive_id": "11LnqV56jJCOcHbjjsl-M9GNzzX9yJeA4",
+   "modified": "2026-10-13T21:15:07Z",
+   "description": "Portable copy of the cap project (13 Oct).",
+   "tags": [
+    "caps",
+    "code"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "handoff-zip",
+   "title": "Claude handoff package (zip)",
+   "source": "Drive",
+   "type": "code",
+   "project": "Hub",
+   "url": "https://drive.google.com/file/d/1KzdBHsYKoQB_5uiZoozr6ZdYKc2XeuUR/view",
+   "drive_id": "1KzdBHsYKoQB_5uiZoozr6ZdYKc2XeuUR",
+   "modified": "2026-10-16T16:51:54Z",
+   "description": "CH31 planner source + manifests (16 Oct).",
+   "tags": [
+    "hub",
+    "archive"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "drinks-xlsx",
+   "title": "Devil's Night drinks workbook",
+   "source": "GitHub",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/assets/drinks/Devils_Night_Drinks.xlsx",
+   "description": "5 Oct drinks workbook (jungle juice era).",
+   "tags": [
+    "drinks",
+    "excel"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "budget-shopping-xlsx",
+   "title": "Devil's Night budget + shopping workbook",
+   "source": "GitHub",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/assets/drinks/Devils_Night_Budget_and_Shopping.xlsx",
+   "description": "5 Oct combined budget and shopping workbook.",
+   "tags": [
+    "money",
+    "excel"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "budget-pdf",
+   "title": "Drinks budget one-pager (PDF)",
+   "source": "GitHub",
+   "type": "doc",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/assets/budget/exports/MOTION_Drinks_Budget_Summary.pdf",
+   "description": "13 Oct one-page summary.",
+   "tags": [
+    "money",
+    "drinks"
    ],
    "status": "stale",
    "pinned": false,
