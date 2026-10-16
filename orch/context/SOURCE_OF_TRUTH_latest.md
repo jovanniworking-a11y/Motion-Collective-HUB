@@ -9,6 +9,10 @@ Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cu
 - **Venue visit moved** from 16 Oct; new date TBD. Still needed: kitchen + hall clear floor, DJ-wall tape, neighbour flyers.
 - **Costume judging locked:** crew scorecard at 1:30 AM — originality 40 · execution 30 · commitment 30. Prize amount ($20–50) still open.
 - Room Studio drink-stock sims assumed jungle juice and must be rerun for the cocktail menu (T-009).
+- **Glamz said YES (16 Oct, later the same day)** — he plays the 11:00 PM friends set as a b3b with iamariology b2b raymixes. Fee and promo credit still to confirm; the promo pass (flyer v5, post 5, reel: remove Rohan, add Glamz) is unblocked.
+- **Costume prize: $40** (decided 16 Oct).
+- **Venue visit is today (16 Oct)** after all: kitchen + hall clear floor, DJ-wall tape, neighbour flyers.
+- **Roles:** Jovanni Yanez covers several roles for now; the rest get assigned later.
 - Live tracker: MOTION Collective Hub (https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM) reads these numbers from the sheet.
 
 This is the master record for MOTION's first event. When sources disagree, this doc wins. Update it whenever a decision is made.
