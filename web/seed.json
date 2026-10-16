@@ -1,0 +1,1371 @@
+{
+ "library": [
+  {
+   "id": "room-studio",
+   "title": "Afterimage Room Studio",
+   "source": "Claude",
+   "type": "app",
+   "project": "AFTERIMAGE 001",
+   "url": "studio.html",
+   "description": "3D plan of the Rio room at real size, gear drag-and-drop, drink-spot ranking and night crowd sims.",
+   "tags": [
+    "venue",
+    "sim",
+    "3D"
+   ],
+   "status": "current",
+   "pinned": true,
+   "visibility": "private"
+  },
+  {
+   "id": "logistics-control",
+   "title": "Logistics Control (15 Oct)",
+   "source": "Drive",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://docs.google.com/spreadsheets/d/1Bcdu-27ykECBOqn2Ih5thULI0TQx_AxmARQd-dWmZRo",
+   "description": "Newest working board: run of show, roles, 150-cocktail menu, venue visit checklist.",
+   "tags": [
+    "run of show",
+    "budget",
+    "roles"
+   ],
+   "status": "current",
+   "pinned": true,
+   "visibility": "private"
+  },
+  {
+   "id": "sot",
+   "title": "Source of Truth",
+   "source": "GitHub",
+   "type": "doc",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/SOURCE_OF_TRUTH_latest.md",
+   "description": "Master record of every decision (14 Oct). Wins over older sources, except where the 15 Oct sheet is newer.",
+   "tags": [
+    "decisions",
+    "core"
+   ],
+   "status": "current",
+   "pinned": true,
+   "visibility": "private"
+  },
+  {
+   "id": "board",
+   "title": "Task board",
+   "source": "GitHub",
+   "type": "doc",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/tasks/BOARD.md",
+   "description": "T-001 to T-010, owners and status for the agent orchestra.",
+   "tags": [
+    "tasks"
+   ],
+   "status": "current",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "master-planning",
+   "title": "Master Planning",
+   "source": "Drive",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://docs.google.com/spreadsheets/d/1Cmw9kqpbMNL2BWl2E04vUxvk66oSqS6-KiuzAtnN-_Q",
+   "description": "The main planning sheet.",
+   "tags": [
+    "planning"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ch31-folder",
+   "title": "MOTION · CH 31 · Planning",
+   "source": "Drive",
+   "type": "folder",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/drive/folders/1Mq09qPawTXvU-wKT5H2zF8H3XdLZP4L1",
+   "description": "Drive folder with the planning sheets (01–05 date from 21 Sep and are stale).",
+   "tags": [
+    "planning"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "songs-hethey",
+   "title": "Songs We Love · HE//THEY",
+   "source": "Drive",
+   "type": "music",
+   "project": "AFTERIMAGE 001",
+   "url": "https://docs.google.com/spreadsheets/d/1eKUQ-AdmoJxPCy6ff1mUEMih1-o_ZOVz1BjB-vul4Ho",
+   "description": "Taste reference sheet for the headliner.",
+   "tags": [
+    "music",
+    "lineup"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "dj-packet",
+   "title": "DJ packet data · HE//THEY",
+   "source": "GitHub",
+   "type": "music",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/assets/packet/hethey.csv",
+   "description": "Data behind the DJ packet PDF.",
+   "tags": [
+    "music",
+    "lineup"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "crew-hub-site",
+   "title": "Crew Hub (Google Site)",
+   "source": "Drive",
+   "type": "app",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/open?id=19lN5ugvFP6gitMrLtrrJUricl1Idg9mA",
+   "description": "Google Site for the crew.",
+   "tags": [
+    "crew"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "artist-brief",
+   "title": "Private Artist Briefing",
+   "source": "Drive",
+   "type": "doc",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/open?id=1sVFQJBfOtuaAt4HT9uEe7wu_SjjKWXZU",
+   "description": "Zip of artist briefing material. Keep private.",
+   "tags": [
+    "lineup",
+    "private"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "floorplan",
+   "title": "Rio floor plan",
+   "source": "Drive",
+   "type": "asset",
+   "project": "AFTERIMAGE 001",
+   "url": "https://drive.google.com/open?id=1mPj42j1Rmg8rNqq0j7yhr5YpUO3ytt9z",
+   "description": "Floor plan PNG of the Rio 3×2 A Premium.",
+   "tags": [
+    "venue"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "budget-xlsx",
+   "title": "Budget & carts workbook",
+   "source": "GitHub",
+   "type": "sheet",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/assets/budget/exports/MOTION_Budget_and_Carts.xlsx",
+   "description": "13 Oct workbook. Stale: still jungle juice and Rohan (T-002 rebuilds).",
+   "tags": [
+    "money",
+    "drinks"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "budget-deck",
+   "title": "Budget deck",
+   "source": "GitHub",
+   "type": "design",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/assets/budget/exports/MOTION_Budget_Deck.pptx",
+   "description": "6-slide walkthrough for the pool contributors (13 Oct).",
+   "tags": [
+    "money"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "brand-mark",
+   "title": "MOTION mark",
+   "source": "GitHub",
+   "type": "asset",
+   "project": "Brand",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/assets/brand/motion_mark.png",
+   "description": "The MMMM trailing Bodoni M.",
+   "tags": [
+    "brand"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "brand-lockup",
+   "title": "MOTION lockup",
+   "source": "GitHub",
+   "type": "asset",
+   "project": "Brand",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/assets/brand/motion_lockup.png",
+   "description": "Wordmark lockup.",
+   "tags": [
+    "brand"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "flyer-lessons",
+   "title": "Flyer lessons",
+   "source": "GitHub",
+   "type": "doc",
+   "project": "Brand",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/assets/LESSONS.md",
+   "description": "Rules learned from every flyer round.",
+   "tags": [
+    "promo",
+    "brand"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "playbook",
+   "title": "Agent Playbook (doc 07)",
+   "source": "GitHub",
+   "type": "doc",
+   "project": "Brand",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/project_docs/07%20MOTION%20%E2%80%94%20Agent%20Playbook.md",
+   "description": "How every agent works on MOTION: taste rules, checks, voice.",
+   "tags": [
+    "brand",
+    "agents"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "product-directive",
+   "title": "Product Directive (doc 10)",
+   "source": "GitHub",
+   "type": "doc",
+   "project": "Brand",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/project_docs/10%20MOTION%20%E2%80%94%20Product%20Directive%20(Luxury-Affordable%20Cinematic).md",
+   "description": "Luxury-affordable cinematic direction for everything MOTION ships.",
+   "tags": [
+    "brand"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "higgsfield",
+   "title": "Higgsfield video direction (doc 06)",
+   "source": "GitHub",
+   "type": "doc",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/project_docs/06%20MOTION%20%E2%80%94%20Higgsfield%20Video%20Direction.md",
+   "description": "Shot list and rules for the AI video fillers in the reel.",
+   "tags": [
+    "promo",
+    "video"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "rsvp",
+   "title": "RSVP form setup + copy (doc 12)",
+   "source": "GitHub",
+   "type": "doc",
+   "project": "AFTERIMAGE 001",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/project_docs/12%20MOTION%20%E2%80%94%20RSVP%20Form%20Setup%20%26%20Copy.md",
+   "description": "RSVP form steps and copy. Address goes by DM only.",
+   "tags": [
+    "promo",
+    "guests"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "design-canvas",
+   "title": "Design canvas · eyes, caps, flyers",
+   "source": "Claude",
+   "type": "design",
+   "project": "AFTERIMAGE 001",
+   "url": "https://claude.ai/artifact/HyHnwGuubQxWPFt9effT5t",
+   "description": "Halftone dilation caps, Devil's Night + he/they flyers (29–30 Sep).",
+   "tags": [
+    "promo",
+    "caps"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ch31-command",
+   "title": "CH 31 Command",
+   "source": "Claude",
+   "type": "app",
+   "project": "AFTERIMAGE 001",
+   "url": "https://claude.ai/artifact/GDAtQFA1eX4GxLENQdjdkN",
+   "description": "Post-first-meeting status board (23 Sep). Older than the SoT.",
+   "tags": [
+    "planning"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "motion-library-old",
+   "title": "MOTION Library (earlier artifact)",
+   "source": "Claude",
+   "type": "app",
+   "project": "Archive",
+   "url": "https://claude.ai/artifact/76gNwRKMPP36YMJzj9fhAB",
+   "description": "An earlier library page. Panda Library replaces it.",
+   "tags": [
+    "archive"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "motion-archive",
+   "title": "The MOTION Archive",
+   "source": "Claude",
+   "type": "app",
+   "project": "Archive",
+   "url": "https://claude.ai/artifact/9YqVkZn25gaHsK5JPCU7fS",
+   "description": "Earlier archive page.",
+   "tags": [
+    "archive"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "flyer-studio",
+   "title": "MOTION Flyer Studio",
+   "source": "Claude",
+   "type": "app",
+   "project": "AFTERIMAGE 001",
+   "url": "https://claude.ai/artifact/WdCTyTjmv3Vr9dMevDUCYd",
+   "description": "Flyer builder (28 Sep).",
+   "tags": [
+    "promo"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "cap-folder",
+   "title": "Cap Design · working files",
+   "source": "Drive",
+   "type": "folder",
+   "project": "Cap 01",
+   "url": "https://drive.google.com/drive/folders/18rVRyN_BO6i4bDhzKpOUFHL_waehhoOe",
+   "description": "Working files for the Devil's Night cap.",
+   "tags": [
+    "caps",
+    "merch"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "cap-sheet",
+   "title": "Cap Production Sheet v1",
+   "source": "Drive",
+   "type": "doc",
+   "project": "Cap 01",
+   "url": "https://drive.google.com/open?id=1JPliQRS_TDGWH6dvDsn4Afr4ZcZ69rLu",
+   "description": "20 caps, variation 09 + horns, DEVIL'S NIGHT under, OCT 30 on brim. Nothing ordered.",
+   "tags": [
+    "caps",
+    "merch"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "cap-project",
+   "title": "Cap project (15 Oct zip)",
+   "source": "Drive",
+   "type": "code",
+   "project": "Cap 01",
+   "url": "https://drive.google.com/open?id=1SjCB97GApZ2xp_fw4y87DwBobJFQnOv-",
+   "description": "Cap project files as of 15 Oct.",
+   "tags": [
+    "caps",
+    "code"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "cap-live",
+   "title": "Cap 01 Live",
+   "source": "Claude",
+   "type": "design",
+   "project": "Cap 01",
+   "url": "https://claude.ai/artifact/AjKnAi4B4AfdFngcahcdod",
+   "description": "Cap 01 artifact.",
+   "tags": [
+    "caps"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "cap-board",
+   "title": "Cap 01 Design Board",
+   "source": "Claude",
+   "type": "design",
+   "project": "Cap 01",
+   "url": "https://claude.ai/artifact/3vsqqfdnwrPkSHLwvaWdbm",
+   "description": "Cap design board (28 Sep).",
+   "tags": [
+    "caps"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "hub-repo",
+   "title": "Motion-Collective-HUB repo",
+   "source": "GitHub",
+   "type": "code",
+   "project": "Hub",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/tree/claude/motion-files-consolidated-dx17w2",
+   "description": "hub.py, the event data, the orchestra kit and this page's source.",
+   "tags": [
+    "code",
+    "hub"
+   ],
+   "status": "current",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "handoff",
+   "title": "Drive handoff folder (16 Oct)",
+   "source": "Drive",
+   "type": "folder",
+   "project": "Hub",
+   "url": "https://drive.google.com/drive/folders/1QDQluSi7q8l9uY20t8b4HRPe2Pse72DA",
+   "description": "Panda Library brief, CH31 planner zip, archive parts 001–010 of 019.",
+   "tags": [
+    "hub",
+    "archive"
+   ],
+   "status": "",
+   "pinned": false,
+   "visibility": "private"
+  },
+  {
+   "id": "ch31-planner",
+   "title": "CH31 planner source (21 Sep)",
+   "source": "GitHub",
+   "type": "code",
+   "project": "Archive",
+   "url": "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/legacy/ch31-planner/README.md",
+   "description": "The September web planner, kept for reference. Runs only on ChatGPT Sites.",
+   "tags": [
+    "archive",
+    "code"
+   ],
+   "status": "stale",
+   "pinned": false,
+   "visibility": "private"
+  }
+ ],
+ "tasks": [
+  {
+   "id": "t-001",
+   "title": "Enter kitchen/hall + DJ-wall measurements in Room Studio and rerun the full sim",
+   "owner": "Codex",
+   "status": "blocked",
+   "area": "venue",
+   "due": "2026-10-17",
+   "ref": "T-001",
+   "note": "Waiting on the 16 Oct measurements",
+   "order": 0
+  },
+  {
+   "id": "t-002",
+   "title": "Rebuild the budget workbook with live prices, Rohan removed",
+   "owner": "Codex",
+   "status": "ready",
+   "area": "money",
+   "due": "2026-10-20",
+   "ref": "T-002",
+   "note": "",
+   "order": 1
+  },
+  {
+   "id": "t-003",
+   "title": "Audit the Drive sheets against the SoT and list contradictions",
+   "owner": "Gemini",
+   "status": "ready",
+   "area": "learning",
+   "due": "2026-10-19",
+   "ref": "T-003",
+   "note": "",
+   "order": 2
+  },
+  {
+   "id": "t-004",
+   "title": "Review Higgsfield shots and the reel against the Playbook",
+   "owner": "Gemini",
+   "status": "blocked",
+   "area": "promo",
+   "due": null,
+   "ref": "T-004",
+   "note": "Needs clips from Jovanni",
+   "order": 3
+  },
+  {
+   "id": "t-005",
+   "title": "Draft Glamz confirmation text, neighbour note, IG captions (no Rohan)",
+   "owner": "Claude",
+   "status": "ready",
+   "area": "promo",
+   "due": "2026-10-17",
+   "ref": "T-005",
+   "note": "",
+   "order": 4
+  },
+  {
+   "id": "t-006",
+   "title": "Price check: extra alcohol, ice, Sam's/Costco",
+   "owner": "Claude",
+   "status": "ready",
+   "area": "money",
+   "due": "2026-10-19",
+   "ref": "T-006",
+   "note": "",
+   "order": 5
+  },
+  {
+   "id": "t-007",
+   "title": "Promo pass after Glamz answers: flyer v5, post 5, reel",
+   "owner": "Claude",
+   "status": "blocked",
+   "area": "promo",
+   "due": null,
+   "ref": "T-007",
+   "note": "Blocked on Glamz",
+   "order": 6
+  },
+  {
+   "id": "t-008",
+   "title": "Decorating + art plan, design review first",
+   "owner": "Claude",
+   "status": "open",
+   "area": "venue",
+   "due": "2026-10-21",
+   "ref": "T-008",
+   "note": "",
+   "order": 7
+  },
+  {
+   "id": "t-009",
+   "title": "Rerun drink-spot and stock sims for the 150-cocktail menu",
+   "owner": "Codex",
+   "status": "blocked",
+   "area": "venue",
+   "due": null,
+   "ref": "T-009",
+   "note": "Needs the menu confirmed",
+   "order": 8
+  },
+  {
+   "id": "t-010",
+   "title": "Find out what flyer v5 is and reconcile it with the lineup",
+   "owner": "Claude",
+   "status": "open",
+   "area": "promo",
+   "due": "2026-10-18",
+   "ref": "T-010",
+   "note": "",
+   "order": 9
+  },
+  {
+   "id": "c-glamz",
+   "title": "Confirm Glamz: playing, fee and promo permission",
+   "owner": "Jovanni",
+   "status": "open",
+   "area": "lineup",
+   "due": "2026-10-17",
+   "ref": "Control #1",
+   "note": "Blocks lineup, set times, flyer and reel",
+   "order": 10
+  },
+  {
+   "id": "c-roles",
+   "title": "Assign roles: door/welfare, second sober host, Water Minister, photographer, master fader",
+   "owner": "Jovanni",
+   "status": "open",
+   "area": "night",
+   "due": "2026-10-23",
+   "ref": "Control #3",
+   "note": "Jovanni can't cover the door while performing",
+   "order": 11
+  },
+  {
+   "id": "c-ric",
+   "title": "Get Rapid Ric's equipment list and booth cable answer",
+   "owner": "Haven",
+   "status": "open",
+   "area": "venue",
+   "due": "2026-10-20",
+   "ref": "Control #4",
+   "note": "",
+   "order": 12
+  },
+  {
+   "id": "c-cdj",
+   "title": "Name the CDJ renter and pickup owner (Tue 27 to Thu 29 Oct)",
+   "owner": "Jovanni",
+   "status": "open",
+   "area": "venue",
+   "due": "2026-10-22",
+   "ref": "Control #7",
+   "note": "Needs ID + card in the renter's name",
+   "order": 13
+  },
+  {
+   "id": "c-pay",
+   "title": "Pay HE//THEY $300",
+   "owner": "Jovanni",
+   "status": "open",
+   "area": "money",
+   "due": "2026-10-23",
+   "ref": "Control #8",
+   "note": "When the paycheck lands",
+   "order": 14
+  },
+  {
+   "id": "c-menu",
+   "title": "Confirm the 150-cocktail menu (90 lemonades + 60 Palomas) and price the carts",
+   "owner": "Jovanni",
+   "status": "open",
+   "area": "money",
+   "due": "2026-10-20",
+   "ref": "Control #6",
+   "note": "Supersedes the jungle-juice plan",
+   "order": 15
+  },
+  {
+   "id": "c-prize",
+   "title": "Pick the costume prize amount ($20–50)",
+   "owner": "Jovanni",
+   "status": "open",
+   "area": "night",
+   "due": "2026-10-25",
+   "ref": "Control #5",
+   "note": "Judging locked: originality 40 · execution 30 · commitment 30",
+   "order": 16
+  },
+  {
+   "id": "c-rohan",
+   "title": "Tell Rohan he's off the lineup, if not done",
+   "owner": "Jovanni",
+   "status": "open",
+   "area": "lineup",
+   "due": "2026-10-17",
+   "ref": "SoT",
+   "note": "",
+   "order": 17
+  },
+  {
+   "id": "c-cap",
+   "title": "Call cap vendors for quotes (Austin Print Co, Neatko)",
+   "owner": "Jovanni",
+   "status": "open",
+   "area": "promo",
+   "due": "2026-10-19",
+   "ref": "SoT",
+   "note": "No public pricing online; needs a call",
+   "order": 18
+  },
+  {
+   "id": "c-ice",
+   "title": "Buy liquor by Thu 29 Oct (stores closed Sunday)",
+   "owner": "Alex",
+   "status": "open",
+   "area": "money",
+   "due": "2026-10-29",
+   "ref": "SoT",
+   "note": "",
+   "order": 19
+  }
+ ],
+ "runofshow": [
+  {
+   "id": "r1800",
+   "sort": 1800,
+   "time": "6:00 PM",
+   "moment": "Load-in and room reset",
+   "lead": "Alex",
+   "support": "",
+   "cue": "Work lights",
+   "guests": "Clear halls, cover stove, prep Bed 3",
+   "status": "Yes"
+  },
+  {
+   "id": "r1900",
+   "sort": 1900,
+   "time": "7:00 PM",
+   "moment": "System build and cable check",
+   "lead": "Jovanni",
+   "support": "Haven / iamariology",
+   "cue": "Flat PA preset; verify booth cable",
+   "guests": "No guests",
+   "status": "Owner set"
+  },
+  {
+   "id": "r1945",
+   "sort": 1945,
+   "time": "7:45 PM",
+   "moment": "Sound check",
+   "lead": "HE//THEY / Jovanni",
+   "support": "Master fader",
+   "cue": "Walk room; check bass outside",
+   "guests": "No guests",
+   "status": "Yes"
+  },
+  {
+   "id": "r2030",
+   "sort": 2030,
+   "time": "8:30 PM",
+   "moment": "Crew briefing",
+   "lead": "Alex",
+   "support": "All crew",
+   "cue": "Work light",
+   "guests": "ID, welfare, exits, water, phones",
+   "status": "Yes"
+  },
+  {
+   "id": "r2100",
+   "sort": 2100,
+   "time": "9:00 PM",
+   "moment": "Doors · opening set",
+   "lead": "iamariology b2b raymixes",
+   "support": "Jovanni / door helper",
+   "cue": "Ice/cyan walls; warm faces",
+   "guests": "ID checks; passes; consent",
+   "status": "Locked core"
+  },
+  {
+   "id": "r2300",
+   "sort": 2300,
+   "time": "11:00 PM",
+   "moment": "Friends set / Glamz transition",
+   "lead": "iamariology b2b raymixes",
+   "support": "Glamz if confirmed",
+   "cue": "Build energy",
+   "guests": "Monitor capacity",
+   "status": "Conditional"
+  },
+  {
+   "id": "r2415",
+   "sort": 2415,
+   "time": "12:15 AM",
+   "moment": "HE//THEY",
+   "lead": "HE//THEY",
+   "support": "Master fader",
+   "cue": "Midnight red shift + eyes",
+   "guests": "Keep exits and water clear",
+   "status": "Confirmed"
+  },
+  {
+   "id": "r2430",
+   "sort": 2430,
+   "time": "12:30 AM",
+   "moment": "Last entry",
+   "lead": "Jovanni",
+   "support": "Sober helper needed",
+   "cue": "",
+   "guests": "Stop new entry",
+   "status": "Yes"
+  },
+  {
+   "id": "r2530",
+   "sort": 2530,
+   "time": "1:30 AM",
+   "moment": "Costume winner",
+   "lead": "Jovanni",
+   "support": "Photographer: TBD",
+   "cue": "Photo corner lit red",
+   "guests": "Crew scorecard 40/30/30",
+   "status": "Method locked"
+  },
+  {
+   "id": "r2545",
+   "sort": 2545,
+   "time": "1:45 AM",
+   "moment": "Last pour",
+   "lead": "Jovanni",
+   "support": "Crew helper",
+   "cue": "Begin slow lights-up",
+   "guests": "Trash sweep; water only after",
+   "status": "Yes"
+  },
+  {
+   "id": "r2600",
+   "sort": 2600,
+   "time": "2:00 AM",
+   "moment": "Last song · hard stop",
+   "lead": "Jovanni",
+   "support": "Alex",
+   "cue": "Music off; lights up",
+   "guests": "Rides and quiet exit",
+   "status": "Yes"
+  },
+  {
+   "id": "r2601",
+   "sort": 2601,
+   "time": "2:00–3:00 AM",
+   "moment": "Load-out and reset",
+   "lead": "Alex",
+   "support": "All crew",
+   "cue": "Work lights",
+   "guests": "Check halls, balcony, bathrooms",
+   "status": "Yes"
+  }
+ ],
+ "budget": [
+  {
+   "id": "drinks",
+   "item": "Drinks: 150-cocktail menu, ice, cups",
+   "from": "pool",
+   "planned": 231.13,
+   "actual": null,
+   "status": "estimate",
+   "note": "Derived: the 15 Oct sheet's $381.13 pool total minus the decor, DIY and smoking lines. Reprice in T-002.",
+   "order": 0
+  },
+  {
+   "id": "decor",
+   "item": "Decor: mirror ball $45, red bulbs $15, black cloth $16",
+   "from": "pool",
+   "planned": 76,
+   "actual": null,
+   "status": "estimate",
+   "note": "",
+   "order": 1
+  },
+  {
+   "id": "diy",
+   "item": "DIY: eye posters + Cricut labels",
+   "from": "pool",
+   "planned": 30,
+   "actual": null,
+   "status": "estimate",
+   "note": "",
+   "order": 2
+  },
+  {
+   "id": "smoking",
+   "item": "Smoking: cigarettes, ~60 lighters, decals",
+   "from": "pool",
+   "planned": 44,
+   "actual": null,
+   "status": "estimate",
+   "note": "Handed out free, never sold",
+   "order": 3
+  },
+  {
+   "id": "dj",
+   "item": "HE//THEY fee",
+   "from": "jovanni",
+   "planned": 300,
+   "actual": null,
+   "status": "confirmed",
+   "note": "Unpaid; pay before the 30th",
+   "order": 4
+  },
+  {
+   "id": "cdj",
+   "item": "CDJs + mixer · Rock n Roll Rentals",
+   "from": "rental",
+   "planned": 345,
+   "actual": null,
+   "status": "confirmed",
+   "note": "2× CDJ-2000NXS2 + DJM-900NXS2, weekend rate; return Mon 2 Nov",
+   "order": 5
+  },
+  {
+   "id": "prize",
+   "item": "Costume prize",
+   "from": "jovanni",
+   "planned": null,
+   "actual": null,
+   "status": "open",
+   "note": "$20–50, amount not picked",
+   "order": 6
+  },
+  {
+   "id": "caps",
+   "item": "Cap 01 · 20 caps",
+   "from": "merch",
+   "planned": null,
+   "actual": null,
+   "status": "open",
+   "note": "Estimate $600–950; nothing ordered",
+   "order": 7
+  }
+ ],
+ "metrics": [
+  {
+   "id": "E001-passes_issued",
+   "event_id": "E001",
+   "category": "capacity",
+   "metric": "passes_issued",
+   "unit": "count",
+   "planned": 50,
+   "actual": null,
+   "status": "estimate",
+   "source": "Logistics Control 15 Oct",
+   "notes": "Working cap 50 until the kitchen + hall measurement (was 70)"
+  },
+  {
+   "id": "E001-living_room_sqft",
+   "event_id": "E001",
+   "category": "capacity",
+   "metric": "living_room_sqft",
+   "unit": "sq ft",
+   "planned": 253.0,
+   "actual": null,
+   "status": "confirmed",
+   "source": "SoT 5 Oct tape",
+   "notes": "14 ft x 18 ft 1 in"
+  },
+  {
+   "id": "E001-safe_capacity_living_room",
+   "event_id": "E001",
+   "category": "capacity",
+   "metric": "safe_capacity_living_room",
+   "unit": "people",
+   "planned": 36.0,
+   "actual": null,
+   "status": "estimate",
+   "source": "SoT",
+   "notes": "7 sq ft per person"
+  },
+  {
+   "id": "E001-walkable_sqft_per_guest_at_70",
+   "event_id": "E001",
+   "category": "capacity",
+   "metric": "walkable_sqft_per_guest_at_70",
+   "unit": "sq ft",
+   "planned": 4.8,
+   "actual": null,
+   "status": "estimate",
+   "source": "Room Studio sim 14 Oct",
+   "notes": "Comfortable standing is 7+"
+  },
+  {
+   "id": "E001-guests_peak",
+   "event_id": "E001",
+   "category": "attendance",
+   "metric": "guests_peak",
+   "unit": "people",
+   "planned": null,
+   "actual": null,
+   "status": "open",
+   "source": "",
+   "notes": "Count at midnight"
+  },
+  {
+   "id": "E001-guests_total",
+   "event_id": "E001",
+   "category": "attendance",
+   "metric": "guests_total",
+   "unit": "people",
+   "planned": null,
+   "actual": null,
+   "status": "open",
+   "source": "",
+   "notes": "Unique pass numbers scanned at the door"
+  },
+  {
+   "id": "E001-no_show_rate",
+   "event_id": "E001",
+   "category": "attendance",
+   "metric": "no_show_rate",
+   "unit": "%",
+   "planned": null,
+   "actual": null,
+   "status": "open",
+   "source": "",
+   "notes": "1 - guests_total / passes_issued"
+  },
+  {
+   "id": "E001-dj_fees",
+   "event_id": "E001",
+   "category": "money",
+   "metric": "dj_fees",
+   "unit": "USD",
+   "planned": 300.0,
+   "actual": null,
+   "status": "confirmed",
+   "source": "SoT 14 Oct",
+   "notes": "HE//THEY; paid by Jovanni"
+  },
+  {
+   "id": "E001-pool_available",
+   "event_id": "E001",
+   "category": "money",
+   "metric": "pool_available",
+   "unit": "USD",
+   "planned": 450.0,
+   "actual": null,
+   "status": "confirmed",
+   "source": "SoT",
+   "notes": "Jovanni + Haven + Alex at $150"
+  },
+  {
+   "id": "E001-pool_spend",
+   "event_id": "E001",
+   "category": "money",
+   "metric": "pool_spend",
+   "unit": "USD",
+   "planned": 391.42,
+   "actual": null,
+   "status": "estimate",
+   "source": "SoT 13 Oct",
+   "notes": "Workbook not yet re-run with live prices (T-002)"
+  },
+  {
+   "id": "E001-drinks_with_tax",
+   "event_id": "E001",
+   "category": "money",
+   "metric": "drinks_with_tax",
+   "unit": "USD",
+   "planned": 171.88,
+   "actual": null,
+   "status": "estimate",
+   "source": "SoT 13 Oct evening",
+   "notes": "Hand recalculation"
+  },
+  {
+   "id": "E001-cdj_rental",
+   "event_id": "E001",
+   "category": "money",
+   "metric": "cdj_rental",
+   "unit": "USD",
+   "planned": 345.0,
+   "actual": null,
+   "status": "confirmed",
+   "source": "SoT 13 Oct",
+   "notes": "Rock n Roll Rentals weekend rate; not from the pool"
+  },
+  {
+   "id": "E001-cost_per_guest",
+   "event_id": "E001",
+   "category": "money",
+   "metric": "cost_per_guest",
+   "unit": "USD",
+   "planned": null,
+   "actual": null,
+   "status": "open",
+   "source": "",
+   "notes": "(pool_spend + dj_fees + cdj_rental) / guests_total"
+  },
+  {
+   "id": "E001-standard_drinks_stocked",
+   "event_id": "E001",
+   "category": "drinks",
+   "metric": "standard_drinks_stocked",
+   "unit": "drinks",
+   "planned": 170.0,
+   "actual": null,
+   "status": "estimate",
+   "source": "SoT",
+   "notes": "55 drinkers x 3"
+  },
+  {
+   "id": "E001-pours_needed_medium_crowd",
+   "event_id": "E001",
+   "category": "drinks",
+   "metric": "pours_needed_medium_crowd",
+   "unit": "drinks",
+   "planned": 200.0,
+   "actual": null,
+   "status": "estimate",
+   "source": "Room Studio sim 14 Oct",
+   "notes": "College-crowd sim"
+  },
+  {
+   "id": "E001-drinks_left_at_close",
+   "event_id": "E001",
+   "category": "drinks",
+   "metric": "drinks_left_at_close",
+   "unit": "drinks",
+   "planned": null,
+   "actual": null,
+   "status": "open",
+   "source": "",
+   "notes": "Count at load-out"
+  },
+  {
+   "id": "E001-ice_lb",
+   "event_id": "E001",
+   "category": "drinks",
+   "metric": "ice_lb",
+   "unit": "lb",
+   "planned": 160.0,
+   "actual": null,
+   "status": "estimate",
+   "source": "SoT",
+   "notes": ""
+  },
+  {
+   "id": "E001-drink_run_minutes_island",
+   "event_id": "E001",
+   "category": "flow",
+   "metric": "drink_run_minutes_island",
+   "unit": "min",
+   "planned": 0.7,
+   "actual": null,
+   "status": "estimate",
+   "source": "Room Studio sim 14 Oct",
+   "notes": "Island is the best serving spot"
+  },
+  {
+   "id": "E001-restroom_wait_max",
+   "event_id": "E001",
+   "category": "flow",
+   "metric": "restroom_wait_max",
+   "unit": "min",
+   "planned": 2.0,
+   "actual": null,
+   "status": "estimate",
+   "source": "Room Studio sim 14 Oct",
+   "notes": "With Bed 3 bath open"
+  },
+  {
+   "id": "E001-peak_db",
+   "event_id": "E001",
+   "category": "sound",
+   "metric": "peak_db",
+   "unit": "dB",
+   "planned": 80.0,
+   "actual": null,
+   "status": "estimate",
+   "source": "SoT",
+   "notes": "Quiet-hours target; check with a phone SPL app"
+  },
+  {
+   "id": "E001-noise_complaints",
+   "event_id": "E001",
+   "category": "ops",
+   "metric": "noise_complaints",
+   "unit": "count",
+   "planned": 0.0,
+   "actual": null,
+   "status": "open",
+   "source": "",
+   "notes": ""
+  },
+  {
+   "id": "E001-incidents",
+   "event_id": "E001",
+   "category": "ops",
+   "metric": "incidents",
+   "unit": "count",
+   "planned": 0.0,
+   "actual": null,
+   "status": "open",
+   "source": "",
+   "notes": "Welfare / safety log"
+  },
+  {
+   "id": "E001-rsvps",
+   "event_id": "E001",
+   "category": "promo",
+   "metric": "rsvps",
+   "unit": "count",
+   "planned": null,
+   "actual": null,
+   "status": "open",
+   "source": "",
+   "notes": ""
+  },
+  {
+   "id": "E001-ig_followers_gained",
+   "event_id": "E001",
+   "category": "promo",
+   "metric": "ig_followers_gained",
+   "unit": "count",
+   "planned": null,
+   "actual": null,
+   "status": "open",
+   "source": "",
+   "notes": "Follower count 10.16 vs 11.02"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l1",
+   "event_id": "E001",
+   "date": "2026-10-05",
+   "area": "venue",
+   "lesson": "The living room measured 253 sq ft - far smaller than the floor-plan estimate that set 70 passes",
+   "next_time": "Tape-measure every room before setting the pass count",
+   "source": "SoT 5 Oct"
+  },
+  {
+   "id": "l2",
+   "event_id": "E001",
+   "date": "2026-10-14",
+   "area": "lineup",
+   "lesson": "Two acts were put on promo before their fee and availability were confirmed (Rohan cut; Glamz unconfirmed)",
+   "next_time": "No name on any promo until fee and date are confirmed in writing",
+   "source": "SoT 13-14 Oct"
+  },
+  {
+   "id": "l3",
+   "event_id": "E001",
+   "date": "2026-10-14",
+   "area": "flow",
+   "lesson": "The sim showed a drinks cart at the front door blocks the entry (5+ min drink runs; line ~20)",
+   "next_time": "Serve from the island or a counter away from the door",
+   "source": "Room Studio sim"
+  },
+  {
+   "id": "l4",
+   "event_id": "E001",
+   "date": "2026-10-14",
+   "area": "flow",
+   "lesson": "Opening a second bathroom cut the sim restroom wait from ~25 min to ~2",
+   "next_time": "Plan 1 open bathroom per ~35 guests",
+   "source": "Room Studio sim"
+  },
+  {
+   "id": "l5",
+   "event_id": "E001",
+   "date": "2026-10-13",
+   "area": "money",
+   "lesson": "Workbook totals drifted from live prices after a hand-checked price pass",
+   "next_time": "Re-run the budget builder after every price change",
+   "source": "SoT 13 Oct"
+  },
+  {
+   "id": "l6",
+   "event_id": "E001",
+   "date": "2026-10-13",
+   "area": "vendors",
+   "lesson": "Cap vendors had no public prices or contact info",
+   "next_time": "Phone vendors directly; don't spend agent time on web research",
+   "source": "SoT 13 Oct"
+  }
+ ],
+ "events": [
+  {
+   "id": "E001",
+   "name": "Devil's Night",
+   "series": "AFTERIMAGE 001",
+   "date": "2026-10-30",
+   "doors": "21:00",
+   "hard_stop": "02:00",
+   "venue": "apartment (Rio 3x2)",
+   "status": "planning"
+  }
+ ],
+ "meta": {
+  "home": {
+   "dates": [
+    {
+     "date": "2026-10-16",
+     "title": "Venue visit: measure kitchen + hall, tape the DJ wall",
+     "area": "venue",
+     "note": "Same trip: flyers to the neighbours"
+    },
+    {
+     "date": "2026-10-19",
+     "title": "$60 from your brother",
+     "area": "money"
+    },
+    {
+     "date": "2026-10-23",
+     "title": "Paycheck lands · pay HE//THEY $300",
+     "area": "money"
+    },
+    {
+     "date": "2026-10-26",
+     "title": "$60 from your brother",
+     "area": "money"
+    },
+    {
+     "date": "2026-10-27",
+     "title": "CDJ pickup window opens (Tue to Thu)",
+     "area": "venue",
+     "note": "Stores close 6 PM Fri"
+    },
+    {
+     "date": "2026-10-29",
+     "title": "Last day to buy liquor",
+     "area": "money",
+     "note": "Package stores closed Sunday; ice on the day"
+    },
+    {
+     "date": "2026-10-30",
+     "title": "Devil's Night · doors 9 PM",
+     "area": "night",
+     "note": "Last entry 12:30 · last pour 1:45 · hard stop 2:00",
+     "anchor": true
+    },
+    {
+     "date": "2026-11-02",
+     "title": "Return the CDJs",
+     "area": "venue"
+    }
+   ],
+   "flags": [
+    {
+     "text": "Two sources disagree. The 15 Oct Logistics Control sheet has a 150-cocktail menu and the lineup iamariology b2b raymixes, then Glamz (if he confirms), then HE//THEY at 12:15 AM. The 14 Oct Source of Truth still has jungle juice and a Glamz 23:00 slot. The hub follows the newer sheet until you confirm."
+    }
+   ]
+  }
+ }
+}

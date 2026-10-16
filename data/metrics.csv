@@ -1,5 +1,5 @@
 event_id,category,metric,unit,planned,actual,status,source,notes
-E001,capacity,passes_issued,count,70,,estimate,SoT 14 Oct,May drop to 50-55 after the kitchen + hall measurement
+E001,capacity,passes_issued,count,50,,estimate,Logistics Control 15 Oct,Working cap 50 until the kitchen + hall measurement (was 70)
 E001,capacity,living_room_sqft,sq ft,253,,confirmed,SoT 5 Oct tape,14 ft x 18 ft 1 in
 E001,capacity,safe_capacity_living_room,people,36,,estimate,SoT,7 sq ft per person
 E001,capacity,walkable_sqft_per_guest_at_70,sq ft,4.8,,estimate,Room Studio sim 14 Oct,Comfortable standing is 7+

@@ -1,0 +1,560 @@
+<title>MOTION Collective Hub</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Jost:wght@300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column of sections under a sticky tab bar; Home leads with stat tiles and a route-line of dates.
+   Base + area accents + a separate signal set (accents never mean state). Dark-first: the subject is a night. */
+:root {
+  --s0:#f6f5f2; --s1:#ffffff; --s2:#eceae5; --line:#d9d6cf; --ink:#16171a; --muted:#5c5f66; --faint:#8a8d93;
+  --a-night:#d62a20; --a-venue:#1a7fb0; --a-lib:#6c4fd1; --a-money:#8a6a1f; --a-learn:#b0467d;
+  --sig-attn:#c2410c; --sig-ok:#1f8a4c; --sig-warn:#a16207;
+  --on-accent:#ffffff; --night-band:#1e2126; --night-ink:#f1efe9;
+  --f-ui:"Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r-sm:6px; --r-md:10px; --r-lg:16px; --r-pill:999px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --s0:#101114; --s1:#15171b; --s2:#1e2126; --line:#2b2f36; --ink:#f1efe9; --muted:#9a9da3; --faint:#6c7078;
+  --a-night:#ff3b30; --a-venue:#58c4f0; --a-lib:#b9a3ff; --a-money:#d8b56a; --a-learn:#e59ac0;
+  --sig-attn:#ff7a59; --sig-ok:#6fd49a; --sig-warn:#f5a524;
+  --on-accent:#101114; --night-band:#08090b; --night-ink:#f1efe9; color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --s0:#101114; --s1:#15171b; --s2:#1e2126; --line:#2b2f36; --ink:#f1efe9; --muted:#9a9da3; --faint:#6c7078;
+  --a-night:#ff3b30; --a-venue:#58c4f0; --a-lib:#b9a3ff; --a-money:#d8b56a; --a-learn:#e59ac0;
+  --sig-attn:#ff7a59; --sig-ok:#6fd49a; --sig-warn:#f5a524;
+  --on-accent:#101114; --night-band:#08090b; --night-ink:#f1efe9; color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--s0); color: var(--ink); font: 400 15px/1.5 var(--f-ui); }
+body::before { content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--s1); }
+a { color: inherit; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left,0px)); padding-right: max(16px, env(safe-area-inset-right,0px)); }
+.num, .mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--a-venue); outline-offset: 2px; border-radius: var(--r-sm); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* header + tabs */
+header { background: var(--s1); border-bottom: 1px solid var(--line); position: sticky; top: env(safe-area-inset-top,0px); z-index: 5; }
+.top { display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-block: 14px 8px; }
+.mark { font-family: var(--f-display); font-style: italic; font-size: 26px; font-weight: 400; letter-spacing: .02em; margin: 0; font-optical-sizing: auto; }
+.mark small { font-family: var(--f-ui); font-style: normal; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-left: 10px; }
+.sync { font-size: 12px; color: var(--muted); display:flex; align-items:center; gap:6px; }
+.dot { width:8px; height:8px; border-radius:50%; background: var(--faint); display:inline-block; flex: none; }
+.dot.ok { background: var(--sig-ok); } .dot.warn { background: var(--sig-warn); } .dot.attn { background: var(--sig-attn); }
+nav { display:flex; gap:4px; overflow-x:auto; padding-bottom: 8px; scrollbar-width: none; }
+nav a { text-decoration:none; font-size:14px; padding: 6px 12px; border-radius: var(--r-pill); color: var(--muted); white-space: nowrap; border: 1px solid transparent; }
+nav a[aria-current="page"] { color: var(--ink); border-color: var(--line); background: var(--s2); }
+nav a .sw { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:6px; vertical-align: middle; }
+
+main { padding-block: 24px 64px; }
+section[data-tab] { display: grid; gap: 24px; }
+h2 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin: 0 0 12px; }
+h3 { font-size: 17px; font-weight: 500; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.lede { color: var(--muted); max-width: 65ch; }
+.panel { background: var(--s1); border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px; min-width: 0; }
+.grid2 { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+
+/* stat tiles */
+.tiles { display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.tile { background: var(--s1); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; display:grid; gap: 4px; min-width: 0; }
+.tile .k { font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.tile .v { font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-size: 26px; line-height: 1.1; }
+.tile .s { font-size: 12px; color: var(--muted); }
+.tile.anchor { background: var(--a-night); border-color: var(--a-night); color: var(--on-accent); border-radius: var(--r-lg); }
+.tile.anchor .k, .tile.anchor .s { color: var(--on-accent); opacity: .85; }
+
+/* pills */
+.pill { display:inline-flex; align-items:center; gap:6px; font-size: 12px; padding: 2px 10px; border-radius: var(--r-pill); border: 1px solid var(--line); color: var(--muted); white-space: nowrap; background: transparent; font-family: var(--f-ui); }
+button.pill { cursor: pointer; }
+.pill.ok { color: var(--sig-ok); border-color: color-mix(in srgb, var(--sig-ok) 45%, transparent); }
+.pill.warn { color: var(--sig-warn); border-color: color-mix(in srgb, var(--sig-warn) 45%, transparent); }
+.pill.attn { color: var(--sig-attn); border-color: color-mix(in srgb, var(--sig-attn) 45%, transparent); }
+.tag { font-size: 11px; color: var(--muted); background: var(--s2); border-radius: var(--r-sm); padding: 1px 6px; }
+
+/* route line (dates + run of show) */
+.route { list-style: none; margin: 0; padding: 0; position: relative; }
+.route li { position: relative; padding: 0 0 16px 28px; }
+.route li::before { content:""; position:absolute; left: 7px; top: 6px; bottom: -6px; width: 2px; background: var(--seg, var(--line)); }
+.route li:last-child::before { display: none; }
+.route li::after { content:""; position:absolute; left: 2px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--s1); border: 2px solid var(--seg, var(--faint)); }
+.route .when { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.route .what { font-weight: 500; }
+.route .sub { font-size: 13px; color: var(--muted); }
+.route li.past { opacity: .5; }
+.route li.transfer > .card { background: var(--night-band); color: var(--night-ink); border: 1px solid var(--a-night); border-radius: var(--r-md); padding: 10px 12px; }
+.route li.transfer > .card .sub, .route li.transfer > .card .when { color: color-mix(in srgb, var(--night-ink) 70%, transparent); }
+.route li.transfer::after { background: var(--a-night); border-color: var(--a-night); }
+.night .route li.dark { background: var(--night-band); color: var(--night-ink); border-radius: var(--r-sm); padding-top: 6px; padding-bottom: 10px; margin-bottom: 4px; }
+.night .route li.dark .sub, .night .route li.dark .when { color: color-mix(in srgb, var(--night-ink) 65%, transparent); }
+.legend { display:flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+.legend span::before { content:""; display:inline-block; width:10px; height:2px; background: var(--c); margin-right: 6px; vertical-align: middle; }
+
+/* lists + tables */
+.rows { display:grid; gap: 8px; }
+.row { display:grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: start; padding: 10px 12px; background: var(--s1); border: 1px solid var(--line); border-radius: var(--r-md); min-width: 0; }
+.row .meta { font-size: 12px; color: var(--muted); display:flex; gap: 8px; flex-wrap: wrap; align-items:center; }
+.row .title { min-width: 0; overflow-wrap: anywhere; }
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--s1); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--s2); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .note { display:block; font-size: 12px; color: var(--muted); }
+
+/* controls */
+input, select, textarea { font: inherit; color: var(--ink); background: var(--s0); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 6px 10px; min-width: 0; }
+input.cell { width: 7.5em; text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; padding: 4px 6px; }
+.btn { font: inherit; font-size: 14px; cursor: pointer; border-radius: var(--r-pill); padding: 6px 14px; border: 1px solid var(--line); background: var(--s2); color: var(--ink); text-decoration: none; display:inline-flex; align-items:center; gap: 6px; white-space: nowrap; }
+.btn.primary { background: var(--ink); color: var(--s0); border-color: var(--ink); }
+.btn.quiet { background: transparent; border-color: transparent; color: var(--muted); padding: 4px 8px; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.toolbar { display:flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.toolbar input[type="search"] { flex: 1 1 220px; }
+.seg { display:inline-flex; border: 1px solid var(--line); border-radius: var(--r-pill); padding: 2px; background: var(--s1); flex-wrap: wrap; }
+.seg button { font: inherit; font-size: 13px; border: 0; background: transparent; color: var(--muted); padding: 4px 12px; border-radius: var(--r-pill); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--s2); color: var(--ink); }
+form.add { display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; align-items: end; }
+form.add label { display:grid; gap: 4px; font-size: 12px; color: var(--muted); }
+form.add .wide { grid-column: 1 / -1; }
+
+/* library cards */
+.lib { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.item { background: var(--s1); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px; display:grid; gap: 8px; align-content: start; min-width: 0; }
+.item .src { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--a-lib); }
+.item p { font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
+.item .foot { display:flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* studio launch */
+.studio { display:grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 720px) { .studio { grid-template-columns: 1fr; } }
+.stage { border-radius: var(--r-lg); background: radial-gradient(120% 90% at 30% 20%, color-mix(in srgb, var(--a-venue) 22%, var(--night-band)), var(--night-band) 70%); color: var(--night-ink); padding: 24px; display:grid; gap: 12px; align-content: end; min-height: 260px; position: relative; overflow: hidden; }
+.stage canvas { position:absolute; inset: 0; width: 100%; height: 100%; opacity: .55; }
+.stage > *:not(canvas) { position: relative; }
+.stage h3 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: 30px; }
+.stage p { color: color-mix(in srgb, var(--night-ink) 75%, transparent); max-width: 46ch; }
+.stage .btn.primary { background: var(--night-ink); color: var(--night-band); border-color: var(--night-ink); justify-self: start; }
+
+.notice { border: 1px dashed var(--line); border-radius: var(--r-md); padding: 16px; color: var(--muted); }
+.flag { border-left: 3px solid var(--sig-warn); padding: 8px 12px; background: var(--s1); border-radius: 0 var(--r-sm) var(--r-sm) 0; font-size: 14px; }
+.flag b { color: var(--sig-warn); font-weight: 500; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom,0px)); background: var(--ink); color: var(--s0); padding: 8px 16px; border-radius: var(--r-pill); font-size: 14px; z-index: 20; }
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <h1 class="mark">MOTION <small>Collective Hub</small></h1>
+      <div class="sync" id="sync"><span class="dot"></span><span>Connecting to your data…</span></div>
+    </div>
+    <nav id="tabs" aria-label="Sections">
+      <a href="#home" data-to="home">Home</a>
+      <a href="#library" data-to="library"><span class="sw" style="background:var(--a-lib)"></span>Panda Library</a>
+      <a href="#studio" data-to="studio"><span class="sw" style="background:var(--a-venue)"></span>Room Studio</a>
+      <a href="#night" data-to="night"><span class="sw" style="background:var(--a-night)"></span>Tasks + Night</a>
+      <a href="#budget" data-to="budget"><span class="sw" style="background:var(--a-money)"></span>Budget</a>
+      <a href="#learning" data-to="learning"><span class="sw" style="background:var(--a-learn)"></span>Learning</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- HOME -->
+  <section data-tab="home">
+    <div class="tiles" id="tiles"></div>
+    <div id="flags" class="rows"></div>
+    <div class="grid2">
+      <div class="panel">
+        <h2>Needs you</h2>
+        <div class="rows" id="needs"><p class="lede">Open tasks owned by you show up here.</p></div>
+      </div>
+      <div class="panel">
+        <h2>Road to doors</h2>
+        <div class="legend">
+          <span style="--c:var(--a-venue)">Venue + gear</span>
+          <span style="--c:var(--a-money)">Money + shopping</span>
+          <span style="--c:var(--a-night)">The night</span>
+        </div>
+        <ol class="route" id="dates"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section data-tab="library" hidden>
+    <div>
+      <h2>Panda Library</h2>
+      <p class="lede">Every MOTION file in one search. Originals stay where they live (Drive, GitHub, Claude); each card opens the source.</p>
+    </div>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Search titles, tags, notes" aria-label="Search the library">
+      <select id="fProject" aria-label="Project"></select>
+      <select id="fType" aria-label="Type"></select>
+    </div>
+    <div class="lib" id="lib"></div>
+    <details class="panel">
+      <summary>Add an item</summary>
+      <form class="add" id="libForm" style="margin-top:12px">
+        <label>Title<input id="lTitle" required></label>
+        <label>Link<input id="lUrl" type="url" placeholder="https://drive.google.com/…" required></label>
+        <label>Project<input id="lProject" value="AFTERIMAGE 001"></label>
+        <label>Type<select id="lType"><option>doc</option><option>sheet</option><option>design</option><option>app</option><option>folder</option><option>asset</option><option>music</option><option>code</option></select></label>
+        <label class="wide">Description<input id="lDesc"></label>
+        <label>Tags (comma separated)<input id="lTags"></label>
+        <label>Visibility<select id="lVis"><option value="private">private</option><option value="crew">crew</option></select></label>
+        <div><button class="btn primary" type="submit">Add to library</button></div>
+      </form>
+    </details>
+  </section>
+
+  <!-- STUDIO -->
+  <section data-tab="studio" hidden>
+    <div class="studio">
+      <div class="stage">
+        <canvas id="crowd" aria-hidden="true"></canvas>
+        <span class="tag" style="justify-self:start;background:rgba(255,255,255,.08);color:inherit">Rio 3×2 · 253 sq ft living room</span>
+        <h3>Afterimage Room Studio</h3>
+        <p>Your 3D plan of the room at real dimensions. Drag gear, rank drink spots and run the crowd sim for a whole night.</p>
+        <a class="btn primary" href="studio.html">Open Room Studio</a>
+      </div>
+      <div class="panel">
+        <h2>What the sim says so far</h2>
+        <div class="rows" id="simFindings"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Studio tasks</h2>
+      <div class="rows" id="studioTasks"></div>
+    </div>
+    <p class="lede">Layouts you save inside the studio stay in this browser. Saved layouts from the old Room Studio artifact don't carry over; its built-in default layout does.</p>
+  </section>
+
+  <!-- TASKS + NIGHT -->
+  <section data-tab="night" hidden>
+    <div class="toolbar">
+      <div class="seg" id="taskFilter" role="group" aria-label="Show tasks">
+        <button type="button" data-f="open" aria-pressed="true">Open</button>
+        <button type="button" data-f="mine" aria-pressed="false">Mine</button>
+        <button type="button" data-f="done" aria-pressed="false">Done</button>
+        <button type="button" data-f="all" aria-pressed="false">All</button>
+      </div>
+      <span class="lede" style="font-size:13px">Tap a status to move it along.</span>
+    </div>
+    <div class="rows" id="tasks"></div>
+    <details class="panel">
+      <summary>Add a task</summary>
+      <form class="add" id="taskForm" style="margin-top:12px">
+        <label class="wide">Task<input id="tTitle" required></label>
+        <label>Owner<input id="tOwner" value="Jovanni"></label>
+        <label>Due<input id="tDue" type="date"></label>
+        <label>Area<select id="tArea"><option>night</option><option>venue</option><option>money</option><option>promo</option><option>lineup</option><option>learning</option></select></label>
+        <div><button class="btn primary" type="submit">Add task</button></div>
+      </form>
+    </details>
+    <div class="panel night">
+      <h2>Run of show · Fri 30 Oct</h2>
+      <div class="legend">
+        <span style="--c:var(--a-venue)">Setup</span>
+        <span style="--c:var(--a-night)">Doors to close</span>
+      </div>
+      <ol class="route" id="ros"></ol>
+    </div>
+  </section>
+
+  <!-- BUDGET -->
+  <section data-tab="budget" hidden>
+    <div class="tiles" id="moneyTiles"></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Item</th><th>Paid from</th><th class="n">Planned</th><th class="n">Actual</th><th>Status</th></tr></thead>
+        <tbody id="budgetRows"></tbody>
+      </table>
+    </div>
+    <p class="lede">Type receipts into Actual as you shop. Pool lines count against the $450 pool; DJ, rental and merch are paid separately.</p>
+  </section>
+
+  <!-- LEARNING -->
+  <section data-tab="learning" hidden>
+    <div>
+      <h2>Plan vs actual</h2>
+      <p class="lede">Fill Actual on the night or within 48 hours. Every event adds a column of evidence for the next one.</p>
+    </div>
+    <div class="toolbar"><select id="fEvent" aria-label="Event"></select></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Metric</th><th class="n">Planned</th><th class="n">Actual</th><th class="n">Diff</th><th>Status</th></tr></thead>
+        <tbody id="metricRows"></tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <h2>Lessons</h2>
+      <div class="rows" id="lessons"></div>
+      <form class="add" id="lessonForm" style="margin-top:16px">
+        <label>Area<select id="nArea"><option>venue</option><option>flow</option><option>drinks</option><option>money</option><option>lineup</option><option>promo</option><option>vendors</option><option>sound</option><option>ops</option></select></label>
+        <label class="wide">What happened<input id="nLesson" required></label>
+        <label class="wide">Next time<input id="nNext" required></label>
+        <div><button class="btn primary" type="submit">Save lesson</button></div>
+      </form>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(() => {
+  const DOORS = Date.UTC(2026, 9, 31, 2, 0); // Fri 30 Oct 2026 21:00 Austin (CDT, UTC-5)
+  const POOL = 450;
+  const S = { library: [], tasks: [], runofshow: [], budget: [], metrics: [], lessons: [], events: [], dates: [], flags: [] };
+  let db = null, canWrite = false, taskFilter = 'open', armedDelete = null;
+
+  const $ = (s) => document.querySelector(s);
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+  const money = (n) => (n == null || n === '' || isNaN(n)) ? '—' : '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const num = (v) => (v === '' || v == null || isNaN(Number(v))) ? null : Number(v);
+  const toast = (msg) => { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2200); };
+  const statusClass = (s) => ({ done:'ok', confirmed:'ok', ready:'ok', open:'warn', estimate:'warn', blocked:'attn', 'in progress':'warn' }[String(s).toLowerCase()] || '');
+  const store = { get(k, d) { try { return localStorage.getItem(k) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+  /* ---------- tabs ---------- */
+  const TABS = ['home','library','studio','night','budget','learning'];
+  function showTab(name) {
+    if (!TABS.includes(name)) name = 'home';
+    document.querySelectorAll('section[data-tab]').forEach(s => s.hidden = s.dataset.tab !== name);
+    document.querySelectorAll('#tabs a').forEach(a => a.setAttribute('aria-current', a.dataset.to === name ? 'page' : 'false'));
+    if (name === 'studio') startCrowd(); else stopCrowd();
+  }
+  window.addEventListener('hashchange', () => showTab(location.hash.slice(1)));
+  showTab(location.hash.slice(1) || 'home');
+
+  /* ---------- render ---------- */
+  function renderAll() { renderHome(); renderLibrary(); renderStudio(); renderTasks(); renderRos(); renderBudget(); renderLearning(); }
+
+  function renderHome() {
+    const ms = DOORS - Date.now();
+    const days = Math.max(0, Math.floor(ms / 864e5)), hrs = Math.max(0, Math.floor(ms / 36e5) % 24);
+    const pool = S.budget.filter(b => b.from === 'pool');
+    const spend = pool.reduce((a, b) => a + (num(b.actual) ?? num(b.planned) ?? 0), 0);
+    const open = S.tasks.filter(t => t.status !== 'done');
+    const blocked = open.filter(t => t.status === 'blocked');
+    const cap = S.metrics.find(m => m.metric === 'passes_issued');
+    $('#tiles').innerHTML = `
+      <div class="tile anchor"><span class="k">Doors · Fri 10.30</span><span class="v">${ms > 0 ? `${days}d ${hrs}h` : 'Live'}</span><span class="s">Devil's Night · AFTERIMAGE 001</span></div>
+      <div class="tile"><span class="k">Pool buffer</span><span class="v">${S.budget.length ? money(POOL - spend) : '—'}</span><span class="s">of ${money(POOL)} · estimate until receipts</span></div>
+      <div class="tile"><span class="k">Working cap</span><span class="v">${cap ? esc(cap.planned) : '—'}</span><span class="s">${cap ? esc(cap.notes || '') : 'passes'}</span></div>
+      <div class="tile"><span class="k">Open tasks</span><span class="v">${S.tasks.length ? open.length : '—'}</span><span class="s">${blocked.length} blocked</span></div>`;
+    $('#flags').innerHTML = S.flags.map(f => `<div class="flag"><b>Check:</b> ${esc(f.text)}</div>`).join('');
+    const mine = open.filter(t => /jovanni/i.test(t.owner || '')).sort(byDue).slice(0, 6);
+    $('#needs').innerHTML = mine.length ? mine.map(taskRow).join('') : `<p class="lede">${S.tasks.length ? 'Nothing open on you.' : 'Your tasks load here once the hub connects.'}</p>`;
+    const now = Date.now();
+    $('#dates').innerHTML = S.dates.slice().sort((a, b) => a.date.localeCompare(b.date)).map(d => {
+      const past = new Date(d.date + 'T23:59:00-05:00').getTime() < now;
+      const seg = { venue:'var(--a-venue)', money:'var(--a-money)', night:'var(--a-night)' }[d.area] || 'var(--line)';
+      const body = `<div class="when">${esc(fmtDate(d.date))}</div><div class="what">${esc(d.title)}</div>${d.note ? `<div class="sub">${esc(d.note)}</div>` : ''}`;
+      return `<li style="--seg:${seg}" class="${past ? 'past' : ''} ${d.anchor ? 'transfer' : ''}">${d.anchor ? `<div class="card">${body}</div>` : body}</li>`;
+    }).join('') || '<li><div class="sub">Key dates load here.</div></li>';
+  }
+
+  const fmtDate = (iso) => new Date(iso + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+  const byDue = (a, b) => (a.due || '9999').localeCompare(b.due || '9999') || (a.order ?? 0) - (b.order ?? 0);
+
+  function taskRow(t) {
+    const del = canWrite && t.user ? `<button class="btn quiet" data-del="tasks/${esc(t.id)}">${armedDelete === 'tasks/' + t.id ? 'Confirm delete' : 'Delete'}</button>` : '';
+    return `<div class="row"><div class="title">${esc(t.title)}</div>
+      <button class="pill ${statusClass(t.status)}" data-cycle="${esc(t.id)}" ${canWrite ? '' : 'disabled'} title="Change status"><span class="dot ${statusClass(t.status)}"></span>${esc(t.status)}</button>
+      <div class="meta"><span>${esc(t.owner || 'Unassigned')}</span>${t.due ? `<span class="mono">${esc(fmtDate(t.due))}</span>` : ''}<span class="tag">${esc(t.area || '')}</span>${t.ref ? `<span class="tag">${esc(t.ref)}</span>` : ''}${t.note ? `<span>${esc(t.note)}</span>` : ''}</div>${del}</div>`;
+  }
+
+  function renderLibrary() {
+    const fill = (sel, vals, label) => { const cur = sel.value; sel.innerHTML = `<option value="">${label}</option>` + vals.map(v => `<option${v === cur ? ' selected' : ''}>${esc(v)}</option>`).join(''); };
+    fill($('#fProject'), [...new Set(S.library.map(i => i.project))].sort(), 'All projects');
+    fill($('#fType'), [...new Set(S.library.map(i => i.type))].sort(), 'All types');
+    const q = $('#q').value.trim().toLowerCase(), p = $('#fProject').value, ty = $('#fType').value;
+    const items = S.library.filter(i => (!p || i.project === p) && (!ty || i.type === ty) &&
+      (!q || [i.title, i.description, i.project, i.type, (i.tags || []).join(' ')].join(' ').toLowerCase().includes(q)))
+      .sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || a.title.localeCompare(b.title));
+    $('#lib').innerHTML = items.map(i => `<article class="item">
+        <div class="src">${esc(i.source)} · ${esc(i.type)}</div>
+        <h3>${esc(i.title)}</h3>
+        ${i.description ? `<p>${esc(i.description)}</p>` : ''}
+        <div class="meta" style="display:flex;gap:6px;flex-wrap:wrap">${(i.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join('')}${i.status ? `<span class="pill ${statusClass(i.status)}">${esc(i.status)}</span>` : ''}</div>
+        <div class="foot"><span class="tag">${esc(i.project)}</span>
+          <span>${canWrite && i.user ? `<button class="btn quiet" data-del="library/${esc(i.id)}">${armedDelete === 'library/' + i.id ? 'Confirm delete' : 'Delete'}</button>` : ''}
+          <a class="btn" href="${esc(i.url)}" ${i.url.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>Open</a></span></div>
+      </article>`).join('') || `<div class="notice">${S.library.length ? 'No items match. Clear the search or filters.' : 'Library items load here once the hub connects. Add the first one below.'}</div>`;
+  }
+
+  function renderStudio() {
+    const sim = S.lessons.filter(l => l.area === 'flow' || l.area === 'venue');
+    $('#simFindings').innerHTML = sim.map(l => `<div class="row"><div class="title">${esc(l.next_time)}</div><span></span><div class="meta">${esc(l.lesson)}</div></div>`).join('') || '<p class="lede">Findings from the sim show up here.</p>';
+    const st = S.tasks.filter(t => t.area === 'venue' && t.status !== 'done');
+    $('#studioTasks').innerHTML = st.map(taskRow).join('') || '<p class="lede">No open studio tasks.</p>';
+  }
+
+  function renderTasks() {
+    document.querySelectorAll('#taskFilter button').forEach(b => b.setAttribute('aria-pressed', b.dataset.f === taskFilter));
+    const list = S.tasks.filter(t => taskFilter === 'all' || (taskFilter === 'done' ? t.status === 'done' : t.status !== 'done' && (taskFilter !== 'mine' || /jovanni/i.test(t.owner || '')))).sort(byDue);
+    $('#tasks').innerHTML = list.map(taskRow).join('') || `<div class="notice">${S.tasks.length ? 'Nothing here.' : 'Tasks load here once the hub connects.'}</div>`;
+  }
+
+  function renderRos() {
+    $('#ros').innerHTML = S.runofshow.slice().sort((a, b) => a.sort - b.sort).map(r => {
+      const dark = r.sort >= 2100, peak = /HE\/\/THEY/.test(r.moment);
+      const body = `<div class="when">${esc(r.time)}</div><div class="what">${esc(r.moment)}</div>
+        <div class="sub">${esc(r.lead)}${r.support ? ' · ' + esc(r.support) : ''}</div>
+        <div class="sub">${esc([r.cue, r.guests].filter(Boolean).join(' · '))}${r.status && !/^yes$/i.test(r.status) ? ` · <b>${esc(r.status)}</b>` : ''}</div>`;
+      return `<li style="--seg:${dark ? 'var(--a-night)' : 'var(--a-venue)'}" class="${dark ? 'dark' : ''} ${peak ? 'transfer' : ''}">${peak ? `<div class="card">${body}</div>` : body}</li>`;
+    }).join('') || '<li><div class="sub">The run of show loads here.</div></li>';
+  }
+
+  function renderBudget() {
+    const sum = (rows, k) => rows.reduce((a, b) => a + (num(b[k]) ?? 0), 0);
+    const pool = S.budget.filter(b => b.from === 'pool');
+    const planned = sum(pool, 'planned'), actual = sum(pool, 'actual');
+    const spend = pool.reduce((a, b) => a + (num(b.actual) ?? num(b.planned) ?? 0), 0);
+    const outside = S.budget.filter(b => b.from !== 'pool');
+    $('#moneyTiles').innerHTML = `
+      <div class="tile"><span class="k">Pool</span><span class="v">${money(POOL)}</span><span class="s">Jovanni · Haven · Alex at $150</span></div>
+      <div class="tile"><span class="k">Pool planned</span><span class="v">${money(planned)}</span><span class="s">estimate</span></div>
+      <div class="tile"><span class="k">Spent so far</span><span class="v">${money(actual)}</span><span class="s">from receipts entered</span></div>
+      <div class="tile"><span class="k">Buffer</span><span class="v" style="color:${POOL - spend < 0 ? 'var(--sig-attn)' : 'inherit'}">${money(POOL - spend)}</span><span class="s">actual where known, else planned</span></div>
+      <div class="tile"><span class="k">Outside the pool</span><span class="v">${money(sum(outside, 'planned'))}</span><span class="s">DJ, rental, extras</span></div>`;
+    const label = { pool: 'Pool', jovanni: 'Jovanni', rental: 'Rental', merch: 'Merch' };
+    $('#budgetRows').innerHTML = S.budget.slice().sort((a, b) => (a.from === 'pool' ? 0 : 1) - (b.from === 'pool' ? 0 : 1) || (a.order ?? 0) - (b.order ?? 0)).map(b => `<tr>
+        <td>${esc(b.item)}${b.note ? `<span class="note">${esc(b.note)}</span>` : ''}</td>
+        <td>${esc(label[b.from] || b.from)}</td>
+        <td class="n">${b.planned == null ? '—' : money(b.planned)}</td>
+        <td class="n"><input class="cell" inputmode="decimal" data-actual="budget/${esc(b.id)}" value="${b.actual ?? ''}" placeholder="—" aria-label="Actual for ${esc(b.item)}" ${canWrite ? '' : 'disabled'}></td>
+        <td><span class="pill ${statusClass(b.status)}">${esc(b.status)}</span></td></tr>`).join('') || '<tr><td colspan="5">Budget lines load here once the hub connects.</td></tr>';
+  }
+
+  function renderLearning() {
+    const sel = $('#fEvent'), cur = sel.value || (S.events[0]?.id ?? '');
+    sel.innerHTML = S.events.map(e => `<option value="${esc(e.id)}"${e.id === cur ? ' selected' : ''}>${esc(e.id)} · ${esc(e.series)} · ${esc(e.name)}</option>`).join('') || '<option>No events yet</option>';
+    const rows = S.metrics.filter(m => !cur || m.event_id === cur).sort((a, b) => (a.category || '').localeCompare(b.category || '') || a.metric.localeCompare(b.metric));
+    $('#metricRows').innerHTML = rows.map(m => {
+      const p = num(m.planned), a = num(m.actual), d = p != null && a != null ? a - p : null;
+      return `<tr><td>${esc(m.metric.replace(/_/g, ' '))} <span class="tag">${esc(m.category)}</span>${m.notes ? `<span class="note">${esc(m.notes)}</span>` : ''}</td>
+        <td class="n">${p == null ? '—' : esc(p)} <span class="note">${esc(m.unit || '')}</span></td>
+        <td class="n"><input class="cell" inputmode="decimal" data-actual="metrics/${esc(m.id)}" value="${m.actual ?? ''}" placeholder="—" aria-label="Actual ${esc(m.metric)}" ${canWrite ? '' : 'disabled'}></td>
+        <td class="n">${d == null ? '—' : (d > 0 ? '+' : '') + Math.round(d * 100) / 100}</td>
+        <td><span class="pill ${statusClass(m.status)}">${esc(m.status)}</span></td></tr>`;
+    }).join('') || '<tr><td colspan="5">Metrics load here once the hub connects.</td></tr>';
+    $('#lessons').innerHTML = S.lessons.filter(l => !cur || l.event_id === cur).sort((a, b) => (b.date || '').localeCompare(a.date || '')).map(l => `<div class="row">
+        <div class="title"><b style="font-weight:500">${esc(l.next_time)}</b></div><span class="tag">${esc(l.area)}</span>
+        <div class="meta"><span>${esc(l.lesson)}</span>${l.date ? `<span class="mono">${esc(l.date)}</span>` : ''}</div>
+        ${canWrite && l.user ? `<button class="btn quiet" data-del="lessons/${esc(l.id)}">${armedDelete === 'lessons/' + l.id ? 'Confirm delete' : 'Delete'}</button>` : ''}</div>`).join('') || '<p class="lede">No lessons yet for this event.</p>';
+  }
+
+  /* ---------- writes ---------- */
+  async function write(path, data, msg) {
+    if (!db || !canWrite) { toast('Open the hub on claude.ai to save changes.'); return false; }
+    try { await db.doc(path).update(data); if (msg) toast(msg); return true; }
+    catch (e) {
+      if (e && e.code === 'invalid_argument') { canWrite = false; renderAll(); toast('This view is read-only.'); }
+      else toast('Couldn\'t save. Try again in a moment.');
+      return false;
+    }
+  }
+  async function create(col, data, msg) {
+    if (!db || !canWrite) { toast('Open the hub on claude.ai to save changes.'); return; }
+    try { await db.collection(col).add({ ...data, user: true, created: new Date().toISOString() }); toast(msg); }
+    catch (e) { toast(e && e.code === 'quota_exceeded' ? 'The hub is full. Delete old items first.' : 'Couldn\'t save. Try again in a moment.'); }
+  }
+
+  const NEXT = { open: 'in progress', 'in progress': 'done', ready: 'in progress', blocked: 'open', done: 'open' };
+  document.addEventListener('click', async (ev) => {
+    const c = ev.target.closest('[data-cycle]');
+    if (c) { const t = S.tasks.find(x => x.id === c.dataset.cycle); if (t) await write('tasks/' + t.id, { status: NEXT[t.status] || 'open' }, 'Status updated'); return; }
+    const d = ev.target.closest('[data-del]');
+    if (d) {
+      const p = d.dataset.del;
+      if (armedDelete !== p) { armedDelete = p; renderAll(); return; }
+      armedDelete = null;
+      try { await db.doc(p).delete(); toast('Deleted'); } catch { toast('Couldn\'t delete. Try again.'); }
+      return;
+    }
+    const f = ev.target.closest('#taskFilter button');
+    if (f) { taskFilter = f.dataset.f; store.set('hub.taskFilter', taskFilter); renderTasks(); }
+  });
+  document.addEventListener('change', async (ev) => {
+    const el = ev.target.closest('[data-actual]');
+    if (!el) return;
+    const v = el.value.trim() === '' ? null : Number(el.value.replace(/[$,]/g, ''));
+    if (v != null && isNaN(v)) { toast('Enter a number, like 24.50'); return; }
+    await write(el.dataset.actual, { actual: v, ...(el.dataset.actual.startsWith('metrics/') && v != null ? { status: 'confirmed' } : {}) }, 'Saved');
+  });
+  ['#q', '#fProject', '#fType'].forEach(s => $(s).addEventListener('input', renderLibrary));
+  $('#fEvent').addEventListener('change', renderLearning);
+  $('#libForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await create('library', { title: $('#lTitle').value.trim(), url: $('#lUrl').value.trim(), project: $('#lProject').value.trim() || 'General',
+      type: $('#lType').value, description: $('#lDesc').value.trim(), tags: $('#lTags').value.split(',').map(s => s.trim()).filter(Boolean),
+      visibility: $('#lVis').value, source: /drive\.google|docs\.google/.test($('#lUrl').value) ? 'Drive' : /github\.com/.test($('#lUrl').value) ? 'GitHub' : /claude\.ai/.test($('#lUrl').value) ? 'Claude' : 'Link' }, 'Added to the library');
+    e.target.reset(); $('#lProject').value = 'AFTERIMAGE 001';
+  });
+  $('#taskForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await create('tasks', { title: $('#tTitle').value.trim(), owner: $('#tOwner').value.trim(), due: $('#tDue').value || null, area: $('#tArea').value, status: 'open', order: Date.now() }, 'Task added');
+    e.target.reset(); $('#tOwner').value = 'Jovanni';
+  });
+  $('#lessonForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await create('lessons', { event_id: $('#fEvent').value || 'E001', area: $('#nArea').value, lesson: $('#nLesson').value.trim(), next_time: $('#nNext').value.trim(), date: new Date().toISOString().slice(0, 10) }, 'Lesson saved');
+    e.target.reset();
+  });
+
+  /* ---------- data ---------- */
+  function setSync(cls, text) { $('#sync').innerHTML = `<span class="dot ${cls}"></span><span>${esc(text)}</span>`; }
+  async function connect() {
+    if (!window.claude?.use) { setSync('warn', 'Offline preview · open on claude.ai for your data'); return; }
+    db = await window.claude.use('db');
+    if (!db) { setSync('warn', 'Sign in on claude.ai to load your data'); return; }
+    const user = await window.claude.use('user');
+    const can = user ? await user.can('data.write') : null;
+    canWrite = can !== false;
+    let loaded = 0;
+    const cols = ['library', 'tasks', 'runofshow', 'budget', 'metrics', 'lessons', 'events'];
+    cols.forEach(c => db.collection(c).onSnapshot(snap => {
+      S[c] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (++loaded >= cols.length) setSync('ok', canWrite ? 'Saved to your hub' : 'Read only');
+      renderAll();
+    }, () => setSync('attn', 'Lost connection · reload the page')));
+    db.doc('meta/home').onSnapshot(snap => {
+      const d = snap.exists ? snap.data() : {};
+      S.dates = d.dates || []; S.flags = d.flags || []; renderHome();
+    }, () => {});
+  }
+  taskFilter = store.get('hub.taskFilter', 'open');
+  renderAll();
+  connect();
+  setInterval(renderHome, 60000); // countdown only; nothing is written
+
+  /* ---------- studio ambience: a few dots drifting toward the island ---------- */
+  let raf = null;
+  function startCrowd() {
+    const cv = $('#crowd'); if (!cv || raf || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ctx = cv.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, 2);
+    const fit = () => { cv.width = cv.clientWidth * dpr; cv.height = cv.clientHeight * dpr; };
+    fit(); addEventListener('resize', fit);
+    const P = Array.from({ length: 70 }, () => ({ x: Math.random(), y: Math.random(), vx: 0, vy: 0 }));
+    const tick = () => {
+      const w = cv.width, h = cv.height; ctx.clearRect(0, 0, w, h);
+      const col = getComputedStyle(document.documentElement).getPropertyValue('--a-venue').trim();
+      P.forEach((p, i) => {
+        const tx = i % 3 ? 0.62 : 0.3, ty = i % 3 ? 0.42 : 0.6;
+        p.vx += (tx - p.x) * 0.00012 + (Math.random() - .5) * 0.0012; p.vy += (ty - p.y) * 0.00012 + (Math.random() - .5) * 0.0012;
+        p.vx *= 0.96; p.vy *= 0.96; p.x += p.vx; p.y += p.vy;
+        ctx.beginPath(); ctx.arc(p.x * w, p.y * h, 2.2 * dpr, 0, 7); ctx.fillStyle = i === 0 ? '#ff3b30' : col; ctx.globalAlpha = i === 0 ? 1 : .7; ctx.fill();
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+  function stopCrowd() { if (raf) cancelAnimationFrame(raf); raf = null; }
+})();
+</script>

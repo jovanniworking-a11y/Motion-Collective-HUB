@@ -1,0 +1,21 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*credentials*
+*secret*
+*.pem
+*.p12
+*.pfx
+*.key
+
+# Dependencies and generated output
+node_modules/
+.next/
+dist/
+.vinext/
+.wrangler/
+.sites-runtime/
+.openai/
+*.tsbuildinfo
+*.log

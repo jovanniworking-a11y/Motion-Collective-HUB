@@ -1,0 +1,2 @@
+# MOTION production workspace
+Confirmed Dark Deco palette: void #0A0810, violet sky #3B2C63, lit window #E8A33D, sodium #C8873C, rec #FF3A1D, magenta #D62A7A, bone #EDE6DA. Bodoni Moda wordmark, Jost text. Flat lists, fine rules, strong diagram hierarchy. No decorative imagery. Workflow and dependencies are primary; budget and sourced details are one navigation action away. Void, bone, violet and amber dominate the planning surface; other accents are reserved.

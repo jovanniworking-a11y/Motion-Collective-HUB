@@ -2,7 +2,12 @@
 
 One place for everything MOTION builds and learns. Event #1: **Devil's Night · AFTERIMAGE 001 · Fri 10.30.2026**.
 
-## Start
+## Web hub (any computer)
+**https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM** is private to the owner and needs a claude.ai sign-in.
+Tabs: Home, Panda Library, Room Studio, Tasks + Night, Budget, Learning. Edits save to the hub's own database.
+Source: `web/index.html` + `web/studio.html` (Room Studio). First-load data: `web/seed.json`.
+
+## Python hub (this repo)
 ```bash
 pip install -r requirements.txt
 python hub.py            # menu: list, search, open, run, board, compare, lessons, export
@@ -28,6 +33,8 @@ data/               what we learn from events
   lessons.csv       what happened -> what we do next time
   DEBRIEF_TEMPLATE.md   fill within 48 h of every event
 orch/               agent orchestration kit (briefs, task board, project context)
+web/                the web hub (claude.ai artifact) source + seed data
+legacy/ch31-planner the 21 Sep CH31 planner, kept for reference (runs only on ChatGPT Sites)
 ```
 
 ## Getting better every event
