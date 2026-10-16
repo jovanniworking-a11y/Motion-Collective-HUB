@@ -29,6 +29,7 @@
   --on-accent:#101114; --night-band:#08090b; --night-ink:#f1efe9; color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { background: var(--s0); color: var(--ink); font: 400 15px/1.5 var(--f-ui); }
 body::before { content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--s1); }
 a { color: inherit; }
@@ -317,7 +318,7 @@ form.add .wide { grid-column: 1 / -1; }
   const DOORS = Date.UTC(2026, 9, 31, 2, 0); // Fri 30 Oct 2026 21:00 Austin (CDT, UTC-5)
   const POOL = 450;
   const S = { library: [], tasks: [], runofshow: [], budget: [], metrics: [], lessons: [], events: [], driveignore: [], dates: [], flags: [] };
-  let db = null, canWrite = false, taskFilter = 'open', armedDelete = null;
+  let db = null, canWrite = false, taskFilter = 'open', armedDelete = null, raf = null;
 
   const $ = (s) => document.querySelector(s);
   const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
@@ -336,7 +337,6 @@ form.add .wide { grid-column: 1 / -1; }
     if (name === 'studio') startCrowd(); else stopCrowd();
   }
   window.addEventListener('hashchange', () => showTab(location.hash.slice(1)));
-  showTab(location.hash.slice(1) || 'home');
 
   /* ---------- render ---------- */
   function renderAll() { renderHome(); renderLibrary(); renderStudio(); renderTasks(); renderRos(); renderBudget(); renderLearning(); }
@@ -614,12 +614,12 @@ form.add .wide { grid-column: 1 / -1; }
   }
   taskFilter = store.get('hub.taskFilter', 'open');
   renderAll();
+  showTab(location.hash.slice(1) || 'home');
   connect();
   connectDrive();
   setInterval(renderHome, 60000); // countdown only; nothing is written
 
   /* ---------- studio ambience: a few dots drifting toward the island ---------- */
-  let raf = null;
   function startCrowd() {
     const cv = $('#crowd'); if (!cv || raf || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const ctx = cv.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, 2);
