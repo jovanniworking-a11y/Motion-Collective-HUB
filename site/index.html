@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Jost:wght@300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style id="app-style">
-/* "Afterimage": one dark world, like the flyers. Eye triptych hero whose last strip fades to red on scroll;
+/* "Afterimage": one dark world, like the flyers. Eye triptych hero, black and white (red never tints the eyes);
    Boiler Room-style live dot, numbered lineup rows and session archive; ticket-stub details. Red stays a signal. */
 :root {
   --void:#07080c; --void2:#0d0f15; --ice:#bfddf0; --bone:#e9e4da; --dim:#8f8b85; --line:rgba(233,228,218,.12);
@@ -61,8 +61,6 @@ header.top { position: sticky; top: env(safe-area-inset-top,0px); z-index: 20; b
 .strip { position: relative; aspect-ratio: 3.2 / 1; max-height: 260px; width: 100%; background-repeat: no-repeat; background-size: 100% 300%; background-color: #0b1220; overflow: hidden; }
 .strip:nth-child(1) { background-position: 50% 0%; } .strip:nth-child(2) { background-position: 50% 50%; } .strip:nth-child(3) { background-position: 50% 100%; }
 .strip.fallback { background-image: radial-gradient(ellipse 12% 30% at 30% 55%, var(--ice), transparent 70%), radial-gradient(ellipse 12% 30% at 70% 55%, var(--ice), transparent 70%); background-size: auto; }
-.strip:nth-child(3)::after { content: ""; position: absolute; inset: 0; background: var(--red); mix-blend-mode: multiply; opacity: var(--fade); }
-.strip:nth-child(3)::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 120% at 50% 60%, rgba(255,59,48,.55), transparent 70%); mix-blend-mode: screen; opacity: var(--fade); z-index: 1; }
 .strip .tag { position: absolute; top: 12px; right: 14px; z-index: 2; font: 500 11px var(--f-mono); letter-spacing: .18em; color: var(--ice); text-transform: uppercase; }
 .strip .tag b { color: var(--red); font-weight: 500; }
 .title { padding-block: 40px 56px; display: grid; gap: 14px; justify-items: start; }
@@ -100,8 +98,9 @@ section.block { padding-block: clamp(36px, 5vw, 64px); display: grid; gap: 28px;
 .act .name { font: 500 clamp(30px, 6.4vw, 72px)/1 var(--f-ui); letter-spacing: .01em; text-transform: uppercase; overflow-wrap: anywhere; }
 .act .credit { grid-column: 2; font-family: var(--f-display); font-style: italic; font-size: clamp(17px, 2vw, 22px); color: var(--dim); }
 .act .genres { grid-column: 2; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--ice); opacity: .8; }
+.act .role:empty { display: none; }
 .act .role { font: 500 11px var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--red); white-space: nowrap; }
-@media (max-width: 560px) { .act { grid-template-columns: 32px 1fr; } .act .role { grid-column: 2; grid-row: 1; justify-self: end; } }
+@media (max-width: 560px) { .act { grid-template-columns: 32px minmax(0, 1fr); } .act .no { grid-column: 1; grid-row: 1 / span 2; } .act .role { grid-column: 2; grid-row: 1; justify-self: start; } .act .name { grid-column: 2; grid-row: 2; } .act .credit, .act .genres { grid-column: 2; } }
 
 /* format tenets */
 .format { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
@@ -310,7 +309,7 @@ footer .row { display: flex; justify-content: space-between; gap: 16px; flex-wra
     el.innerHTML = `<div><b>${d}</b><span>days</span></div><div><b>${String(h).padStart(2, '0')}</b><span>hours</span></div><div><b>${String(m).padStart(2, '0')}</b><span>min</span></div>`;
   }
   setInterval(tickClock, 30000);
-  // the "late fade": the bottom strip turns red as you scroll past the eyes
+  // --fade is kept for layout compatibility; the eyes stay black and white
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   function onScroll() {
     const s = $('.strips'); if (!s) return;
