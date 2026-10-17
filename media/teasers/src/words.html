@@ -1,0 +1,13 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; }
+@font-face { font-family: "Jost"; src: url("../deck/fonts/fontsource-variable-jost-5.1.0/package/files/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: transparent; width: 1080px; height: 2220px; overflow: hidden; }
+.c { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: grid; place-items: center; color: #f2efe8; text-align: center; }
+.big { font-family: "Bodoni Moda", serif; font-weight: 500; font-size: 108px; letter-spacing: .04em; padding-left: .04em; text-shadow: 0 0 30px rgba(0,0,0,.6); }
+.b2b { font-family: Jost, sans-serif; font-weight: 500; font-size: 150px; letter-spacing: .32em; padding-left: .32em; color: #c8333c; }
+.k { font-family: Jost, sans-serif; font-weight: 400; font-size: 30px; letter-spacing: .62em; padding-left: .62em; text-shadow: 0 2px 20px rgba(0,0,0,.9); }
+</style></head><body><div class="c" id="c"></div><script>
+const v=new URLSearchParams(location.search).get('v'), c=document.getElementById('c');
+c.innerHTML={iam:'<div class="big">IAMARIOLOGY</div>',b2b:'<div class="b2b">B2B</div>',ray:'<div class="big">RAYMIXES</div>',presents:'<div class="k">MOTION&nbsp;&nbsp;PRESENTS</div>',opening:'<div class="k">OPENING&nbsp;&nbsp;DEVIL’S&nbsp;&nbsp;NIGHT</div>'}[v];
+</script></body></html>

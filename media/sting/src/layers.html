@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; }
+@font-face { font-family: "Jost"; src: url("../deck/fonts/fontsource-variable-jost-5.1.0/package/files/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+* { margin: 0; padding: 0; } html, body { background: transparent; }
+.c { width: var(--w); height: var(--h); position: relative; }
+.mark { position: absolute; left: 0; right: 0; top: var(--my); text-align: center; font: 400 var(--ms) "Bodoni Moda"; line-height: 1; white-space: nowrap; }
+.mark span { display: inline-block; margin-right: -.34em; color: transparent; } .mark span:last-child { margin-right: 0; }
+.word { position: absolute; left: 0; right: 0; top: var(--wy); text-align: center; font: 400 var(--ws) "Bodoni Moda"; letter-spacing: .62em; padding-left: .62em; color: transparent; }
+.sub { position: absolute; left: 0; right: 0; top: var(--sy); text-align: center; font: 500 var(--ss) "Jost"; letter-spacing: .5em; padding-left: .5em; color: transparent; }
+</style></head><body><div class="c"><div class="mark"><span>M</span><span>M</span><span>M</span><span>M</span></div><div class="word">MOTION</div><div class="sub">COLLECTIVE · AUSTIN</div></div>
+<script>
+const q=new URLSearchParams(location.search), L=q.get('layer'), r=document.documentElement.style;
+const W=+q.get('w'), H=+q.get('h'), u=Math.min(W,H)/1080;
+r.setProperty('--w',W+'px'); r.setProperty('--h',H+'px'); r.setProperty('--ms',(300*u)+'px'); r.setProperty('--ws',(54*u)+'px'); r.setProperty('--ss',(20*u)+'px');
+r.setProperty('--my',(H/2-260*u)+'px'); r.setProperty('--wy',(H/2+90*u)+'px'); r.setProperty('--sy',(H/2+190*u)+'px');
+const cols=['#a9343c','#c64b53','#e39191','#f2efe8'];
+if(L.startsWith('m')){ const i=+L[1]; document.querySelectorAll('.mark span')[i].style.color=cols[i]; }
+if(L==='word') document.querySelector('.word').style.color='#f2efe8';
+if(L==='sub') document.querySelector('.sub').style.color='#9a968f';
+</script></body></html>
