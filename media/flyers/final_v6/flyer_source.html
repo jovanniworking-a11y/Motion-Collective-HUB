@@ -1,7 +1,7 @@
 <!doctype html><html><head><meta charset="utf-8"><style>
-@font-face { font-family: "Bodoni Moda"; src: url("../../../fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; }
-@font-face { font-family: "Bodoni Moda"; src: url("../../../fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-italic.woff2") format("woff2"); font-style: italic; font-weight: 400 900; }
-@font-face { font-family: "Jost"; src: url("../../../fonts/fontsource-variable-jost-5.1.0/package/files/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; }
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-italic.woff2") format("woff2"); font-style: italic; font-weight: 400 900; }
+@font-face { font-family: "Jost"; src: url("../deck/fonts/fontsource-variable-jost-5.1.0/package/files/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
 /* sizes in units of --u so one layout scales to print / feed / story */
 :root { --ink:#f2efe8; --dim:#7d7a76; --dim2:#6f6c68; --red:#9b2c34; --m1:#3f1a1e; --m2:#5e2128; --m3:#86313a; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -10,7 +10,7 @@ html, body { background: #050505; }
 .mark { position: absolute; left: calc(var(--u)*3.8); top: calc(var(--u)*3.3); font-size: calc(var(--u)*1.9); line-height: 1; display: flex; }
 .mark span { margin-right: -.08em; } .mark span:nth-child(1){color:var(--m1)} .mark span:nth-child(2){color:var(--m2)} .mark span:nth-child(3){color:var(--m3)} .mark span:nth-child(4){color:var(--ink)}
 .motion { margin-top: var(--top); font-size: calc(var(--u)*2.15); letter-spacing: .62em; padding-left: .62em; }
-.eyes { margin-top: var(--gapEyes); width: var(--eyeW); aspect-ratio: 1080 / 1350; background: url("eyes_hc.png") center / cover no-repeat; flex: none; }
+.eyes { margin-top: var(--gapEyes); width: var(--eyeW); aspect-ratio: 1080 / 1350; background: url("eyes_red.png") center / cover no-repeat; flex: none; }
 .rline { width: 1px; height: calc(var(--u)*4.4); background: var(--red); margin-top: var(--gapLine); }
 .title { margin-top: calc(var(--u)*2.6); font-size: calc(var(--u)*2.75); letter-spacing: .34em; padding-left: .34em; white-space: nowrap; }
 .sub { margin-top: calc(var(--u)*1.1); font-size: calc(var(--u)*1.12); letter-spacing: .3em; padding-left: .3em; color: #b9b5ae; }
@@ -19,7 +19,7 @@ html, body { background: #050505; }
 .lineup .cr { font-style: italic; font-size: calc(var(--u)*1.25); color: #b9b5ae; letter-spacing: .04em; margin-top: calc(var(--u)*-.25); }
 .lineup .sep { width: calc(var(--u)*2.2); height: 1px; background: #3a3836; margin: calc(var(--u)*.6) 0; }
 .lineup .op { font-size: calc(var(--u)*1.45); letter-spacing: .24em; padding-left: .24em; }
-.lineup .b3 { font-size: calc(var(--u)*1.0); letter-spacing: .3em; padding-left: .3em; color: var(--dim); font-family: "Jost", sans-serif; }
+.lineup .b3 { font-size: calc(var(--u)*1.0); letter-spacing: .3em; padding-left: .3em; color: #b8323b; font-family: "Jost", sans-serif; }
 .lineup .b3 b { font-family: "Bodoni Moda", serif; font-weight: 400; color: var(--ink); font-size: calc(var(--u)*1.45); letter-spacing: .24em; margin-left: .5em; }
 .lineup .t { font-family: "Jost", sans-serif; font-size: calc(var(--u)*.82); letter-spacing: .3em; color: var(--dim); display: block; margin-bottom: calc(var(--u)*.25); }
 .notes { margin-top: var(--gapNotes); font-family: "Jost", sans-serif; font-size: calc(var(--u)*.78); letter-spacing: .34em; padding-left: .34em; color: var(--dim2); text-transform: uppercase; }
@@ -42,7 +42,7 @@ html, body { background: #050505; }
     <div><span class="t" data-time>12:15 AM</span><div class="hl">HE//THEY</div></div>
     <div class="cr">co.b b2b NiiON</div>
     <div class="sep"></div>
-    <div><span class="t" data-time>9 PM</span><div class="op">IAMARIOLOGY B2B RAYMIXES</div></div>
+    <div><span class="t" data-time>9 PM</span><div class="op">IAMARIOLOGY <span style="color:#b8323b;font-size:.7em;letter-spacing:.3em">B2B</span> RAYMIXES</div></div>
     <div class="b3"><span class="t" data-time style="display:inline;margin-right:.6em">11 PM</span>B3B <b>GLAMZ</b></div>
   </div>
   <div class="notes">Costumes encouraged · best look wins $40 · invite only</div>

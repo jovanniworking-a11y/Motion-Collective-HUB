@@ -1,0 +1,35 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; }
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-italic.woff2") format("woff2"); font-style: italic; font-weight: 400 900; }
+@font-face { font-family: "Jost"; src: url("../deck/fonts/fontsource-variable-jost-5.1.0/package/files/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: transparent; width: 1080px; height: 1920px; overflow: hidden; }
+.c { width: 1080px; height: 1920px; position: relative; color: #f2efe8; font-family: "Bodoni Moda", serif; display: flex; flex-direction: column; align-items: center; }
+.mark { display: flex; font-size: 34px; } .mark span:nth-child(1){color:#3f1a1e} .mark span:nth-child(2){color:#5e2128} .mark span:nth-child(3){color:#86313a} .mark span:nth-child(4){color:#f2efe8}
+.sp { letter-spacing: .5em; padding-left: .5em; }
+.red { color: #c8333c; }
+/* end card */
+.end { background: #050505; padding-top: 200px; }
+.end .eyes { width: 640px; aspect-ratio: 1080/1350; background: url("../flyer/eyes_red.png") center/cover; margin-top: 70px; }
+.end .name { margin-top: 70px; font-size: 54px; letter-spacing: .22em; padding-left: .22em; text-align: center; line-height: 1.25; }
+.end .name small { display: block; font-family: "Jost"; font-size: 22px; letter-spacing: .5em; color: #c8333c; margin: 10px 0; }
+.end .line { width: 1px; height: 70px; background: #9b2c34; margin-top: 50px; }
+.end .t { margin-top: 44px; font-size: 40px; letter-spacing: .34em; padding-left: .34em; }
+.end .s { margin-top: 18px; font-family: "Jost"; font-size: 20px; letter-spacing: .5em; color: #8a8782; }
+/* overlays (transparent) */
+.lt { justify-content: flex-end; padding-bottom: 260px; text-shadow: 0 2px 24px rgba(0,0,0,.85); }
+.lt .k { font-family: "Jost"; font-size: 24px; letter-spacing: .55em; padding-left: .55em; color: #e8e4dc; }
+.lt .n { margin-top: 18px; font-size: 64px; letter-spacing: .2em; padding-left: .2em; text-align: center; line-height: 1.2; }
+.lt .n small { font-family: "Jost"; font-size: 28px; letter-spacing: .4em; color: #c8333c; vertical-align: middle; padding: 0 .3em; }
+.top { justify-content: flex-start; padding-top: 170px; text-shadow: 0 2px 24px rgba(0,0,0,.85); }
+.top .k { font-size: 30px; letter-spacing: .62em; padding-left: .62em; margin-top: 22px; }
+</style></head><body>
+<div class="c" id="c"></div>
+<script>
+const M='<div class="mark"><span>M</span><span>M</span><span>M</span><span>M</span></div>';
+const v=new URLSearchParams(location.search).get('v'); const c=document.getElementById('c');
+if(v==='end'){ c.className='c end'; c.innerHTML=M+'<div class="sp" style="font-size:30px;margin-top:22px">MOTION</div><div class="eyes"></div><div class="name">IAMARIOLOGY<small>B2B</small>RAYMIXES</div><div class="line"></div><div class="t">DEVIL’S NIGHT</div><div class="s">AFTERIMAGE 001 · 10.30.26 · AUSTIN</div>'; }
+if(v==='intro'){ c.className='c top'; c.innerHTML=M+'<div class="k">MOTION</div><div class="k" style="font-family:Jost;font-size:20px;letter-spacing:.55em;color:#ddd">PRESENTS</div>'; }
+if(v==='name'){ c.className='c lt'; c.innerHTML='<div class="k">OPENING DEVIL’S NIGHT</div><div class="n">IAMARIOLOGY<br><small>B2B</small><br>RAYMIXES</div>'; }
+if(v==='date'){ c.className='c lt'; c.innerHTML='<div class="n" style="font-size:96px;letter-spacing:.08em">10.30.26</div><div class="k" style="margin-top:20px">AFTERIMAGE 001</div>'; }
+</script></body></html>
