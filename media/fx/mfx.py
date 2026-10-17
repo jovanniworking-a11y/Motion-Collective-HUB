@@ -270,3 +270,162 @@ def over(base, rgb, a):
     return base * (1 - a) + rgb * a
 
 def screen(a, b): return 1 - (1 - a) * (1 - b)
+
+# ================================================================ v2: the rest of the popular plugin looks
+# Tagged ON/OFF brand in the gallery. OFF-brand effects are here so the team knows them by name, not to use on MOTION.
+
+def _edge(a, r=2):
+    """Outline of a mask/alpha (a - eroded a), soft."""
+    return np.clip(a - np.clip((blur(a, r) - 0.5) * 2.2 + 0.5, 0, 1) * a + np.clip(blur(a, r) - a, 0, 1), 0, 1)
+
+def saber(alpha, t=0, core=1.0, glow=0.9, flicker=0.15, seed=0):
+    """Video Copilot Saber: an energy glow running along a shape's outline (type, logo). Returns a 2-D light layer."""
+    e = _edge(alpha, 3)
+    r = np.random.default_rng(int(t) + seed)
+    k = 1 - flicker * r.random()
+    return np.clip(e * core * k + glow * k * (blur(e, 6) * 1.6 + qblur(e, 30) * 1.2), 0, 1.5)
+
+def lens_flare(x, cx, cy, k=0.6):
+    """Optical Flares-style flare, neutral: anamorphic streak + soft core + ghosts mirrored through the frame centre."""
+    h, w = x.shape[:2]; yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    d2 = (xx - cx) ** 2 + (yy - cy) ** 2
+    core = np.exp(-d2 / (2 * (0.03 * w) ** 2))
+    streak = np.exp(-((yy - cy) / (0.006 * h)) ** 2) * np.exp(-np.abs(xx - cx) / (0.45 * w))
+    out = core * 0.9 + streak * 0.8
+    for f, rad, a in ((-0.4, .05, .18), (-0.8, .09, .12), (0.35, .03, .22), (-1.25, .14, .08)):
+        gx = w / 2 + (cx - w / 2) * f; gy = h / 2 + (cy - h / 2) * f
+        dd = np.sqrt((xx - gx) ** 2 + (yy - gy) ** 2) / (rad * w)
+        out += a * np.clip(1 - dd, 0, 1) ** 0.6 * (0.6 + 0.4 * (dd > 0.8))
+    return x + k * out if x.ndim == 2 else x + k * out[..., None]
+
+def rays(x, cx=0.5, cy=0.35, k=0.7, thr=0.6, length=0.6):
+    """Sapphire S_Rays / CC Light Rays: god rays streaming out of the bright areas from a light centre."""
+    hl = np.clip((x - thr) / (1 - thr), 0, 1)
+    q = small(hl, 4)
+    r = zoom_blur(q, length, n=14, cx=cx, cy=cy)
+    return x + k * big(r, x.shape)
+
+def twitch(x, t, seed=0, amount=1.0):
+    """Video Copilot Twitch: random frames jump (scale/offset/exposure/blur) for a nervous, live energy."""
+    r = np.random.default_rng(int(t) * 7 + seed)
+    if r.random() > 0.35 * amount: return x
+    z = 1 + r.uniform(0, .06) * amount; dx, dy = r.uniform(-30, 30, 2) * amount
+    h, w = x.shape[:2]; a = 1 / z
+    y = np.asarray(Image.fromarray(x.astype(np.float32)).transform((w, h), Image.AFFINE, (a, 0, w / 2 * (1 - a) - dx * a, 0, a, h / 2 * (1 - a) - dy * a), resample=Image.BILINEAR))
+    y = y * r.uniform(0.85, 1.25)
+    return blur(y, 2) if r.random() < .3 else y
+
+def block_glitch(x, prev, amt=0.3, block=48, seed=0):
+    """Datamosh / Universe Glitch blocks: some macro-blocks keep the previous frame or slide, like a broken codec."""
+    r = np.random.default_rng(seed); h, w = x.shape[:2]; out = x.copy()
+    for by in range(0, h, block):
+        for bx in range(0, w, block):
+            if r.random() < amt:
+                sx = int(np.clip(bx + r.integers(-2, 3) * block // 2, 0, w - block)); out[by:by + block, bx:bx + block] = prev[by:by + block, sx:sx + block][:out[by:by + block, bx:bx + block].shape[0], :out[by:by + block, bx:bx + block].shape[1]]
+    return out
+
+def rgb_split(x, px=8):
+    """Shift Channels / chromatic aberration. OFF-BRAND for MOTION (adds red/cyan fringes = a tint)."""
+    g = x if x.ndim == 2 else x.mean(axis=2)
+    return np.stack([shift(g, px), g, shift(g, -px)], -1)
+
+def reflect(x, floor=0.72, fade=0.35, strength=0.45):
+    """VC Reflect: a mirrored copy below a floor line, fading out (glossy floor under a logo or a DJ)."""
+    h = x.shape[0]; y0 = int(h * floor); out = x.copy()
+    src = x[max(0, 2 * y0 - h):y0][::-1]
+    n = min(len(src), h - y0)
+    ramp = np.clip(1 - np.arange(n) / (fade * h), 0, 1) * strength
+    ramp = ramp[:, None] if x.ndim == 2 else ramp[:, None, None]
+    out[y0:y0 + n] = np.maximum(out[y0:y0 + n], src[:n] * ramp)
+    return out
+
+_FIELD = {}
+def heat_haze(x, t, amt=6.0, scale=90):
+    """Heat Distortion: a slow, smooth displacement field (shimmer above a hot surface)."""
+    h, w = x.shape[:2]
+    key = (h, w, scale)
+    if key not in _FIELD:
+        r = np.random.default_rng(3); _FIELD[key] = [qblur(r.standard_normal((h, w)).astype(np.float32), scale) for _ in range(2)]
+    fx, fy = _FIELD[key]; fx = fx / (np.abs(fx).max() + 1e-6); fy = fy / (np.abs(fy).max() + 1e-6)
+    yy, xx = np.mgrid[0:h, 0:w]
+    ph = t * 0.15
+    dx = (np.roll(fx, int(ph * 20), 0) * amt).astype(int); dy = (np.roll(fy, int(ph * 30), 0) * amt).astype(int)
+    return x[np.clip(yy + dy, 0, h - 1), np.clip(xx + dx, 0, w - 1)]
+
+def warp(x, t, amp=24, period=260):
+    """Wave Warp / Turbulent Displace. OFF-BRAND for MOTION (reads trippy)."""
+    h, w = x.shape[:2]; yy, xx = np.mgrid[0:h, 0:w]
+    dx = (amp * np.sin(2 * np.pi * (yy / period + t / 30))).astype(int)
+    return x[yy, np.clip(xx + dx, 0, w - 1)]
+
+def light_leak(x, t, k=0.55, seed=4):
+    """BCC Light Leaks, neutral: a soft white leak drifting across the frame (Screen blend). Use as a transition."""
+    h, w = x.shape[:2]; r = np.random.default_rng(seed)
+    cx = w * (-0.2 + 1.4 * ((t / 45) % 1)); cy = h * r.uniform(.3, .7)
+    yy, xx = np.mgrid[0:h:4, 0:w:4].astype(np.float32)
+    blob = np.exp(-(((xx - cx) / (0.35 * w)) ** 2 + ((yy - cy) / (0.6 * h)) ** 2))
+    blob = big(blob, (h, w)) * k
+    return screen(x, blob if x.ndim == 2 else blob[..., None])
+
+def film_burn(x, p, seed=5):
+    """Film burn transition, neutral: blown patches bloom from the edges and swallow the frame to white."""
+    h, w = x.shape[:2]; r = np.random.default_rng(seed)
+    n = qblur(r.standard_normal((h, w)).astype(np.float32), 120); n = (n - n.min()) / (n.max() - n.min() + 1e-6)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32); edge = np.maximum(np.abs(xx / w - .5), np.abs(yy / h - .5)) * 2
+    m = np.clip((0.55 * n + 0.45 * edge - (1 - p * 1.3)) / 0.15, 0, 1)
+    return x * (1 - m) + m if x.ndim == 2 else x * (1 - m[..., None]) + m[..., None]
+
+def vhs(x, t, seed=0):
+    """VHS / CRT look (mono): scanlines, a rolling tracking band, line jitter. Retro; use only as a deliberate quote."""
+    h, w = x.shape[:2]; r = np.random.default_rng(int(t) + seed); out = x.copy()
+    out[::3] *= 0.78
+    band = int((t * 23) % h); out[band:band + 18] = np.clip(out[band:band + 18] + r.uniform(.15, .35), 0, 1)
+    for y in r.integers(0, h, 6): out[y:y + 4] = shift(out[y:y + 4], int(r.integers(-25, 25)))
+    return blur(out, 1)
+
+def halftone(x, cell=14, angle=45):
+    """Halftone (Color Halftone / CC Ball Action-lite): dots sized by brightness. Matches the eyes' print texture."""
+    h, w = x.shape[:2]; yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    a = math.radians(angle); u = (xx * math.cos(a) + yy * math.sin(a)) / cell; v = (-xx * math.sin(a) + yy * math.cos(a)) / cell
+    d = np.sqrt((u - np.round(u)) ** 2 + (v - np.round(v)) ** 2)
+    lum = blur(x if x.ndim == 2 else x.mean(axis=2), cell / 3)
+    dot = np.clip((np.sqrt(np.clip(lum, 0, 1)) * 0.62 - d) * 6, 0, 1)
+    return dot
+
+def pixel_sort(x, thr=0.55, axis=1):
+    """Pixel sorting (the popular GFX glitch): bright runs in each row get sorted into smears. Done at half size."""
+    q = small(x, 2) if x.ndim == 2 else small(x.mean(axis=2), 2)
+    out = q.copy()
+    for i in range(q.shape[0]):
+        row = q[i]; m = row > thr
+        if not m.any(): continue
+        idx = np.flatnonzero(np.diff(np.r_[0, m.astype(np.int8), 0]))
+        for s, e in zip(idx[::2], idx[1::2]):
+            if e - s > 3: out[i, s:e] = np.sort(row[s:e])
+    return big(out, x.shape[:2])
+
+def duotone(x, shadow=(0.02, 0.03, 0.06), high=(0.75, 0.86, 0.94)):
+    """Tritone / Colorama-lite: map brightness onto night blue -> steel ice. The only tint MOTION allows (steel blue)."""
+    g = x if x.ndim == 2 else x.mean(axis=2)
+    s, hgh = np.array(shadow, np.float32), np.array(high, np.float32)
+    return s + (hgh - s) * g[..., None]
+
+def freeze_outline(x, k=1.0):
+    """Freeze-frame outline pop (popular in edits): the frame darkens and its edges trace in white."""
+    gy, gx = np.gradient(blur(x, 2)); e = np.clip(np.sqrt(gx ** 2 + gy ** 2) * 14, 0, 1)
+    return np.clip(x * (1 - 0.65 * k) + e * k, 0, 1)
+
+def posterize_time(t, fps_out=12, fps_in=30):
+    """Posterize Time: hold frames to a lower frame rate (stop-motion choppiness on purpose). Returns the held time."""
+    step = fps_in / fps_out; return math.floor(t / step) * step
+
+def invert_hit(x, p):
+    """Invert flash on a hit (hype-edit staple), decays back. Monochrome, so it stays on brand if used once."""
+    k = max(0.0, 1 - p) ** 1.5
+    return x * (1 - k) + (1 - x) * k
+
+def mirror(x, mode="h"):
+    """CC Kaleida / Mirror: symmetric frame. OFF-BRAND for MOTION except as a single deliberate shot."""
+    if mode == "h":
+        w = x.shape[1]; out = x.copy(); out[:, w // 2:] = x[:, :w - w // 2][:, ::-1]; return out
+    h = x.shape[0]; out = x.copy(); out[h // 2:] = x[:h - h // 2][::-1]; return out

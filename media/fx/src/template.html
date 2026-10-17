@@ -1,0 +1,177 @@
+<title>MOTION FX Library</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Jost:wght@300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: an editor's reference reel. Dark single look (the brand lives at night): sticky section index,
+   9:16 clip cards in a wrapping grid, then the cut grammar and the cut list as working tables. */
+:root {
+  --night: #08080c; --panel: #111117; --line: rgba(236,231,222,.12); --bone: #ece7de; --dim: #96918a; --ice: #bfddf0; --red: #c8333c;
+  --f-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --f-ui: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--night); }
+body { background: var(--night); color: var(--bone); font: 400 16px/1.6 var(--f-ui); margin: 0; overflow-x: hidden; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--night); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { video { display: none; } .frame::after { content: "Motion paused (reduced motion is on)"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--dim); font-size: 12px; } }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.caps { font-size: 12px; letter-spacing: .32em; text-transform: uppercase; color: var(--dim); }
+
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--night) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; gap: 20px; align-items: center; justify-content: space-between; padding-block: 12px; flex-wrap: wrap; }
+.mark { font-family: var(--f-display); font-size: 26px; line-height: 1; display: inline-flex; text-decoration: none; }
+.mark span { margin-right: -.34em; } .mark span:nth-child(1) { color: #6b1f26; } .mark span:nth-child(2) { color: #a13b42; } .mark span:nth-child(3) { color: #c8555a; } .mark span:nth-child(4) { color: var(--bone); margin-right: 0; }
+nav { display: flex; gap: 18px; flex-wrap: wrap; }
+nav a { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; text-decoration: none; color: var(--dim); }
+nav a:hover { color: var(--bone); }
+
+.hero { padding-block: 56px 40px; display: grid; gap: 16px; }
+.hero h1 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: clamp(48px, 9vw, 112px); line-height: .92; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+.hero .rule { width: 64px; height: 1px; background: var(--red); }
+.hero p { margin: 0; max-width: 62ch; color: #cfc9bf; }
+.stats { display: flex; gap: 32px; flex-wrap: wrap; margin-top: 8px; }
+.stats div { display: grid; }
+.stats b { font: 400 34px/1 var(--f-mono); }
+.stats span { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--dim); }
+
+.group { padding-block: 36px; border-top: 1px solid var(--line); display: grid; gap: 22px; }
+.gh { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.gh h2 { margin: 0; font: 500 13px var(--f-ui); letter-spacing: .32em; text-transform: uppercase; }
+.gh p { margin: 0; color: var(--dim); font-size: 14px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px 20px; }
+.fx { margin: 0; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.frame { position: relative; aspect-ratio: 9 / 16; max-width: 100%; background: #000; overflow: hidden; outline: 1px solid var(--line); }
+.frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fx figcaption { display: grid; gap: 4px; }
+.fx .no { font: 400 11px var(--f-mono); color: var(--red); letter-spacing: .1em; }
+.fx h3 { margin: 0; font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: 24px; line-height: 1.1; }
+.fx .plug { margin: 0; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ice); }
+.fx p { margin: 0; font-size: 14px; color: #cfc9bf; line-height: 1.5; }
+.fx code { font: 400 11px var(--f-mono); color: var(--dim); }
+.tag { font-style: normal; font-family: var(--f-ui); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; padding: 2px 7px; margin-left: 8px; border: 1px solid var(--line); color: var(--dim); }
+.tag.t-on { color: var(--ice); border-color: color-mix(in srgb, var(--ice) 40%, transparent); }
+.tag.t-careful { color: var(--bone); }
+.tag.t-off { color: var(--red); border-color: color-mix(in srgb, var(--red) 50%, transparent); }
+.lic { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+.lic.free { color: var(--ice); } .lic.paid { color: var(--dim); }
+.maker { color: var(--dim); font-size: 12px; }
+td.ours { font-family: var(--f-mono); font-size: 12px; color: var(--bone); }
+.oss { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.oss a { background: var(--panel); padding: 14px; display: grid; gap: 4px; text-decoration: none; }
+.oss a:hover { background: #17171f; }
+.oss b { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: 22px; }
+.oss span { font-size: 13px; color: #cfc9bf; }
+
+.rules { padding-block: 40px; border-top: 1px solid var(--line); display: grid; gap: 24px; }
+.rules h2 { margin: 0; font: 500 13px var(--f-ui); letter-spacing: .32em; text-transform: uppercase; }
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.five div { padding: 18px 18px 18px 0; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
+.five b { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: 26px; }
+.five span { font-size: 14px; color: #cfc9bf; }
+.arc { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.arc div { background: var(--panel); padding: 14px; display: grid; gap: 4px; }
+.arc .mono { color: var(--ice); font-size: 12px; }
+.arc p { margin: 0; font-size: 14px; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 500 11px var(--f-ui); letter-spacing: .24em; text-transform: uppercase; color: var(--dim); background: var(--panel); }
+td.mono { white-space: nowrap; color: var(--ice); }
+.crew td:first-child { font-family: var(--f-display); font-style: italic; font-size: 18px; white-space: nowrap; }
+.loop { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; counter-reset: s; }
+.loop div { border-top: 1px solid var(--red); padding-top: 10px; display: grid; gap: 4px; }
+.loop b { font: 500 12px var(--f-ui); letter-spacing: .24em; text-transform: uppercase; }
+.loop span { font-size: 14px; color: #cfc9bf; }
+.never { color: var(--dim); font-size: 14px; max-width: 70ch; margin: 0; }
+footer { border-top: 1px solid var(--line); padding-block: 32px 56px; color: var(--dim); font-size: 13px; }
+</style>
+
+<header class="top"><div class="wrap">
+  <a class="mark" href="#top" aria-label="MOTION FX Library, top"><span>M</span><span>M</span><span>M</span><span>M</span></a>
+  <nav aria-label="Sections"><a href="#finish">Finish</a><a href="#motion">Motion</a><a href="#transitions">Transitions</a><a href="#style">Style</a><a href="#the-mark">Mark</a><a href="#light">More</a><a href="#plugins">Plugins</a><a href="#cuts">Cuts</a><a href="#crew">Crew</a></nav>
+</div></header>
+
+<main class="wrap" id="top">
+  <section class="hero">
+    <span class="caps">MOTION Collective · house effects</span>
+    <h1>FX Library</h1>
+    <div class="rule"></div>
+    <p>The effects pro editors reach for in After Effects and Vegas, rebuilt in our own code. Each clip loops, and the name under it is what to ask for. Tags say whether it fits MOTION: on brand, use once, or off brand (here so you know it by name).</p>
+    <div class="stats"><div><b class="mono">{{COUNT}}</b><span>effects</span></div><div><b class="mono">127</b><span>bpm grid</span></div><div><b class="mono">14.17</b><span>frames per beat</span></div><div><b class="mono">1</b><span>grade, every shot</span></div></div>
+  </section>
+
+  {{GROUPS}}
+
+  <section class="rules" id="plugins">
+    <h2>The plugin catalog · {{CATCOUNT}} plugins</h2>
+    <p class="never">The plugins pro editors use for GFX and hype edits, who makes them, what they cost, our own version, and the free open-source way to get the same look. We don't redistribute paid plugins; we rebuild their looks. Prices change, so check the maker's site before buying anything.</p>
+    <div class="tablewrap"><table><thead><tr><th>Plugin</th><th>Licence</th><th>What it does</th><th>Our version</th><th>Free open-source route</th></tr></thead><tbody>{{CATROWS}}</tbody></table></div>
+    <h2>Open-source tools</h2>
+    <div class="oss">
+      <a href="https://ffmpeg.org" target="_blank" rel="noopener"><b>FFmpeg</b><span>The engine under all of this: filters for blur, displace, xfade, minterpolate, lagfun, vid.stab.</span></a>
+      <a href="https://www.blender.org" target="_blank" rel="noopener"><b>Blender</b><span>3D logos (the Element 3D route), compositor glare and sun beams, tracking, particles.</span></a>
+      <a href="https://github.com/NatronGitHub/Natron" target="_blank" rel="noopener"><b>Natron</b><span>Node compositor in the spirit of Nuke and After Effects; runs OpenFX plugins.</span></a>
+      <a href="https://gmic.eu" target="_blank" rel="noopener"><b>G'MIC</b><span>Hundreds of image filters: film emulation, halftone, pixel sort.</span></a>
+      <a href="https://kdenlive.org" target="_blank" rel="noopener"><b>Kdenlive</b><span>Open-source editor with frei0r effects, keyframes and speed ramps.</span></a>
+      <a href="https://glaxnimate.mattbas.org" target="_blank" rel="noopener"><b>Glaxnimate</b><span>Vector motion graphics and easing, for animated type.</span></a>
+      <a href="https://github.com/nihui/rife-ncnn-vulkan" target="_blank" rel="noopener"><b>RIFE</b><span>AI frame interpolation for smooth slow motion (the Twixtor route).</span></a>
+      <a href="https://github.com/xinntao/Real-ESRGAN" target="_blank" rel="noopener"><b>Real-ESRGAN</b><span>AI upscaling for low-res phone clips (the Topaz route).</span></a>
+      <a href="https://ffglitch.org" target="_blank" rel="noopener"><b>FFglitch</b><span>Real datamosh by editing motion vectors.</span></a>
+      <a href="https://github.com/valadaptive/ntsc-rs" target="_blank" rel="noopener"><b>ntsc-rs</b><span>Accurate VHS and analogue TV emulation.</span></a>
+      <a href="https://github.com/georgmartius/vid.stab" target="_blank" rel="noopener"><b>vid.stab</b><span>Stabilizes shaky footage (the Warp Stabilizer route).</span></a>
+      <a href="https://github.com/PeterL1n/RobustVideoMatting" target="_blank" rel="noopener"><b>Robust Video Matting</b><span>Cuts a person out of the background (the Roto Brush route).</span></a>
+    </div>
+  </section>
+
+  <section class="rules" id="cuts">
+    <h2>Every cut needs a reason</h2>
+    <div class="five">
+      <div><b>Motion</b><span>The action carries across the cut. Cut a third into the move.</span></div>
+      <div><b>Eye-trace</b><span>The subject sits in the same third of the frame on both sides.</span></div>
+      <div><b>Graphic</b><span>Shape or brightness rhymes: a diagonal arm into diagonal beams.</span></div>
+      <div><b>Music</b><span>Lands on a kick, a bar line or a phrase change.</span></div>
+      <div><b>Story</b><span>Something new arrives: the name, the eyes, the date.</span></div>
+    </div>
+    <h2>The arc of a teaser</h2>
+    <div class="arc">
+      <div><span class="mono">Beats 0–6</span><p>The mark flies in. Its exit zooms into the first shot.</p></div>
+      <div><span class="mono">Beats 6–14</span><p>Build. Cuts every 2, then every beat. Letterbox opens wider.</p></div>
+      <div><span class="mono">Beats 14–17</span><p>The name, one word per beat.</p></div>
+      <div><span class="mono">Beat 18</span><p>One beat of black in the dip.</p></div>
+      <div><span class="mono">Beat 19</span><p>Drop: the best image, full frame, impact shake.</p></div>
+      <div><span class="mono">Beats 25–27</span><p>One hero speed ramp. Hold it.</p></div>
+      <div><span class="mono">Beats 27–35</span><p>Eyes, name, date, the mark.</p></div>
+    </div>
+    <h2>Teaser v4 · the cut list</h2>
+    <div class="tablewrap"><table><thead><tr><th>Beat</th><th>Time</th><th>Shot</th><th>Why this cut</th></tr></thead><tbody>{{CUTROWS}}</tbody></table></div>
+    <p class="never">Never: preset transitions on every cut, a flash or glow on every cut, red tints or RGB-split fringes, wave warps, bouncing or multi-coloured type. Those read as CapCut, or as trippy.</p>
+  </section>
+
+  <section class="rules" id="crew">
+    <h2>The crew</h2>
+    <div class="tablewrap"><table class="crew"><thead><tr><th>Role</th><th>Who</th><th>Does</th></tr></thead><tbody>
+      <tr><td>Creative director</td><td>Jovanni</td><td>Taste, music, the never-list, the final yes on everything that goes out.</td></tr>
+      <tr><td>Director / editor</td><td>Claude Code</td><td>The cut list with a reason per cut, 2–3 variants per teaser, keeps the bible current.</td></tr>
+      <tr><td>VFX</td><td>Claude Code + this library</td><td>Presets, the logo, the sting, the low-res treatment.</td></tr>
+      <tr><td>Reference scout</td><td>Gemini</td><td>Watches references on YouTube and Instagram and describes mood, shots and pacing. It samples about 1 frame a second, so it can't time cuts.</td></tr>
+      <tr><td>Measurement</td><td>ffmpeg + Claude</td><td>Cut detection, shot lengths, cuts per bar, contact sheets.</td></tr>
+      <tr><td>Videographer</td><td>A person with a camera</td><td>Real moves, light, 60/120 fps for slow motion. Capture fixes what no upscaler can.</td></tr>
+    </tbody></table></div>
+    <div class="loop">
+      <div><b>Collect</b><span>One sheet, one row per reference: link, timestamp, why, tags.</span></div>
+      <div><b>Analyse</b><span>Gemini describes it, ffmpeg measures it.</span></div>
+      <div><b>Encode</b><span>New presets here, new rules in the bible.</span></div>
+      <div><b>Make</b><span>2–3 variants per teaser.</span></div>
+      <div><b>Review</b><span>Jovanni scores each 1–5: expensive, on-beat, readable, red used right.</span></div>
+      <div><b>Learn</b><span>Every 2 weeks, keep what scored 4–5. Every correction becomes a rule.</span></div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">MOTION Collective · Austin · source: media/fx/mfx.py and orch/creative/DIRECTORS_BIBLE.md</div></footer>

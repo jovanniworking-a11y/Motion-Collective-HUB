@@ -1,0 +1,73 @@
+# Plugin catalog
+
+The plugins pro editors use for GFX and hype edits: what each one does, its licence, our own version in `media/fx/mfx.py`, and the free open-source route.
+
+We don't download or redistribute paid plugins. We rebuild their looks. Prices change, so check the maker's site before buying anything.
+
+| Plugin | Maker | Licence | What it does | Our version | Free open-source route |
+|---|---|---|---|---|---|
+| Element 3D | Video Copilot | paid | Real 3D extruded logos and text inside After Effects | `media/brand/src/logo3d.py (extrude + chisel + lighting)` | Blender (open source): extrude, bevel, render |
+| Optical Flares | Video Copilot | paid | Lens flares built from streaks, glows and ghosts | `mfx.lens_flare` | Blender compositor Glare node |
+| Saber | Video Copilot | free | Energy glow along text or shape outlines | `mfx.saber` | Natron / Blender glow on an edge mask |
+| Heat Distortion | Video Copilot | free | Heat shimmer | `mfx.heat_haze` | FFmpeg displace filter |
+| VC Reflect | Video Copilot | free | Mirrored floor reflection | `mfx.reflect` | FFmpeg vflip + overlay with a fade |
+| Twitch | Video Copilot | paid | Random jumps in scale, position, exposure and blur | `mfx.twitch` | FFmpeg crop/zoompan with random expressions |
+| ReelSmart Motion Blur (RSMB) | RE:Vision Effects | paid | Motion blur computed from movement | `mfx.mblur (sub-frame blur for our own moves)` | FFmpeg minterpolate + tmix |
+| Twixtor | RE:Vision Effects | paid | Optical-flow slow motion and speed ramps | `mfx.plate(interp=True) + ramp curves` | RIFE (rife-ncnn-vulkan), FFmpeg minterpolate |
+| Sapphire S_Glow | Boris FX | paid | Glow and bloom | `mfx.deep_glow` | FFmpeg gblur + blend screen |
+| Sapphire S_Shake | Boris FX | paid | Camera shake on hits | `mfx.shake` | FFmpeg crop with sine expressions |
+| Sapphire S_Rays | Boris FX | paid | Light rays from bright areas | `mfx.rays` | Blender compositor Sun Beams node |
+| Sapphire S_Flicker | Boris FX | paid | Exposure flicker and flash frames | `mfx.flash` | FFmpeg eq with an exposure expression |
+| Sapphire S_Zap / S_Glare | Boris FX | paid | Electric arcs and star glare | `mfx.astig, mfx.slices` | Blender Glare node (streaks) |
+| Sapphire transitions | Boris FX | paid | Dissolves, glows, zooms, blurs | `mfx.zoom_transition, mfx.defocus, mfx.luma_fade` | FFmpeg xfade (zoomin, fadeblack, radial and more) |
+| BCC Light Leaks | Boris FX | paid | Light leaks | `mfx.light_leak (neutral white)` | FFmpeg overlay of a blurred gradient in screen mode |
+| BCC Film Glow | Boris FX | paid | Diffusion and halation | `mfx.promist` | FFmpeg gblur + blend |
+| Mocha Pro / Mocha AE | Boris FX | paid (Mocha AE comes with After Effects) | Planar tracking for screens and signs | `not built yet` | Blender motion tracking, Natron tracker |
+| Universe Glitch | Maxon Red Giant | paid subscription | Digital glitch, datamosh, blocks | `mfx.block_glitch, mfx.slices` | ffglitch (open source datamosh) |
+| Universe Shake / transitions | Maxon Red Giant | paid subscription | Shakes, whip and zoom transitions | `mfx.shake, mfx.whip, mfx.zoom_transition` | FFmpeg xfade |
+| Trapcode Particular | Maxon Red Giant | paid | 3D particles (dust, sparks) | `not built (off-brand for now)` | Blender particles |
+| Trapcode Shine | Maxon Red Giant | paid | Volumetric light rays | `mfx.rays` | Blender Sun Beams |
+| Magic Bullet Looks | Maxon Red Giant | paid | Film looks and grades | `mfx.film_curve + mfx.finish` | FFmpeg curves / lut3d |
+| Denoiser III | Maxon Red Giant | paid | Noise reduction | `mfx.plate denoise (hqdn3d)` | FFmpeg hqdn3d / nlmeans |
+| Deep Glow | Plugin Everything | paid | Physically based glow | `mfx.deep_glow` | FFmpeg gblur stack |
+| Animation Composer | Mister Horse | free starter, paid packs | Easing presets and transitions | `mfx.ease_* / mfx.spring / mfx.expo_*` | Glaxnimate, Blender graph editor |
+| Motion Bro | Motion Bro | free app, paid packs | Transition and effect packs | `mfx transitions` | FFmpeg xfade |
+| Flow | aescripts | paid | Custom easing curves | `mfx.ease_* curves` | Blender graph editor |
+| Dehancer | Dehancer | paid | Film emulation, halation, bloom, grain | `mfx.finish (mono halation, grain)` | G'MIC film emulation, FFmpeg noise |
+| FilmConvert Nitrate | FilmConvert | paid | Film stocks and grain | `mfx.grain, mfx.film_curve` | G'MIC, FFmpeg noise |
+| Topaz Video AI | Topaz Labs | paid | AI upscaling and frame interpolation | `Real-ESRGAN recipe in the bible` | Real-ESRGAN, RIFE |
+| Datamosh 2 | aescripts | paid | Datamosh: motion-vector smears | `mfx.block_glitch` | ffglitch |
+| Pixel sorting scripts | various (aescripts) | paid | Pixel-sort smears | `mfx.pixel_sort` | G'MIC pixel sort |
+| VHS / retro packs | various | paid | Scanlines, tracking errors | `mfx.vhs` | ntsc-rs (open source) |
+| Echo / Time Displacement | After Effects | built in | Afterimage trails | `mfx.Echo` | FFmpeg lagfun / tmix |
+| CC Radial Fast Blur | After Effects | built in | Zoom blur | `mfx.zoom_blur` | FFmpeg xfade zoomin |
+| Directional Blur | After Effects | built in | Motion smear in one direction | `mfx.directional_blur` | FFmpeg avgblur sizeX |
+| Shift Channels | After Effects | built in | RGB split | `mfx.rgb_split (off-brand)` | FFmpeg rgbashift |
+| Wave Warp / Turbulent Displace | After Effects | built in | Wavy distortion | `mfx.warp (off-brand)` | FFmpeg geq / displace |
+| Posterize Time | After Effects | built in | Lower frame rate on purpose | `mfx.posterize_time` | FFmpeg fps filter |
+| Color Halftone / CC Ball Action | After Effects | built in | Halftone dots | `mfx.halftone` | G'MIC halftone |
+| Tritone / Colorama | After Effects | built in | Map brightness to colours | `mfx.duotone (steel blue)` | FFmpeg lutrgb / colorchannelmixer |
+| Find Edges | After Effects | built in | Edge outline | `mfx.freeze_outline` | FFmpeg edgedetect |
+| Invert | After Effects | built in | Invert hit | `mfx.invert_hit` | FFmpeg negate |
+| CC Kaleida / Mirror | After Effects | built in | Symmetry | `mfx.mirror (off-brand)` | FFmpeg hflip + overlay |
+| Camera Lens Blur | After Effects | built in | Defocus and rack focus | `mfx.defocus` | FFmpeg gblur with a ramp |
+| Track Matte | After Effects | built in | Footage inside type or shapes | `teaser cut-out words` | FFmpeg alphamerge |
+| CC Light Sweep | After Effects | built in | Specular sweep across a logo | `sting4.py light sweep` | FFmpeg geq gradient + blend |
+| Warp Stabilizer | After Effects / Premiere | built in | Stabilize shaky phone footage | `not built yet` | FFmpeg vid.stab (vidstabdetect / vidstabtransform) |
+| Roto Brush | After Effects | built in | Cut a person out of the background | `not built yet` | Robust Video Matting (open source), Blender roto |
+| Velocity envelopes | Sony VEGAS | built in | Speed ramps | `teaser4 RAMP curve` | FFmpeg setpts with expressions |
+| Glow / Pan-Crop shake / Flash | Sony VEGAS | built in | The classic VEGAS hype-edit trio | `mfx.deep_glow, mfx.shake, mfx.flash` | FFmpeg |
+
+## Open-source tools
+- **FFmpeg:** https://ffmpeg.org
+- **Blender:** https://www.blender.org
+- **Natron:** https://github.com/NatronGitHub/Natron
+- **G'MIC:** https://gmic.eu
+- **Kdenlive:** https://kdenlive.org
+- **Glaxnimate:** https://glaxnimate.mattbas.org
+- **RIFE (ncnn):** https://github.com/nihui/rife-ncnn-vulkan
+- **Real-ESRGAN:** https://github.com/xinntao/Real-ESRGAN
+- **FFglitch:** https://ffglitch.org
+- **ntsc-rs:** https://github.com/valadaptive/ntsc-rs
+- **vid.stab:** https://github.com/georgmartius/vid.stab
+- **Robust Video Matting:** https://github.com/PeterL1n/RobustVideoMatting
