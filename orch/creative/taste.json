@@ -1,0 +1,42 @@
+{
+  "_what": "Jovanni's taste profile. Read before any MOTION video, flyer, post or promo. Every correction he makes gets added here (with the date).",
+  "updated": "2026-10-17",
+  "one_line": "Cool, modern, directed. Pop culture, not corporate. My taste is better than yours, which is why my party is better than yours. Fashion + music + everything, curated.",
+  "references": [
+    {"who": "Lucki", "take": ["fisheye punch-ins", "lo-fi distortion", "hazy afterimage"]},
+    {"who": "Playboi Carti", "take": ["nervous stutter", "1-bit xerox flash frames", "invert hits", "punk energy"], "skip": ["red floods"]},
+    {"who": "Yeat", "take": ["type stacks", "glitch blocks", "pixel sort", "techy graphics"]},
+    {"who": "Drake / OVO", "take": ["moody letterboxed open", "slow motion", "anamorphic streaks", "fog glow", "tiny type"]},
+    {"who": "Bad Bunny / reggaeton", "take": ["pops on the dembow accents", "fisheye close-ups", "one kaleidoscope hit", "chrome type"], "skip": ["saturated colour"]},
+    {"who": "Peso Pluma", "take": ["confident cinematic framing", "flashy but clean"]},
+    {"who": "Kanye set design", "take": ["monumental endings: black, one line, negative space"]},
+    {"who": "Kettama / Prospa / Boiler Room / Raw Cuts", "take": ["camcorder HUD", "raw rave energy", "the logo opening and closing every video"]},
+    {"who": "Saint Laurent / Dior (YSL-inspired, never YSL marks)", "take": ["restraint where it counts", "holds", "luxury type"]}
+  ],
+  "loves": [
+    "a mix of all the references that still fits our branding, and is unique to MOTION",
+    "warping, fisheye, glitch on the beat (since 17 Oct)",
+    "the dimensional MMMM logo: depth, texture, glow, fluid fly-in",
+    "hairline high-contrast lettering, small widely spaced caps, quiet glow",
+    "edits that feel directed, with every cut motivated and music in place",
+    "high quality: no choppy or blocky low-res zooms"
+  ],
+  "hates": [
+    "red tinting images, video or the eyes (red is an accent only)",
+    "corporate or template-looking edits; CapCut / iMovie feel",
+    "deep-fried images, random pops of colour",
+    "acid / mushroom / hippie Austin-edit looks",
+    "sloppy cuts or a sloppy ending; random cuts with no direction",
+    "a flat, typed-looking logo",
+    "too many words, saying things twice",
+    "blackletter, big italic gimmicks"
+  ],
+  "corrections_log": [
+    {"date": "2026-10-16", "rule": "Red is an accent, never a tint."},
+    {"date": "2026-10-17", "rule": "Glamz plays solo in the middle; no b3b."},
+    {"date": "2026-10-17", "rule": "Logo must be dimensional and fluid, never flat overlapping type."},
+    {"date": "2026-10-17", "rule": "v3 too slow: keep the hype. v4 too corporate: more warping and pop-culture references."},
+    {"date": "2026-10-17", "rule": "Rebuild effects from open-source methods; never pirate paid plugins."},
+    {"date": "2026-10-17", "rule": "All artists OK'd posting their clips."}
+  ]
+}

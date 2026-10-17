@@ -20,6 +20,21 @@ Still never: preset transitions on every cut, a flash or glow on every cut, red 
 
 Full sourced research: `orch/creative/research/editing_research.md`. Effects library: `media/fx/mfx.py`. Effects gallery: see the hub links in `CLAUDE.md`.
 
+
+## 0. The MOTION signature (what makes it ours, not a copy)
+The references are ingredients. These eight things make an edit unmistakably MOTION, so every video gets all of them:
+
+1. **The mark opens and closes.** The dimensional MMMM flies in and its fly-through hands over to the first shot. It returns at the end with the light sweep.
+2. **An eye in every edit.** The eye triptych, a neon eye, or the eyes opening band by band. Use it as a graphic match whenever the footage gives us one.
+3. **Black and white made like a photographer.** Choose a colour filter for the light: blue under yellow or amber light so neon pops, red under blue light. One grade, Pro-Mist and 35 mm grain.
+4. **Afterimage on every move.** Echo trails, light graffiti on lights. It's the AFTERIMAGE name made visible.
+5. **The silence beat.** The picture goes black wherever the track goes quiet before the drop, with one logo flash.
+6. **Camcorder HUD.** REC blinking on the beat, running timecode, CAM A and the real BPM of the track.
+7. **Two typefaces, two jobs.** Jost Black for names: stacks, slams and boiling type. Bodoni Moda italic for the night itself (*Devil's Night*), always alone on black.
+8. **The monumental ending.** Black, one line, the date in full (10.30.2026), the mark, one call to action.
+
+Red only ever sits on the MMMM, the B2B label and the REC dot.
+
 ## 1. Every cut needs a reason
 A cut feels random when it has no motivation. Before keeping a cut, name at least one of these reasons out loud:
 1. **Motion:** the action continues or starts on the cut. Cut about a third of the way into the move, so the incoming shot finishes it.

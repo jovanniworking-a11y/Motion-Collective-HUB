@@ -70,15 +70,19 @@ def probe(path):
     rot = int(float(vals[2])) if len(vals) > 2 else 0
     return (h, w) if abs(rot) % 180 == 90 else (w, h)
 
-def plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False):
+def plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False, bw=None):
     """Decode a clip to grey uint8 frames at native size.
     denoise: hqdn3d before any scaling, so blocky phone compression doesn't get magnified.
     deflicker: even out frame-to-frame exposure jumps from strobes.
+    bw: 'blue' / 'red' / 'green' channel mix before grey (photographic colour filters for B&W).
     interp: optical-flow motion-compensated frames (ffmpeg minterpolate), like Twixtor, for smooth slow motion."""
     w, h = probe(path)
     vf = []
     if denoise: vf.append("hqdn3d=3:2:5:4")
-    if deflicker: vf.append("deflicker=size=9:mode=median")   # tame phone-camera strobe washouts (keeps the shot, drops the white frames)
+    if deflicker: vf.append("deflicker=size=9:mode=median")
+    if bw:                                                    # B&W colour filter, like a lens filter on film: 'blue' darkens
+        r, g, b = {"blue": (.08, .22, .70), "red": (.70, .22, .08), "green": (.2, .7, .1)}[bw]   # yellow light, 'red' darkens skies
+        vf.append(f"colorchannelmixer={r}:{g}:{b}:0:{r}:{g}:{b}:0:{r}:{g}:{b}:0")   # tame phone-camera strobe washouts (keeps the shot, drops the white frames)
     vf.append(f"minterpolate=fps={fps}:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1" if interp else f"fps={fps}")
     cmd = ["ffmpeg", "-v", "error"]
     if t0 is not None: cmd += ["-ss", f"{t0:.3f}"]
