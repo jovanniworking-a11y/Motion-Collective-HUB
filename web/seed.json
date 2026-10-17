@@ -1245,7 +1245,7 @@
    "id": "r2100",
    "sort": 2100,
    "time": "9:00 PM",
-   "moment": "Doors · opening set",
+   "moment": "Doors · iamariology b2b raymixes",
    "lead": "iamariology b2b raymixes",
    "support": "Jovanni / door helper",
    "cue": "Ice/cyan walls; warm faces",
@@ -1256,12 +1256,12 @@
    "id": "r2300",
    "sort": 2300,
    "time": "11:00 PM",
-   "moment": "Friends set / Glamz transition",
-   "lead": "iamariology b2b raymixes",
-   "support": "Glamz if confirmed",
-   "cue": "Build energy",
+   "moment": "Glamz (solo)",
+   "lead": "Glamz",
+   "support": "",
+   "cue": "Build energy toward midnight",
    "guests": "Monitor capacity",
-   "status": "Conditional"
+   "status": "Confirmed (time assumed)"
   },
   {
    "id": "r2415",

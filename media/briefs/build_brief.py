@@ -128,23 +128,23 @@ slides.append(f'''<section class="slide">{top("Why MOTION","AFTERIMAGE 001")}
     <div class="stat"><b>12:00</b><span class="caps">the peak, designed</span><p>Ice on the walls, warm on faces, then red at midnight. No haze, no lasers.</p></div></div>
   {foot("Mission: show off the artists. Put them in front of a room that's ready for them.",2)}</section>''')
 # 3 the night
-tl = [("6:00","Load-in, room reset",0),("7:00","System build + cable check (iamariology helps)",1),("7:45","Sound check",1),("8:30","Crew briefing",0),("9:00","Doors · your opening set",1),("11:00","Glamz joins · b3b",1),("12:00","Peak cue: red light, eyes on",0),("12:15","HE//THEY",0),("12:30","Last entry",0),("1:30","Best costume ($40)",0),("1:45","Last pour",0),("2:00","Last song · hard stop",0)]
+tl = [("6:00","Load-in, room reset",0),("7:00","System build + cable check (iamariology helps)",1),("7:45","Sound check",1),("8:30","Crew briefing",0),("9:00","Doors · your opening set",1),("11:00","Glamz (solo)",0),("12:00","Peak cue: red light, eyes on",0),("12:15","HE//THEY",0),("12:30","Last entry",0),("1:30","Best costume ($40)",0),("1:45","Last pour",0),("2:00","Last song · hard stop",0)]
 cells = "".join(f'<div class="c{" you" if y else ""}"><div class="t">{t}</div><div class="m">{e(m)}</div></div>' for t,m,y in tl)
 slides.append(f'''<section class="slide">{top("The night","Friday 10.30")}
   <p class="kicker caps" style="margin-top:36px">Run of show · confirmed</p><h2 style="margin-bottom:14px">You open the room.</h2>
   <div class="tl">{cells}</div>
-  <div class="bar"><div class="y">9:00–11:00 · {e(NAME)}</div><div class="y">11:00–12:15 · + Glamz b3b</div><div>12:15–2:00 · HE//THEY · co.b b2b NiiON</div></div>
+  <div class="bar"><div class="y">9:00–11:00 · {e(NAME)}</div><div>11:00–12:15 · Glamz</div><div>12:15–2:00 · HE//THEY · co.b b2b NiiON</div></div>
   {foot("Doors 9 PM · 21+ · invite only, numbered passes · cap 50",3)}</section>''')
 # 4 your set
-slides.append(f'''<section class="slide">{top("Your set","9:00 PM – 12:15 AM")}
+slides.append(f'''<section class="slide">{top("Your set","9:00 – 11:00 PM")}
   <div class="grid2" style="margin-top:44px;align-items:start"><div><p class="kicker caps">The brief</p><h2>Build it.<br><i>Don't peak it.</i></h2>
-  <p class="dim" style="margin:0;font-size:18px">You're the first thing people hear. Take the room from people arriving with a drink to a full floor, then hand it to Glamz and on to HE//THEY warm, not spent.</p></div>
+  <p class="dim" style="margin:0;font-size:18px">You're the first thing people hear. Take the room from people arriving with a drink to a full floor, then hand a warm room to Glamz at 11, who takes it on to HE//THEY.</p></div>
   <ul class="list" style="margin-top:46px">
    <li data-n="01"><span><b>9:00–10:00</b> · arrivals. Groove first, room to talk. <span class="tag">suggestion</span></span></li>
    <li data-n="02"><span><b>10:00–11:00</b> · the floor fills. Lift toward garage and house.</span></li>
-   <li data-n="03"><span><b>11:00–12:15</b> · b3b with Glamz. Let's agree how you trade: track for track, or blocks.</span></li>
-   <li data-n="04"><span><b>12:00</b> · the designed peak. Lights go red, the eyes come on. Want a say in that track?</span></li>
-   <li data-n="05"><span><b>12:15</b> · hand off to HE//THEY: UKG, hard house / electro, bass house, mostly <span class="mono">134–140</span> BPM.</span></li></ul></div>
+   <li data-n="03"><span><b>11:00</b> · hand off to Glamz, who plays solo until 12:15. Let's agree where you finish (BPM, key) so the handoff is clean.</span></li>
+   <li data-n="04"><span><b>12:00</b> · the designed peak lands in Glamz's set: lights go red, the eyes come on.</span></li>
+   <li data-n="05"><span><b>12:15</b> · HE//THEY closes: UKG, hard house / electro, bass house, mostly <span class="mono">134–140</span> BPM. That's where the night is heading.</span></li></ul></div>
   {foot("Timings and handoffs are ours to agree together. Nothing here is a set list.",4)}</section>''')
 # 5 sound
 slides.append(f'''<section class="slide">{top("The sound","Songs We Love · inspiration only")}

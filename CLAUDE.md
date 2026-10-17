@@ -15,7 +15,7 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 
 ## Hard rules (from the Source of Truth + Agent Playbook)
 - The venue address never goes in any file, post or page.
-- No unconfirmed names on promo. Rohan Rali is cut (14 Oct). Glamz confirmed 16 Oct (credit wording still to confirm). HE//THEY is credited exactly "HE//THEY · co.b b2b NiiON".
+- No unconfirmed names on promo. Rohan Rali is cut (14 Oct). Glamz confirmed 16 Oct and plays SOLO in the middle (17 Oct; credit wording still to confirm). Order: iamariology b2b raymixes → Glamz → HE//THEY. HE//THEY is credited exactly "HE//THEY · co.b b2b NiiON".
 - Never spend, send, post or publish without Jovanni's OK. Draft only.
 - No YSL marks, no haze/fog, no lasers. Bodoni Moda + Jost. Red ≤ 10% of the frame.
 - Label every number confirmed / estimate / open.
