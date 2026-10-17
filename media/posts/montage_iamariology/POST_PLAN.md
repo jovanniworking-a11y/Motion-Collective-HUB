@@ -1,6 +1,8 @@
 # Post plan: A NIGHT WITH IAMARIOLOGY montage (DRAFT, needs Jovanni's OK)
 
-**Use v2** (`MOTION_montage_iamariology_v2_IG.mp4`, 29.2 s). v1 felt repetitive (Jovanni, 17 Oct): the same booth angle and the same few seconds of the neon clip kept coming back. v2 rules:
+**Use v3** (`MOTION_montage_iamariology_v3_IG.mp4`, 29.2 s). It's v2 with far more of the masked set, about 6.5 of its 8.7 s (Jovanni: it's the most lively). The drop carries one flowing run: he jumps, the camera turns to the crowd, then back to him. The neon-room clips still open it and carry the eye and the point.
+
+v2 notes: v1 felt repetitive (Jovanni, 17 Oct): the same booth angle and the same few seconds of the neon clip kept coming back. v2 rules:
 - no moment of footage used twice (a check in the script enforces it);
 - the neon-room and dancing clips lead;
 - the booth appears only on the drop and the finale;
@@ -30,3 +32,6 @@ Cut list with a reason per cut: `v2_cutlist.md`.
 1. `A night with iamariology. He opens Devil's Night, b2b raymixes. 10.30.2026. RSVP in bio.`
 2. `Every room, same energy. iamariology b2b raymixes opens AFTERIMAGE 001. Link in bio.`
 3. `This is what the first hour sounds like. iamariology b2b raymixes. 10.30.2026.`
+
+## Faces
+The masked-set run turns to the crowd for about 1.3 s, and a couple of guests' faces are visible, in black and white with motion blur. The artists have OK'd their clips; guests haven't been asked. Post as is, or ask me to swap that beat for the beams.
