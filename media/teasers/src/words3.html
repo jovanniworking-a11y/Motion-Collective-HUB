@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; }
+@font-face { font-family: "Jost"; src: url("../deck/fonts/fontsource-variable-jost-5.1.0/package/files/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: transparent; width: 1080px; height: 2220px; overflow: hidden; }
+.c { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; color: #f2efe8; text-align: center; }
+.mid { display: grid; place-items: center; }
+.cut { font-family: "Bodoni Moda", serif; font-weight: 900; font-size: 124px; letter-spacing: -.01em; line-height: 1; color: #fff; }
+.name { position: absolute; left: 0; right: 0; top: 1350px; font-family: "Bodoni Moda", serif; font-weight: 400; font-size: 58px; letter-spacing: .2em; padding-left: .2em; line-height: 1.25; }
+.name small { display: block; font-family: Jost, sans-serif; font-weight: 500; font-size: 22px; letter-spacing: .5em; padding-left: .5em; color: #c8333c; margin: 8px 0; }
+.date { position: absolute; left: 0; right: 0; top: 1640px; font-family: Jost, sans-serif; font-weight: 500; font-size: 24px; letter-spacing: .5em; padding-left: .5em; color: #e9e4da; }
+.date i { display: block; width: 1px; height: 46px; background: #9b2c34; margin: 0 auto 30px; }
+</style></head><body><div class="c" id="c"></div><script>
+const v=new URLSearchParams(location.search).get('v'), c=document.getElementById('c');
+if(v==='iamH'){c.className='c mid';c.innerHTML='<div class="cut">IAMARIOLOGY</div>';}
+if(v==='rayH'){c.className='c mid';c.innerHTML='<div class="cut" style="font-size:156px">RAYMIXES</div>';}
+if(v==='endname'){c.innerHTML='<div class="name">IAMARIOLOGY<small>B2B</small>RAYMIXES</div>';}
+if(v==='enddate'){c.innerHTML='<div class="date"><i></i>DEVIL’S NIGHT · 10.30.2026</div>';}
+</script></body></html>

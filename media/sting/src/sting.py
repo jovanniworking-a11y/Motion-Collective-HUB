@@ -68,6 +68,24 @@ LOGO = sum(M) + WORD
 _l = LOGO.mean(axis=2, keepdims=True)
 HALO = np.repeat(np.clip(_l * 0.5 + box1d(box1d(box1d(box1d(_l, int(90 * u), 1), int(90 * u), 0), int(90 * u), 1), int(90 * u), 0) * 2.2, 0, 1), 3, axis=2)
 
+def zoom(img, z):
+    """Camera push about the centre (z > 1 = closer)."""
+    if abs(z - 1) < 1e-3: return img
+    w, h = int(W / z), int(H / z); x, y = (W - w) // 2, (H - h) // 2
+    im = Image.fromarray((np.clip(img, 0, 1) * 255).astype(np.uint8)[y:y + h, x:x + w])
+    return np.asarray(im.resize((W, H), Image.BICUBIC)).astype(np.float32) / 255
+
+BANDS = np.linspace(H * .33, H * .66, 7).astype(int)[1:-1]   # 6 bold slices across the mark
+BSH = np.array([1, -.7, .9, -1, .6, -.85])
+def breakup(img, amt):
+    """Slice the frame into horizontal bands that slide apart (the mark 'breaks up')."""
+    if amt <= 0: return img
+    out = np.zeros_like(img); edges = [0, *BANDS, H]
+    for i in range(len(edges) - 1):
+        a, b = edges[i], edges[i + 1]
+        out[a:b] = shift(img, BSH[i] * amt)[a:b]
+    return out
+
 def ease_out(t): t = min(max(t, 0), 1); return 1 - (1 - t) ** 3
 
 trail = np.zeros((H, W, 3), np.float32)
@@ -99,17 +117,20 @@ for f in range(N):
     if f >= 44: frame += SUB * min(1, (f - 44) / 8)
     # hold: slow flare sweep across the mark
     if 48 <= f < 72: flare = max(flare, 0.08 + 0.12 * math.sin((f - 48) / 24 * math.pi))
-    # exit: smear right into the afterimage
+    # exit: the mark breaks into bands that slide apart, then only its afterimage is left
     if f >= 72:
-        p = (f - 72) / 10
-        frame = shift(frame, 260 * u * p ** 2) * max(0, 1 - p * 1.1)
-        flare = max(flare, 0.3 * (1 - p))
+        p = min(1, (f - 72) / 8)
+        frame = breakup(frame, 260 * u * p ** 1.4) * (1 - p) ** 0.7
+        if f >= 80: frame = frame * 0
+        flare = max(flare, 0.2 * (1 - p))
     # afterimage: the trail keeps a decaying, slightly drifting copy of everything bright
-    trail = np.maximum(trail * 0.80, shift(frame, 6 * u) * 0.9)
+    trail = np.maximum(trail * (0.80 if f < 72 else 0.62), shift(frame, 6 * u) * 0.9)
     trail = box1d(trail, int(3 * u), 1)
     out = np.maximum(frame, trail * 0.75) + astig(frame + trail * 0.3, flare)
-    if f == 82: out = np.ones_like(out) * 0.85          # single white strobe on the exit
-    if f > 82: out = out * 0
+    if f >= 80: out = trail * 0.75 * 0.62 ** (f - 80)        # afterimage decays to black, no white frame
+    # camera: slow push through the whole sting, a punch-in when the last M lands
+    z = 1 + 0.07 * ease_out(f / 80) + (0.045 * math.exp(-(f - 23) / 3) if f >= 23 else 0)
+    out = zoom(out, z)
     # flicker + film grain (monochrome)
     flick = 1.0 - (0.08 * rng.random() if 30 <= f < 82 else 0)
     out = out * flick + flash * HALO
