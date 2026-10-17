@@ -22,11 +22,12 @@ FPS, N = 30, 90
 D = os.path.dirname(os.path.abspath(__file__))
 rng = np.random.default_rng(1030)
 
-def layer(name):
-    a = np.asarray(Image.open(f"{D}/L_{W}x{H}_{name}.png").convert("RGBA")).astype(np.float32) / 255
-    return a[..., :3] * a[..., 3:4]                      # premultiplied RGB on black
+def layer(name, alpha=False):
+    """Dimensional MOTION layers from logo3d.py (lit, bevelled). Returns premultiplied RGB (+ alpha)."""
+    a = np.asarray(Image.open(f"{D}/L3_{W}x{H}_{name}.png").convert("RGBA")).astype(np.float32) / 255
+    return (a[..., :3] * a[..., 3:4], a[..., 3:4]) if alpha else a[..., :3] * a[..., 3:4]
 
-M = [layer(f"m{i}") for i in range(4)]
+M = [layer(f"m{i}", alpha=True) for i in range(4)]
 WORD, SUB = layer("word"), layer("sub")
 u = min(W, H) / 1080
 
@@ -64,7 +65,7 @@ def astig(img, k):
     return np.repeat(np.minimum(k * (h + v + glow), 0.45), 3, axis=2)
 
 # strobe light lives only around the mark: a faint ghost of the full logo plus a soft halo, never a grey full frame
-LOGO = sum(M) + WORD
+LOGO = sum(m[0] for m in M) + WORD
 _l = LOGO.mean(axis=2, keepdims=True)
 HALO = np.repeat(np.clip(_l * 0.5 + box1d(box1d(box1d(box1d(_l, int(90 * u), 1), int(90 * u), 0), int(90 * u), 1), int(90 * u), 0) * 2.2, 0, 1), 3, axis=2)
 
@@ -102,7 +103,12 @@ for f in range(N):
         f0 = 8 + 5 * i
         if f < f0: continue
         p = ease_out((f - f0) / 6)
-        frame += shift(M[i], -140 * u * (1 - p)) * min(1, (f - f0 + 1) / 2)
+        k_in = min(1, (f - f0 + 1) / 2); dx = -140 * u * (1 - p)
+        rgb, al = shift(M[i][0], dx) * k_in, shift(M[i][1], dx) * k_in
+        if i:                                            # this M casts a soft shadow on the ones behind it
+            sh = box1d(box1d(shift(al, 14 * u, 10 * u)[..., 0], int(16 * u), 0), int(16 * u), 1)[..., None]
+            frame = frame * (1 - 0.6 * sh)
+        frame = frame * (1 - al) + rgb                   # stacked in front, never added together
         if f0 <= f < f0 + 2: flash = max(flash, 0.12 if i < 3 else 0.25)
         if f0 <= f < f0 + 7: flare = max(flare, (1 - (f - f0) / 7) * (0.4 if i < 3 else 0.6))
     # MOTION: double vision converging, then sharp
@@ -124,8 +130,12 @@ for f in range(N):
         if f >= 80: frame = frame * 0
         flare = max(flare, 0.2 * (1 - p))
     # afterimage: the trail keeps a decaying, slightly drifting copy of everything bright
-    trail = np.maximum(trail * (0.80 if f < 72 else 0.62), shift(frame, 6 * u) * 0.9)
-    trail = box1d(trail, int(3 * u), 1)
+    moving = f < 30 or f >= 72                           # trail only drifts while something moves; the hold stays sharp
+    if moving:
+        trail = np.maximum(trail * (0.80 if f < 72 else 0.62), shift(frame, 6 * u) * 0.9)
+        trail = box1d(trail, int(3 * u), 1)
+    else:
+        trail = np.maximum(trail * 0.6, frame * 0.0)
     out = np.maximum(frame, trail * 0.75) + astig(frame + trail * 0.3, flare)
     if f >= 80: out = trail * 0.75 * 0.62 ** (f - 80)        # afterimage decays to black, no white frame
     # camera: slow push through the whole sting, a punch-in when the last M lands
@@ -134,7 +144,7 @@ for f in range(N):
     # flicker + film grain (monochrome)
     flick = 1.0 - (0.08 * rng.random() if 30 <= f < 82 else 0)
     out = out * flick + flash * HALO
-    grain = (rng.standard_normal((H, W, 1)).astype(np.float32)) * 0.045
+    grain = (rng.standard_normal((H, W, 1)).astype(np.float32)) * 0.032
     out = np.clip(out + grain * (0.6 + 0.4 * (out.mean(axis=2, keepdims=True) < 0.05)), 0, 1)
     Image.fromarray((out * 255).astype(np.uint8)).save(f"{OUT}/f{f:03d}.png")
 print("frames", N, W, H)

@@ -14,4 +14,5 @@ Use it at the start and end of every video so the mark becomes the signature.
 - Files: `MOTION_sting_9x16.mp4` (Reels/Stories), `_1x1` (feed), `_16x9` (YouTube/landscape).
 - They're rendered on black, so they can go over footage with the **Screen** blend mode and the black drops out.
 - Red appears only in the MMMM letters. Footage is never tinted.
-- Rebuild: render the layers with `src/layers.html` (headless Chrome, transparent background), then run `python3 src/sting.py W H out_dir` and encode the PNGs with ffmpeg.
+- The M's are the dimensional mark from `media/brand/src/logo3d.py`: chiselled, lit, stacked front-over-back, and each one casts a shadow on the one behind it.
+- Rebuild: `python3 media/brand/src/logo3d.py layers W H <sting dir>` (needs the glyph masks from `glyphs.html`), then `python3 src/sting.py W H out_dir`, then encode the PNGs with ffmpeg.

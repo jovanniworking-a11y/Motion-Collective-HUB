@@ -1,0 +1,11 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; }
+@font-face { font-family: "Jost"; src: url("../deck/fonts/fontsource-variable-jost-5.1.0/package/files/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+* { margin: 0; padding: 0; } html, body { background: transparent; width: 2400px; height: 1500px; overflow: hidden; }
+div { position: absolute; left: 100px; top: 100px; color: #fff; white-space: nowrap; line-height: 1; }
+</style></head><body><div id="t"></div><script>
+const v=new URLSearchParams(location.search).get('v'), t=document.getElementById('t');
+if(v==='M'){ t.style.font='500 900px "Bodoni Moda"'; t.style.fontVariationSettings='"opsz" 96'; t.textContent='M'; }
+if(v==='word'){ t.style.font='500 162px "Bodoni Moda"'; t.style.letterSpacing='.62em'; t.textContent='MOTION'; }
+if(v==='sub'){ t.style.font='500 60px Jost'; t.style.letterSpacing='.5em'; t.textContent='COLLECTIVE · AUSTIN'; }
+</script></body></html>
