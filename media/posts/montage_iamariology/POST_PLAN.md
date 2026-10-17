@@ -1,5 +1,14 @@
 # Post plan: A NIGHT WITH IAMARIOLOGY montage (DRAFT, needs Jovanni's OK)
 
+**Use v2** (`MOTION_montage_iamariology_v2_IG.mp4`, 29.2 s). v1 felt repetitive (Jovanni, 17 Oct): the same booth angle and the same few seconds of the neon clip kept coming back. v2 rules:
+- no moment of footage used twice (a check in the script enforces it);
+- the neon-room and dancing clips lead;
+- the booth appears only on the drop and the finale;
+- a music edit on a beat keeps both drops and cuts the middle.
+
+Cut list with a reason per cut: `v2_cutlist.md`.
+
+
 - **What:** artist montage, 44.9 s, 9:16. All five of his clips (the sparkler booth, the neon eye room, the masked set, the big club, the point to camera), cut to the sparkler clip's own reggaeton track. File: `MOTION_montage_iamariology_IG.mp4`.
 - **Where it sits:** post after the 12.6 s announcement (the hook), as the longer "who he is" piece. Post it as a Collab with him. Then post the first 15 s as a Story with a link sticker to the RSVP.
 - **Trigger:** social proof. A full night of rooms going off for him, ending on the card and the date.
