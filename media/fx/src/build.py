@@ -2,12 +2,13 @@ import json, base64, html, sys
 CL, CUT, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 import glob
 m = {e["key"]: dict(e, tag="on") for e in json.load(open(f"{CL}/effects.json"))}
-for fn in sorted(glob.glob(f"{CL}/effects2_*.json")) + [f"{CL}/effects3.json"]:
+for fn in sorted(glob.glob(f"{CL}/effects2_*.json")) + [f"{CL}/effects3.json", f"{CL}/effects4.json"]:
     for e in json.load(open(fn)): m[e["key"]] = e
 for k in ("warp", "mirror", "vhs"): m[k]["tag"] = "careful"     # warping is on brand since 17 Oct
 m["warp"]["note"] = "Rippling distortion. On brand since 17 Oct as a hit or a transition, not a whole shot."
 CAT = json.load(open(sys.argv[5]))
 GROUPS = [("Pop-culture cut", "New 17 Oct: the Lucki / Carti / Yeat / Kettama language used in teaser v5.", ["fisheye", "bulge", "liquid", "type_stack", "hud", "stabilize", "twirl"]),
+          ("Open-source methods", "Rebuilt from how free tools do it (frei0r, Blender, FFmpeg, G'MIC, openfx-misc). Our code, their published methods.", ["light_graffiti", "streaks", "anamorphic", "fog_glow", "nervous", "threshold", "squiggle", "chrome", "noise_dissolve", "wind_wipe", "hblur_whip", "vertigo", "slit_scan", "threshold3", "kuwahara", "kaleidoscope", "wires", "pixelize"]),
           ("Finish", "One grade on every shot. This is what makes phone footage read as film.", ["raw_vs_look", "promist", "deep_glow", "grain"]),
           ("Motion", "Moves that feel shot, not slid.", ["motion_blur", "shake", "speed_ramp"]),
           ("Transitions", "Hard cuts for 95% of edits. One of these per section, on a bar line.", ["whip", "zoom_through", "luma_fade", "defocus", "flash", "slices"]),

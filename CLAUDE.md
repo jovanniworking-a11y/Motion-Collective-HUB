@@ -20,6 +20,7 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 - No YSL marks, no haze/fog, no lasers. Bodoni Moda + Jost. Red ≤ 10% of the frame.
 - Label every number confirmed / estimate / open.
 - Guest data stays out of git.
+- Effects: we rebuild looks from published methods of open-source tools (notes in `orch/creative/research/oss_effects_algorithms.md`); never copy GPL code into the repo and never download or redistribute paid plugins.
 
 ## Design rules Jovanni has corrected (don't repeat these)
 - **Red is an accent, never a tint.** Use it only for small marks: the MMMM trail, thin rules, and labels like "b2b" / "b3b" under or between artist names. Never colour an image, photo, video frame or the eyes red.
@@ -28,7 +29,7 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 - Render and look at every export at full size before sending; check nothing is cut off at the edges.
 - No set times on promo unless Jovanni asks for them (SoT rule); offer them only as a separate variant.
 - Test pages in a real (headless) browser, not just a syntax check, before saying they work.
-- Edits must feel directed, not random: every cut has a reason (motion, eye-trace, graphic, music, story), build density then release on the drop, real motion blur, one grade. Direction (Jovanni, 17 Oct): pop-culture edit language, not corporate. References: Lucki, Peso Pluma, Kanye set design, Yeat graphics, Carti, Prospa, Kettama, Boiler Room, Raw Cuts. Warps, fisheye, glitch, type stacks and camcorder HUD are ON brand; still never CapCut presets on every cut, and red never tints footage.
+- Edits must feel directed, not random: every cut has a reason (motion, eye-trace, graphic, music, story), build density then release on the drop, real motion blur, one grade. Direction (Jovanni, 17 Oct): pop-culture edit language, not corporate. References: Lucki, Peso Pluma, Kanye set design, Yeat graphics, Carti, Prospa, Kettama, Boiler Room, Raw Cuts, Drake, Bad Bunny / reggaeton. The mix of all of them. Warps, fisheye, glitch, type stacks and camcorder HUD are ON brand; still never CapCut presets on every cut, and red never tints footage.
 - The logo is the dimensional mark (`media/brand/`), never flat overlapping type.
 
 ## Where things are

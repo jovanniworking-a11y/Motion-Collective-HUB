@@ -11,6 +11,10 @@ The direction in one line: **cool, modern, directed. Pop culture, not corporate.
 | Kettama / Prospa / Boiler Room / Raw Cuts | Camcorder HUD, raw rave energy, the logo opening and closing every video |
 | Kanye set design | Monumental endings: black, one line of type, negative space |
 | Peso Pluma | Confident, cinematic framing, flashy but clean |
+| Drake / OVO | The moody open: letterbox, slow motion, anamorphic streaks, fog glow, one small line of type |
+| Bad Bunny / reggaeton | Cut and pop on the dembow accents (the "chick" of boom-ch-boom-chick), fisheye close-ups, one kaleidoscope hit, chrome type |
+
+The combo (teaser v6): Drake open, then Carti/Bad Bunny energy, Yeat type, Boiler Room HUD, Kanye ending, all cut to the clip's own reggaeton track.
 
 Still never: preset transitions on every cut, a flash or glow on every cut, red tinting the footage, or acid colour washes.
 

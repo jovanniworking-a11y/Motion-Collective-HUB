@@ -62,9 +62,13 @@ def qblur(a, r):
 
 # ---------------------------------------------------------------- plates (footage)
 def probe(path):
-    out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
-                          "-of", "csv=p=0", path], capture_output=True, text=True).stdout.strip().split(",")
-    return int(out[0]), int(out[1])
+    """Display size of the first video stream (phone clips store portrait as landscape + a rotation tag)."""
+    out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height:stream_side_data=rotation",
+                          "-of", "csv=p=0", path], capture_output=True, text=True).stdout.strip().replace("\n", ",").split(",")
+    vals = [v for v in out if v.strip()]
+    w, h = int(vals[0]), int(vals[1])
+    rot = int(float(vals[2])) if len(vals) > 2 else 0
+    return (h, w) if abs(rot) % 180 == 90 else (w, h)
 
 def plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False):
     """Decode a clip to grey uint8 frames at native size.
@@ -519,3 +523,203 @@ def stack(alpha, n=5, gap=0.9, solid=2, outline_px=2):
         off = int((i - n // 2) * th)
         out = np.maximum(out, shift(alpha if i == n // 2 else edge, 0, off))
     return np.clip(out, 0, 1)
+
+# ================================================================ v4: written from studying open-source effects (frei0r, Blender,
+# FFmpeg, G'MIC, openfx-misc). Our own implementations from the published methods; no code copied.
+# Algorithm notes: orch/creative/research/oss_effects_algorithms.md
+
+class Vertigo:
+    """Feedback tunnel (frei0r 'vertigo' method): each frame mixes the previous OUTPUT, zoomed and rotated a little,
+    with the new frame. persistence 0.75 = the classic 3:1 mix."""
+    def __init__(self): self.buf = None; self.phase = 0.0
+    def __call__(self, x, zoom=1.03, persistence=0.75, speed=0.02, spin=0.6):
+        if self.buf is None or self.buf.shape != x.shape: self.buf = x.copy()
+        self.phase += speed
+        rot = spin * (math.sin(self.phase * 6) + 0.5 * math.sin(1.9 * self.phase * 6 + 5))
+        h, w = x.shape[:2]; a = math.radians(rot); ca, sa = math.cos(a) / zoom, math.sin(a) / zoom
+        cx, cy = w / 2 + 2 * math.cos(5 * self.phase), h / 2 + 2 * math.sin(6 * self.phase)
+        c = cx - ca * w / 2 - sa * h / 2; f = cy + sa * w / 2 - ca * h / 2
+        fb = np.asarray(Image.fromarray(self.buf.astype(np.float32)).transform((w, h), Image.AFFINE, (ca, sa, c, -sa, ca, f), resample=Image.BILINEAR))
+        self.buf = persistence * fb + (1 - persistence) * x
+        return self.buf
+
+class Nervous:
+    """Time stutter (frei0r 'nervous' method): keeps the last frames and plays short forward/backward runs from random
+    points. hit() restarts a run (drive it from the beat list so stutters land on the hats)."""
+    def __init__(self, depth=24, seed=0): self.ring = []; self.depth = depth; self.r = np.random.default_rng(seed); self.read = 0; self.stride = 1; self.left = 0
+    def __call__(self, x, hit=False):
+        self.ring.append(x); self.ring = self.ring[-self.depth:]
+        n = len(self.ring)
+        if hit or self.left <= 0:
+            self.read = int(self.r.integers(0, n)); self.stride = int(self.r.choice([-2, -1, 1, 2])); self.left = int(self.r.integers(2, 7))
+        else:
+            self.read = (self.read + self.stride) % n; self.left -= 1
+        return self.ring[self.read]
+
+class SlitScan:
+    """Delay map / slit-scan (frei0r 'delaygrab', openfx 'SlitScan' method): each pixel comes from a different past frame,
+    chosen by a delay map. mode 'rings' = centre is now, edges are the past; 'ramp' = top now, bottom later."""
+    def __init__(self, depth=24): self.hist = []; self.depth = depth; self.maps = {}
+    def delay_map(self, shape, mode):
+        key = (shape, mode)
+        if key not in self.maps:
+            h, w = shape; yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+            if mode == "rings": d = np.sqrt((xx - w / 2) ** 2 + (yy - h / 2) ** 2) / math.hypot(w / 2, h / 2)
+            else: d = yy / h
+            self.maps[key] = np.clip((d * (self.depth - 1)), 0, self.depth - 1).astype(np.int32)
+        return self.maps[key]
+    def __call__(self, x, mode="rings"):
+        self.hist.insert(0, x); self.hist = self.hist[:self.depth]
+        stack = np.stack(self.hist + [self.hist[-1]] * (self.depth - len(self.hist)))
+        d = self.delay_map(x.shape[:2], mode); yy, xx = np.indices(x.shape[:2])
+        return stack[d, yy, xx]
+
+class LightGraffiti:
+    """Light painting (frei0r 'lightgraffiti' method, mono): only bright, moving lights (sparklers, phones) get painted
+    into a layer that persists, then that layer is added over the live frame."""
+    def __init__(self): self.bg = None; self.acc = None
+    def __call__(self, x, thr=0.72, diff=0.12, decay=0.93, gain=0.9, bg_rate=1 / 32):
+        if self.bg is None: self.bg = x.copy(); self.acc = np.zeros_like(x)
+        light = (x > thr) & ((x - self.bg) > diff)
+        self.acc = np.maximum(self.acc * decay, np.where(light, x, 0))
+        self.bg = self.bg * (1 - bg_rate) + x * bg_rate
+        return np.clip(x + gain * blur(self.acc, 1.5), 0, 1)
+
+class Threshold:
+    """Adaptive 1-bit / 3-tone threshold (frei0r 'twolay0r'/'threelay0r' method): the cut point is recomputed every frame
+    (iterative isodata), then smoothed so strobes don't make it pump. The xerox/poster look."""
+    def __init__(self): self.t = None
+    def __call__(self, x, tones=2, smooth=0.8):
+        if tones == 2:
+            t = 0.5
+            for _ in range(8):
+                lo, hi = x[x < t], x[x >= t]
+                if lo.size == 0 or hi.size == 0: break
+                t = 0.5 * (lo.mean() + hi.mean())
+            self.t = t if self.t is None else smooth * self.t + (1 - smooth) * t
+            return (x >= self.t).astype(np.float32)
+        p40, p80 = np.percentile(x, [40, 80])
+        return np.where(x < p40, 0.0, np.where(x < p80, 0.5, 1.0)).astype(np.float32)
+
+def _lerp_shift(a, dx, dy):
+    """Fractional shift with zero outside (two-tap bilinear)."""
+    ix, iy = math.floor(dx), math.floor(dy); fx, fy = dx - ix, dy - iy
+    s = lambda X, Y: shift(a, X, Y)
+    return (s(ix, iy) * (1 - fx) + s(ix + 1, iy) * fx) * (1 - fy) + (s(ix, iy + 1) * (1 - fx) + s(ix + 1, iy + 1) * fx) * fy
+
+def streaks(x, n=4, angle=45.0, iterations=3, fade=0.88, thr=0.78, k=0.6):
+    """Streak glare (Blender Glare 'Streaks' method, colour modulation off): star or anamorphic lines from highlights,
+    grown in passes of 4^i px. n=2, angle=0 = anamorphic horizontal (Drake); n=4 or 6 = star filter (jewellery, sparklers)."""
+    hl = small(np.clip((x - thr) / (1 - thr), 0, 1) ** 1.5, 2)
+    total = 0
+    for s_ in range(n):
+        th = math.radians(angle) + 2 * math.pi * s_ / n; dx, dy = math.cos(th), math.sin(th)
+        img = hl
+        for i in range(iterations):
+            m = 4 ** i / 2.0; f = fade ** (m * 2)
+            img = 0.5 * (img + f * _lerp_shift(img, m * dx, m * dy) + f ** 2 * _lerp_shift(img, 2 * m * dx, 2 * m * dy) + f ** 3 * _lerp_shift(img, 3 * m * dx, 3 * m * dy))
+        total = total + img
+    total = total / (5 + 1 - iterations)
+    return x + k * big(total, x.shape[:2])
+
+_FOG = {}
+def fog_glow(x, size=0.5, k=0.5, thr=0.7):
+    """Physically based glare halo (Spencer et al. 1995 point-spread function, as used by Blender's Fog Glow).
+    FFT convolution of the highlights at quarter size; the kernel is cached."""
+    hl = small(np.clip((x - thr) / (1 - thr), 0, 1), 4)
+    h, w = hl.shape; key = (h, w, round(size, 3))
+    if key not in _FOG:
+        fov = 180 + (10 - 180) * size ** (1 / 3)
+        ks = max(h, w); yy, xx = np.mgrid[-ks:ks, -ks:ks].astype(np.float32)
+        th = np.sqrt(xx * xx + yy * yy) * (fov / (2 * ks))
+        f0 = 2.61e6 * np.exp(-(th / 0.02) ** 2); f1 = 20.91 / (th + 0.02) ** 3; f2 = 72.37 / (th + 0.02) ** 2
+        K = 0.384 * f0 + 0.478 * f1 + 0.138 * f2; K /= K.sum()
+        ph, pw = h + 2 * ks, w + 2 * ks
+        _FOG[key] = (np.fft.rfft2(K, (ph, pw)), ks)
+    KF, ks = _FOG[key]
+    ph, pw = h + 2 * ks, w + 2 * ks
+    out = np.fft.irfft2(np.fft.rfft2(hl, (ph, pw)) * KF, (ph, pw))[ks:ks + h, ks:ks + w]
+    return x + k * big(out.astype(np.float32), x.shape[:2])
+
+def kuwahara(x, r=4):
+    """Classic Kuwahara: each pixel takes the mean of whichever of its 4 neighbourhood quadrants is flattest.
+    Painterly, keeps edges. Done at half size."""
+    q = small(x, 2)
+    m = box1d(box1d(q, r // 2 + 1, 0), r // 2 + 1, 1); m2 = box1d(box1d(q * q, r // 2 + 1, 0), r // 2 + 1, 1)
+    v = m2 - m * m; o = r // 2 + 1
+    cands = [(shift(m, dx, dy), shift(v, dx, dy)) for dx, dy in ((o, o), (-o, o), (o, -o), (-o, -o))]
+    means = np.stack([c[0] for c in cands]); vars_ = np.stack([c[1] for c in cands]) + (np.stack([c[0] for c in cands]) == 0) * 9
+    pick = np.argmin(vars_, axis=0)
+    out = np.take_along_axis(means, pick[None], 0)[0]
+    return big(out, x.shape[:2])
+
+def kaleidoscope(x, n=6, cx=0.5, cy=0.5, rot=0.0):
+    """N-fold mirror (frei0r 'kaleid0sc0pe' idea): fold the angle into one wedge and mirror it around."""
+    h, w = x.shape[:2]; xx, yy = _grid(h, w)
+    dx, dy = xx - cx * w, yy - cy * h
+    r = np.sqrt(dx * dx + dy * dy); a = np.arctan2(dy, dx) - math.radians(rot)
+    wedge = 2 * math.pi / n
+    a = np.abs(((a % wedge) + wedge) % wedge - wedge / 2)
+    return _remap(x, cx * w + r * np.cos(a), cy * h + r * np.sin(a))
+
+class Wires:
+    """Neon line trails (FFmpeg 'edgedetect' idea + 'lagfun' max-hold): edges of the frame draw thin bright lines that
+    decay slowly behind motion."""
+    def __init__(self): self.acc = None
+    def __call__(self, x, thr=0.12, decay=0.86):
+        g = blur(x, 1.5); gy, gx = np.gradient(g); mag = np.sqrt(gx * gx + gy * gy)
+        e = (mag > thr * mag.max()).astype(np.float32) * np.clip(mag / (mag.max() + 1e-6) * 3, 0, 1)
+        self.acc = e if self.acc is None else np.maximum(self.acc * decay, e)
+        return np.clip(self.acc, 0, 1)
+
+def noise_dissolve(a, b, p, seed=1, block=1):
+    """Digital per-pixel random dissolve (FFmpeg xfade 'dissolve' method). block > 1 = chunky."""
+    h, w = a.shape[:2]; r = np.random.default_rng(seed)
+    n = r.random(((h + block - 1) // block, (w + block - 1) // block)).astype(np.float32)
+    if block > 1: n = np.kron(n, np.ones((block, block), np.float32))[:h, :w]
+    m = (n * 2 + 2 * clamp01(p) - 1.5) >= 0.5
+    m = m if a.ndim == 2 else m[..., None]
+    return np.where(m, b, a)
+
+def wind_wipe(a, b, p, direction=1, soft=0.12, seed=2):
+    """Ragged 'wind' wipe (FFmpeg xfade hlwind method): each row's edge is offset randomly, so the front tears."""
+    h, w = a.shape[:2]; r = np.random.default_rng(seed); off = r.random(h).astype(np.float32)[:, None] * 0.3
+    xx = (np.arange(w, dtype=np.float32)[None, :] / w)
+    if direction < 0: xx = 1 - xx
+    e = clamp01(p) * (1.3 + soft) - off
+    m = np.clip((e - xx) / soft, 0, 1)
+    m = m if a.ndim == 2 else m[..., None]
+    return a * (1 - m) + b * m
+
+def hblur_transition(a, b, p):
+    """Horizontal smear-through (FFmpeg xfade 'hblur' method): both frames blur sideways, peaking mid-way."""
+    prog = 1 - abs(1 - 2 * clamp01(p)); r = int(1 + (a.shape[1] / 6) * prog)
+    return box1d(a, r, 1) * (1 - ease_io(p)) + box1d(b, r, 1) * ease_io(p)
+
+def pixelize_transition(a, b, p, max_block=90):
+    """Pixelize transition (FFmpeg xfade method): block size grows to a peak at the middle, frames cross under it."""
+    d = min(clamp01(p), 1 - clamp01(p)); bs = max(1, int(max_block * d * 2))
+    def px(x):
+        if bs <= 1: return x
+        h, w = x.shape[:2]; s = Image.fromarray(x.astype(np.float32)).resize((max(1, w // bs), max(1, h // bs)), Image.BOX)
+        return np.asarray(s.resize((w, h), Image.NEAREST))
+    m = ease_io(p)
+    return px(a) * (1 - m) + px(b) * m
+
+def squiggle(mask_, t, amt=2.5, scale=24, every=2):
+    """Squigglevision: type 'boils' - a small displacement that changes every couple of frames (hand-drawn wobble)."""
+    h, w = mask_.shape; r = np.random.default_rng(int(t // every))
+    n = [blur(r.standard_normal((h // 4, w // 4)).astype(np.float32), scale / 4) for _ in range(2)]
+    n = [big(v / (np.abs(v).max() + 1e-6), (h, w)) for v in n]
+    xx, yy = _grid(h, w)
+    return _remap(mask_, xx + n[0] * amt * 4, yy + n[1] * amt * 4)
+
+def chrome(mask_, angle=135, depth=4.0):
+    """Emboss / chrome type (frei0r 'emboss' idea + a metal ramp): a lit relief of the mask mapped through a steel
+    gradient with two bright bands. Returns grey values; tint steel-blue with duotone if wanted."""
+    h_ = blur(mask_, 3)
+    gy, gx = np.gradient(h_ * depth * 10)
+    a = math.radians(angle); lit = (gx * math.cos(a) + gy * math.sin(a))
+    v = 0.5 + 0.5 * np.tanh(lit * 1.5)
+    ramp = 0.35 + 0.45 * v + 0.35 * np.exp(-((v - 0.8) / 0.06) ** 2) + 0.2 * np.exp(-((v - 0.3) / 0.05) ** 2)
+    return np.clip(ramp, 0, 1) * mask_
