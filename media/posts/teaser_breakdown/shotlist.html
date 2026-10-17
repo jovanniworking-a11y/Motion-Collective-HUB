@@ -41,15 +41,15 @@ const q = new URLSearchParams(location.search), v = q.get('v');
 const MARK = '<img src="MOTION_mark_3d.png" alt="">';
 const FOOT = (right) => `<div class="foot"><span class="k">IAMARIOLOGY <span class="r">B2B</span> RAYMIXES</span><span class="k">${right}</span></div>`;
 const ACTS = {
-  1: ['The mark', '00:00 — 00:03', 'Four M’s land. Each one leaves an afterimage.', [['s20', '00:00.7'], ['s64', '00:02.1'], ['s76', '00:02.5']]],
-  2: ['The build', '00:03 — 00:08', 'Letterboxed. The frame opens a little wider on every cut.', [['s100', '00:03.3'], ['s205', '00:06.8'], ['s220', '00:07.3']]],
-  3: ['The drop', '00:09 — 00:13', 'The bars snap open. A punch-in on every beat.', [['s288', '00:09.6'], ['s330', '00:11.0'], ['s370', '00:12.3']]],
-  4: ['The eyes', '00:13 — 00:17', 'They open one band at a time.', [['s410', '00:13.7'], ['s462', '00:15.4'], ['s480', '00:16.0']]],
+  1: ['The mark', '00:00 — 00:03', 'The mark flies in. The red M’s peel out of the white one.', [['v20', '00:00.7'], ['v30', '00:01.0'], ['v50', '00:01.7']]],
+  2: ['The build', '00:03 — 00:08', 'Letterboxed. Every cut lands on the beat, each one faster.', [['v120', '00:04.0'], ['v205', '00:06.8'], ['v218', '00:07.3']]],
+  3: ['The drop', '00:09 — 00:13', 'One beat of black. Then the bars snap open on the drop.', [['v290', '00:09.7'], ['v300', '00:10.0'], ['v335', '00:11.2']]],
+  4: ['The eyes', '00:13 — 00:17', 'They open one band at a time.', [['v400', '00:13.3'], ['v432', '00:14.4'], ['v456', '00:15.2']]],
 };
 const strip = (shots) => `<div class="strip">${shots.map(([s, t]) => `<figure><img src="${s}.jpg" alt=""><figcaption>${t}</figcaption></figure>`).join('')}</div>`;
 const R = document.getElementById('root');
 if (v === 'cover') R.innerHTML = `<div class="s cover"><div class="top">${MARK}<span class="k">AFTERIMAGE 001</span></div><div class="eyes"></div>
-  <div class="t"><span class="k b">The teaser, shot by shot</span><h1>Devil’s Night</h1><div class="rule"></div><span class="tc">17 SECONDS · 127 BPM · 4 ACTS</span></div>${FOOT('10.30.2026')}</div>`;
+  <div class="t"><span class="k b">The teaser, shot by shot</span><h1>Devil’s Night</h1><div class="rule"></div><span class="tc">17 SECONDS · 127 BPM · 18 CUTS</span></div>${FOOT('10.30.2026')}</div>`;
 if (ACTS[v]) { const [t, tc, line, shots] = ACTS[v]; const roman = ['I', 'II', 'III', 'IV'][v - 1];
   R.innerHTML = `<div class="s"><div class="top">${MARK}<span class="k">${roman} / IV</span></div>
   <div class="act"><span class="tc">${tc}</span><h1>${t}</h1><div class="rule"></div><p class="line">${line}</p>${strip(shots)}</div>

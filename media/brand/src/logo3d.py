@@ -47,6 +47,8 @@ MATS = {   # base colour, diffuse floor, gloss sharpness, gloss strength, clearc
     "word": ("#efe9df", .40, 30, .35, .06, .0),
 }
 
+EXTRUDE = 26                                              # side-wall depth in hi-res px (~9 px at 1x)
+EXTRUDE_DIR = (0.55, 0.85)
 CHISEL = 22                                               # bevel width in hi-res px (~7 px at 1x)
 
 def chisel(A, bw):
@@ -66,7 +68,7 @@ def shade(A, mat, relief=1.0, seed=0):
     """Light a glyph mask A (hi-res). Returns straight-alpha RGBA float."""
     base, floor_, p, ks, kc, brush = MATS[mat]
     base = hexc(base)
-    pad = 60
+    pad = 80
     A = np.pad(A, pad)
     # relief: a chiselled bevel (distance from the edge, clipped), like letters cut in stone or metal.
     # Wide strokes get a flat top with sharp facets; hairlines become a single crisp ridge.
@@ -91,8 +93,18 @@ def shade(A, mat, relief=1.0, seed=0):
     micro = box1d(box1d(rng.standard_normal(A.shape).astype(np.float32), 1, 0), 1, 1)
     col *= (1 + 0.05 * micro)[..., None]
     col = np.clip(col, 0, 1)
-    rgba = np.concatenate([col, A[..., None]], -1)[pad:-pad, pad:-pad]
-    return rgba
+    face = np.concatenate([col, A[..., None]], -1)
+    if EXTRUDE and mat.startswith("m"):                   # real thickness (M's only; the wordmark stays fine): a side wall stepped back down-right
+        side = np.zeros_like(face); dx, dy = EXTRUDE_DIR
+        for k in range(EXTRUDE, 0, -1):
+            sa = np.roll(np.roll(A, int(round(k * dy)), 0), int(round(k * dx)), 1)
+            t = k / EXTRUDE                                   # deeper = darker; a little light catches the near edge
+            sc = base * (0.42 - 0.30 * t) + 0.05 * (1 - t)
+            side[..., :3] = side[..., :3] * (1 - sa[..., None]) + sc * sa[..., None]
+            side[..., 3] = np.maximum(side[..., 3], sa)
+        a_ = face[..., 3:4]
+        face = np.concatenate([face[..., :3] * a_ + side[..., :3] * (1 - a_), np.maximum(a_, side[..., 3:4])], -1)
+    return face[pad:-pad, pad:-pad]
 
 def down(rgba, f):
     """Premultiplied downsample (no dark fringes)."""

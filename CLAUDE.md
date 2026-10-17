@@ -28,11 +28,15 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 - Render and look at every export at full size before sending; check nothing is cut off at the edges.
 - No set times on promo unless Jovanni asks for them (SoT rule); offer them only as a separate variant.
 - Test pages in a real (headless) browser, not just a syntax check, before saying they work.
+- Edits must feel directed, not random: every cut has a reason (motion, eye-trace, graphic, music, story), build density then release on the drop, real motion blur, one grade. Hype, but luxury (Saint Laurent / Dior school), never trippy or CapCut-looking.
+- The logo is the dimensional mark (`media/brand/`), never flat overlapping type.
 
 ## Where things are
 - Web hub: https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM (source `web/index.html`, data seeded from `web/seed.json`)
 - Room Studio: https://claude.ai/artifact/49y1uMCWh1em8QAfMbvBiV
 - Fan site (public once shared): https://claude.ai/artifact/Fjd1GpHBNFyu21EJtNBCgB (source `site/index.html`; content lives in the page's `motion-state` JSON; owner edits via "Edit site")
+- FX Library (effects gallery + cut rules + crew loop): https://claude.ai/artifact/2Wn5UpD5rwZaQ9XsBUFFeH (source `media/fx/gallery.html`, effects code `media/fx/mfx.py`)
+- Video direction: `orch/creative/DIRECTORS_BIBLE.md` (every cut needs a reason; read before any edit). Logo: `media/brand/` (dimensional mark), sting `media/sting/`
 - RSVP: Tally form https://tally.so/r/Ekj7zA · Instagram @motioncollective.atx
 - Python hub: `python hub.py` (catalog, event learning, Excel export)
 - Agent kit + project context: `orch/`
