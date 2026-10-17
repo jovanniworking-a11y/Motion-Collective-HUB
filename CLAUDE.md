@@ -28,7 +28,7 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 - Render and look at every export at full size before sending; check nothing is cut off at the edges.
 - No set times on promo unless Jovanni asks for them (SoT rule); offer them only as a separate variant.
 - Test pages in a real (headless) browser, not just a syntax check, before saying they work.
-- Edits must feel directed, not random: every cut has a reason (motion, eye-trace, graphic, music, story), build density then release on the drop, real motion blur, one grade. Hype, but luxury (Saint Laurent / Dior school), never trippy or CapCut-looking.
+- Edits must feel directed, not random: every cut has a reason (motion, eye-trace, graphic, music, story), build density then release on the drop, real motion blur, one grade. Direction (Jovanni, 17 Oct): pop-culture edit language, not corporate. References: Lucki, Peso Pluma, Kanye set design, Yeat graphics, Carti, Prospa, Kettama, Boiler Room, Raw Cuts. Warps, fisheye, glitch, type stacks and camcorder HUD are ON brand; still never CapCut presets on every cut, and red never tints footage.
 - The logo is the dimensional mark (`media/brand/`), never flat overlapping type.
 
 ## Where things are

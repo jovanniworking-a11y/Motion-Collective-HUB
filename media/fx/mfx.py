@@ -429,3 +429,93 @@ def mirror(x, mode="h"):
     if mode == "h":
         w = x.shape[1]; out = x.copy(); out[:, w // 2:] = x[:, :w - w // 2][:, ::-1]; return out
     h = x.shape[0]; out = x.copy(); out[h // 2:] = x[:h - h // 2][::-1]; return out
+
+# ================================================================ v3: pop-culture edit language (rap / rave video looks)
+import os, tempfile, hashlib
+
+def stabilize(path, smoothing=14, shakiness=6):
+    """vid.stab two-pass stabilization (the Warp Stabilizer route). Returns a path to a stabilized copy (cached)."""
+    key = hashlib.md5(f"{os.path.abspath(path)}{smoothing}{shakiness}".encode()).hexdigest()[:10]
+    out = os.path.join(tempfile.gettempdir(), f"stab_{key}.mp4")
+    if os.path.exists(out): return out
+    trf = out + ".trf"
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", path, "-vf", f"vidstabdetect=shakiness={shakiness}:accuracy=15:result={trf}", "-f", "null", "-"], check=True)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", path, "-vf", f"vidstabtransform=input={trf}:smoothing={smoothing}:zoom=0:optzoom=1:interpol=bicubic",
+                    "-c:v", "libx264", "-crf", "12", "-preset", "fast", "-an", out], check=True)
+    return out
+
+_MAPS = {}
+def _remap(x, mx, my):
+    h, w = x.shape[:2]
+    xi = np.clip(mx, 0, w - 1.001); yi = np.clip(my, 0, h - 1.001)
+    x0 = xi.astype(np.int32); y0 = yi.astype(np.int32); fx = xi - x0; fy = yi - y0
+    if x.ndim == 3: fx, fy = fx[..., None], fy[..., None]
+    a = x[y0, x0]; b = x[y0, x0 + 1]; c = x[y0 + 1, x0]; d = x[y0 + 1, x0 + 1]
+    return (a * (1 - fx) + b * fx) * (1 - fy) + (c * (1 - fx) + d * fx) * fy
+
+def _grid(h, w):
+    if (h, w) not in _MAPS:
+        yy, xx = np.mgrid[0:h, 0:w].astype(np.float32); _MAPS[(h, w)] = (xx, yy)
+    return _MAPS[(h, w)]
+
+def fisheye(x, k=0.35, cx=0.5, cy=0.5):
+    """Fisheye / barrel lens (the Lucki, Carti, skate-video lens). k > 0 swells the centre toward the camera.
+    Normalised to the half-diagonal and zoomed by (1 + k), so the corners always stay filled."""
+    if abs(k) < 1e-3: return x
+    h, w = x.shape[:2]; xx, yy = _grid(h, w)
+    D = math.hypot(w / 2, h / 2)
+    nx = (xx - cx * w) / D; ny = (yy - cy * h) / D
+    f = (1 + k * (nx * nx + ny * ny)) / (1 + k)
+    return _remap(x, cx * w + nx * f * D, cy * h + ny * f * D)
+
+def bulge(x, amt=0.35, radius=0.45, cx=0.5, cy=0.5):
+    """Bulge / pinch pulse (CC Bend It / Bulge). amt > 0 swells toward the viewer, < 0 pinches. Pulse it on kicks."""
+    if abs(amt) < 1e-3: return x
+    h, w = x.shape[:2]; xx, yy = _grid(h, w)
+    dx = xx - cx * w; dy = yy - cy * h; R = radius * w
+    d = np.sqrt(dx * dx + dy * dy) / R
+    m = np.where(d < 1, (1 - amt * (1 - d * d) ** 2), 1.0)
+    return _remap(x, cx * w + dx * m, cy * h + dy * m)
+
+def twirl(x, amt=0.6, radius=0.5, cx=0.5, cy=0.5):
+    """Twirl (CC Twister-lite): rotation that falls off from the centre. Use as a transition peak."""
+    if abs(amt) < 1e-3: return x
+    h, w = x.shape[:2]; xx, yy = _grid(h, w)
+    dx = xx - cx * w; dy = yy - cy * h; R = radius * w
+    d = np.sqrt(dx * dx + dy * dy) / R; a = amt * np.clip(1 - d, 0, 1) ** 2
+    ca, sa = np.cos(a), np.sin(a)
+    return _remap(x, cx * w + ca * dx - sa * dy, cy * h + sa * dx + ca * dy)
+
+_LIQ = {}
+def liquid(x, amt, t=0, scale=140, seed=11):
+    """Liquid displacement (Turbulent Displace / 'warp transition'): the frame melts and reforms. amt in px."""
+    if amt < 0.5: return x
+    h, w = x.shape[:2]; key = (h, w, scale, seed)
+    if key not in _LIQ:
+        r = np.random.default_rng(seed)
+        fs = [qblur(r.standard_normal((h, w)).astype(np.float32), scale) for _ in range(2)]
+        _LIQ[key] = [f / (np.abs(f).max() + 1e-6) for f in fs]
+    fx, fy = _LIQ[key]; xx, yy = _grid(h, w)
+    s = int(t * 6) % h
+    return _remap(x, xx + np.roll(fx, s, 0) * amt, yy + np.roll(fy, -s, 1) * amt)
+
+def warp_transition(a, b, p, peak=120):
+    """Melt A out, B melts in: liquid displacement peaks at the cut, with a fast luma blend through the middle."""
+    amt = peak * math.sin(math.pi * clamp01(p)) ** 1.5
+    m = ease_io((p - 0.4) / 0.2)
+    return liquid(a, amt, p * 30) * (1 - m) + liquid(b, amt, p * 30 + 7) * m
+
+def stack(alpha, n=5, gap=0.9, solid=2, outline_px=2):
+    """Repeated type stack (Yeat / Carti typography): the word repeated top to bottom, the middle one solid,
+    the others as outlines. alpha: the word's mask (H, W) centred in frame. Returns a mask."""
+    h, w = alpha.shape
+    ys, xs = np.where(alpha > .3)
+    if len(ys) == 0: return alpha
+    th = (ys.max() - ys.min()) * (1 + gap)
+    er = np.clip((blur(alpha, outline_px * 3) - 0.8) * 6, 0, 1)
+    edge = np.clip((alpha - er) * 1.5, 0, 1)
+    out = np.zeros_like(alpha)
+    for i in range(n):
+        off = int((i - n // 2) * th)
+        out = np.maximum(out, shift(alpha if i == n // 2 else edge, 0, off))
+    return np.clip(out, 0, 1)

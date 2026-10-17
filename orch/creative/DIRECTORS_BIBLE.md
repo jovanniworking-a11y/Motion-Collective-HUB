@@ -1,6 +1,18 @@
 # MOTION · Director's Bible (video)
 
-The direction in one line: **cool, modern, directed. Fashion-house restraint (the Saint Laurent / Dior school of film), club energy.** Our taste is the product. We never look like a CapCut template, and we never look trippy, acid or "mushroomy".
+The direction in one line: **cool, modern, directed. Pop culture, not corporate.** Our taste is the product.
+
+**Updated 17 Oct (Jovanni):** less corporate, more warping, more pop-culture video references:
+
+| Reference | What we take |
+|---|---|
+| Lucki / Carti | Fisheye punch-ins, lo-fi distortion, bulge on the kick |
+| Yeat | Type stacks, glitch blocks, pixel sort, techy graphics |
+| Kettama / Prospa / Boiler Room / Raw Cuts | Camcorder HUD, raw rave energy, the logo opening and closing every video |
+| Kanye set design | Monumental endings: black, one line of type, negative space |
+| Peso Pluma | Confident, cinematic framing, flashy but clean |
+
+Still never: preset transitions on every cut, a flash or glow on every cut, red tinting the footage, or acid colour washes.
 
 Full sourced research: `orch/creative/research/editing_research.md`. Effects library: `media/fx/mfx.py`. Effects gallery: see the hub links in `CLAUDE.md`.
 
