@@ -21,6 +21,14 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 - Label every number confirmed / estimate / open.
 - Guest data stays out of git.
 
+## Design rules Jovanni has corrected (don't repeat these)
+- **Red is an accent, never a tint.** Use it only for small marks: the MMMM trail, thin rules, and labels like "b2b" / "b3b" under or between artist names. Never colour an image, photo, video frame or the eyes red.
+- Images and video stay black and white / steel blue, like the eyes teaser.
+- Check source images for baked-in text or logos before laying type over them (the teaser eyes already contain "10.30.26" and MMMM).
+- Render and look at every export at full size before sending; check nothing is cut off at the edges.
+- No set times on promo unless Jovanni asks for them (SoT rule); offer them only as a separate variant.
+- Test pages in a real (headless) browser, not just a syntax check, before saying they work.
+
 ## Where things are
 - Web hub: https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM (source `web/index.html`, data seeded from `web/seed.json`)
 - Room Studio: https://claude.ai/artifact/49y1uMCWh1em8QAfMbvBiV
