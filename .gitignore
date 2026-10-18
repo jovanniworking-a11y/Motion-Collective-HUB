@@ -18,3 +18,8 @@ venv/
 .DS_Store
 Thumbs.db
 ~$*
+
+# licensed music stays local (Jovanni bought it; never redistribute)
+*.mp3
+*.wav
+*.m4a
