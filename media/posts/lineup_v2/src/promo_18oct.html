@@ -21,7 +21,7 @@ html, body { background: var(--night); }
 .foot { position: absolute; left: 72px; right: 72px; bottom: 60px; display: flex; justify-content: space-between; align-items: center; }
 .mono { font-family: JB, monospace; letter-spacing: .08em; }
 /* film strip: real 35 mm edge markings as the frame of the camera story */
-.strip { position: absolute; left: 90px; right: 90px; top: 360px; height: 980px; border: 2px solid rgba(242,239,232,.9); }
+.strip { position: absolute; left: 90px; right: 90px; top: 430px; height: 720px; border: 2px solid rgba(242,239,232,.9); }
 .strip .holes { position: absolute; top: 0; bottom: 0; width: 46px; display: flex; flex-direction: column; justify-content: space-around; align-items: center; }
 .strip .holes.l { left: -62px; } .strip .holes.r2 { right: -62px; }
 .strip .holes i { width: 26px; height: 36px; border-radius: 4px; background: var(--bone); opacity: .85; display: block; }
@@ -60,6 +60,9 @@ html, body { background: var(--night); }
 .door .hr { height: 2px; background: currentColor; opacity: .25; }
 .door .small { font-size: 26px; letter-spacing: .3em; text-transform: uppercase; font-weight: 500; opacity: .7; }
 .door img.mk { height: 96px; }
+/* IG story safe zone: profile bar covers the top ~250 px, reply bar the bottom ~340 px */
+.s.story .top { top: 250px; } .s.story .foot { bottom: 380px; }
+.s.story .sticker { position: absolute; left: 72px; right: 72px; height: 170px; border: 1px dashed rgba(242,239,232,.28); display: grid; place-items: center; font: 500 16px Jost; letter-spacing: .4em; color: rgba(242,239,232,.35); text-transform: uppercase; }
 </style></head><body><div id="root"></div><script>
 const v = new URLSearchParams(location.search).get('v'), R = document.getElementById('root');
 const MARK = '<img src="../logo/MOTION_mark_3d.png" alt="">';
@@ -67,12 +70,12 @@ const FOOT = (l, r) => `<div class="foot"><span class="k">${l}</span><span class
 const holes = n => Array.from({length: n}, () => '<i></i>').join('');
 const V = {
   camstory: `<div class="s story"><div class="top">${MARK}<span class="k">AFTERIMAGE 001</span></div>
-    <div style="position:absolute;left:72px;right:72px;top:190px" class="k b">10.30.2026 · Devil’s Night</div>
+    <div style="position:absolute;left:72px;right:72px;top:340px" class="k b">10.30.2026 · Devil’s Night</div>
     <div class="strip"><div class="img"></div><div class="holes l">${holes(9)}</div><div class="holes r2">${holes(9)}</div>
       <span class="edge" style="left:12px;top:-34px">MOTION 400 · B&amp;W</span><span class="edge" style="right:12px;top:-34px">24A ▸ 25</span>
       <span class="edge" style="left:12px;bottom:-34px">MOTION 01 / 05</span><span class="edge" style="right:12px;bottom:-34px">25A ▸</span></div>
-    <div style="position:absolute;left:72px;right:72px;top:1430px;display:grid;gap:26px">
-      <div class="it" style="font-size:118px">No phones.</div><div class="rule"></div>
+    <div style="position:absolute;left:72px;right:72px;top:1210px;display:grid;gap:22px">
+      <div class="it" style="font-size:104px">No phones.</div><div class="rule"></div>
       <div style="font-size:34px;font-weight:300;line-height:1.45;color:#d9d4cb">5 disposable cameras go round the room. Shoot, pass it on. We develop the film and post it after.</div></div>
     ${FOOT('Invite only', 'RSVP · link in bio')}</div>`,
   lineup: `<div class="s"><div class="top">${MARK}<span class="k">AFTERIMAGE 001</span></div>
@@ -109,7 +112,7 @@ V.camsign = `<div class="s"><div class="top">${MARK}<span class="k">AFTERIMAGE 0
       <p style="max-width:900px">5 guests get a disposable camera. You shoot the night; we develop the film and post your frames, credited to you.</p>
       <div class="list" style="margin-top:6px"><div><span>→</span><b>DM “CAMERA” to claim one</b></div></div></div>
     ${FOOT('First 5 DMs', '10.30.2026')}</div>`;
-V.camsignstory = V.camsign.replace('class="s"', 'class="s story"').replace('top:120px;left:40px;font-size:400px', 'top:200px;left:40px;font-size:640px');
+V.camsignstory = V.camsign.replace('class="s"', 'class="s story"').replace('<div class="bignum" style="top:120px;left:40px;font-size:400px">5</div>', '<div class="bignum" style="top:330px;left:40px;font-size:420px">5</div>').replace('class="big low" style="bottom:200px"', 'class="big low" style="bottom:450px"');
 V.doordark = V.door.replace('class="door"', 'class="door dark"');
 R.innerHTML = V[v] || '';
 </script></body></html>
