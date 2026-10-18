@@ -70,7 +70,7 @@ def probe(path):
     rot = int(float(vals[2])) if len(vals) > 2 else 0
     return (h, w) if abs(rot) % 180 == 90 else (w, h)
 
-def plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False, bw=None):
+def plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False, bw=None, max_h=None):
     """Decode a clip to grey uint8 frames at native size.
     denoise: hqdn3d before any scaling, so blocky phone compression doesn't get magnified.
     deflicker: even out frame-to-frame exposure jumps from strobes.
@@ -88,6 +88,8 @@ def plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=
     if t0 is not None: cmd += ["-ss", f"{t0:.3f}"]
     cmd += ["-i", path]
     if t1 is not None: cmd += ["-t", f"{t1 - (t0 or 0):.3f}"]
+    if max_h and h > max_h:                                   # downscale big plates (4K) once at decode, keep aspect
+        w = int(round(w * max_h / h / 2)) * 2; h = max_h; vf.insert(0, f"scale={w}:{h}:flags=lanczos")
     cmd += ["-vf", ",".join(vf), "-f", "rawvideo", "-pix_fmt", "gray", "-"]
     raw = subprocess.run(cmd, capture_output=True).stdout
     return np.frombuffer(raw, np.uint8).reshape(-1, h, w)
