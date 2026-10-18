@@ -35,7 +35,7 @@ The references are ingredients. These eight things make an edit unmistakably MOT
 
 Red only ever sits on the MMMM, the B2B label and the REC dot.
 
-**18 Oct (raymixes):** the camera never pans, pushes or punches into an artist. Artist shots are locked-off; energy comes from the cut, the afterimage trail and the type, not from moving the frame. Every edit carries AFTERIMAGE: the 3x eyes (`flyer/eyes_hc.png`) open band by band, an AFTERIMAGE card on a silence, AFTERIMAGE 001 on the end card.
+**18 Oct (Charvel + Abraham):** every cut is a new shot. Never cut back to the same angle 2-3 times; it reads as redundant. List the distinct angles in the footage first, use each once, and bring one back only when the story needs it (for example inside the triptych). Cut faster rather than recycle. Zooms and effects on the artists are fine. Every edit carries AFTERIMAGE: the 3x eyes (`flyer/eyes_hc.png`) open band by band, an AFTERIMAGE card on a silence, AFTERIMAGE 001 on the end card.
 
 ## 1. Every cut needs a reason
 A cut feels random when it has no motivation. Before keeping a cut, name at least one of these reasons out loud:

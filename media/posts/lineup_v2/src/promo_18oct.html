@@ -103,6 +103,13 @@ const V = {
     <p><b>Want to stay out of frame?</b> Tell any crew member.</p><div class="hr"></div>
     <div class="small">AFTERIMAGE 001 · Devil’s Night · 21+</div></div></div>`,
 };
+V.camsign = `<div class="s"><div class="top">${MARK}<span class="k">AFTERIMAGE 001</span></div>
+    <div class="bignum" style="top:120px;left:40px;font-size:400px">10</div>
+    <div class="big low" style="bottom:200px"><span class="k b">Shooters wanted</span><h1 class="it">10 cameras.<br>10 of you.</h1>
+      <p style="max-width:900px">10 guests get a disposable camera. You shoot the night; we develop the film and post your frames, credited to you.</p>
+      <div class="list" style="margin-top:6px"><div><span>→</span><b>DM “CAMERA” to claim one</b></div></div></div>
+    ${FOOT('First 10 DMs', '10.30.2026')}</div>`;
+V.camsignstory = V.camsign.replace('class="s"', 'class="s story"').replace('top:120px;left:40px;font-size:400px', 'top:200px;left:40px');
 V.doordark = V.door.replace('class="door"', 'class="door dark"');
 R.innerHTML = V[v] || '';
 </script></body></html>

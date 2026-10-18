@@ -22,3 +22,12 @@ Source for the posts: `media/posts/lineup_v2/src/promo_18oct.html?v=camstory|lin
 - Camera story copy: "No phones. 10 disposable cameras… We develop the film and post it after." Change "10" if the camera count changes (see `orch/plans/CAMERA_PROGRAM.md`).
 - The film-edge text on the story ("MOTION 400 · B&W") is decorative and brand-free.
 - The rules carousel uses the confirmed $40 costume prize only as "best look wins cash", with no amount.
+
+## Camera sign-up post (added 18 Oct, DRAFT)
+- `media/posts/camera_story/MOTION_camera_signup_DRAFT_1080x1350.png` (feed) and `..._story_DRAFT_1080x1920.png`.
+- Copy: "Shooters wanted. 10 cameras. 10 of you. … DM 'CAMERA' to claim one. First 10 DMs."
+- Post this only after the cameras are bought (open: budget). Keep the list of the 10 names on paper or in a private sheet, never in git.
+- Caption draft: "10 disposable cameras. 10 shooters. You shoot Devil's Night, we develop it and post your frames with your name on them. DM CAMERA. First 10 only."
+
+## Costume prize: announce or surprise?
+The flyer already says "best look wins $40", so the prize is public. Don't give it its own post. Keep the *moment* a surprise: crown the winner live at 1:30 AM on camera, then post the winner photo the next day. That turns it into content.
