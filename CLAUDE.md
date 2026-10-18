@@ -32,6 +32,7 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 - Test pages in a real (headless) browser, not just a syntax check, before saying they work.
 - Edits must feel directed, not random: every cut has a reason (motion, eye-trace, graphic, music, story), build density then release on the drop, real motion blur, one grade. Direction (Jovanni, 17 Oct): pop-culture edit language, not corporate. References: Lucki, Peso Pluma, Kanye set design, Yeat graphics, Carti, Prospa, Kettama, Boiler Room, Raw Cuts, Drake, Bad Bunny / reggaeton. The mix of all of them. Warps, fisheye, glitch, type stacks and camcorder HUD are ON brand; still never CapCut presets on every cut, and red never tints footage.
 - The logo is the dimensional mark (`media/brand/`), never flat overlapping type.
+- Never pan, push or punch in on an artist (raymixes, 18 Oct); artist shots are locked-off. Every edit carries AFTERIMAGE branding and the 3x eyes.
 
 ## Where things are
 - Web hub: https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM (source `web/index.html`, data seeded from `web/seed.json`)

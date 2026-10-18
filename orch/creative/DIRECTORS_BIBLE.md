@@ -35,6 +35,8 @@ The references are ingredients. These eight things make an edit unmistakably MOT
 
 Red only ever sits on the MMMM, the B2B label and the REC dot.
 
+**18 Oct (raymixes):** the camera never pans, pushes or punches into an artist. Artist shots are locked-off; energy comes from the cut, the afterimage trail and the type, not from moving the frame. Every edit carries AFTERIMAGE: the 3x eyes (`flyer/eyes_hc.png`) open band by band, an AFTERIMAGE card on a silence, AFTERIMAGE 001 on the end card.
+
 ## 1. Every cut needs a reason
 A cut feels random when it has no motivation. Before keeping a cut, name at least one of these reasons out loud:
 1. **Motion:** the action continues or starts on the cut. Cut about a third of the way into the move, so the incoming shot finishes it.
