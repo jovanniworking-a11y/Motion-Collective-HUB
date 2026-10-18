@@ -34,6 +34,27 @@ That's about $105–180 over the buffer. Options:
 
 Nothing is bought until Jovanni decides.
 
+### Funding from the Rohan savings (18 Oct, Jovanni)
+Rohan's $275 (confirmed, Jovanni's own money) is freed up. Part of it was proposed for extra drinks (about $103, open, not bought).
+
+| Austin developing (dev + scans, per roll) | Estimate |
+|---|---|
+| Austin Camera (C-41 single-use) | $14.99 develop; scans extra (2023: dev + scans about $14–20) |
+| Holland Photo | about $22.79 dev + scan + prints, about 3 business days (2023) |
+| Precision Camera | scans $8–12 per roll (in-house C-41) |
+| **Use for budget** | **about $15–25 per roll** |
+
+| 5 cameras | Cheap (FunSaver/QuickSnap) | B&W (Ilford XP2) |
+|---|---|---|
+| Cameras | about $60–75 | about $100–150 |
+| Develop + scans, 5 rolls | about $75–125 | about $75–125 |
+| **Total** | **about $135–200** | **about $175–275** |
+
+- Rohan savings with no extra drinks: $275, so either option fits.
+- Rohan savings after the extra drinks (about $172 left): the cheap option fits; XP2 only at the low end.
+- A Depop bundle (14 cameras) only helps if the price per camera is under about $12. Develop only the ones handed out.
+
+
 ## 4. Hand-out rule (open: who runs it)
 - The 5 guests who claimed one by DM ("CAMERA", first 5) get a camera at the door, with a numbered sticker (MOTION 01–05) that matches the camera.
 - Sign-out on **paper at the door**, camera number to first name only. **It never goes in git or the repo** (guest data rule).
