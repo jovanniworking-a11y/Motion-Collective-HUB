@@ -2,11 +2,11 @@
 Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cut) · **16 Oct update below wins where it conflicts**
 
 ## Decided 18 Oct (owner)
-- **Lineup / times (internal only, no set times on the public flyer):** iamariology b2b raymixes open 9:00 PM · **Glamz 11:00 PM–12:15 AM, plays free** (open: confirm "free" = no fee) · HE//THEY · co.b b2b NiiON headline from 12:15 AM. Rohan is off.
+- **Lineup / times (internal only, no set times on the public flyer):** iamariology b2b raymixes open 9:00 PM · **Glamz 11:00 PM–12:15 AM, plays free, no fee (confirmed 18 Oct)**; only co.b and NiiON (HE//THEY) charge · HE//THEY · co.b b2b NiiON headline from 12:15 AM. Rohan is off.
 - **Door / ID:** Jovanni, part-time. **Open:** one more sober door/welfare helper.
 - **Jovanni:** records the crowd, takes photos, picks up the CDJs. Audio backup if Rapid Ric doesn't supply: Rock n Roll Rentals (open: quote).
 - **Capacity:** 50–70 guests (estimate; confirm). 61 named so far (confirmed count); 14 Tally RSVPs covering 39 heads (confirmed, 18 Oct).
-- **Phones away.** Official recording, disclosed. **5 disposable cameras** (decided 18 Oct), claimed by DM "CAMERA", first 5 (open: model, buyer, budget ~$175–250 estimate, lab).
+- **Phones are fine (18 Oct, Jovanni: no phones-away rule).** The event is officially recorded and we announce it. **5 disposable cameras, Fujifilm (QuickSnap, colour, converted to B&W for posting)** (decided 18 Oct), claimed by DM "CAMERA", first 5, paid from the Rohan savings (open: buyer, lab; about $140–250 estimate incl. developing).
 - Song request for the b2b montage: Silva Bumpa – "On2Nite" (open: needs an audio file to cut to; post with Instagram's licensed library audio).
 
 ## Decided 16 Oct (Jovanni confirmed the 15 Oct Logistics Control sheet)

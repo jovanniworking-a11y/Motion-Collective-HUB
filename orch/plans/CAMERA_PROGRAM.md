@@ -1,6 +1,8 @@
 # AFTERIMAGE 001 · Disposable camera program (DRAFT, nothing bought)
 
-**Goal (5 cameras, decided 18 Oct):** 5 disposable cameras go round the guests during the night. We collect them at the end, develop the film and post the best frames. It fits the phones-away rule: the photos still happen, they just come back days later.
+**Decided 18 Oct: 5 Fujifilm cameras (option D, QuickSnap 400, colour; we convert to B&W). No phones-away rule; the cameras are an extra, not a replacement.**
+
+**Goal:** 5 disposable cameras go round the guests during the night. We collect them at the end, develop the film and post the best frames. It fits the phones-away rule: the photos still happen, they just come back days later.
 
 ## 1. Which camera (prices are estimates from 18 Oct searches; check before buying)
 | Option | Film | Look | Est. price each | 5 cameras | Notes |
