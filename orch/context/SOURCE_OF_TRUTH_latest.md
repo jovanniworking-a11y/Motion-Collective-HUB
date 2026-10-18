@@ -1,6 +1,14 @@
 # MOTION · AFTERIMAGE 001 — Devil's Night — Source of Truth
 Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cut) · **16 Oct update below wins where it conflicts**
 
+## Decided 18 Oct (owner)
+- **Lineup / times (internal only, no set times on the public flyer):** iamariology b2b raymixes open 9:00 PM · **Glamz 11:00 PM–12:15 AM, plays free** (open: confirm "free" = no fee) · HE//THEY · co.b b2b NiiON headline from 12:15 AM. Rohan is off.
+- **Door / ID:** Jovanni, part-time. **Open:** one more sober door/welfare helper.
+- **Jovanni:** records the crowd, takes photos, picks up the CDJs. Audio backup if Rapid Ric doesn't supply: Rock n Roll Rentals (open: quote).
+- **Capacity:** 50–70 guests (estimate; confirm). 61 named so far (confirmed count); 14 Tally RSVPs covering 39 heads (confirmed, 18 Oct).
+- **Phones away.** Official recording, disclosed. **10 disposable cameras** go round the guests (open: model, buyer, budget, lab).
+- Song request for the b2b montage: Silva Bumpa – "On2Nite" (open: needs an audio file to cut to; post with Instagram's licensed library audio).
+
 ## Decided 16 Oct (Jovanni confirmed the 15 Oct Logistics Control sheet)
 - **Logistics Control (15 Oct) is the current plan** where it differs from the sections below.
 - **Drinks: 150-cocktail menu, locked** — 90 entry lemonades + 60 mid-level Palomas, bulk 1.75 L. The jungle-juice recipe and carts below are **superseded**. Drinks, ice and cups total **$231.13** incl. tax (estimate until receipts); pool spend **$381.13**, buffer **$68.87**. The optional jungle-juice add-on is superseded.

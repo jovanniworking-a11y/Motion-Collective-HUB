@@ -1,0 +1,108 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; }
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-italic.woff2") format("woff2"); font-style: italic; font-weight: 400 900; }
+@font-face { font-family: "Jost"; src: url("../deck/fonts/fontsource-variable-jost-5.1.0/package/files/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "JB"; src: url("../deck/fonts/fontsource-variable-jetbrains-mono-5.1.0/package/files/jetbrains-mono-latin-wght-normal.woff2") format("woff2"); font-weight: 100 800; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --night: #07070b; --bone: #f2efe8; --dim: #8f8b85; --ice: #bfddf0; --red: #c8333c; }
+html, body { background: var(--night); }
+.s { position: relative; width: 1080px; height: 1350px; background: var(--night); color: var(--bone); overflow: hidden; font-family: Jost, sans-serif; }
+.s.story { height: 1920px; }
+.s::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .09; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.top { position: absolute; top: 64px; left: 72px; right: 72px; display: flex; justify-content: space-between; align-items: center; }
+.top img { height: 46px; }
+.k { font-size: 18px; font-weight: 500; letter-spacing: .5em; text-transform: uppercase; color: var(--dim); }
+.k.b { color: var(--bone); }
+.rule { width: 64px; height: 1px; background: var(--red); }
+.it { font-family: "Bodoni Moda", serif; font-style: italic; font-weight: 400; font-variation-settings: "opsz" 96; line-height: .95; letter-spacing: -.01em; }
+.blk { font-weight: 900; letter-spacing: -.01em; line-height: .92; text-transform: uppercase; }
+.r { color: var(--red); }
+.foot { position: absolute; left: 72px; right: 72px; bottom: 60px; display: flex; justify-content: space-between; align-items: center; }
+.mono { font-family: JB, monospace; letter-spacing: .08em; }
+/* film strip: real 35 mm edge markings as the frame of the camera story */
+.strip { position: absolute; left: 90px; right: 90px; top: 360px; height: 980px; border: 2px solid rgba(242,239,232,.9); }
+.strip .holes { position: absolute; top: 0; bottom: 0; width: 46px; display: flex; flex-direction: column; justify-content: space-around; align-items: center; }
+.strip .holes.l { left: -62px; } .strip .holes.r2 { right: -62px; }
+.strip .holes i { width: 26px; height: 36px; border-radius: 4px; background: var(--bone); opacity: .85; display: block; }
+.strip .edge { position: absolute; font: 500 20px JB, monospace; color: #e7b34b; letter-spacing: .12em; }
+.strip .img { position: absolute; inset: 0; background: url("../flyer/eyes_hc.png") center 30%/cover; filter: contrast(1.15); }
+.strip .img::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(255,255,255,.35), transparent 55%); mix-blend-mode: screen; }
+/* lineup */
+.lu { position: absolute; left: 72px; right: 72px; top: 250px; display: grid; gap: 26px; justify-items: center; text-align: center; }
+.lu .head { font-size: 150px; }
+.lu .cr { font-size: 30px; letter-spacing: .32em; padding-left: .32em; font-weight: 500; }
+.lu .sep { width: 1px; height: 54px; background: rgba(242,239,232,.35); }
+.lu .mid { font-size: 112px; }
+.lu .op { font-size: 76px; }
+.lu .op small { display: block; font-size: 26px; letter-spacing: .42em; padding-left: .42em; margin: 14px 0; font-weight: 500; }
+/* rules */
+.big { position: absolute; left: 72px; right: 72px; top: 330px; display: grid; gap: 34px; }
+.big h1 { font-size: 132px; }
+.big p { font-size: 34px; font-weight: 300; line-height: 1.4; color: #d9d4cb; max-width: 860px; }
+.bignum { position:absolute; left:60px; top:120px; font-family:"Bodoni Moda",serif; font-style:italic; font-size:720px; line-height:1; color:rgba(242,239,232,.07); letter-spacing:-.04em; }
+.big.low { top:auto; bottom:190px; }
+.num { font: 400 22px JB, monospace; color: var(--red); letter-spacing: .1em; }
+.list { display: grid; gap: 26px; margin-top: 10px; }
+.list div { display: grid; grid-template-columns: 70px 1fr; align-items: baseline; border-top: 1px solid rgba(242,239,232,.14); padding-top: 22px; }
+.list b { font-size: 46px; font-weight: 500; }
+.list span { font: 400 20px JB, monospace; color: var(--dim); }
+.eyes { position: absolute; left: 150px; right: 150px; top: 150px; height: 760px; background: url("../flyer/eyes_hc.png") center/cover; }
+.eyes::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, var(--night) 0%, transparent 18%, transparent 70%, var(--night) 100%); }
+/* door sign (letter, ink saver = light) */
+.door { width: 1275px; height: 1650px; background: #fff; color: #0b0b0e; position: relative; font-family: Jost; overflow: hidden; }
+.door.dark { background: #07070b; color: #f2efe8; }
+.door .in { position: absolute; inset: 110px 110px; display: grid; align-content: space-between; }
+.door .rec { font: 600 40px JB, monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 18px; }
+.door .rec i { width: 26px; height: 26px; border-radius: 50%; background: #c8333c; display: inline-block; }
+.door h1 { font-size: 190px; line-height:.9; }
+.door p { font-size: 52px; line-height: 1.35; max-width: 1050px; }
+.door .hr { height: 2px; background: currentColor; opacity: .25; }
+.door .small { font-size: 26px; letter-spacing: .3em; text-transform: uppercase; font-weight: 500; opacity: .7; }
+.door img.mk { height: 96px; }
+</style></head><body><div id="root"></div><script>
+const v = new URLSearchParams(location.search).get('v'), R = document.getElementById('root');
+const MARK = '<img src="../logo/MOTION_mark_3d.png" alt="">';
+const FOOT = (l, r) => `<div class="foot"><span class="k">${l}</span><span class="k">${r}</span></div>`;
+const holes = n => Array.from({length: n}, () => '<i></i>').join('');
+const V = {
+  camstory: `<div class="s story"><div class="top">${MARK}<span class="k">AFTERIMAGE 001</span></div>
+    <div style="position:absolute;left:72px;right:72px;top:190px" class="k b">10.30.2026 · Devil’s Night</div>
+    <div class="strip"><div class="img"></div><div class="holes l">${holes(9)}</div><div class="holes r2">${holes(9)}</div>
+      <span class="edge" style="left:12px;top:-34px">MOTION 400 · B&amp;W</span><span class="edge" style="right:12px;top:-34px">24A ▸ 25</span>
+      <span class="edge" style="left:12px;bottom:-34px">MOTION 01 / 10</span><span class="edge" style="right:12px;bottom:-34px">25A ▸</span></div>
+    <div style="position:absolute;left:72px;right:72px;top:1430px;display:grid;gap:26px">
+      <div class="it" style="font-size:118px">No phones.</div><div class="rule"></div>
+      <div style="font-size:34px;font-weight:300;line-height:1.45;color:#d9d4cb">10 disposable cameras go round the room. Shoot, pass it on. We develop the film and post it after.</div></div>
+    ${FOOT('Invite only', 'RSVP · link in bio')}</div>`,
+  lineup: `<div class="s"><div class="top">${MARK}<span class="k">AFTERIMAGE 001</span></div>
+    <div style="position:absolute;left:0;right:0;top:160px;text-align:center" class="k b">Devil’s Night · the lineup</div>
+    <div class="lu"><div class="blk head">HE//THEY</div><div class="cr">co.b <span class="r">b2b</span> NiiON</div><div class="sep"></div>
+      <div class="blk mid">GLAMZ</div><div class="sep"></div>
+      <div class="blk op">IAMARIOLOGY<small class="r">B2B</small>RAYMIXES</div></div>
+    <div style="position:absolute;left:0;right:0;top:1130px;text-align:center"><div class="it" style="font-size:66px">10.30.2026</div></div>
+    ${FOOT('Austin · invite only', 'RSVP · link in bio')}</div>`,
+  rules1: `<div class="s"><div class="top">${MARK}<span class="k">I / IV</span></div><div class="eyes"></div>
+    <div style="position:absolute;left:72px;right:72px;top:960px;display:grid;gap:24px"><span class="k b">Before Friday</span><div class="it" style="font-size:132px">The rules.</div><div class="rule"></div></div>
+    ${FOOT('AFTERIMAGE 001', '10.30.2026')}</div>`,
+  rules2: `<div class="s"><div class="top">${MARK}<span class="k">II / IV</span></div>
+    <div class="bignum">01</div><div class="big low"><span class="num">01</span><h1 class="it">Phones away.</h1><p>The night is officially recorded: the sets and the room. You don’t need your phone to remember it.</p></div>
+    ${FOOT('AFTERIMAGE 001', 'Official recording on site')}</div>`,
+  rules3: `<div class="s"><div class="top">${MARK}<span class="k">III / IV</span></div>
+    <div class="bignum">02</div><div class="big low"><span class="num">02</span><h1 class="it">10 cameras.</h1><p>Disposable cameras go round the room. Shoot, pass it on. We develop the film and post the best frames.</p></div>
+    ${FOOT('AFTERIMAGE 001', 'Shoot · pass it on')}</div>`,
+  rules4: `<div class="s"><div class="top">${MARK}<span class="k">IV / IV</span></div>
+    <div class="big"><span class="num">03</span><h1 class="it">Know this.</h1>
+      <div class="list"><div><span>01</span><b>21+ · ID at the door</b></div><div><span>02</span><b>The address comes by DM</b></div>
+      <div><span>03</span><b>Stay out of frame? Tell the crew</b></div><div><span>04</span><b>Costumes on · best look wins cash</b></div></div></div>
+    ${FOOT('Invite only', 'RSVP · link in bio')}</div>`,
+  door: `<div class="door"><div class="in">${'<img class="mk" src="../logo/MOTION_mark_3d.png" alt="">'}<div class="rec"><i></i>OFFICIAL RECORDING IN PROGRESS</div>
+    <h1 class="it">Phones away tonight.</h1><div class="hr"></div>
+    <p>MOTION is recording audio and video of the sets and the room tonight.</p>
+    <p>10 disposable cameras are going around. Grab one, shoot, pass it on. Photos may be shared by MOTION.</p>
+    <p><b>Want to stay out of frame?</b> Tell any crew member.</p><div class="hr"></div>
+    <div class="small">AFTERIMAGE 001 · Devil’s Night · 21+</div></div></div>`,
+};
+V.doordark = V.door.replace('class="door"', 'class="door dark"');
+R.innerHTML = V[v] || '';
+</script></body></html>
