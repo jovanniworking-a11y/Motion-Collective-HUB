@@ -6,7 +6,7 @@ Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cu
 - **Door / ID:** Jovanni, part-time. **Open:** one more sober door/welfare helper.
 - **Jovanni:** records the crowd, takes photos, picks up the CDJs. Audio backup if Rapid Ric doesn't supply: Rock n Roll Rentals (open: quote).
 - **Capacity:** 50–70 guests (estimate; confirm). 61 named so far (confirmed count); 14 Tally RSVPs covering 39 heads (confirmed, 18 Oct).
-- **Phones away.** Official recording, disclosed. **10 disposable cameras** go round the guests (open: model, buyer, budget, lab).
+- **Phones away.** Official recording, disclosed. **5 disposable cameras** (decided 18 Oct), claimed by DM "CAMERA", first 5 (open: model, buyer, budget ~$175–250 estimate, lab).
 - Song request for the b2b montage: Silva Bumpa – "On2Nite" (open: needs an audio file to cut to; post with Instagram's licensed library audio).
 
 ## Decided 16 Oct (Jovanni confirmed the 15 Oct Logistics Control sheet)
