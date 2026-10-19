@@ -44,5 +44,5 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 - RSVP: Tally form https://tally.so/r/Ekj7zA · Instagram @motioncollective.atx
 - Python hub: `python hub.py` (catalog, event learning, Excel export)
 - Agent kit + project context: `orch/`
-- Learning track (Python, ML, using AI tools): `learn/` (`python learn/check.py all`). When Jovanni asks for help with an exercise, explain and give hints; don't write the solution unless he asks.
+- Learning (Python/ML/AI tracks, Clinic Quest, the Academy and the clay clinic model) moved to Codex on Jovanni's PC (`learning-lab/`, 19 Oct). Dr. Kim / Skyline Pain work lives there too (`skyline-site/`), never in this repo. Route those asks to Codex.
 - Taste profile (references, loves, hates, corrections): `orch/creative/taste.json`. Promo/creative-direction skill: `.claude/skills/motion-promo/SKILL.md` (use it whenever Jovanni asks to promote something or describes a vibe)
