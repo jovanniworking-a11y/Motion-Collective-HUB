@@ -33,6 +33,7 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 - Edits must feel directed, not random: every cut has a reason (motion, eye-trace, graphic, music, story), build density then release on the drop, real motion blur, one grade. Direction (Jovanni, 17 Oct): pop-culture edit language, not corporate. References: Lucki, Peso Pluma, Kanye set design, Yeat graphics, Carti, Prospa, Kettama, Boiler Room, Raw Cuts, Drake, Bad Bunny / reggaeton. The mix of all of them. Warps, fisheye, glitch, type stacks and camcorder HUD are ON brand; still never CapCut presets on every cut, and red never tints footage.
 - The logo is the dimensional mark (`media/brand/`), never flat overlapping type.
 - Every cut is a new shot (Charvel + Abraham, 18 Oct): never cut back to the same angle 2-3 times; an angle returns only when the story needs it. Cut faster rather than recycle. Zooms and effects on the artists are fine. Every edit carries AFTERIMAGE branding and the 3x eyes.
+- A b2b is two equal stars (19 Oct): same name size and treatment for both, one featured moment each. Small type at least 30 px on a 1080 frame.
 
 ## Where things are
 - Web hub: https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM (source `web/index.html`, data seeded from `web/seed.json`)
