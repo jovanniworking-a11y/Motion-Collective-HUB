@@ -24,3 +24,9 @@
 - Two equal stars: same name size in the intros, stacks and end card; one featured moment each (iamariology's freeze, raymixes' punch-in).
 - Arielogy's note: the from-behind club shot is out; the jacket close-up on the mixer plays 2 beats in its place.
 - Song: On 2nite from **0:16** (same as v7). Repo copy is silent.
+
+## FINAL · v9 (19 Oct) — replaces v8
+- Arielogy: both behind-the-booth shots are out (the from-behind club shot and the jacket close-up at ~0:08). The neon eye sign tilting down to him plays there now.
+- Rendered with the fast engine (`src/montage9_engine.py`): per-shot cached pieces, 4 cores, `--draft` for previews.
+  - First draft ~3 min (builds the clip cache once); a re-run with one changed shot re-draws only that shot and its neighbour; no change = 2 s.
+  - Full-quality final ~6 min on this 4-core cloud machine.

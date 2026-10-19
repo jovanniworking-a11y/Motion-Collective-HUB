@@ -14,7 +14,7 @@ Everything is monochrome on purpose. Red stays an accent added by the caller (MM
 Deliberately left out: chromatic aberration / RGB split (adds coloured fringes = a tint), acid colour washes,
 heavy wave warps (reads cheap, "trippy").
 """
-import math, subprocess
+import math, subprocess, os, hashlib
 import numpy as np
 from PIL import Image
 
@@ -70,7 +70,20 @@ def probe(path):
     rot = int(float(vals[2])) if len(vals) > 2 else 0
     return (h, w) if abs(rot) % 180 == 90 else (w, h)
 
+PLATE_CACHE = os.environ.get("MFX_PLATE_CACHE", os.path.join(os.path.expanduser("~"), ".cache", "mfx_plates"))
+
 def plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False, bw=None, max_h=None):
+    """Decoded plates are cached on disk (keyed by the file and every argument) and memory-mapped on the next run,
+    so a re-render never decodes, denoises or interpolates the same clip twice."""
+    st = os.stat(path)
+    key = hashlib.md5(repr((os.path.abspath(path), st.st_size, int(st.st_mtime), t0, t1, fps, interp, denoise, deflicker, bw, max_h)).encode()).hexdigest()[:16]
+    fn = os.path.join(PLATE_CACHE, key + ".npy")
+    if os.path.exists(fn): return np.load(fn, mmap_mode="r")
+    arr = _plate(path, t0, t1, fps, interp, denoise, deflicker, bw, max_h)
+    os.makedirs(PLATE_CACHE, exist_ok=True); np.save(fn + ".tmp.npy", arr); os.replace(fn + ".tmp.npy", fn)
+    return arr
+
+def _plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False, bw=None, max_h=None):
     """Decode a clip to grey uint8 frames at native size.
     denoise: hqdn3d before any scaling, so blocky phone compression doesn't get magnified.
     deflicker: even out frame-to-frame exposure jumps from strobes.

@@ -104,3 +104,9 @@ At 127 bpm: 1 beat = 0.472 s = 14.17 frames at 30 fps; 1 bar = 1.89 s; 8 bars = 
 6. **Learn:** every two weeks, promote what scores 4-5 and retire what doesn't. Every correction Jovanni makes becomes a hard rule here and in `CLAUDE.md`.
 
 What doesn't work: fully autonomous agents "scouring YouTube" on their own. Gemini only samples about 1 frame per second, so it misses the cuts that matter. Taste stays with the creative director. The tools gather the material, measure it and execute.
+
+## 7. Fast render workflow (19 Oct)
+- Edit scripts render every shot as its own cached piece (`media/posts/montage_b2b/src/montage9_engine.py` is the template). Plates are cached on disk by `mfx.plate`.
+- Artist or Jovanni notes: change the shot's line in the edit list, run with `--draft` (half size, every other frame), send the draft. Only changed shots re-draw.
+- After the OK: one full-quality run (no `--draft`), check frames, send.
+
