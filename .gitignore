@@ -19,7 +19,8 @@ venv/
 Thumbs.db
 ~$*
 
-# licensed music stays local (Jovanni bought it; never redistribute)
+# music: only Jovanni's licensed copies, only in media/audio/licensed/ (private repo; never post or share the files)
 *.mp3
 *.wav
 *.m4a
+!media/audio/licensed/*.mp3
