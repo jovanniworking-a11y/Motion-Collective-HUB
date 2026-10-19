@@ -41,3 +41,7 @@ Finishing pass so nothing reads as generated:
 - Ariology: the club "hands under the beams" shot at ~0:16 is out; the eye triptych runs 3 beats.
 - New: the last cut flows the room in through the 3x eyes (eyes as a matte).
 - Export: H.264 High, CRF 14, up to 20 Mbps. Audit: `src/qc.py` (blown frames, flashes, exposure dips, black edges).
+
+## FINAL · v11 · "Believe" (19 Oct) — the one to post
+- Same edit and finishing as v10, re-timed to "Believe" (142 bpm): AFTERIMAGE on the song's real silence, cuts start on the drop (0:09.3 in the reel), a bar-line music edit into the pre-chorus for the eyes, the eyes matte opens on the hit (0:27.9). 32.3 s.
+- **Instagram:** IG's music sticker plays one continuous stretch, so it can't reproduce the music edit. Either post `..._WITH_SONG.mp4` with its own audio (IG may mute it if the label claims it), or post the silent file with "Believe" from IG Music starting at **1:12** — the drop then lands at 0:09.3, and the second half will be off the edit.
