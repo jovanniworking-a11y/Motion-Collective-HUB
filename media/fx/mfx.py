@@ -72,18 +72,18 @@ def probe(path):
 
 PLATE_CACHE = os.environ.get("MFX_PLATE_CACHE", os.path.join(os.path.expanduser("~"), ".cache", "mfx_plates"))
 
-def plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False, bw=None, max_h=None):
+def plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False, bw=None, max_h=None, deblock=False):
     """Decoded plates are cached on disk (keyed by the file and every argument) and memory-mapped on the next run,
     so a re-render never decodes, denoises or interpolates the same clip twice."""
     st = os.stat(path)
-    key = hashlib.md5(repr((os.path.abspath(path), st.st_size, int(st.st_mtime), t0, t1, fps, interp, denoise, deflicker, bw, max_h)).encode()).hexdigest()[:16]
+    key = hashlib.md5(repr((os.path.abspath(path), st.st_size, int(st.st_mtime), t0, t1, fps, interp, denoise, deflicker, bw, max_h, deblock)).encode()).hexdigest()[:16]
     fn = os.path.join(PLATE_CACHE, key + ".npy")
     if os.path.exists(fn): return np.load(fn, mmap_mode="r")
-    arr = _plate(path, t0, t1, fps, interp, denoise, deflicker, bw, max_h)
+    arr = _plate(path, t0, t1, fps, interp, denoise, deflicker, bw, max_h, deblock)
     os.makedirs(PLATE_CACHE, exist_ok=True); np.save(fn + ".tmp.npy", arr); os.replace(fn + ".tmp.npy", fn)
     return arr
 
-def _plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False, bw=None, max_h=None):
+def _plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker=False, bw=None, max_h=None, deblock=False):
     """Decode a clip to grey uint8 frames at native size.
     denoise: hqdn3d before any scaling, so blocky phone compression doesn't get magnified.
     deflicker: even out frame-to-frame exposure jumps from strobes.
@@ -91,6 +91,7 @@ def _plate(path, t0=None, t1=None, fps=30, interp=False, denoise=True, deflicker
     interp: optical-flow motion-compensated frames (ffmpeg minterpolate), like Twixtor, for smooth slow motion."""
     w, h = probe(path)
     vf = []
+    if deblock: vf.append("spp=quality=4:qp=6")              # remove phone compression blocks, keep the real grain
     if denoise: vf.append("hqdn3d=3:2:5:4")
     if deflicker: vf.append("deflicker=size=9:mode=median")
     if bw:                                                    # B&W colour filter, like a lens filter on film: 'blue' darkens
@@ -116,6 +117,9 @@ def cover(g, z=1.0, dx=0.0, dy=0.0, rot=0.0, cx=0.5, cy=0.5, out=(W, H)):
     a = math.radians(rot); ca, sa = math.cos(a), math.sin(a)
     # output pixel (x, y) -> plate pixel
     px, py = cx * w, cy * h
+    hw, hh = OW / (2 * s), OH / (2 * s)                        # keep the crop window inside the plate: no black edges
+    if w >= 2 * hw: px = min(max(px - dx / s, hw), w - hw) + dx / s
+    if h >= 2 * hh: py = min(max(py - dy / s, hh), h - hh) + dy / s
     ox, oy = OW / 2 + dx, OH / 2 + dy
     A = ca / s; B = sa / s; D = -sa / s; E = ca / s
     C = px - A * ox - B * oy; F = py - D * ox - E * oy
