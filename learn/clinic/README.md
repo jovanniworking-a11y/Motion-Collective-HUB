@@ -12,6 +12,10 @@ python learn/clinic/play.py 3        # check level 3 (shows exactly what's wrong
 Each level folder has a `README.md` (the story and the rules), `quest.py` (you write the code where you see `...`) and
 `check.py` (don't edit it). Try for 20 minutes before opening the hint at the bottom of the README.
 
+## Play it in the browser
+Clinic Quest Academy: https://claude.ai/artifact/SZagbUUpFwRw9n8iT5sMW2 (built from `learn/clinic/academy/`: edit `lessons.json` or a level, then `python learn/clinic/academy/build.py`).
+Every level: **1 · Lesson** (the university lecture behind it), **2 · Code** (Python runs and is checked right in the page, same checks as `play.py`), **3 · PowerShell** (a practice terminal). Levels 8, 11 and 12 run on your PC.
+
 ## The 3D model
 A cute clay model of the clinic flow (clinic day and procedure day): https://claude.ai/artifact/QaEhjZG1UeZqQAC843T5EH (source `learn/clinic/model/index.html`).
 Tap a room to see what happens there, what goes wrong, and which level of this game automates it.
