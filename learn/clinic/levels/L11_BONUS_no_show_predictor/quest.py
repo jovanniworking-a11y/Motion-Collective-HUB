@@ -1,0 +1,13 @@
+import numpy as np
+
+def sigmoid(z):
+    ...
+
+def train(X, y, lr=0.1, steps=2000):
+    ...
+
+def predict_proba(model, X):
+    ...
+
+def predict(model, X):
+    ...

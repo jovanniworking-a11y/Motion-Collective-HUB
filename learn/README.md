@@ -1,5 +1,7 @@
 # learn/ · coding for MOTION
 
+**Start here if you like games:** `learn/clinic/`, *Clinic Quest*: build the software for Dr. Kim's private pain clinic level by level (`python learn/clinic/play.py`).
+
 Three tracks. Each exercise is a small piece of a real MOTION job: you fill in `exercise.py`, then run the check.
 
 ```bash
