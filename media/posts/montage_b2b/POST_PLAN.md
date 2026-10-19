@@ -30,3 +30,14 @@
 - Rendered with the fast engine (`src/montage9_engine.py`): per-shot cached pieces, 4 cores, `--draft` for previews.
   - First draft ~3 min (builds the clip cache once); a re-run with one changed shot re-draws only that shot and its neighbour; no change = 2 s.
   - Full-quality final ~6 min on this 4-core cloud machine.
+
+## FINAL · v10 (19 Oct) — the one to post. Replaces v9.
+Finishing pass so nothing reads as generated:
+- Real step-printed slow motion on the point-to-camera (no optical-flow in-between frames).
+- Phone clip: compression blocks removed (deblock), no waxy denoise, real grain, no blended motion blur.
+- Exposure flicker steadied (phone strobes, club strobes kept a little), sparklers rolled off like film (0 blown frames).
+- Less ghosting and lens warp, steadier type, softer zoom hits, AFTERIMAGE clears before the logo.
+- Bugs fixed: black edge strips (crop now stays inside every clip), the 0:16 black corner.
+- Ariology: the club "hands under the beams" shot at ~0:16 is out; the eye triptych runs 3 beats.
+- New: the last cut flows the room in through the 3x eyes (eyes as a matte).
+- Export: H.264 High, CRF 14, up to 20 Mbps. Audit: `src/qc.py` (blown frames, flashes, exposure dips, black edges).
