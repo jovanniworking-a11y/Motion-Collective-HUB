@@ -85,6 +85,16 @@ pre { background: var(--s2); border: 1px solid var(--line); border-radius: 10px;
 .tasks li::before { content: ""; width: 14px; height: 14px; margin-top: 3px; border-radius: 4px; border: 2px solid var(--line); }
 .tasks li.done::before { background: var(--good); border-color: var(--good); }
 .tasks code { background: var(--s2); border-radius: 4px; padding: 1px 4px; }
+.steps { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: st; }
+.step { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 8px; }
+.step .h { display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: start; line-height: 1.5; overflow-wrap: anywhere; }
+.step .h::before { counter-increment: st; content: counter(st); width: 22px; height: 22px; border-radius: 50%; background: var(--s2); font: 600 12px/22px var(--mono); text-align: center; }
+.step.ok .h::before { content: "✓"; background: var(--good); color: var(--s0); }
+.step.locked { opacity: .45; } .step.locked .act { display: none !important; }
+pre, code, textarea, .term, .out, input.guess { font-variant-ligatures: none !important; font-feature-settings: "liga" 0, "calt" 0 !important; }
+.step textarea.mini { width: 100%; resize: vertical; font: 13px/1.55 var(--mono); background: var(--term-bg); color: var(--term-ink); border: 0; border-radius: 8px; padding: 10px; tab-size: 4; white-space: pre; overflow: auto; }
+.step input.guess { width: 100%; font: 13px var(--mono); background: var(--s1); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.step .out { min-height: 0; }
 .loading { font-size: 13px; color: var(--warn); }
 @media (prefers-reduced-motion: reduce) { .xpbar i { transition: none; } }
 </style>
@@ -216,12 +226,42 @@ function renderPanel() {
 function renderLesson(B, L) {
   const s = L.lesson;
   B.innerHTML = `<div class="uni"><span class="k">The university lesson behind this level</span><a href="${s.url}" target="_blank" rel="noopener">${esc(s.course)}</a>
-      ${s.course2 ? `<a href="${s.url2}" target="_blank" rel="noopener">${esc(s.course2)}</a>` : ""}<span class="note">Watch or read that first, then come back for the key ideas and the work.</span></div>
+      ${s.course2 ? `<a href="${s.url2}" target="_blank" rel="noopener">${esc(s.course2)}</a>` : ""}${s.read ? `<span class="k" style="margin-top:6px">Read instead of watching</span><a href="${s.read[1]}" target="_blank" rel="noopener">${esc(s.read[0])}</a>` : ""}<span class="note">Optional. The steps below teach this level on their own, with no video.</span></div>
+    ${stepsHTML(s)}
     <div><h3 style="margin:0 0 8px">Key ideas</h3><ul class="ideas">${s.ideas.map(t => `<li>${esc(t).replace(/`([^`]+)`/g, "<code>$1</code>")}</li>`).join("")}</ul></div>
     <div><h3 style="margin:0 0 8px">Try it</h3><pre>${esc(s.example)}</pre></div>
     ${sel === 0 ? "" : `<div><h3 style="margin:0 0 8px">The technical work</h3><div class="md">${md(L.readme)}</div></div>`}
     <div class="row"><button type="button" class="btn primary" id="next">${sel === 0 ? "Open the PowerShell →" : (s.pc ? "See how to run it on your PC →" : "Start the technical work →")}</button></div>`;
   B.querySelector("#next").addEventListener("click", () => { tab = sel === 0 ? "shell" : "code"; store.set("tab", tab); renderPanel(); });
+  bindSteps(B, s);
+}
+// Step-by-step: read one idea, guess the output, run it, change one thing. Each step unlocks the next.
+function stepsHTML(s) {
+  if (!s.steps) return "";
+  const got = store.get("steps" + sel, 0), tick = t => esc(t).replace(/`([^`]+)`/g, "<code>$1</code>");
+  return `<div><h3 style="margin:0 0 4px">Step by step</h3><p class="note" style="margin:0 0 10px">Guess first, then run. A wrong guess is where you learn. Step ${Math.min(got + 1, s.steps.length)} of ${s.steps.length}.</p>
+    <ol class="steps">${s.steps.map((st, i) => `<li class="step ${i < got ? "ok" : i > got ? "locked" : ""}" data-i="${i}"><div class="h"><span>${tick(st.say)}</span></div>
+      ${st.code ? `<textarea class="mini" rows="${st.code.split("\n").length + 1}" spellcheck="false" aria-label="Step ${i + 1} code">${esc(st.code)}</textarea>
+        <div class="act" style="display:grid;gap:8px"><input class="guess" placeholder="Your guess: what will it print?" aria-label="Your guess for step ${i + 1}">
+        <div class="row"><button type="button" class="btn primary" data-a="run">Run it</button></div></div><div class="out" hidden aria-live="polite"></div>`
+      : st.shell ? `<pre>${esc(st.shell)}</pre><div class="act row"><button type="button" class="btn primary" data-a="shell">Type it in the PowerShell tab →</button><button type="button" class="btn" data-a="ok">Done</button></div>`
+      : `<div class="act row"><button type="button" class="btn" data-a="ok">Done, next step</button></div>`}</li>`).join("")}</ol></div>`;
+}
+function bindSteps(B, s) {
+  if (!s.steps) return;
+  const unlock = i => { if (store.get("steps" + sel, 0) <= i) store.set("steps" + sel, i + 1);
+    B.querySelectorAll(".step").forEach((li, k) => { const g = store.get("steps" + sel, 0); li.classList.toggle("ok", k < g); li.classList.toggle("locked", k > g); }); };
+  B.querySelectorAll(".step").forEach(li => li.addEventListener("click", e => {
+    const a = e.target.dataset && e.target.dataset.a; if (!a) return; const i = +li.dataset.i;
+    if (a === "ok") return unlock(i);
+    if (a === "shell") { unlock(i); tab = "shell"; store.set("tab", tab); renderPanel(); return; }
+    const out = li.querySelector(".out"); out.hidden = false;
+    if (!pyReady) { out.textContent = "Python is still loading (a few seconds the first time)…"; return; }
+    const r = JSON.parse(window.pyrun(li.querySelector("textarea").value, "", "{}")), g = li.querySelector(".guess").value.trim();
+    const res = (r.msg || "(no output)").trim();
+    out.textContent = (g ? (g.replace(/\s+/g, " ") === res.replace(/\s+/g, " ") ? "You called it.\n\n" : `You guessed: ${g}\nWhat happened is below. Work out why before the next step.\n\n`) : "") + res;
+    unlock(i);
+  }));
 }
 function renderCode(B, L) {
   if (sel === 0) { B.innerHTML = `<p>Level 0 is all in the terminal. Open the PowerShell tab.</p>`; return; }
