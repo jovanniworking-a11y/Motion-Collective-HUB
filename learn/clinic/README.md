@@ -12,6 +12,10 @@ python learn/clinic/play.py 3        # check level 3 (shows exactly what's wrong
 Each level folder has a `README.md` (the story and the rules), `quest.py` (you write the code where you see `...`) and
 `check.py` (don't edit it). Try for 20 minutes before opening the hint at the bottom of the README.
 
+## The 3D model
+A cute clay model of the clinic flow (clinic day and procedure day): https://claude.ai/artifact/QaEhjZG1UeZqQAC843T5EH (source `learn/clinic/model/index.html`).
+Tap a room to see what happens there, what goes wrong, and which level of this game automates it.
+
 ## Ranks
 | XP | Rank |
 |---|---|
