@@ -14,3 +14,8 @@
 ## Still needed
 - Both Instagram handles, for the tags and Collab invites.
 - Your OK to post. Guests' faces show briefly in the crowd beat of the masked-set run.
+
+## v7 · On 2nite (18 Oct)
+- Cut to Silva Bumpa "On 2nite" (90.6 bpm, measured). The edit uses the song from **0:16.5 to 0:47.0**: the breakdown carries the open, the drop at 0:25.75 starts the cuts, and the chorus hit at 0:43.3 is the finale.
+- Repo copy is **silent** (`..._v7_on2nite_SILENT_IG.mp4`); the song is licensed to Jovanni and never goes in git.
+- **To post on Instagram:** upload the silent file, tap Music, pick "On 2nite", and drag the start to **0:16**. The drop then lands on the first fast cut.
