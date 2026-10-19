@@ -1,0 +1,39 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: "Bodoni Moda"; src: url("../deck/fonts/fontsource-variable-bodoni-moda-5.1.0/package/files/bodoni-moda-latin-wght-italic.woff2") format("woff2"); font-style: italic; font-weight: 400 900; }
+@font-face { font-family: "Jost"; src: url("../deck/fonts/fontsource-variable-jost-5.1.0/package/files/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "JB"; src: url("../deck/fonts/fontsource-variable-jetbrains-mono-5.1.0/package/files/jetbrains-mono-latin-wght-normal.woff2") format("woff2"); font-weight: 100 800; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: transparent; width: 1080px; height: 2220px; overflow: hidden; }
+.c { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; color: #f2efe8; }
+.mid { display: grid; place-items: center; text-align: center; }
+.blk { font: 900 132px/0.9 Jost, sans-serif; letter-spacing: -.02em; }
+.hud { font: 500 26px JB, monospace; letter-spacing: .08em; color: #e9e4da; position: absolute; }
+.br { position: absolute; width: 70px; height: 70px; border-color: rgba(242,239,232,.85); border-style: solid; border-width: 0; }
+</style></head><body><div class="c" id="c"></div><script>
+const v=new URLSearchParams(location.search).get('v'), c=document.getElementById('c');
+const L={
+ iam:'<div class="c mid"><div class="blk" style="font-size:116px;letter-spacing:.01em">IAMARIOLOGY</div></div>',
+ ray:'<div class="c mid"><div class="blk" style="font-size:116px;letter-spacing:.01em">RAYMIXES</div></div>',
+ b2b:'<div class="c mid"><div class="blk" style="font-size:300px;color:#c8333c;letter-spacing:.02em">B2B</div></div>',
+ slam:'<div class="c mid"><div><div class="blk" style="font-size:128px">IAMARIOLOGY</div><div class="blk" style="font-size:58px;color:#c8333c;letter-spacing:.35em;margin:26px 0 22px;padding-left:.35em">B2B</div><div class="blk" style="font-size:186px">RAYMIXES</div></div></div>',
+ devil:'<div class="c mid"><div><div style="font:italic 400 150px/1 \'Bodoni Moda\',serif;letter-spacing:-.01em">Devil’s Night</div><div style="font:500 26px Jost;letter-spacing:.62em;padding-left:.62em;margin-top:40px;color:#e9e4da">10.30.2026 · AUSTIN</div></div></div>',
+ aft:'<div class="c mid"><div><div style="font:500 24px Jost;letter-spacing:.62em;padding-left:.62em;color:#e9e4da;margin-bottom:34px">MOTION PRESENTS</div><div class="blk" style="font-size:124px;letter-spacing:.04em;padding-left:.04em">AFTERIMAGE</div><div style="font:400 44px JB,monospace;letter-spacing:.5em;padding-left:.5em;margin-top:30px;color:#e9e4da">001</div></div></div>',
+ aftw:'<div class="c mid"><div class="blk" style="font-size:124px;letter-spacing:.04em;padding-left:.04em">AFTERIMAGE</div></div>',
+ aftk:'<div style="position:absolute;left:0;right:0;top:1690px;text-align:center;font:500 30px Jost;letter-spacing:.5em;padding-left:.5em;color:#ece8e0">AFTERIMAGE 001</div>',
+ devil2:'<div class="c mid"><div><div style="font:500 24px Jost;letter-spacing:.62em;padding-left:.62em;color:#e9e4da;margin-bottom:44px">AFTERIMAGE 001</div><div style="font:italic 400 150px/1 \'Bodoni Moda\',serif;letter-spacing:-.01em">Devil’s Night</div><div style="font:500 26px Jost;letter-spacing:.62em;padding-left:.62em;margin-top:40px;color:#e9e4da">10.30.2026 · AUSTIN</div></div></div>',
+ tag_iam:'<div class="hud" style="right:78px;bottom:150px">▸ IAMARIOLOGY</div>',
+ tag_ray:'<div class="hud" style="right:78px;bottom:150px">▸ RAYMIXES</div>',
+ in_iam:'<div style="position:absolute;left:0;right:0;top:1280px;text-align:center"><div style="font:500 30px Jost;letter-spacing:.5em;padding-left:.5em;color:#ece8e0;margin-bottom:20px">INTRODUCING</div><div class="blk" style="font-size:116px;letter-spacing:.01em">IAMARIOLOGY</div></div>',
+ in_ray:'<div style="position:absolute;left:0;right:0;top:1280px;text-align:center"><div style="font:500 30px Jost;letter-spacing:.5em;padding-left:.5em;color:#ece8e0;color:#c8333c;margin-bottom:20px">B2B</div><div class="blk" style="font-size:116px;letter-spacing:.01em">RAYMIXES</div></div>',
+ fomo:'<div class="c mid"><div><div class="blk" style="font-size:118px">INVITE ONLY</div><div style="font:500 28px Jost;letter-spacing:.5em;padding-left:.5em;margin-top:34px;color:#e9e4da">NUMBERED PASSES</div><div style="width:64px;height:1px;background:#c8333c;margin:44px auto"></div><div style="font:500 24px Jost;letter-spacing:.5em;padding-left:.5em;color:#e9e4da">RSVP · LINK IN BIO</div></div></div>',
+ ann2:'<div class="c mid"><div><div style="font:500 30px Jost;letter-spacing:.5em;padding-left:.5em;color:#ece8e0;margin-bottom:36px">MOTION PRESENTS</div><div class="blk" style="font-size:116px;letter-spacing:.01em">IAMARIOLOGY</div><div style="font:500 30px Jost;letter-spacing:.5em;padding-left:.5em;color:#ece8e0;color:#c8333c;margin:26px 0">B2B</div><div class="blk" style="font-size:116px;letter-spacing:.01em">RAYMIXES</div><div style="font:500 30px Jost;letter-spacing:.5em;padding-left:.5em;color:#ece8e0;margin-top:36px">OPENING DEVIL’S NIGHT</div></div></div>',
+ hud:`<div class="br" style="left:48px;top:120px;border-left-width:2px;border-top-width:2px"></div><div class="br" style="right:48px;top:120px;border-right-width:2px;border-top-width:2px"></div>
+      <div class="br" style="left:48px;bottom:120px;border-left-width:2px;border-bottom-width:2px"></div><div class="br" style="right:48px;bottom:120px;border-right-width:2px;border-bottom-width:2px"></div>
+      <div class="hud" style="left:78px;top:150px"><span style="color:#c8333c">●</span> REC</div><div class="hud" style="right:78px;top:150px">AFTERIMAGE 001</div>
+      <div class="hud" style="left:78px;bottom:150px">CAM A · 91 BPM</div>`,
+ kicker:'<div style="position:absolute;left:0;right:0;top:1330px;text-align:center;font:500 24px Jost;letter-spacing:.62em;padding-left:.62em;color:#e9e4da">AFTERIMAGE 001 · DEVIL’S NIGHT</div>',
+ digits:'<div class="hud" style="left:0;top:0;letter-spacing:0" id="d">0123456789:</div>',
+};
+c.innerHTML=L[v];
+if(v==='digits'){ document.title=document.getElementById('d').getBoundingClientRect().width; }
+</script></body></html>

@@ -19,3 +19,8 @@
 - Cut to Silva Bumpa "On 2nite" (90.6 bpm, measured). The edit uses the song from **0:16.5 to 0:47.0**: the breakdown carries the open, the drop at 0:25.75 starts the cuts, and the chorus hit at 0:43.3 is the finale.
 - Repo copy is **silent** (`..._v7_on2nite_SILENT_IG.mp4`); the song is licensed to Jovanni and never goes in git.
 - **To post on Instagram:** upload the silent file, tap Music, pick "On 2nite", and drag the start to **0:16**. The drop then lands on the first fast cut.
+
+## FINAL · v8 (19 Oct)
+- Two equal stars: same name size in the intros, stacks and end card; one featured moment each (iamariology's freeze, raymixes' punch-in).
+- Arielogy's note: the from-behind club shot is out; the jacket close-up on the mixer plays 2 beats in its place.
+- Song: On 2nite from **0:16** (same as v7). Repo copy is silent.
