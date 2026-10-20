@@ -33,24 +33,34 @@ def main() -> int:
         pg.on("pageerror", lambda e: errs.append(str(e)))
         boot(pg)  # noqa: F821
 
-        # Relabel dispenser share for stock reporting; keep MIX ratios (estimate geometry model)
-        pg.evaluate(
-            """() => {
-              const D = window.__studio.dbg;
-              if (D.SERVES_TXT) {
-                D.SERVES_TXT.jj = 'Lemonade / Paloma (dispensers)';
-              }
-            }"""
-        )
+        # Kick drink-spot optimizer (exposed on __studio; core stays internal)
+        pg.evaluate("window.__studio.optimizeDrinks()")
+        deadline = time.time() + 2400  # hard cap ~40 min
+        prog = ""
+        while time.time() < deadline:
+            pg.wait_for_timeout(5000)
+            st = pg.evaluate(
+                """() => ({
+                  ranking: !!window.__studio.ranking,
+                  prog: (document.querySelector('#rankProgTxt')||{}).textContent || '',
+                  n: window.__studio.rankResults && window.__studio.rankResults.list
+                    ? window.__studio.rankResults.list.length : 0,
+                })"""
+            )
+            prog = st.get("prog") or prog
+            print(f"[{round(time.time()-t0)}s] ranking={st['ranking']} n={st['n']} {prog[:100]}", flush=True)
+            if not st["ranking"]:
+                break
+            if errs:
+                break
+        else:
+            errs.append("optimizeDrinks timed out")
 
-        # Drink-spot optimizer (±5% @95% CI pipeline inside Studio)
         result = pg.evaluate(
-            """async () => {
-              const S = window.__studio, D = S.dbg;
-              const ctx = {N: D.guests ? D.guests() : 70, done: 0, total: 0};
-              const rep = {};
-              const w = await D.optimizeDrinksCore(ctx, rep);
-              const top = (rep.drinks && rep.drinks.top) ? rep.drinks.top.map(r => ({
+            """() => {
+              const rr = window.__studio.rankResults;
+              const list = (rr && rr.list) ? rr.list : [];
+              const top = list.slice(0, 6).map(r => ({
                 title: r.title,
                 score: +(r.score||0).toFixed(2),
                 ciPct: +((r.ciPct||0)*100).toFixed(1),
@@ -60,16 +70,27 @@ def main() -> int:
                 avgTrip: r.avgTrip != null ? +r.avgTrip.toFixed(3) : null,
                 qPeak: r.qPeak != null ? +r.qPeak.toFixed(2) : null,
                 tie: !!r.tieWithBest,
-              })) : [];
+              }));
               return {
-                win: w && {title: w.title, score: +(w.score||0).toFixed(2), ciPct: +((w.ciPct||0)*100).toFixed(1), n: w.n, ok: w.ok},
-                tested: rep.drinks ? rep.drinks.tested : null,
+                win: top[0] || null,
+                tested: list.length,
                 top,
-                mix: D.MIX,
-                N: ctx.N,
+                N: 70,
+                prog: (document.querySelector('#rankProgTxt')||{}).textContent || '',
               };
             }"""
         )
+
+        # Apply best drink layout so nightStats use winning spots
+        pg.evaluate(
+            """() => {
+              const rr = window.__studio.rankResults;
+              if (rr && rr.list && rr.list[0] && typeof rr.apply === 'function') {
+                rr.apply(rr.list[0]);
+              }
+            }"""
+        )
+        pg.wait_for_timeout(500)
 
         # Night stock: pours from our stations vs BYOB across baths 1|2, medium/spread
         stock = {}
@@ -95,23 +116,24 @@ def main() -> int:
                 baths,
             )
 
+        # Studio MIX constants (not on dbg) — read from page source contract in AGENTS.md / index comment
+        mix = {"jj": 0.60, "beer": 0.22, "seltzer": 0.18, "source": "orch/context/studio/index.html MIX"}
+
         b.close()
 
-    # Stock mapping: Studio MIX.jj=0.60 of non-BYOB pours → lemonade/paloma 90/60 split
-    mix = (result or {}).get("mix") or {"jj": 0.60, "beer": 0.22, "seltzer": 0.18}
-    jj_share = float(mix.get("jj", 0.60))
-    beer_share = float(mix.get("beer", 0.22))
-    selt_share = float(mix.get("seltzer", 0.18))
+    jj_share = float(mix["jj"])
+    beer_share = float(mix["beer"])
+    selt_share = float(mix["seltzer"])
 
     stock_plan = {}
     for baths, s in stock.items():
         trips = (s.get("trips") or {}).get("m") or 0
         byob = (s.get("byob") or {}).get("m") or 0
-        from_us = trips  # trips to our stations (estimate)
+        from_us = trips
         cocktails_from_sim = from_us * jj_share
         beer_from_sim = from_us * beer_share
         selt_from_sim = from_us * selt_share
-        stock_plan[baths] = {
+        stock_plan[str(baths)] = {
             "our_pours_estimate": round(from_us, 1),
             "byob_rounds_estimate": round(byob, 1),
             "cocktail_pours_estimate": round(cocktails_from_sim, 1),
@@ -140,8 +162,9 @@ def main() -> int:
             "label": "confirmed",
             "source": "orch/context/DRIVE_INDEX.md (16 Oct Logistics Control)",
         },
+        "mix": mix,
         "drink_spots": result,
-        "night_stock": stock,
+        "night_stock": {str(k): v for k, v in stock.items()},
         "stock_plan": stock_plan,
         "errors": errs[:8],
         "label": "estimate",
@@ -150,8 +173,20 @@ def main() -> int:
     path.write_text(json.dumps(out, indent=2), encoding="utf-8")
     log = OUTBOX / "_t009_drinks.log"
     log.write_text(json.dumps(out, indent=2), encoding="utf-8")
-    print(json.dumps({"ok": not errs, "path": str(path), "win": result.get("win"), "stock_plan": stock_plan, "errors": errs[:3]}, indent=2))
-    return 0 if not errs else 1
+    print(
+        json.dumps(
+            {
+                "ok": not errs and bool(result.get("win")),
+                "path": str(path),
+                "win": result.get("win"),
+                "stock_plan": stock_plan,
+                "errors": errs[:3],
+                "seconds": out["seconds"],
+            },
+            indent=2,
+        )
+    )
+    return 0 if not errs and result.get("win") else 1
 
 
 if __name__ == "__main__":
