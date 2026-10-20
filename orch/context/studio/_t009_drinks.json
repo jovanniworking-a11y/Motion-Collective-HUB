@@ -1,0 +1,216 @@
+{
+  "task": "T-009",
+  "seat": "cursor",
+  "seconds": 37.2,
+  "menu": {
+    "cocktails": 150,
+    "lemonade": 90,
+    "paloma": 60,
+    "label": "confirmed",
+    "source": "orch/context/DRIVE_INDEX.md (16 Oct Logistics Control)"
+  },
+  "mix": {
+    "jj": 0.6,
+    "beer": 0.22,
+    "seltzer": 0.18,
+    "source": "orch/context/studio/index.html MIX"
+  },
+  "drink_spots": {
+    "win": {
+      "title": "Dispensers: island \u00b7 Beer: upper right corner \u00b7 White Claw: cart \u00b7 upper right corner",
+      "score": 55.81,
+      "ciPct": 4.6,
+      "n": 5,
+      "ok": true,
+      "jam": 32.17,
+      "avgTrip": 0.539,
+      "qPeak": 3.2,
+      "tie": false
+    },
+    "tested": 6,
+    "top": [
+      {
+        "title": "Dispensers: island \u00b7 Beer: upper right corner \u00b7 White Claw: cart \u00b7 upper right corner",
+        "score": 55.81,
+        "ciPct": 4.6,
+        "n": 5,
+        "ok": true,
+        "jam": 32.17,
+        "avgTrip": 0.539,
+        "qPeak": 3.2,
+        "tie": false
+      },
+      {
+        "title": "Dispensers: island \u00b7 Beer: upper wall by Bed 3 \u00b7 White Claw: cart \u00b7 upper right corner",
+        "score": 57.28,
+        "ciPct": 4.8,
+        "n": 7,
+        "ok": true,
+        "jam": 32.73,
+        "avgTrip": 0.564,
+        "qPeak": 3.71,
+        "tie": true
+      },
+      {
+        "title": "Dispensers: island \u00b7 Beer: kitchen counters \u00b7 White Claw: cart \u00b7 upper right corner",
+        "score": 57.41,
+        "ciPct": 4.9,
+        "n": 8,
+        "ok": true,
+        "jam": 32.76,
+        "avgTrip": 0.548,
+        "qPeak": 3.38,
+        "tie": true
+      },
+      {
+        "title": "Dispensers: island \u00b7 Beer: laundry wall \u00b7 White Claw: cart \u00b7 upper right corner",
+        "score": 58.29,
+        "ciPct": 4.7,
+        "n": 15,
+        "ok": true,
+        "jam": 34.28,
+        "avgTrip": 0.552,
+        "qPeak": 2.8,
+        "tie": true
+      },
+      {
+        "title": "Dispensers: island \u00b7 Beer: pantry corner \u00b7 White Claw: cart \u00b7 upper right corner",
+        "score": 58.38,
+        "ciPct": 4.7,
+        "n": 8,
+        "ok": true,
+        "jam": 33.94,
+        "avgTrip": 0.546,
+        "qPeak": 2.88,
+        "tie": true
+      },
+      {
+        "title": "Dispensers: island \u00b7 Beer: laundry wall \u00b7 White Claw: cart \u00b7 upper right corner (spot 2)",
+        "score": 60.13,
+        "ciPct": 4.6,
+        "n": 8,
+        "ok": true,
+        "jam": 34.79,
+        "avgTrip": 0.548,
+        "qPeak": 2.88,
+        "tie": true
+      }
+    ],
+    "N": 70,
+    "prog": "Ranked 6 layouts. Each score is the mean over the crowds shown, with its 95% confidence range (target \u00b15%). Lower is better."
+  },
+  "night_stock": {
+    "1": {
+      "trips": {
+        "m": 184.1,
+        "hw": 3.2,
+        "label": "estimate"
+      },
+      "byob": {
+        "m": 105.15,
+        "hw": 3.83,
+        "label": "estimate"
+      },
+      "litter": {
+        "m": 80.35,
+        "hw": 2.98,
+        "label": "estimate"
+      },
+      "tossed": {
+        "m": 208.85,
+        "hw": 5.05,
+        "label": "estimate"
+      },
+      "avgTrip": {
+        "m": 0.56,
+        "hw": 0.01,
+        "label": "estimate"
+      },
+      "peakDl": {
+        "m": 3.8,
+        "hw": 0.24,
+        "label": "estimate"
+      },
+      "restWait": {
+        "m": 26.49,
+        "hw": 2.09,
+        "label": "estimate"
+      }
+    },
+    "2": {
+      "trips": {
+        "m": 207.75,
+        "hw": 3.74,
+        "label": "estimate"
+      },
+      "byob": {
+        "m": 119.1,
+        "hw": 4.41,
+        "label": "estimate"
+      },
+      "litter": {
+        "m": 61.3,
+        "hw": 3.24,
+        "label": "estimate"
+      },
+      "tossed": {
+        "m": 265.4,
+        "hw": 4.02,
+        "label": "estimate"
+      },
+      "avgTrip": {
+        "m": 0.57,
+        "hw": 0.01,
+        "label": "estimate"
+      },
+      "peakDl": {
+        "m": 4,
+        "hw": 0.34,
+        "label": "estimate"
+      },
+      "restWait": {
+        "m": 2.17,
+        "hw": 0.26,
+        "label": "estimate"
+      }
+    }
+  },
+  "stock_plan": {
+    "1": {
+      "our_pours_estimate": 184.1,
+      "byob_rounds_estimate": 105.2,
+      "cocktail_pours_estimate": 110.5,
+      "lemonade_pours_estimate": 66.3,
+      "paloma_pours_estimate": 44.2,
+      "beer_pours_estimate": 40.5,
+      "seltzer_pours_estimate": 33.1,
+      "menu_cocktails_confirmed": 150,
+      "menu_vs_sim": {
+        "menu": 150,
+        "sim_cocktail_pours": 110.5,
+        "delta": -39.5,
+        "note": "sim uses MIX ratios + nightStats; menu is planned stock (confirmed 16 Oct)"
+      },
+      "label": "estimate"
+    },
+    "2": {
+      "our_pours_estimate": 207.8,
+      "byob_rounds_estimate": 119.1,
+      "cocktail_pours_estimate": 124.6,
+      "lemonade_pours_estimate": 74.8,
+      "paloma_pours_estimate": 49.9,
+      "beer_pours_estimate": 45.7,
+      "seltzer_pours_estimate": 37.4,
+      "menu_cocktails_confirmed": 150,
+      "menu_vs_sim": {
+        "menu": 150,
+        "sim_cocktail_pours": 124.6,
+        "delta": -25.4,
+        "note": "sim uses MIX ratios + nightStats; menu is planned stock (confirmed 16 Oct)"
+      },
+      "label": "estimate"
+    }
+  },
+  "errors": [],
+  "label": "estimate"
+}

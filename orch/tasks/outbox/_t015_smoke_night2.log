@@ -1,0 +1,22 @@
+['dj_rig@3.8,3.3L', 'speaker@4.8,-1.3L', 'speaker@4.8,8.0L', 'counter_bar@0.0,0.0L', 'cooler@14.7,-2.7L', 'bar_cart@17.2,-2.6L', 'trash@13.7,2.8L', 'counter_trash@0.0,0.0L', 'counter_trash@0.0,0.0L', 'ball_hook@2.2,3.3L']
+1 9:10 PM Doors {'in': 1.4, 'dance': 0.5, 'dl': 0.1, 'rl': 0, 'balc': 0, 'litter': 0}
+1 9:32 PM First-drink rush {'in': 5.1, 'dance': 2.15, 'dl': 0.1, 'rl': 0, 'balc': 0.35, 'litter': 0}
+1 10:15 PM The floor forms {'in': 25.55, 'dance': 11.1, 'dl': 0.35, 'rl': 0.2, 'balc': 1.6, 'litter': 0.35}
+1 11:00 PM Can corner + bins {'in': 52.25, 'dance': 21.1, 'dl': 0.25, 'rl': 1.85, 'balc': 3.35, 'litter': 2.7}
+1 11:45 PM Peak {'in': 66.15, 'dance': 23.05, 'dl': 0.7, 'rl': 7.95, 'balc': 5.15, 'litter': 9.7}
+1 12:30 AM Balcony + last arrivals {'in': 64.45, 'dance': 18.25, 'dl': 0.3, 'rl': 19.6, 'balc': 4.05, 'litter': 19.6}
+1 1:45 AM Last pour {'in': 50.25, 'dance': 10.9, 'dl': 0.25, 'rl': 20.6, 'balc': 3.15, 'litter': 43.3}
+1 2:00 AM Lights up, exit funnel {'in': 27.55, 'dance': 7, 'dl': 0, 'rl': 9.75, 'balc': 1.4, 'litter': 63.2}
+1 2:15 AM Empty room {'in': 0.15, 'dance': 0, 'dl': 0, 'rl': 0.05, 'balc': 0, 'litter': 80.35}
+1 {'peakIn': (68.2, 0.64), 'peakDl': (3.8, 0.24), 'peakJam': (5.15, 0.23), 'peakRl': (27.75, 1.49), 'tPeakDl': (8501.45, 779.43), 'litter': (80.35, 2.98), 'tossed': (208.85, 5.05), 'trips': (184.1, 3.2), 'byob': (105.15, 3.83), 'balcPeak': (9.4, 0.75), 'restWait': (26.49, 2.09), 'restVisits': (82.7, 2.06), 'jamMin': (105.17, 3.1), 'cutMin': (91.82, 2.8), 'avgTrip': (0.56, 0.01), 'rescues': (0, 0), 'giveups': (0, 0), 'nan': (0, 0)}
+2 9:10 PM Doors {'in': 1.4, 'dance': 0.5, 'dl': 0.1, 'rl': 0, 'balc': 0, 'litter': 0}
+2 9:32 PM First-drink rush {'in': 5.1, 'dance': 2.15, 'dl': 0.1, 'rl': 0, 'balc': 0.35, 'litter': 0}
+2 10:15 PM The floor forms {'in': 25.55, 'dance': 11.05, 'dl': 0.45, 'rl': 0.2, 'balc': 1.45, 'litter': 0.45}
+2 11:00 PM Can corner + bins {'in': 52.25, 'dance': 21.4, 'dl': 0.25, 'rl': 1.15, 'balc': 2.65, 'litter': 3.3}
+2 11:45 PM Peak {'in': 66.2, 'dance': 25.05, 'dl': 0.55, 'rl': 2.25, 'balc': 4.85, 'litter': 10.25}
+2 12:30 AM Balcony + last arrivals {'in': 64.55, 'dance': 24.65, 'dl': 0.3, 'rl': 3.1, 'balc': 4.45, 'litter': 20.5}
+2 1:45 AM Last pour {'in': 50.15, 'dance': 19.15, 'dl': 0.45, 'rl': 1.85, 'balc': 3.6, 'litter': 38.6}
+2 2:00 AM Lights up, exit funnel {'in': 27.3, 'dance': 9.9, 'dl': 0, 'rl': 1.15, 'balc': 1.3, 'litter': 51.75}
+2 2:15 AM Empty room {'in': 0.2, 'dance': 0, 'dl': 0, 'rl': 0.15, 'balc': 0, 'litter': 61.3}
+2 {'peakIn': (68.2, 0.64), 'peakDl': (4, 0.34), 'peakJam': (5.6, 0.41), 'peakRl': (8.35, 0.78), 'tPeakDl': (8445.58, 1291.65), 'litter': (61.3, 3.24), 'tossed': (265.4, 4.02), 'trips': (207.75, 3.74), 'byob': (119.1, 4.41), 'balcPeak': (10.15, 0.78), 'restWait': (2.17, 0.26), 'restVisits': (115.8, 2.51), 'jamMin': (129.38, 2.85), 'cutMin': (125.95, 2.51), 'avgTrip': (0.57, 0.01), 'rescues': (0, 0), 'giveups': (0, 0), 'nan': (0, 0)}
+errors []

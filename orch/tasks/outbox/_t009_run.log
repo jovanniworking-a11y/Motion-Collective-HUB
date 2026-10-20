@@ -1,0 +1,54 @@
+[21s] ranking=False n=6 Ranked 6 layouts. Each score is the mean over the crowds shown, with its 95% confidence range (targe
+{
+  "ok": true,
+  "path": "/workspace/orch/context/studio/_t009_drinks.json",
+  "win": {
+    "title": "Dispensers: island \u00b7 Beer: upper right corner \u00b7 White Claw: cart \u00b7 upper right corner",
+    "score": 55.81,
+    "ciPct": 4.6,
+    "n": 5,
+    "ok": true,
+    "jam": 32.17,
+    "avgTrip": 0.539,
+    "qPeak": 3.2,
+    "tie": false
+  },
+  "stock_plan": {
+    "1": {
+      "our_pours_estimate": 184.1,
+      "byob_rounds_estimate": 105.2,
+      "cocktail_pours_estimate": 110.5,
+      "lemonade_pours_estimate": 66.3,
+      "paloma_pours_estimate": 44.2,
+      "beer_pours_estimate": 40.5,
+      "seltzer_pours_estimate": 33.1,
+      "menu_cocktails_confirmed": 150,
+      "menu_vs_sim": {
+        "menu": 150,
+        "sim_cocktail_pours": 110.5,
+        "delta": -39.5,
+        "note": "sim uses MIX ratios + nightStats; menu is planned stock (confirmed 16 Oct)"
+      },
+      "label": "estimate"
+    },
+    "2": {
+      "our_pours_estimate": 207.8,
+      "byob_rounds_estimate": 119.1,
+      "cocktail_pours_estimate": 124.6,
+      "lemonade_pours_estimate": 74.8,
+      "paloma_pours_estimate": 49.9,
+      "beer_pours_estimate": 45.7,
+      "seltzer_pours_estimate": 37.4,
+      "menu_cocktails_confirmed": 150,
+      "menu_vs_sim": {
+        "menu": 150,
+        "sim_cocktail_pours": 124.6,
+        "delta": -25.4,
+        "note": "sim uses MIX ratios + nightStats; menu is planned stock (confirmed 16 Oct)"
+      },
+      "label": "estimate"
+    }
+  },
+  "errors": [],
+  "seconds": 37.2
+}

@@ -1,0 +1,15 @@
+{
+  "helper": "_t2.py",
+  "mode": "smoke",
+  "studio": {
+    "ok": true,
+    "items": 10,
+    "hasDbg": true,
+    "stations": 3,
+    "baths_default": 2
+  },
+  "errors": [],
+  "screenshot": "/workspace/orch/context/studio/shots/t2_smoke.png",
+  "chrome": "/home/ubuntu/.cache/ms-playwright/chromium-1169/chrome-linux/chrome",
+  "label": "confirmed"
+}
