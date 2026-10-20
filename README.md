@@ -2,10 +2,20 @@
 
 One place for everything MOTION builds and learns. Event #1: **Devil's Night · AFTERIMAGE 001 · Fri 10.30.2026**.
 
-## Web hub (any computer)
+## Operations panel (primary crew software)
+Next.js App Router site — dashboard, Night-Of ops, Ask Claude, library.
+
+```bash
+cd apps/ops-panel && npm install && npm run dev
+# → http://localhost:3000
+npm run pipeline   # typecheck + unit + build + Playwright smoke
+```
+
+Details: `apps/ops-panel/README.md`. Legacy static Night-Of remains in `ops/` (same localStorage key). Draft only — no publish.
+
+## Web hub (static / Claude artifact)
 **https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM** is private to the owner and needs a claude.ai sign-in.
-Tabs: Home, Panda Library, Room Studio, Tasks + Night, Budget, Learning. Edits save to the hub's own database.
-Source: `web/index.html`. Room Studio opens the original studio artifact (https://claude.ai/artifact/49y1uMCWh1em8QAfMbvBiV). First-load data: `web/seed.json`.
+Source: `web/index.html`. Seed: `web/seed.json`. Room Studio: https://claude.ai/artifact/49y1uMCWh1em8QAfMbvBiV.
 
 ## Python hub (this repo)
 ```bash
@@ -33,7 +43,10 @@ data/               what we learn from events
   lessons.csv       what happened -> what we do next time
   DEBRIEF_TEMPLATE.md   fill within 48 h of every event
 orch/               agent orchestration kit (briefs, task board, project context)
+apps/ops-panel/     Next.js operations panel (dashboard, Night-Of, Claude hook)
+ops/                legacy static Night-Of HTML (still works offline)
 web/                the web hub (claude.ai artifact) source + seed data
+site/               fan site (static)
 legacy/ch31-planner the 21 Sep CH31 planner, kept for reference (runs only on ChatGPT Sites)
 ```
 

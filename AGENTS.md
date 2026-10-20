@@ -15,5 +15,6 @@ You are a **worker** on the MOTION Collective hub. Claude (project "MOTION EFFEc
 - Lineup (promo order): iamariology b2b raymixes → Glamz → HE//THEY · co.b b2b NiiON. Rohan Rali is cut.
 - Hub: `python hub.py` · fan site `site/` · crew hub `web/` · orchestra kit `orch/`.
 
-## Night-Of Ops
-Crew phone page for Oct 30: `ops/index.html` (local / offline-capable). Hosting stays with Jovanni.
+## Operations panel
+Primary crew software: `apps/ops-panel` (Next.js). Run `npm run dev` → http://localhost:3000.
+Legacy phone page still at `ops/index.html` (same localStorage `motion-night-ops-v1`). Hosting stays with Jovanni — draft only.
