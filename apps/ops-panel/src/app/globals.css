@@ -668,9 +668,31 @@ button {
   border-color: rgba(111, 212, 154, 0.4);
 }
 
-.mode-pill[data-mode="mock"] {
-  color: var(--warn);
-  border-color: rgba(245, 165, 36, 0.4);
+.mode-pill[data-mode="mock"],
+.mode-pill[data-mode="pro-bridge"] {
+  color: var(--ice-bright);
+  border-color: rgba(88, 196, 240, 0.45);
+}
+
+.pro-bridge__lede {
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  color: var(--dim);
+  line-height: 1.45;
+}
+
+.pro-bridge__lede strong {
+  color: var(--ice);
+  font-weight: 500;
+}
+
+.pro-bridge__status {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+}
+
+.pro-bridge--compact .tools {
+  margin-top: 0;
 }
 
 .chat-log {

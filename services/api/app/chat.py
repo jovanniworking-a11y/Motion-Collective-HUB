@@ -72,7 +72,8 @@ def _mock_reply(agent: dict[str, Any], prompt: str, action: str) -> str:
             f"Buffer ~$68.87 (estimate). HE//THEY $300 (confirmed); CDJ rental $345 (confirmed)."
         )
     return (
-        f"[{agent['name']}] Received (mock — set ANTHROPIC_API_KEY for live Claude). "
+        f"[{agent['name']}] Received (mock — Pro bridge: Open in Claude.ai in the ops panel, "
+        f"or set ANTHROPIC_API_KEY for billed API). "
         f"Route: {route['model']} · why: {route['why']}\n"
         f"You said: {prompt[:280]}\n{STANDING}"
     )

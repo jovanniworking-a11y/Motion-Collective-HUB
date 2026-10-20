@@ -52,9 +52,17 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
+  const mode = resolveMode();
   return NextResponse.json({
     ok: true,
-    mode: resolveMode(),
+    mode,
+    /** UI label: Pro bridge when no key; API when key present. */
+    uiMode: mode === "live" ? "API mode" : "Pro bridge mode",
     hook: "POST /api/claude { message, history? }",
+    proBridge: {
+      note: "Claude.ai Pro/Max does not include API keys. Use Open in Claude.ai / Copy prompt for $0 API.",
+      url: "https://claude.ai/new",
+      doc: "apps/ops-panel/CLAUDE_PRO_BRIDGE.md",
+    },
   });
 }

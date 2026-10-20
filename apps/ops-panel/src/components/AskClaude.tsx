@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ProBridgeActions } from "@/components/ProBridgeActions";
 
 type Msg = { role: "user" | "assistant"; content: string; mode?: string };
+type ServerMode = "live" | "mock" | "…";
 
 const STARTERS = [
   "What's the pool / spend / buffer?",
@@ -11,18 +13,24 @@ const STARTERS = [
   "Working cap vs planned passes?",
 ];
 
+function modeLabel(mode: ServerMode): string {
+  if (mode === "live") return "API mode";
+  if (mode === "mock") return "Pro bridge mode";
+  return "…";
+}
+
 export function AskClaude() {
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: "assistant",
       content:
-        "Ask Claude with safe SoT context (no guest PII, no venue address). Live if ANTHROPIC_API_KEY / CLAUDE_API_KEY is set on the server; otherwise a deterministic mock proves the pipeline.",
+        "Ask Claude with safe SoT context (no guest PII, no venue address).\n\n• Pro bridge mode (no API key): use Open in Claude.ai / Copy prompt — you answer in the Claude.ai browser with your Pro/Max plan ($0 Anthropic API).\n• API mode: set ANTHROPIC_API_KEY on the server for in-panel replies (separate product — billed by Anthropic).\n• In-panel Send still works offline via a deterministic mock when no key is set.",
       mode: "system",
     },
   ]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const [mode, setMode] = useState<"live" | "mock" | "…">("…");
+  const [mode, setMode] = useState<ServerMode>("…");
   const logRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,14 +44,15 @@ export function AskClaude() {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
   }, [messages]);
 
+  const history = messages
+    .filter((m) => m.mode !== "system")
+    .map((m) => ({ role: m.role, content: m.content }));
+
   async function send(text: string) {
     const message = text.trim();
     if (!message || busy) return;
     setBusy(true);
     setInput("");
-    const history = messages
-      .filter((m) => m.mode !== "system")
-      .map((m) => ({ role: m.role, content: m.content }));
     setMessages((m) => [...m, { role: "user", content: message }]);
     try {
       const res = await fetch("/api/claude", {
@@ -96,13 +105,32 @@ export function AskClaude() {
             Ask Claude
           </h1>
           <p className="lede" style={{ marginBottom: 0 }}>
-            Crew assist hooked to a server route. Keys stay server-side.
+            {mode === "live"
+              ? "In-panel replies via Anthropic API (server key). Pro bridge still available below."
+              : "No API key — Pro bridge mode. Use Claude.ai in the browser, or Send for the local mock."}
           </p>
         </div>
-        <span className="mode-pill" data-mode={mode} data-testid="claude-mode">
-          {mode === "live" ? "live API" : mode === "mock" ? "mock" : "…"}
+        <span
+          className="mode-pill"
+          data-mode={mode === "live" ? "live" : mode === "mock" ? "pro-bridge" : mode}
+          data-testid="claude-mode"
+          title={
+            mode === "live"
+              ? "ANTHROPIC_API_KEY present — billed API calls"
+              : "No API key — use Pro bridge or mock"
+          }
+        >
+          {modeLabel(mode)}
         </span>
       </div>
+
+      <section className="panel" style={{ marginBottom: 14 }}>
+        <ProBridgeActions
+          question={input}
+          source="assist"
+          history={history}
+        />
+      </section>
 
       <section className="panel chat">
         <div className="chat-log" ref={logRef} data-testid="chat-log">
@@ -110,7 +138,9 @@ export function AskClaude() {
             <div key={i} className={`bubble ${m.role}`}>
               <div className="meta">
                 {m.role === "user" ? "You" : "Claude"}
-                {m.mode && m.mode !== "system" ? ` · ${m.mode}` : ""}
+                {m.mode && m.mode !== "system"
+                  ? ` · ${m.mode === "mock" ? "mock / pro-bridge" : m.mode}`
+                  : ""}
               </div>
               {m.content}
             </div>
@@ -151,7 +181,7 @@ export function AskClaude() {
             disabled={busy || !input.trim()}
             data-testid="claude-send"
           >
-            {busy ? "Thinking…" : "Send"}
+            {busy ? "Thinking…" : mode === "live" ? "Send (API)" : "Send (mock)"}
           </button>
         </form>
       </section>

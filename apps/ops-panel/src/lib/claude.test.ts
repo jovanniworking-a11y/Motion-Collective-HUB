@@ -19,4 +19,10 @@ describe("claude mock", () => {
   it("defaults to mock without keys", () => {
     expect(resolveMode()).toBe("mock");
   });
+
+  it("points free path at Pro bridge when no key", () => {
+    const r = mockAssist("random crew question about lighting");
+    expect(r).toMatch(/Pro bridge/i);
+    expect(r).toMatch(/claude\.ai/i);
+  });
 });

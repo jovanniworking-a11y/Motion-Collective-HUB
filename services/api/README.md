@@ -8,5 +8,5 @@ python3 -m uvicorn app.main:app --app-dir services/api --port 8787
 ```
 
 Tests: `python3 -m pytest -q`  
-Env: `ANTHROPIC_API_KEY` (live chat), `MOTION_SIM_EXECUTE=1` (real studio scripts).  
+Env: `ANTHROPIC_API_KEY` optional (live chat — billed API; Claude.ai Pro ≠ API). Without it, chat stays mock; ops-panel Pro bridge opens claude.ai for $0 API. `MOTION_SIM_EXECUTE=1` (real studio scripts).  
 Routing: `MODEL_ROUTING.md`.

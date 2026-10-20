@@ -71,11 +71,13 @@ export function mockAssist(message: string): string {
     ].join("\n");
   }
   return [
-    "MOTION ops assist (mock · no ANTHROPIC_API_KEY / CLAUDE_API_KEY).",
+    "MOTION ops assist (Pro bridge mode · no ANTHROPIC_API_KEY / CLAUDE_API_KEY).",
     `You asked: “${message.trim().slice(0, 200)}”`,
     "",
     "Safe context loaded: event hours, lineup order, labeled money numbers, welfare cadence — no guest PII.",
-    "Set ANTHROPIC_API_KEY or CLAUDE_API_KEY in the server env for live Claude. Draft only; never spend/post without Jovanni.",
+    "For a real Claude answer at $0 API cost: use Open in Claude.ai / Copy prompt (Claude.ai Pro/Max in the browser).",
+    "Claude.ai Pro ≠ Anthropic API — they are separate products. Optional: set ANTHROPIC_API_KEY for in-panel API mode (billed).",
+    "Draft only; never spend/post without Jovanni.",
   ].join("\n");
 }
 

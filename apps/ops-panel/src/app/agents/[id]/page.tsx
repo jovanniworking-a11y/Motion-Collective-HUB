@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { ProBridgeActions } from "@/components/ProBridgeActions";
 import { api, type Agent, type ChatMessage } from "@/lib/api";
 
 export default function AgentRoomPage() {
@@ -13,6 +14,7 @@ export default function AgentRoomPage() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [routeNote, setRouteNote] = useState<string | null>(null);
+  const [apiLive, setApiLive] = useState<boolean | null>(null);
 
   const load = useCallback(() => {
     if (!id) return;
@@ -29,6 +31,14 @@ export default function AgentRoomPage() {
   useEffect(() => {
     load();
   }, [load]);
+
+  useEffect(() => {
+    /* Same key signal as Assist — panel Next route; agent API may still be mock. */
+    fetch("/api/claude")
+      .then((r) => r.json())
+      .then((d: { mode?: string }) => setApiLive(d.mode === "live"))
+      .catch(() => setApiLive(false));
+  }, []);
 
   async function send(action: "prompt" | "correct" | "form") {
     if (!id || busy) return;
@@ -75,12 +85,42 @@ export default function AgentRoomPage() {
             · {agent.default_model} · {agent.worker}
           </span>
         ) : null}
+        {apiLive === false ? (
+          <span className="dim"> · Pro bridge mode (no panel API key)</span>
+        ) : apiLive ? (
+          <span className="dim"> · API key present on panel</span>
+        ) : null}
       </p>
       {err ? <div className="banner alert">{err}</div> : null}
+      <section className="panel" style={{ marginBottom: 14 }}>
+        <ProBridgeActions
+          compact
+          question={prompt}
+          source="agent"
+          agentId={id || undefined}
+          agent={
+            agent
+              ? {
+                  name: agent.name,
+                  channel: agent.channel,
+                  description: agent.description,
+                  area: agent.area,
+                }
+              : undefined
+          }
+          history={messages.map((m) => ({
+            role: m.role === "user" ? "user" : "assistant",
+            content: m.content,
+          }))}
+        />
+      </section>
       <section className="panel chat">
         <div className="chat-log" data-testid="agent-chat-log">
           {messages.length === 0 ? (
-            <p className="dim">No messages yet — prompt this area bot.</p>
+            <p className="dim">
+              No messages yet — Prompt uses the API mock (or live key on the
+              FastAPI service). Prefer Open in Claude.ai for Pro/$0 API.
+            </p>
           ) : (
             messages.map((m) => (
               <div

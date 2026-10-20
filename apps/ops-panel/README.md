@@ -37,5 +37,9 @@ npm run typecheck && npm run test
 | `/usage` | Metered calls |
 | `/activity` | Board + outbox feed |
 | `/muse` | Studio embed + Run sim |
-| `/assist` | Ask Claude (Next route) |
+| `/assist` | Ask Claude (Next route) + Pro bridge |
 | `/library` | Pinned tools |
+
+## Claude Pro ≠ API
+
+Claude.ai Pro/Max does **not** include Anthropic API keys. For $0 API cost use **Open in Claude.ai** / **Copy prompt** on Assist and agent chat (paste into the browser). Details: [`CLAUDE_PRO_BRIDGE.md`](./CLAUDE_PRO_BRIDGE.md).

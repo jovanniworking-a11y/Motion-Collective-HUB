@@ -43,6 +43,10 @@ test.describe("MOTION ops panel smoke", () => {
     expect(String(data.reply)).toMatch(/450/);
 
     await page.goto("/assist");
+    await expect(page.getByTestId("pro-bridge")).toBeVisible();
+    await expect(page.getByTestId("pro-bridge-open")).toBeVisible();
+    await expect(page.getByTestId("pro-bridge-copy")).toBeVisible();
+    await expect(page.getByTestId("claude-mode")).toContainText(/Pro bridge|API/i);
     await page.getByTestId("claude-input").fill("lineup order");
     await page.getByTestId("claude-send").click();
     await expect(page.getByTestId("chat-log")).toContainText(/iamariology|Glamz|HE\/\//i, {
