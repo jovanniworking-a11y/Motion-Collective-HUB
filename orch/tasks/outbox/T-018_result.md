@@ -97,5 +97,5 @@ None.
 
 ## How verified
 
-- `python3 -m pytest -q` in `services/api`: **8 passed** (**confirmed**)
+- `python3 -m pytest -q` in `services/api`: **8 passed** (**confirmed**). A later main commit points pytest at a temp SQLite so a leftover `services/api/data` file cannot change the compare mean.
 - uvicorn `127.0.0.1:8787` `/health` and `/api/data/health`, plus one observation write that kept pass `7` and stripped name/address (**confirmed**)
