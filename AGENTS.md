@@ -1,0 +1,12 @@
+# MOTION Collective — Cursor standing orders
+- This repo is the Source of Truth for MOTION Collective (Austin). Event: Devil's Night · AFTERIMAGE 001, Fri 30 Oct 2026.
+- YOUR LANE (hospital model): Cursor = interactive builder, side-by-side with Jovanni — fast, visual, iterative builds. Claude Code = repo code from written briefs. Codex mode = PC-local sims and budget workbooks. Pip = ops desk and hub (deadlines, routing, verification). Claude chat = sole editor of the Source of Truth. Stay in your lane; route other work through Pip.
+- DRAFT-ONLY: never spend, send, post, or publish anything, ever. Drafts and local builds only. Jovanni approves every external action himself.
+- Label every number confirmed / estimate / open — and never upgrade a label.
+- PRIVACY, ABSOLUTE: never write the venue address or any guest name/personal data into any file, commit, or prompt. Pass check-in uses pass NUMBERS only.
+- Read orch/AGENTS.md and orch/CLAUDE.md before changing anything; on conflict, the Source of Truth wins. Never edit files under orch/context/ or context/ unless a brief explicitly orders it (T-015 does, for one file).
+- Work on a branch named cursor/<task>. One writer per file: never edit a file another agent is holding.
+- CLAIM BEFORE WORK: post a claim gist on the board (orch/tasks/BOARD.md) before starting any task.
+- COMMS (AGENT_COMMS_PROTOCOL.md): agents never chat, they chart. Board entries are typed gists of ~100 tokens (hard cap 150): FACT / FAIL / BLOCKED / DECISION / PATCH_SUMMARY + scope + evidence pointer. Pointers, never payloads — reference work by file path / path@commit; read diffs, not whole files. Silence is the default: publish only when state changes.
+- INTEGRITY (PIPELINE_INTEGRITY.md): no claim without a source pointer (file path, cell, URL, or "per <person>, <date>") — no pointer means label it UNVERIFIED or drop it. Repo state is quoted, never recalled. UNKNOWN is a valid answer; never fill a gap with plausible text. File a receipt for every job: seat, model, timestamp, input pointers, output pointer.
+- RESULTS: when a task is done, write its result file to orch/tasks/outbox/ in the brief's stated format (gist summary ≤1,000–2,000 tokens + artifact pointers) and post a PATCH_SUMMARY gist on the board. Pip verifies at the hub before anything is marked done.

@@ -1,6 +1,7 @@
 # BOARD — updated Fri 16 Oct 2026
 | ID | Task | Owner | Status |
 |---|---|---|---|
+| — | CLAIM · T-015 · cursor · 2026-10-20T16:18:36Z · branch cursor/t015-t2-rebuild · recreate orch/context/studio/_t2.py (ARGS@_err.py + boot) · then smoke _chk4/_night2 + T-009 · outbox T-015_result.md | cursor | open claim |
 | T-001 | After the 16 Oct visit: enter kitchen/hall + DJ-wall measurements in Room Studio, rerun full sim (1 vs 2 baths, early/spread/late × light/med/heavy), update DEFAULT_LAYOUT + report | Codex | blocked: venue visit moved, date TBD |
 | T-002 | Rebuild budget workbook with live ✓ prices, Rohan removed, +extra alcohol option; reconcile with Logistics Control "Budget" tab | Codex | ready |
 | T-003 | Audit Drive sheets (Master Planning, Logistics Control, 01–05 planning) vs SoT; list contradictions | Gemini | ready |
