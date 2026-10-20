@@ -33,4 +33,4 @@ None required. Optional later: note “Ops panel = apps/ops-panel” in SoT Inde
 3. Working cap still **50 estimate** / passes **70 open** — confirm before door night.
 
 ## Commit
-`9dcb5b06f5b5c3586864372a6f5bef09d2eb1276` on `cursor/ops-software-1366`
+`5ed2e7765438991f9a291711b4f0d896e0bc3d95` on `cursor/ops-software-1366`
