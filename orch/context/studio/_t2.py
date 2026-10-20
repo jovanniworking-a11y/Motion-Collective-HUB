@@ -1,7 +1,7 @@
 """Room Studio Playwright boot helper (shared by _chk*, _night2, _all2).
 
-T-015 rebuild: consumers exec() the prelude (everything before the
-`mode = sys.argv[1]` line). Prelude must define ARGS and boot(pg).
+T-015 rebuild: consumers exec() the prelude (cut before the standalone
+mode/argv line). Prelude must define ARGS and boot(pg).
 
 ARGS copied from _err.py (SwiftShader Chromium flags).
 Paths are repo-relative (script dir / cwd when exec'd). three.js from CDN
@@ -152,7 +152,7 @@ def smoke_info(pg) -> dict:
     )
 
 
-# ---- standalone CLI (sibling scripts exec() everything above this line) ----
+# ---- standalone CLI (siblings split on the next assignment line) ----
 mode = sys.argv[1] if len(sys.argv) > 1 else "smoke"
 
 if __name__ == "__main__" or mode in {"smoke", "basic", "boot"}:
