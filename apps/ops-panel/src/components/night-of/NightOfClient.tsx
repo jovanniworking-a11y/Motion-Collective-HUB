@@ -258,7 +258,6 @@ export function NightOfClient() {
                   <button
                     key={n}
                     type="button"
-                    role="listitem"
                     className={`pass${inn ? " in" : ""}${over ? " over" : ""}`}
                     aria-pressed={inn}
                     data-testid={`pass-${n}`}
