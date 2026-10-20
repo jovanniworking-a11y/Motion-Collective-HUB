@@ -1,0 +1,10 @@
+{
+  "name": "MOTION Night-Of Ops",
+  "short_name": "Night-Of",
+  "description": "Crew-only door, run-of-show, welfare and budget for AFTERIMAGE 001. Draft / local.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07080c",
+  "theme_color": "#07080c",
+  "lang": "en"
+}
