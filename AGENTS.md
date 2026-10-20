@@ -20,3 +20,11 @@ Crew phone page for Oct 30: `ops/index.html` (local / offline-capable). Hosting 
 
 ## MOTION Ops desktop
 Discord-like Electron shell: `desktop/` — `npm run desktop` (root) or `python desktop/launch.py`. Loads `apps/ops-panel` when on `localhost:3000`, else Night-Of `ops/`. Additive packaging only; do not rewrite the Next app from the desktop seat.
+
+## MOTION Ops — architecture constraints (T-013)
+Read **`ARCHITECTURE.md`** before growing `apps/ops-panel`, `services/api`, or `desktop/`.
+- Stack: Next/React panel · Electron shell · FastAPI BFF · SQLite usage/jobs · keep `ops/` for night phones.
+- MVP first: Night-Of + shell + thin BFF + one routed bot channel + metering. Studio live-edit/sims are a **later pane** (job queue, not UI thread).
+- Router table `area → model` — never fan-out every model on every click.
+- Keys server-only; no guest PII; no venue address; no spend/send/post; auth later.
+- Kill: in-app coding IDE (use Cursor), `hub.py` as HTTP server.
