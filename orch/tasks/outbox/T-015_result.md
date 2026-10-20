@@ -16,8 +16,9 @@ Made the control plane **cloud-first**: infra-as-code + docs for a free-tier web
 - `orch/tasks/outbox/T-015_result.md`
 
 ## How verified
-- `cd apps/ops-panel && npm run typecheck && npm run test && npm run build`
-- `cd services/api && python3 -m pytest -q`
+- Tip SHA: `63884e8360c28618f54325dec992925a1744d499` on `cursor/ops-cloud`
+- `cd apps/ops-panel && npm run typecheck && npm run test && npm run build` (18 vitest OK)
+- `cd services/api && python3 -m pytest -q` (7 passed)
 - Docker CLI **not installed** here — Dockerfile smoke skipped; build commands documented
 - Deploy CLIs not authenticated — stopped before paid deploy per standing orders
 
