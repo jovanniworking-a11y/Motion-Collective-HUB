@@ -50,7 +50,7 @@
 - `python3 -m pytest -q` from `services/api`: **8 passed** (**confirmed**, 2026-10-20)
 - BFF constraints retained (keys server-only; no guest PII; no venue address; router one-primary; no hub.py-as-HTTP)
 
-**Merge-ready commit SHA:** `fc419bb71039333920a547bcd74d7026897a53a0` (**confirmed**).
+**Merge-ready commit SHA (branch tip):** `9fef056decce4914ccd89f85567e52795db82554` (**confirmed**). Code fold: `fc419bb71039333920a547bcd74d7026897a53a0`.
 
 ---
 
