@@ -16,7 +16,7 @@
 | Input tip `cursor/muse-cloud-platform-c430` | `220f6b6b13eb5b859974e76df223548055f777c2` | **confirmed** (git) |
 | Input tip `cursor/architecture-review-07eb` | `e7b4fe85dab8027b9bc0cd507dbe767d73d23d23` | **confirmed** (git) |
 | Pip verified SHAs (a905bcd / e7b4fe8 / 220f6b6) | match tips above | **confirmed** |
-| Merge-ready output commit | *(filled after push — see tip of this branch)* | **confirmed** when pushed |
+| Merge-ready output commit | *`fc419bb71039333920a547bcd74d7026897a53a0`* | **confirmed** when pushed |
 | Tests | `cd services/api && python3 -m pytest -q` → **8 passed** | **confirmed** |
 | Cloud run | `bc-963c4235-a94d-5f34-8c0d-dabe6848c926` | **confirmed** |
 
@@ -50,7 +50,7 @@
 - `python3 -m pytest -q` from `services/api`: **8 passed** (**confirmed**, 2026-10-20)
 - BFF constraints retained (keys server-only; no guest PII; no venue address; router one-primary; no hub.py-as-HTTP)
 
-**Merge-ready commit SHA:** see git tip of `cursor/backend-reconcile-c926` after this outbox lands (will match the commit that contains this file).
+**Merge-ready commit SHA:** `fc419bb71039333920a547bcd74d7026897a53a0` (**confirmed**).
 
 ---
 
