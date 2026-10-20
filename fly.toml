@@ -1,0 +1,40 @@
+# Fly.io — MOTION Control Plane API (deploy from repo root)
+# See docs/CLOUD_HOSTING.md
+#
+#   fly auth login
+#   fly apps create motion-ops-api    # choose a free unique name; edit `app` below
+#   fly secrets set MOTION_API_CORS=https://YOUR-PANEL.vercel.app
+#   fly deploy
+#
+# SQLite under MOTION_DATA_DIR=/tmp resets when the machine is replaced
+# unless you attach a Fly volume (may leave free allowance).
+
+app = "motion-ops-api"
+primary_region = "dfw"
+
+[build]
+  dockerfile = "services/api/Dockerfile"
+
+[env]
+  MOTION_DATA_DIR = "/tmp/motion-api-data"
+  MOTION_REPO_ROOT = "/srv"
+
+[http_service]
+  internal_port = 8787
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+  cpus = 1

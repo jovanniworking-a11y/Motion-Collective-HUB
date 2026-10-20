@@ -4,7 +4,13 @@ One place for everything MOTION builds and learns. Event #1: **Devil's Night · 
 
 ## MOTION Ops control plane (primary crew software)
 
-Next.js UI + Python FastAPI + Electron desktop.
+Next.js UI + Python FastAPI. **Cloud website is the primary run path** (clickable URL). Electron desktop is optional.
+
+### Cloud (recommended)
+
+See **[`docs/CLOUD_HOSTING.md`](docs/CLOUD_HOSTING.md)** — Vercel panel + Fly/Railway API, free-tier notes, Pro Prompt Bridge ($0 API).
+
+### Local
 
 ```bash
 # Backend
@@ -14,8 +20,9 @@ python3 -m uvicorn app.main:app --app-dir services/api --host 127.0.0.1 --port 8
 # Web UI
 cd apps/ops-panel && npm install && npm run dev   # → http://localhost:3000
 
-# Desktop (prefers panel on :3000)
+# Optional desktop shell (or open the cloud panel URL in a browser)
 cd desktop && npm install && npm run desktop
+# Cloud panel in Electron: MOTION_OPS_URL=https://YOUR-PANEL.vercel.app npm run desktop
 ```
 
 Tests: `cd services/api && python3 -m pytest -q` · `cd apps/ops-panel && npm run test`  
@@ -53,7 +60,8 @@ data/               what we learn from events
 orch/               agent orchestration kit (briefs, task board, project context)
 apps/ops-panel/     Next.js control-plane UI (ops, agents, usage, activity, Muse)
 services/api/       Python FastAPI backend (chat proxy, metering, sims)
-desktop/            Electron Discord-like shell for the panel
+desktop/            optional Electron shell (cloud users use the website)
+docs/               CLOUD_HOSTING.md and related
 ops/                legacy static Night-Of HTML (still works offline)
 web/                the web hub (claude.ai artifact) source + seed data
 site/               fan site (static)

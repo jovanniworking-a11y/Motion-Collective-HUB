@@ -8,5 +8,16 @@ python3 -m uvicorn app.main:app --app-dir services/api --port 8787
 ```
 
 Tests: `python3 -m pytest -q`  
-Env: `ANTHROPIC_API_KEY` optional (live chat — billed API; Claude.ai Pro ≠ API). Without it, chat stays mock; ops-panel Pro bridge opens claude.ai for $0 API. `MOTION_SIM_EXECUTE=1` (real studio scripts).  
+Env: see `.env.example`. `ANTHROPIC_API_KEY` optional (live chat — billed API; Claude.ai Pro ≠ API). Without it, chat stays mock; ops-panel Pro bridge opens claude.ai for $0 API. `MOTION_SIM_EXECUTE=1` (real studio scripts).  
 Routing: `MODEL_ROUTING.md`.
+
+## Cloud
+
+Docker + Fly/Railway configs live with the monorepo:
+
+- Dockerfile: `services/api/Dockerfile` (build from **repo root**)
+- Fly: root `fly.toml`
+- Railway: `services/api/railway.toml`
+- Full guide: [`docs/CLOUD_HOSTING.md`](../../docs/CLOUD_HOSTING.md)
+
+`MOTION_DATA_DIR=/tmp/motion-api-data` is fine for MVP (SQLite resets on redeploy without a volume).

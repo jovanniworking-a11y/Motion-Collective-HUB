@@ -16,7 +16,8 @@ You are a **worker** on the MOTION Collective hub. Claude (project "MOTION EFFEc
 - Hub: `python hub.py` · fan site `site/` · crew hub `web/` · orchestra kit `orch/`.
 
 ## MOTION Ops control plane
-- UI: `apps/ops-panel` — `npm run dev` → http://localhost:3000
+- **Cloud (primary):** `docs/CLOUD_HOSTING.md` — Vercel panel + Fly/Railway API; Pro Prompt Bridge default
+- UI: `apps/ops-panel` — `npm run dev` → http://localhost:3000 · env `NEXT_PUBLIC_API_URL`
 - API: `services/api` — `python3 -m uvicorn app.main:app --app-dir services/api --port 8787`
-- Desktop: `desktop/` — `npm run desktop` (prefers panel on :3000)
+- Desktop: `desktop/` — **optional** Electron; cloud users open the panel URL
 Legacy phone page still at `ops/index.html` (same localStorage `motion-night-ops-v1`). Draft only.

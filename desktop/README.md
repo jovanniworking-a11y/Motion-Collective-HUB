@@ -1,6 +1,8 @@
-# MOTION Ops — desktop shell
+# MOTION Ops — desktop shell (optional)
 
 Discord-like **windowed PC app** for MOTION operations. Electron host with a system tray, single-instance lock, and close-to-tray behavior. Loads the Next ops panel when available; otherwise the Night-Of crew page in `ops/`.
+
+**Optional.** Cloud-first crew should use the hosted panel URL (see [`docs/CLOUD_HOSTING.md`](../docs/CLOUD_HOSTING.md)) — no PC install required. Point this shell at cloud with `MOTION_OPS_URL=https://YOUR-PANEL.vercel.app`.
 
 **Draft / local only — do not publish.**
 

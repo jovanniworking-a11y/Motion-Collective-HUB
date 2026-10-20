@@ -6,7 +6,7 @@ Crew control-plane UI for **Devil's Night · AFTERIMAGE 001**.
 
 **Draft only** — never spend/send/post/publish. No venue address, no guest PII.
 
-## Run
+## Run (local)
 
 ```bash
 # Terminal A — API
@@ -18,7 +18,14 @@ npm install && npm run dev
 # → http://localhost:3000
 ```
 
-Desktop: from repo root `npm run desktop` (loads this panel when :3000 is up).
+Set `NEXT_PUBLIC_API_URL` when the API is not on `http://127.0.0.1:8787` (see `.env.example`).
+
+## Cloud (primary for “run on cloud”)
+
+Host this app on **Vercel** and point `NEXT_PUBLIC_API_URL` at the Fly/Railway API.  
+Step-by-step: [`docs/CLOUD_HOSTING.md`](../../docs/CLOUD_HOSTING.md).
+
+Desktop Electron (`desktop/`) is **optional** — cloud users open the Vercel URL in a browser.
 
 ## Tests
 

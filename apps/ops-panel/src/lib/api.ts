@@ -1,11 +1,16 @@
 /** Client for MOTION control-plane FastAPI backend. */
 
-const DEFAULT_BASE =
-  process.env.NEXT_PUBLIC_MOTION_API_URL?.replace(/\/$/, "") ||
-  "http://127.0.0.1:8787";
+function resolveApiBase(): string {
+  // Cloud: NEXT_PUBLIC_API_URL (preferred). Local alias kept for older .env files.
+  const raw =
+    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.NEXT_PUBLIC_MOTION_API_URL ||
+    "http://127.0.0.1:8787";
+  return raw.replace(/\/$/, "");
+}
 
 export function apiBase(): string {
-  return DEFAULT_BASE;
+  return resolveApiBase();
 }
 
 async function req<T>(path: string, init?: RequestInit): Promise<T> {

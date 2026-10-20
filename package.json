@@ -7,8 +7,10 @@
     "desktop:install": "npm install --prefix desktop",
     "desktop:smoke": "npm run smoke --prefix desktop",
     "panel": "npm run dev --prefix apps/ops-panel",
+    "panel:build": "npm run build --prefix apps/ops-panel",
     "panel:test": "npm run test --prefix apps/ops-panel",
     "api": "python3 -m uvicorn app.main:app --app-dir services/api --host 127.0.0.1 --port 8787",
-    "api:test": "python3 -m pytest -q --rootdir services/api services/api/tests"
+    "api:test": "python3 -m pytest -q --rootdir services/api services/api/tests",
+    "cloud:docs": "echo See docs/CLOUD_HOSTING.md"
   }
 }

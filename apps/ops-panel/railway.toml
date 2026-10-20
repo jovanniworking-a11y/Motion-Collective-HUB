@@ -1,0 +1,15 @@
+# Optional: host the Next panel on Railway instead of Vercel.
+# Prefer Vercel free hobby for the panel; use this if you want all-on-Railway.
+#
+# Variables:
+#   NEXT_PUBLIC_API_URL=https://YOUR-API.up.railway.app
+# Build arg also needed for Docker image (see Dockerfile ARG).
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "apps/ops-panel/Dockerfile"
+
+[deploy]
+healthcheckPath = "/"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"

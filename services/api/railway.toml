@@ -1,0 +1,22 @@
+# Railway — MOTION Control Plane API
+# Deploy from repo root with Dockerfile path below.
+# Dashboard: New Project → Deploy from GitHub → set Root Directory blank,
+#            Dockerfile path = services/api/Dockerfile
+#
+# Variables (Railway → Variables):
+#   MOTION_API_CORS=https://YOUR-PANEL.vercel.app,http://localhost:3000
+#   MOTION_DATA_DIR=/tmp/motion-api-data
+#   ANTHROPIC_API_KEY=   (optional — omit for Pro Prompt Bridge / mock chat)
+#
+# Free trial / hobby: SQLite under /tmp resets on redeploy. Attach a volume
+# and set MOTION_DATA_DIR=/data only if you want persistence (may leave free tier).
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "services/api/Dockerfile"
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
