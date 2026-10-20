@@ -1,0 +1,10 @@
+{
+  "name": "motion-collective-hub",
+  "private": true,
+  "description": "MOTION Collective HUB — convenience scripts",
+  "scripts": {
+    "desktop": "npm run desktop --prefix desktop",
+    "desktop:install": "npm install --prefix desktop",
+    "desktop:smoke": "npm run smoke --prefix desktop"
+  }
+}

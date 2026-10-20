@@ -17,3 +17,6 @@ You are a **worker** on the MOTION Collective hub. Claude (project "MOTION EFFEc
 
 ## Night-Of Ops
 Crew phone page for Oct 30: `ops/index.html` (local / offline-capable). Hosting stays with Jovanni.
+
+## MOTION Ops desktop
+Discord-like Electron shell: `desktop/` — `npm run desktop` (root) or `python desktop/launch.py`. Loads `apps/ops-panel` when on `localhost:3000`, else Night-Of `ops/`. Additive packaging only; do not rewrite the Next app from the desktop seat.

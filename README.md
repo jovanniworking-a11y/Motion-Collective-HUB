@@ -7,6 +7,19 @@ One place for everything MOTION builds and learns. Event #1: **Devil's Night · 
 Tabs: Home, Panda Library, Room Studio, Tasks + Night, Budget, Learning. Edits save to the hub's own database.
 Source: `web/index.html`. Room Studio opens the original studio artifact (https://claude.ai/artifact/49y1uMCWh1em8QAfMbvBiV). First-load data: `web/seed.json`.
 
+## MOTION Ops desktop (Discord-like window)
+Native Electron shell for crew ops — single app window + tray. Prefers the Next panel in `apps/ops-panel` when that server is up; otherwise loads Night-Of `ops/`.
+
+```bash
+cd desktop && npm install && npm run desktop
+# or from repo root after desktop install:
+npm run desktop
+# or
+python desktop/launch.py
+```
+
+Headless smoke: `npm run desktop:smoke`. Details: `desktop/README.md`.
+
 ## Python hub (this repo)
 ```bash
 pip install -r requirements.txt
