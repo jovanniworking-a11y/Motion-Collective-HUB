@@ -40,8 +40,8 @@ BFF constraints kept: responses carry pass numbers only (guest **name** meta str
 | Input `cursor/muse-cloud-platform-c430` | `220f6b6b13eb5b859974e76df223548055f777c2` | **confirmed** |
 | Services/api fold commit | `fc419bb71039333920a547bcd74d7026897a53a0` | **confirmed** |
 | Branch tip before this gist | `9799bb60956831396046158a6050cf7012bc1223` | **confirmed** |
-| Source commit merged to `main` | stamped in the follow-up line below after `git merge` | **open** until that commit lands |
-| Merge commit on `main` | stamped in the follow-up line below | **open** until that commit lands |
+| Source commit merged to `main` | `9f228a6bde85cf55529d8dbd46853bfe0fd4da07` | **confirmed** |
+| Merge commit on `main` | `0950df5640b4095b6112cdcf0ae34b872d777516` | **confirmed** |
 | Tests | `cd services/api && python3 -m pytest -q` → **8 passed**, 1 warning | **confirmed** (2026-10-20) |
 | `main` before this merge | did not exist on `origin` | **confirmed** (`git ls-remote`) |
 | Default branch before this merge | `claude/motion-files-consolidated-dx17w2` @ `a397cbc` | **confirmed** |
