@@ -15,6 +15,8 @@ You are a **worker** on the MOTION Collective hub. Claude (project "MOTION EFFEc
 - Lineup (promo order): iamariology b2b raymixes → Glamz → HE//THEY · co.b b2b NiiON. Rohan Rali is cut.
 - Hub: `python hub.py` · fan site `site/` · crew hub `web/` · orchestra kit `orch/`.
 
-## Operations panel
-Primary crew software: `apps/ops-panel` (Next.js). Run `npm run dev` → http://localhost:3000.
-Legacy phone page still at `ops/index.html` (same localStorage `motion-night-ops-v1`). Hosting stays with Jovanni — draft only.
+## MOTION Ops control plane
+- UI: `apps/ops-panel` — `npm run dev` → http://localhost:3000
+- API: `services/api` — `python3 -m uvicorn app.main:app --app-dir services/api --port 8787`
+- Desktop: `desktop/` — `npm run desktop` (prefers panel on :3000)
+Legacy phone page still at `ops/index.html` (same localStorage `motion-night-ops-v1`). Draft only.

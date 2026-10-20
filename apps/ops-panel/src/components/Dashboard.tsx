@@ -41,8 +41,11 @@ export function Dashboard() {
           <Link href="/night-of" className="btn primary">
             Night-Of Ops
           </Link>
-          <Link href="/assist" className="btn ghost">
-            Ask Claude
+          <Link href="/agents" className="btn ghost">
+            Agents
+          </Link>
+          <Link href="/muse" className="btn ghost">
+            Muse 3D
           </Link>
         </div>
       </section>

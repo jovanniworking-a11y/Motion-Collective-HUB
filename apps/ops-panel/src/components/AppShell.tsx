@@ -3,17 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
 
 const NAV = [
   { href: "/", label: "Dash", ico: "01" },
   { href: "/night-of", label: "Night", ico: "02" },
+  { href: "/agents", label: "Agents", ico: "#" },
+  { href: "/usage", label: "Usage", ico: "◉" },
+  { href: "/activity", label: "Live", ico: "◎" },
+  { href: "/muse", label: "Muse", ico: "◇" },
   { href: "/assist", label: "Claude", ico: "03" },
-  { href: "/library", label: "Library", ico: "04" },
 ] as const;
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [online, setOnline] = useState(true);
+  const [apiOk, setApiOk] = useState<boolean | null>(null);
 
   useEffect(() => {
     const sync = () => setOnline(navigator.onLine);
@@ -29,6 +34,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    api
+      .health()
+      .then(() => {
+        if (!cancelled) setApiOk(true);
+      })
+      .catch(() => {
+        if (!cancelled) setApiOk(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <div className="shell">
       <header className="app-head">
@@ -41,20 +61,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <i />
               {online ? "online" : "offline · local"}
             </span>
+            <span className="caps dim">
+              api {apiOk === null ? "…" : apiOk ? "up" : "down"}
+            </span>
             <span className="caps dim">crew · draft only</span>
           </div>
         </div>
         <p className="head-sub">
-          Devil&apos;s Night · AFTERIMAGE 001 · never publishes from this panel
+          Devil&apos;s Night · AFTERIMAGE 001 · control plane · never publishes
         </p>
       </header>
       <main className="shell-main">{children}</main>
       <nav className="bottom-nav" aria-label="Ops sections">
         {NAV.map((item) => {
           const active =
-            item.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(item.href);
+            item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
           return (
             <Link
               key={item.href}

@@ -2,16 +2,24 @@
 
 One place for everything MOTION builds and learns. Event #1: **Devil's Night · AFTERIMAGE 001 · Fri 10.30.2026**.
 
-## Operations panel (primary crew software)
-Next.js App Router site — dashboard, Night-Of ops, Ask Claude, library.
+## MOTION Ops control plane (primary crew software)
+
+Next.js UI + Python FastAPI + Electron desktop.
 
 ```bash
-cd apps/ops-panel && npm install && npm run dev
-# → http://localhost:3000
-npm run pipeline   # typecheck + unit + build + Playwright smoke
+# Backend
+pip install -r services/api/requirements.txt
+python3 -m uvicorn app.main:app --app-dir services/api --host 127.0.0.1 --port 8787
+
+# Web UI
+cd apps/ops-panel && npm install && npm run dev   # → http://localhost:3000
+
+# Desktop (prefers panel on :3000)
+cd desktop && npm install && npm run desktop
 ```
 
-Details: `apps/ops-panel/README.md`. Legacy static Night-Of remains in `ops/` (same localStorage key). Draft only — no publish.
+Tests: `cd services/api && python3 -m pytest -q` · `cd apps/ops-panel && npm run test`  
+Routing: `services/api/MODEL_ROUTING.md`. Draft only — never publish.
 
 ## Web hub (static / Claude artifact)
 **https://claude.ai/artifact/6nZX6PmhuCXFezNSu6gkfM** is private to the owner and needs a claude.ai sign-in.
@@ -43,7 +51,9 @@ data/               what we learn from events
   lessons.csv       what happened -> what we do next time
   DEBRIEF_TEMPLATE.md   fill within 48 h of every event
 orch/               agent orchestration kit (briefs, task board, project context)
-apps/ops-panel/     Next.js operations panel (dashboard, Night-Of, Claude hook)
+apps/ops-panel/     Next.js control-plane UI (ops, agents, usage, activity, Muse)
+services/api/       Python FastAPI backend (chat proxy, metering, sims)
+desktop/            Electron Discord-like shell for the panel
 ops/                legacy static Night-Of HTML (still works offline)
 web/                the web hub (claude.ai artifact) source + seed data
 site/               fan site (static)
