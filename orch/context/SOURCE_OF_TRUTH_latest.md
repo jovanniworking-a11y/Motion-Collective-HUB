@@ -1,5 +1,14 @@
 # MOTION · AFTERIMAGE 001 — Devil's Night — Source of Truth
-Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cut) · **16 Oct update below wins where it conflicts**
+Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cut) · **16 Oct update below wins where it conflicts** · **T-003 reconcile 20 Oct (acting) wins on the retired money/cap figures listed there**
+
+## Reconciled 20 Oct (T-003 — RECORD only; acting failover)
+**Source pointers:** Logistics Control 15 Oct (`orch/context/drive/MOTION_Logistics_Control.md` sample: pool spend $381.13 / buffer $68.87); SoT Decided 16 Oct drinks/pool lines; **cap 70** and **DJ fees $475 committed** per Jovanni/acting brief 20 Oct (repo had no prior `$475` string — total recorded from that brief; HE//THEY fee $300 remains confirmed in Lineup/Money layers). **Pip: verify at hub before board treats settled.**
+- **Pass cap: 70** (**confirmed**, acting brief 20 Oct). Retires working-cap-**50** from Decided 16 Oct / Logistics Control pending-measurement row.
+- **Pool spend: $381.13** (**estimate**). Retires **$391.42** (SoT 13 Oct workbook roll-up).
+- **Pool buffer: $68.87** (**estimate**). Retires **$58.58** (SoT 13 Oct).
+- **Drinks + ice + cups (150-cocktail menu): $231.13** incl. tax (**estimate** until receipts; Decided 16 Oct). Retires **$171.88** jungle-juice hand recalc (SoT 13 Oct evening) as the live drinks roll-up.
+- **DJ fees committed: $475** (**confirmed**, acting brief 20 Oct). Retires DJ-**$300-only** as the *total* committed figure. HE//THEY remains **$300** (**confirmed**, SoT 6/14 Oct). Fee split of the remaining **$175** is **open** (not in prior SoT layers as a named line). Glamz still **plays free / no fee** per Decided 18 Oct.
+- Metrics mirror: `data/metrics.csv` (same labels). Changelog: `orch/tasks/outbox/T-003_sot_cleanup_changelog.md`.
 
 ## Decided 18 Oct (owner)
 - **Lineup / times (internal only, no set times on the public flyer):** iamariology b2b raymixes open 9:00 PM · **Glamz 11:00 PM–12:15 AM, plays free, no fee (confirmed 18 Oct)**; only co.b and NiiON (HE//THEY) charge · HE//THEY · co.b b2b NiiON headline from 12:15 AM. Rohan is off.
@@ -13,7 +22,7 @@ Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cu
 - **Logistics Control (15 Oct) is the current plan** where it differs from the sections below.
 - **Drinks: 150-cocktail menu, locked** — 90 entry lemonades + 60 mid-level Palomas, bulk 1.75 L. The jungle-juice recipe and carts below are **superseded**. Drinks, ice and cups total **$231.13** incl. tax (estimate until receipts); pool spend **$381.13**, buffer **$68.87**. The optional jungle-juice add-on is superseded.
 - **Lineup:** 9:00 PM opening set **iamariology b2b raymixes** (locked core) → 11:00 PM friends set / **Glamz b3b if he confirms** → **12:15 AM HE//THEY** (confirmed). Replaces the draft set times below. Glamz still unconfirmed: no promo naming him until he is.
-- **Working cap: 50 passes** until the kitchen + hall measurement. Named guests 50 (incl. crew), confirmed 25 (sheet count).
+- **Working cap: 50 passes** until the kitchen + hall measurement. Named guests 50 (incl. crew), confirmed 25 (sheet count). **→ RETIRED as live cap by Reconciled 20 Oct (T-003): pass cap 70 confirmed (acting brief). Sheet counts above remain historical.**
 - **Venue visit moved** from 16 Oct; new date TBD. Still needed: kitchen + hall clear floor, DJ-wall tape, neighbour flyers.
 - **Costume judging locked:** crew scorecard at 1:30 AM — originality 40 · execution 30 · commitment 30. Prize amount ($20–50) still open.
 - Room Studio drink-stock sims assumed jungle juice and must be rerun for the cocktail menu (T-009).
@@ -66,7 +75,7 @@ The plan's scale comes from the bed (full, 54") and door (36") symbols: about 0.
 ## Lineup (internal running order; set times never go on the flyer)
 - **HE//THEY** (credit exactly: co.b b2b NiiON, artist's request, 6 Oct), headliner. Confirmed. **Fee $300** (updated from $200). Genres on promo: UKG · HARD HOUSE / ELECTRO · BASS HOUSE (confirmed with the artist, 6 Oct).
 - **Rohan Rali — CUT (14 Oct).** His charge went to $375 (was $275), so he's no longer on the lineup. Off the set times and the DJ budget. **Still on the promo:** flyer `final_v4_glamz`, the lineup-reveal post (post 5) and the reel all name or feature him — see Open items.
-- **DJ total (confirmed acts): $300** (HE//THEY only; was $575 with Rohan).
+- **DJ total (confirmed acts): $300** (HE//THEY only; was $575 with Rohan). **→ RETIRED as the live *total* by Reconciled 20 Oct (T-003): DJ fees committed $475 (acting brief). HE//THEY fee $300 unchanged.**
 - HE//THEY approved being named on promo (6 Oct).
 - **Glamz — still not actually confirmed for the night (13 Oct, evening update).** He's on both the lineup-reveal Instagram post and the flyer (`final_v4_glamz`), but as of 13 Oct he **hasn't even been asked his fee yet** — he said he'd get back to Jovanni on whether he can do the event at all. Treat his promo placement as provisional until he confirms. If he can't do it, the flyer/reel need another pass to pull him back out.
 - G14, Santana and Lodri never replied and are off everything. Julian Abam's reply is still pending.
@@ -84,25 +93,38 @@ The plan's scale comes from the bed (full, 54") and door (36") symbols: about 0.
 - 5-minute changeovers are not optional.
 - Each DJ is told only their own slot.
 
-## Money (updated 13 Oct — drinks line final, see Drinks section; Sam's/Costco pass added below)
-- **DJs: $300, paid by Jovanni personally** (HE//THEY $300; Rohan cut 14 Oct, was $275 and went to $375). Not from the pool. Glamz fee unconfirmed — he hasn't been asked yet and hasn't confirmed he can even play, so no number to add to this total. **Confirmed-DJ total still unpaid as of 13 Oct — pay before the 30th.**
+## Money (live roll-up = Reconciled 20 Oct / T-003; 13 Oct table below is RETIRED history)
+- **DJs committed total: $475** (**confirmed**, Jovanni/acting brief 20 Oct), paid by Jovanni personally — not from the pool. Retires DJ-**$300-only** as the total. **HE//THEY $300** remains **confirmed** (SoT 6/14 Oct). Remaining **$175** of the $475 total: **open** (no named line in prior SoT; Pip verify). Glamz: **no fee** (Decided 18 Oct). Rohan cut 14 Oct (was $275 → $375).
 - **Pool for everything else: $450** — Jovanni $150 + Haven $150 + Alex $150. (Replaces 6 × $176.)
-- **Pool spend ≈ $391.42 with tax, leaving ≈ $58.58 buffer** (per the Excel workbook's original figures — see note below on live-checked mixer prices that weren't yet rolled into that total). (Previously an estimated $67 buffer on a placeholder $166 drinks figure — now replaced with real, mostly price-checked numbers.)
+- **Pool spend $381.13** (**estimate**), **buffer $68.87** (**estimate**) — Logistics Control 15 Oct / Decided 16 Oct. Retires **$391.42** spend and **$58.58** buffer (SoT 13 Oct workbook).
+- **Drinks + ice + cups (150-cocktail menu): $231.13** incl. tax (**estimate** until receipts; Decided 16 Oct). Retires **$171.88** as the live drinks roll-up (that figure was the 13 Oct jungle-juice hand recalc).
+
+### Live pool snapshot (20 Oct T-003)
+
+| Item | Cost | Label | Source |
+|---|---|---|---|
+| Drinks + ice + cups (150-cocktail) | $231.13 | estimate | SoT Decided 16 Oct |
+| Other pool lines (decor/DIY/smoking roll-up into spend) | (in spend) | estimate | Logistics Control 15 Oct |
+| **Pool spend total** | **$381.13** | estimate | Logistics Control 15 Oct |
+| **Pool available** | **$450.00** | confirmed | SoT |
+| **Buffer remaining** | **$68.87** | estimate | Logistics Control 15 Oct |
+
+### Retired 13 Oct workbook table (superseded — keep for audit only)
 
 | Item | Cost | Notes |
 |---|---|---|
-| Drinks + ice + cups (finalized recipe, real prices, incl. 8.25% tax) | $241.42 | See Drinks section below for the full breakdown |
-| Decor: mirror ball rental $45, red bulbs $15, black cloth $16 | ~$76 | Unchanged estimate |
-| DIY: eye posters (UT Foundry) + labels on home Cricut | ~$30 | Unchanged estimate |
-| Smoking: cigarettes $19 + ~60 lighters & vinyl decals ~$25 | ~$44 | Unchanged estimate |
-| **Pool spend total** | **$391.42** | |
-| **Pool available** | **$450.00** | |
-| **Buffer remaining** | **$58.58** | |
+| Drinks + ice + cups (jungle-juice era, incl. tax) | $241.42 | Superseded by 150-cocktail $231.13 |
+| Decor: mirror ball rental $45, red bulbs $15, black cloth $16 | ~$76 | Unchanged estimate (historical row) |
+| DIY: eye posters (UT Foundry) + labels on home Cricut | ~$30 | Unchanged estimate (historical row) |
+| Smoking: cigarettes $19 + ~60 lighters & vinyl decals ~$25 | ~$44 | Unchanged estimate (historical row) |
+| **Pool spend total (RETIRED)** | **$391.42** | Retired T-003 |
+| **Pool available** | **$450.00** | Still current |
+| **Buffer remaining (RETIRED)** | **$58.58** | Retired T-003 |
 
 - **Not in the pool:** Cap 01 (~$429, merch), food (TBD), **CDJs — confirmed rental, $345** (Rock n Roll Rentals: 2× CDJ-2000NXS2 $115 each + DJM-900NXS2 mixer $115, weekend rate). Self pickup — no longer contingent on Rapid Ric; see Decided 13 Oct below.
 - **No drink sales, no collection.** In Texas an unlicensed event cannot sell alcohol, and a private residence is no exemption.
-- **Jovanni's personal numbers (updated 14 Oct, Rohan cut):** owes $300 (HE//THEY) + $150 (pool share) = $450 total (was $725). Income before the 30th: biweekly paycheck ($22/hr) lands 23 Oct (~$1,400–1,500 net estimate, hours not yet confirmed), plus $60/Mon from his brother on 19 Oct and 26 Oct ($120 guaranteed). Comfortably covers the $450, with an estimated $1,075–1,175 cushion — confirm once the actual 23 Oct paycheck amount is known.
-- **Budget files (13 Oct):** `MOTION_Budget_and_Carts.xlsx` (formula-driven, 3 tabs: Drinks Recipe / Shopping Carts / Full Event Budget), `MOTION_Drinks_Budget_Summary.pdf` (one-pager), `MOTION_Budget_Deck.pptx` (6-slide walkthrough for the pool contributors) — sent to Jovanni directly, not stored in this project's docs. **The per-item live prices below (added evening of 13 Oct) haven't been re-run through that workbook's formulas yet — the roll-up totals in this doc and the workbook still reflect the earlier estimates. Re-open the workbook and swap in the ✓ prices below before finalizing the shopping list.**
+- **Jovanni's personal numbers (14 Oct layer, partial):** HE//THEY $300 + pool share $150 were the last full SoT personal roll-up. With DJ committed total now **$475** (acting brief 20 Oct), personal DJ+pool total is **open for Pip** to recompute (do not invent cushion figures here). Income notes from 14 Oct unchanged: biweekly paycheck ($22/hr) lands 23 Oct (~$1,400–1,500 net **estimate**), plus $60/Mon from his brother on 19 Oct and 26 Oct ($120 guaranteed).
+- **Budget files (13 Oct):** `MOTION_Budget_and_Carts.xlsx` (formula-driven, 3 tabs: Drinks Recipe / Shopping Carts / Full Event Budget), `MOTION_Drinks_Budget_Summary.pdf` (one-pager), `MOTION_Budget_Deck.pptx` (6-slide walkthrough for the pool contributors) — sent to Jovanni directly, not stored in this project's docs. **The per-item live prices below (added evening of 13 Oct) haven't been re-run through that workbook's formulas yet — the roll-up totals in this doc and the workbook still reflect the earlier estimates. Re-open the workbook and swap in the ✓ prices below before finalizing the shopping list.** Live pool totals above follow Logistics Control / Decided 16 Oct, not the retired 13 Oct workbook roll-up.
 
 ## Drinks (finalized 13 Oct — real Austin prices, supersedes the 5 Oct placeholder; price-check pass added evening of 13 Oct)
 - **Vodka jungle juice (~2.5 gal, ~7.4%):** Svedka Vodka 1.75L ($17.98 ✓) + Hawaiian Punch Fruit Juicy Red 1 gal ($7.48 ✓) + H-E-B 100% Pineapple Juice 64oz ($4.27 ✓, live-checked 13 Oct evening — supersedes the earlier Dole 46oz $3.50 estimate, and matches the original recipe's called-for 64oz size) + Sprite 2L ($2.97 ✓). **Batch cost: $32.70** (was $31.93).
@@ -110,7 +132,7 @@ The plan's scale comes from the bed (full, 54") and door (36") symbols: about 0.
 - **Cans & specialty:** White Claw Variety 24-pack ($33.46 ✓) + Miller Lite 30-pack ($23.00, showed out-of-stock online when checked — **resolved 13 Oct: beer doesn't need to come from one specific store, grab it wherever's convenient**) + Jinro Original Soju 375mL x2 for HE//THEY's rider ($7.45 each ✓, Spec's — liquor store, live-checked 13 Oct evening, cheaper than the earlier $13.00/each estimate). **Section total: $71.36** (was $82.46).
 - **BeatBox and BuzzBallz dropped** (BYOB recommended covers that gap).
 - **About 170 standard drinks** covers 55 drinkers × 3. BYOB tops up the rest.
-- **DRINKS GRAND TOTAL, recalculated with the new ✓ prices (pre-tax): $158.78** (was $168.29). **Austin sales tax (8.25%): ~$13.10. DRINKS TOTAL WITH TAX: ~$171.88** (was $182.17) — **this recalculation is mine (13 Oct evening), done by hand from the updated line items above; it has not been run through the Excel workbook yet, so treat it as directionally right (drinks got a bit cheaper, mainly from the soju swap) rather than final. Re-run the workbook before shopping.**
+- **DRINKS GRAND TOTAL, recalculated with the new ✓ prices (pre-tax): $158.78** (was $168.29). **Austin sales tax (8.25%): ~$13.10. DRINKS TOTAL WITH TAX: ~$171.88** (was $182.17) — **this recalculation is mine (13 Oct evening), done by hand from the updated line items above; it has not been run through the Excel workbook yet, so treat it as directionally right (drinks got a bit cheaper, mainly from the soju swap) rather than final. Re-run the workbook before shopping.** **→ RETIRED as live drinks roll-up by Reconciled 20 Oct (T-003): Decided 16 Oct 150-cocktail menu drinks+ice+cups $231.13 estimate replaces $171.88.**
 - ✓ = live price checked against Walmart/H-E-B/Spec's listings on 13 Oct 2026. Bagged ice (Cart 4) still only has a general market range confirmed (~$2–5 per 10 lb at typical grocery pricing), not an Austin-specific live check — everything else not marked ✓ is a clearly-labeled estimate; confirm in person, prices shift day to day.
 - **Dropped:** Everclear, the shots bottle, mini kegs, hibiscus.
 
@@ -157,7 +179,7 @@ Texas law: hard liquor only from a package store; beer, seltzer and mixers can b
 10. **Flyer — superseded 13 Oct, see below.** (Original 5 Oct note: `flyer_af/i_big_names/final_2act/`, Glamz removed, "FRIDAY 10.30.2026 · DOORS 9 PM", lineup he/they then Rohan Rali. The 1 Oct 3-act version is private only. Rules are in `flyer_af/LESSONS.md` and Project doc 07.)
 11. **Cap 01:** four-step trailing Bodoni M on the front. The side is a realistic halftone eye dilation, stitched direct, simplified to 2–3 tones for embroidery. Blank: District DT600. Colourway still open: dusty rose / plum / moss / oxblood / black.
 12. Type: Bodoni Moda (set opsz explicitly) + Jost. No blackletter.
-13. Money: Jovanni funds DJs ($300 confirmed acts after Rohan was cut 14 Oct); pool $450 from Jovanni, Haven, Alex ($150 each). No charity.
+13. Money: Jovanni funds DJs (**$475 committed total**, acting brief 20 Oct / T-003; HE//THEY $300 confirmed; retires $300-only total after Rohan cut 14 Oct); pool $450 from Jovanni, Haven, Alex ($150 each). No charity.
 14. **Promo look (5 Oct):** a club night shot like a fashion campaign.
     - All black, direct flash, hard shadows.
     - Black and white with one red. Nobody smiling.
