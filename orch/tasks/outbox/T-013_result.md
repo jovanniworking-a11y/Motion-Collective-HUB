@@ -1,6 +1,6 @@
 # T-013 · MOTION control-plane vertical slice
 
-**Owner:** Cursor · **Branch:** `cursor/ops-software-8efd` · **Commit:** `c81cc66` · **Status:** draft / local only
+**Owner:** Cursor · **Branch:** `cursor/ops-software-8efd` · **Commit:** `f5db0a4101b1869459ac89c8e3b70f47f17168d3` · **Status:** draft / local only
 
 ## What I did
 Shipped working control-plane slice on the ops-software product branch:
