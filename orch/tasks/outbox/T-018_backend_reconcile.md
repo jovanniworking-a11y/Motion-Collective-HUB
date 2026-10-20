@@ -16,7 +16,8 @@
 | Input tip `cursor/muse-cloud-platform-c430` | `220f6b6b13eb5b859974e76df223548055f777c2` | **confirmed** (git) |
 | Input tip `cursor/architecture-review-07eb` | `e7b4fe85dab8027b9bc0cd507dbe767d73d23d23` | **confirmed** (git) |
 | Pip verified SHAs (a905bcd / e7b4fe8 / 220f6b6) | match tips above | **confirmed** |
-| Merge-ready output commit | *`fc419bb71039333920a547bcd74d7026897a53a0`* | **confirmed** when pushed |
+| Fold commit (code) | `fc419bb71039333920a547bcd74d7026897a53a0` | **confirmed** |
+| Merge-ready output commit (branch tip) | `063092e901996aa78b4f018aa0ba78b6866b5129` | **confirmed** |
 | Tests | `cd services/api && python3 -m pytest -q` → **8 passed** | **confirmed** |
 | Cloud run | `bc-963c4235-a94d-5f34-8c0d-dabe6848c926` | **confirmed** |
 
@@ -50,7 +51,7 @@
 - `python3 -m pytest -q` from `services/api`: **8 passed** (**confirmed**, 2026-10-20)
 - BFF constraints retained (keys server-only; no guest PII; no venue address; router one-primary; no hub.py-as-HTTP)
 
-**Merge-ready commit SHA (branch tip):** `9fef056decce4914ccd89f85567e52795db82554` (**confirmed**). Code fold: `fc419bb71039333920a547bcd74d7026897a53a0`.
+**Merge-ready commit SHA (branch tip):** `063092e901996aa78b4f018aa0ba78b6866b5129` (**confirmed** at write; tip may move one commit if this receipt is re-stamped). Code fold: `fc419bb71039333920a547bcd74d7026897a53a0`.
 
 ---
 
