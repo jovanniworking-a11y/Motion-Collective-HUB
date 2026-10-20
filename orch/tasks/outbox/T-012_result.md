@@ -2,6 +2,7 @@
 
 **Owner:** Cursor (Claude Code seat) · run `bc-5eb6a945`  
 **Branch:** `cursor/ops-desktop-e7a0`  
+**Commit:** `7271e1ccca02a0a511923531518cd316cf811f8c`  
 **Status:** draft / local only — not published
 
 ## What I did
