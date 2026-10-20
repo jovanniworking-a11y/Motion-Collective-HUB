@@ -1,7 +1,7 @@
 id,name,kind,area,path,action,command,needs,status,owner,notes
 room-studio,Afterimage Room Studio (3D plan + crowd sim),app,venue,orch/context/studio/index.html,open,,browser + internet (three.js CDN),ready,Codex,"Drag gear at real size, rank drink spots, run night sims"
 studio-test,Room Studio headless test,test,venue,orch/context/studio/test_studio.py,run,python,playwright,needs-path-fix,Codex,Hard-coded /home/claude paths and a local three.js copy
-studio-sims,Room Studio sim checks (_chk*.py / _night2 / _all2),test,venue,orch/context/studio,open,,playwright + _t2.py,missing-file,Codex,All exec() a _t2.py helper that is not in the kit
+studio-sims,Room Studio sim checks (_chk*.py / _night2 / _all2),test,venue,orch/context/studio,open,,playwright + _t2.py,ready,Cursor,"_t2.py rebuilt 20 Oct; smoke: python3 _t2.py smoke (SwiftShader + cached Chromium)"
 room-geo,3D room renderer (template),library,venue,orch/context/assets/geo.js,open,,three.js,template,Codex,__FLOOR__ / __GEOM__ placeholders get filled by a build step
 room-geom,Rio floor-plan geometry,data,venue,orch/context/assets/geom.py,open,,,ready,Codex,Plan px polygons; 0.875 in per px
 vision-items,Decor vision-board item list,data,decor,orch/context/assets/items.py,open,,,ready,Claude,Prices as of 1 Oct - re-check

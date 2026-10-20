@@ -17,7 +17,12 @@ You are a **worker** on the MOTION Collective hub. Claude (project "MOTION EFFEc
 
 ## MOTION Ops control plane
 - **Cloud (primary):** `docs/CLOUD_HOSTING.md` — Vercel panel + Fly/Railway API; Pro Prompt Bridge default
+- **Muse data / compare:** `docs/MUSE_DATA_PLATFORM.md` — SQLite MVP · `/api/data/*` · panel `/data`
 - UI: `apps/ops-panel` — `npm run dev` → http://localhost:3000 · env `NEXT_PUBLIC_API_URL`
 - API: `services/api` — `python3 -m uvicorn app.main:app --app-dir services/api --port 8787`
 - Desktop: `desktop/` — **optional** Electron; cloud users open the panel URL
+- Studio helper: `orch/context/studio/_t2.py` — `python3 _t2.py smoke` (unblocks `_night2` / `_all2`)
 Legacy phone page still at `ops/index.html` (same localStorage `motion-night-ops-v1`). Draft only.
+
+## Cursor online
+Cloud Cursor **can push** `cursor/*` branches from this environment. If another seat’s GitHub connector cannot write, that is a connector permission — not Cursor offline. Presence receipts: `orch/tasks/outbox/T-016_cursor_online.md`.

@@ -92,4 +92,36 @@ export const api = {
       `/api/sims/jobs/${id}`,
     ),
   studioEmbedUrl: () => `${apiBase()}/studio/embed`,
+  dataHealth: () =>
+    req<{ ok: boolean; database_url_scheme: string; tables: string[] }>("/api/data/health"),
+  dataSims: () => req<{ sims: unknown[]; label: string }>("/api/data/sims"),
+  dataObservations: () => req<{ observations: unknown[] }>("/api/data/observations"),
+  dataRunSim: (kind: string, params: Record<string, unknown> = {}) =>
+    req<{ job: { id: string; status: string }; sim_run: unknown }>("/api/data/sims/run", {
+      method: "POST",
+      body: JSON.stringify({ kind, params }),
+    }),
+  dataIngestObservation: (body: {
+    crew_count?: number;
+    density_est?: number;
+    zone?: string;
+    image_path?: string;
+    label?: string;
+  }) =>
+    req<{ observation: unknown }>("/api/data/observations", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  dataIngestFlow: (body: { zone?: string; count?: number; label?: string }) =>
+    req<{ flow_count: unknown }>("/api/data/flow", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  dataCompare: (sim_run_id?: number, zone?: string) => {
+    const q = new URLSearchParams();
+    if (sim_run_id != null) q.set("sim_run_id", String(sim_run_id));
+    if (zone) q.set("zone", zone);
+    const qs = q.toString();
+    return req<{ metrics: Record<string, unknown> }>(`/api/data/compare${qs ? `?${qs}` : ""}`);
+  },
 };

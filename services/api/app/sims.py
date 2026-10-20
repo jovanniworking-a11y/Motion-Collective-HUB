@@ -19,6 +19,7 @@ ALLOWLIST: dict[str, dict[str, Any]] = {
     "night": {"script": "_night2.py", "argv": [], "description": "Night crowd sim.", "heavy": True},
     "all-baths-1": {"script": "_all2.py", "argv": ["1"], "description": "optimizeEverything baths=1.", "heavy": True},
     "all-baths-2": {"script": "_all2.py", "argv": ["2"], "description": "optimizeEverything baths=2.", "heavy": True},
+    "t2-smoke": {"script": "_t2.py", "argv": ["smoke"], "description": "Boot helper smoke (SwiftShader).", "heavy": False},
     "smoke-stub": {"script": None, "argv": [], "description": "Safe no-op for CI/UI smoke.", "heavy": False},
 }
 

@@ -12,6 +12,7 @@ const NAV = [
   { href: "/usage", label: "Usage", ico: "◉" },
   { href: "/activity", label: "Live", ico: "◎" },
   { href: "/muse", label: "Muse", ico: "◇" },
+  { href: "/data", label: "Data", ico: "▣" },
   { href: "/assist", label: "Claude", ico: "03" },
 ] as const;
 

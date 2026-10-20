@@ -8,8 +8,8 @@ python3 -m uvicorn app.main:app --app-dir services/api --port 8787
 ```
 
 Tests: `python3 -m pytest -q`  
-Env: see `.env.example`. `ANTHROPIC_API_KEY` optional (live chat — billed API; Claude.ai Pro ≠ API). Without it, chat stays mock; ops-panel Pro bridge opens claude.ai for $0 API. `MOTION_SIM_EXECUTE=1` (real studio scripts).  
-Routing: `MODEL_ROUTING.md`.
+Env: see `.env.example`. `ANTHROPIC_API_KEY` optional (live chat — billed API; Claude.ai Pro ≠ API). Without it, chat stays mock; ops-panel Pro bridge opens claude.ai for $0 API. `MOTION_SIM_EXECUTE=1` (real studio scripts). `DATABASE_URL` optional (Postgres); default SQLite muse platform DB under `MOTION_DATA_DIR`.  
+Routing: `MODEL_ROUTING.md`. Data/compare: `/api/data/*` · `docs/MUSE_DATA_PLATFORM.md`.
 
 ## Cloud
 

@@ -31,6 +31,11 @@ apps/ops-panel/.turbo/
 services/api/data/*.sqlite3
 services/api/data/*.json
 !services/api/data/.gitkeep
+
+# Studio Playwright generated
+orch/context/studio/_test.html
+orch/context/studio/shots/
+orch/context/studio/_night2.json
 apps/ops-panel/.next/
 apps/ops-panel/coverage/
 desktop/dist/

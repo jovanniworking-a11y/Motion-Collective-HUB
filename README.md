@@ -8,7 +8,8 @@ Next.js UI + Python FastAPI. **Cloud website is the primary run path** (clickabl
 
 ### Cloud (recommended)
 
-See **[`docs/CLOUD_HOSTING.md`](docs/CLOUD_HOSTING.md)** — Vercel panel + Fly/Railway API, free-tier notes, Pro Prompt Bridge ($0 API).
+See **[`docs/CLOUD_HOSTING.md`](docs/CLOUD_HOSTING.md)** — Vercel panel + Fly/Railway API, free-tier notes, Pro Prompt Bridge ($0 API).  
+Muse data platform (sim vs imaging): **[`docs/MUSE_DATA_PLATFORM.md`](docs/MUSE_DATA_PLATFORM.md)**.
 
 ### Local
 

@@ -58,3 +58,34 @@ def test_sim_stub(client: TestClient):
             break
         time.sleep(0.05)
     assert status == "completed"
+
+
+def test_data_platform_ingest_and_compare(client: TestClient):
+    assert client.get("/api/data/health").json()["ok"] is True
+    run = client.post("/api/data/sims/run", json={"kind": "smoke-stub", "params": {"guests": 50}})
+    assert run.status_code == 200
+    assert "sim_run" in run.json()
+    obs = client.post(
+        "/api/data/observations",
+        json={
+            "crew_count": 42,
+            "density_est": 0.55,
+            "zone": "dance",
+            "image_path": "/tmp/fake_frame.jpg",
+            "meta": {"address": "MUST_STRIP", "sensor": "stub"},
+            "label": "estimate",
+        },
+    )
+    assert obs.status_code == 200
+    body = obs.json()["observation"]
+    assert body["image_path_hash"]
+    assert "address" not in (body.get("meta") or {})
+    assert body["note"] == "no faces/PII stored"
+    drink = client.post("/api/data/drinks", json={"station": "island", "drink_type": "paloma", "quantity": 1})
+    assert drink.status_code == 200
+    flow = client.post("/api/data/flow", json={"zone": "dance", "count": 12})
+    assert flow.status_code == 200
+    cmp_ = client.get("/api/data/compare").json()
+    assert cmp_["metrics"]["label"] == "estimate"
+    assert cmp_["metrics"]["obs_mean_crew_count"] == 42
+    assert "face" not in str(cmp_).lower() or "no face" in str(cmp_).lower()

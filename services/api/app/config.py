@@ -17,6 +17,8 @@ DATA_DIR = Path(os.environ.get("MOTION_DATA_DIR", str(_default_data))).expanduse
 USAGE_DB = DATA_DIR / "usage.sqlite3"
 LAYOUT_STORE = DATA_DIR / "studio_layout.json"
 CHAT_STORE = DATA_DIR / "agent_chats.json"
+# Muse platform DB: override with DATABASE_URL=postgresql+psycopg://... for Postgres.
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
 SIM_EXECUTE = os.environ.get("MOTION_SIM_EXECUTE", "").strip() in {"1", "true", "yes"}
