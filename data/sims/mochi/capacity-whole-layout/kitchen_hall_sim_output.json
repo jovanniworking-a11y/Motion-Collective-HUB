@@ -1,0 +1,19 @@
+{
+ "kitchen_best": {
+  "gross_sqft": 208,
+  "clear_sqft": 127
+ },
+ "kitchen_low": {
+  "gross_sqft": 174,
+  "clear_sqft": 94
+ },
+ "kitchen_high": {
+  "gross_sqft": 239,
+  "clear_sqft": 158
+ },
+ "open_plan": {
+  "gross_sqft": 651,
+  "clear_sqft": 556
+ },
+ "living_plus_hall_clear_sqft": 430
+}
