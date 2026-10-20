@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>MOTION · Night-Of Ops</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Jost:wght@300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void:#07080c; --void2:#0d0f15; --panel:#12151c; --ice:#bfddf0; --bone:#e9e4da; --dim:#8f8b85;
+  --line:rgba(233,228,218,.12); --red:#ff3b30; --ok:#6fd49a; --warn:#f5a524;
+  --f-display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --f-ui:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme: dark;
+}
+*,*::before,*::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; min-height: 100%; background: var(--void); color: var(--bone); font: 400 15px/1.45 var(--f-ui); }
+body {
+  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(191,221,240,.08), transparent 55%),
+    linear-gradient(180deg, #0a0c12 0%, var(--void) 40%, #0b0608 100%);
+}
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ice); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { animation: none !important; transition: none !important; }
+}
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.caps { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; }
+
+.app-head {
+  position: sticky; top: 0; z-index: 20;
+  padding: max(10px, env(safe-area-inset-top,0px)) 16px 10px;
+  background: color-mix(in srgb, var(--void) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.app-head .row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.mark { font-family: var(--f-display); font-style: italic; font-size: 26px; margin: 0; letter-spacing: .02em; }
+.mark span { color: var(--red); font-style: normal; font-family: var(--f-ui); font-size: 11px; letter-spacing: .22em; margin-left: 10px; text-transform: uppercase; vertical-align: middle; }
+.clock { font: 500 13px var(--f-mono); color: var(--dim); text-align: right; }
+.clock b { display: block; color: var(--bone); font-size: 18px; font-weight: 500; }
+.banner {
+  margin-top: 10px; padding: 10px 12px; border: 1px solid color-mix(in srgb, var(--warn) 50%, var(--line));
+  background: color-mix(in srgb, var(--warn) 12%, var(--panel)); color: var(--bone); border-radius: 8px;
+  font-size: 13px;
+}
+.banner.alert {
+  border-color: color-mix(in srgb, var(--red) 55%, var(--line));
+  background: color-mix(in srgb, var(--red) 16%, var(--panel));
+}
+.banner strong { color: var(--warn); }
+.banner.alert strong { color: var(--red); }
+
+.stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  padding: 14px 16px 0;
+}
+.stat {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+  min-width: 0;
+}
+.stat .k { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.stat .v { font: 500 22px/1.1 var(--f-mono); margin-top: 4px; }
+.stat .s { font-size: 11px; color: var(--dim); margin-top: 2px; }
+.stat.hot .v { color: var(--red); }
+.stat.ok .v { color: var(--ok); }
+
+main { padding: 16px 16px 24px; display: grid; gap: 16px; }
+.panel {
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  border: 1px solid var(--line); border-radius: 12px; padding: 14px;
+}
+.panel h2 {
+  margin: 0 0 12px; font: 500 12px var(--f-ui); letter-spacing: .28em;
+  text-transform: uppercase; color: var(--dim); display: flex; justify-content: space-between; gap: 8px; align-items: baseline;
+}
+.panel h2 .meta { font-family: var(--f-mono); letter-spacing: 0; text-transform: none; font-size: 12px; color: var(--ice); }
+.lede { margin: 0 0 12px; color: var(--dim); font-size: 13px; max-width: 52ch; }
+.label-tag {
+  display: inline-block; font: 500 10px var(--f-mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--dim); border: 1px solid var(--line); padding: 1px 6px; border-radius: 4px; margin-left: 6px;
+}
+.label-tag.confirmed { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+.label-tag.estimate { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, transparent); }
+.label-tag.open { color: var(--ice); border-color: color-mix(in srgb, var(--ice) 40%, transparent); }
+
+.tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.tools input {
+  flex: 1 1 140px; min-width: 0; background: var(--void); border: 1px solid var(--line);
+  border-radius: 8px; padding: 10px 12px; color: var(--bone); font: 400 14px var(--f-mono);
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 14px; border: 1px solid var(--bone); border-radius: 8px;
+  font: 500 12px/1 var(--f-ui); letter-spacing: .18em; text-transform: uppercase;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.btn:hover { background: var(--bone); color: var(--void); }
+.btn.primary { border-color: var(--red); background: var(--red); color: var(--void); }
+.btn.primary:hover { background: transparent; color: var(--red); }
+.btn.ghost { border-color: var(--line); color: var(--dim); }
+.btn.ghost:hover { color: var(--bone); background: transparent; border-color: var(--bone); }
+.btn:disabled { opacity: .4; pointer-events: none; }
+
+.pass-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 6px;
+}
+.pass {
+  aspect-ratio: 1; border: 1px solid var(--line); border-radius: 8px; background: var(--void2);
+  font: 500 14px var(--f-mono); color: var(--dim); transition: transform .12s, background .12s, border-color .12s, color .12s;
+}
+.pass:active { transform: scale(.96); }
+.pass.in {
+  background: color-mix(in srgb, var(--ok) 18%, var(--void2));
+  border-color: color-mix(in srgb, var(--ok) 55%, transparent);
+  color: var(--ok);
+}
+.pass.over {
+  background: color-mix(in srgb, var(--red) 14%, var(--void2));
+  border-color: color-mix(in srgb, var(--red) 50%, transparent);
+  color: var(--red);
+}
+
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.timeline li {
+  position: relative; padding: 12px 12px 12px 28px; border-bottom: 1px solid var(--line);
+}
+.timeline li:last-child { border-bottom: 0; }
+.timeline li::before {
+  content: ""; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--line);
+}
+.timeline li::after {
+  content: ""; position: absolute; left: 5px; top: 18px; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--void); border: 2px solid var(--dim);
+}
+.timeline li.past { opacity: .45; }
+.timeline li.now {
+  background: color-mix(in srgb, var(--red) 10%, transparent);
+  border-radius: 8px; border-bottom-color: transparent;
+}
+.timeline li.now::after { background: var(--red); border-color: var(--red); box-shadow: 0 0 0 4px rgba(255,59,48,.2); }
+.timeline li.set.now .moment { color: var(--ice); }
+.timeline .when { font: 500 12px var(--f-mono); color: var(--dim); }
+.timeline .moment { font-size: 16px; font-weight: 500; margin-top: 2px; }
+.timeline .lead { font-size: 12px; color: var(--dim); margin-top: 2px; }
+.timeline .cd { font: 500 12px var(--f-mono); color: var(--warn); margin-top: 4px; }
+.timeline li.now .cd { color: var(--red); }
+
+.welfare-next {
+  display: grid; gap: 6px; padding: 14px; border-radius: 10px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ice) 10%, var(--void2)), var(--void2));
+  border: 1px solid var(--line); margin-bottom: 12px;
+}
+.welfare-next .big { font: 500 clamp(28px, 8vw, 40px)/1 var(--f-mono); }
+.welfare-next .sub { color: var(--dim); font-size: 13px; }
+.round-list { display: grid; gap: 8px; }
+.round {
+  display: grid; grid-template-columns: 72px 1fr auto; gap: 8px; align-items: center;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--void2);
+}
+.round.done { border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+.round.due { border-color: color-mix(in srgb, var(--warn) 50%, transparent); background: color-mix(in srgb, var(--warn) 10%, var(--void2)); }
+.round.collision { border-color: color-mix(in srgb, var(--red) 55%, transparent); background: color-mix(in srgb, var(--red) 12%, var(--void2)); }
+.round .t { font: 500 14px var(--f-mono); }
+.round .n { font-size: 13px; color: var(--dim); }
+.round .n b { color: var(--bone); font-weight: 500; }
+
+.budget-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.budget-tile {
+  padding: 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--void2); min-width: 0;
+}
+.budget-tile .k { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
+.budget-tile .v { font: 500 20px/1.15 var(--f-mono); margin-top: 6px; word-break: break-all; }
+.lines { display: grid; gap: 0; }
+.line {
+  display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 10px 0;
+  border-bottom: 1px solid var(--line); font-size: 13px;
+}
+.line:last-child { border-bottom: 0; }
+.line .amt { font-family: var(--f-mono); white-space: nowrap; }
+.line .from { color: var(--dim); font-size: 11px; margin-top: 2px; }
+
+.nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--void) 92%, transparent);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+}
+.nav button {
+  display: grid; gap: 4px; justify-items: center; padding: 8px 4px; color: var(--dim);
+  font: 500 10px/1 var(--f-ui); letter-spacing: .14em; text-transform: uppercase;
+}
+.nav button[aria-current="page"] { color: var(--bone); }
+.nav button[aria-current="page"] .ico { color: var(--red); }
+.nav .ico { font: 500 16px var(--f-mono); }
+
+.footer-note {
+  margin: 0; padding: 0 16px 8px; font-size: 11px; color: var(--dim); text-align: center;
+}
+.sim-bar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
+  padding: 10px 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--dim);
+}
+.sim-bar select, .sim-bar input {
+  background: var(--void); border: 1px solid var(--line); color: var(--bone);
+  border-radius: 6px; padding: 6px 8px; font: 400 12px var(--f-mono);
+}
+.offline {
+  display: inline-flex; align-items: center; gap: 6px; font: 500 11px var(--f-mono);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--dim);
+}
+.offline i { width: 7px; height: 7px; border-radius: 50%; background: var(--dim); display: inline-block; }
+.offline.on i { background: var(--ok); }
+.offline.off i { background: var(--warn); }
+
+@media (max-width: 380px) {
+  .budget-grid, .stats { grid-template-columns: 1fr; }
+  .round { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="app-head">
+  <div class="row">
+    <h1 class="mark">MOTION <span>Night-Of Ops</span></h1>
+    <div class="clock">
+      <b id="nowClock">--:--</b>
+      <span id="nowDate">—</span>
+    </div>
+  </div>
+  <div class="row" style="margin-top:8px">
+    <span class="offline" id="netStatus"><i></i> <span>checking</span></span>
+    <span class="caps" style="color:var(--dim)">crew only · draft</span>
+  </div>
+  <div id="alertBanner" class="banner alert" hidden></div>
+</header>
+
+<section class="stats" aria-live="polite">
+  <div class="stat" id="statIn"><div class="k">Checked in</div><div class="v mono" id="countIn">0</div><div class="s">of <span id="countCap">50</span> cap <span class="label-tag estimate">estimate</span></div></div>
+  <div class="stat" id="statLeft"><div class="k">Room left</div><div class="v mono" id="countLeft">50</div><div class="s">vs working cap</div></div>
+  <div class="stat" id="statCue"><div class="k">Next cue</div><div class="v mono" id="nextCueTime">—</div><div class="s" id="nextCueName">—</div></div>
+</section>
+
+<main>
+  <section class="panel" data-tab="checkin">
+    <h2>Pass check-in <span class="meta" id="passMeta">001–050</span></h2>
+    <p class="lede">Numbered passes only — no guest names stored. Tap to check in / undo. Cap is the working estimate (~50).</p>
+    <div class="tools">
+      <input id="passSearch" type="search" inputmode="numeric" placeholder="Jump to #" aria-label="Jump to pass number">
+      <button class="btn ghost" type="button" id="btnUndo">Undo last</button>
+      <button class="btn ghost" type="button" id="btnResetCheckin">Reset</button>
+    </div>
+    <div class="pass-grid" id="passGrid" role="list"></div>
+  </section>
+
+  <section class="panel" data-tab="show" hidden>
+    <h2>Run of show <span class="meta">crew times</span></h2>
+    <p class="lede">Doors 9 PM · last entry 12:30 AM · last pour 1:45 AM · hard stop 2 AM. Set times stay off public promo.</p>
+    <ul class="timeline" id="timeline"></ul>
+  </section>
+
+  <section class="panel" data-tab="welfare" hidden>
+    <h2>Welfare rounds <span class="meta">every 30 min</span></h2>
+    <div class="welfare-next">
+      <div class="caps">Next round</div>
+      <div class="big mono" id="welfareCountdown">—</div>
+      <div class="sub" id="welfareNextLabel">Rounds run doors → hard stop.</div>
+    </div>
+    <div class="tools">
+      <button class="btn primary" type="button" id="btnLogRound">Log this round</button>
+      <button class="btn ghost" type="button" id="btnResetWelfare">Clear log</button>
+    </div>
+    <div class="round-list" id="roundList"></div>
+  </section>
+
+  <section class="panel" data-tab="budget" hidden>
+    <h2>Budget snapshot <span class="meta">read-only</span></h2>
+    <p class="lede">From reconciled sheet / SoT. Pool money only in the headline tiles; DJ fee and CDJ rental are outside the pool.</p>
+    <div class="budget-grid">
+      <div class="budget-tile">
+        <div class="k">Pool <span class="label-tag confirmed">confirmed</span></div>
+        <div class="v mono" id="budPool">$450</div>
+      </div>
+      <div class="budget-tile">
+        <div class="k">Spend <span class="label-tag estimate">estimate</span></div>
+        <div class="v mono" id="budSpend">$381.13</div>
+      </div>
+      <div class="budget-tile">
+        <div class="k">Buffer <span class="label-tag estimate">estimate</span></div>
+        <div class="v mono" id="budBuffer">$68.87</div>
+      </div>
+    </div>
+    <div class="lines" id="budgetLines"></div>
+  </section>
+</main>
+
+<div class="sim-bar">
+  <label>Clock
+    <select id="clockMode" aria-label="Clock mode">
+      <option value="live">Live</option>
+      <option value="event">Jump to event night</option>
+      <option value="custom">Custom offset</option>
+    </select>
+  </label>
+  <label id="offsetWrap" hidden>Offset min
+    <input id="clockOffset" type="number" value="0" step="15" style="width:5.5rem">
+  </label>
+  <button class="btn ghost" type="button" id="btnExport" style="padding:6px 10px;font-size:10px">Export log</button>
+</div>
+<p class="footer-note">Local draft · nothing publishes from this page · venue address never stored</p>
+
+<nav class="nav" aria-label="Ops sections">
+  <button type="button" data-go="checkin" aria-current="page"><span class="ico">01</span>Door</button>
+  <button type="button" data-go="show"><span class="ico">02</span>Show</button>
+  <button type="button" data-go="welfare"><span class="ico">03</span>Welfare</button>
+  <button type="button" data-go="budget"><span class="ico">04</span>Budget</button>
+</nav>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  const D = window.OPS_DATA;
+  const STORE_KEY = "motion-night-ops-v1";
+  const CAP = D.capacity.workingCap;
+  const PASS_COUNT = CAP; /* door list = working cap; planned 70 stays open */
+
+  const $ = (sel, el = document) => el.querySelector(sel);
+  const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
+
+  let state = loadState();
+  let undoStack = [];
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return emptyState();
+      const s = JSON.parse(raw);
+      return {
+        checked: Array.isArray(s.checked) ? s.checked.map(Number) : [],
+        welfareLog: s.welfareLog && typeof s.welfareLog === "object" ? s.welfareLog : {},
+        clockMode: s.clockMode || "live",
+        clockOffsetMin: Number.isFinite(s.clockOffsetMin) ? s.clockOffsetMin : 0
+      };
+    } catch (_) {
+      return emptyState();
+    }
+  }
+  function emptyState() {
+    return { checked: [], welfareLog: {}, clockMode: "live", clockOffsetMin: 0 };
+  }
+  function save() {
+    localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  }
+
+  /* ---- time helpers (America/Chicago event night) ---- */
+  function eventBaseDate() {
+    /* Local calendar date of the event in Chicago */
+    return D.event.date; /* YYYY-MM-DD */
+  }
+  function parseHM(hm) {
+    const [h, m] = hm.split(":").map(Number);
+    return { h, m };
+  }
+  function eventDateTime(hm, dayOffset = 0) {
+    const { h, m } = parseHM(hm);
+    /* Build as Chicago wall time via ISO with fixed offset CST/CDT.
+       30 Oct 2026 is CDT (UTC-5). */
+    const [Y, M, Day] = eventBaseDate().split("-").map(Number);
+    const dt = new Date(Date.UTC(Y, M - 1, Day + dayOffset, h + 5, m, 0));
+    /* If hm is early morning (00–03), it belongs to Sat 31 */
+    if (h < 6) {
+      return new Date(Date.UTC(Y, M - 1, Day + 1, h + 5, m, 0));
+    }
+    return dt;
+  }
+  function now() {
+    const real = new Date();
+    if (state.clockMode === "live") return real;
+    if (state.clockMode === "event") {
+      /* Map "current clock of day" onto event night, keeping HH:MM */
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: D.event.tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+      }).formatToParts(real);
+      const get = (t) => Number(parts.find((p) => p.type === t).value);
+      let h = get("hour");
+      if (h === 24) h = 0;
+      const mi = get("minute");
+      const s = get("second");
+      const dayOffset = h < 6 ? 1 : 0;
+      const [Y, M, Day] = eventBaseDate().split("-").map(Number);
+      return new Date(Date.UTC(Y, M - 1, Day + dayOffset, h + 5, mi, s));
+    }
+    return new Date(real.getTime() + state.clockOffsetMin * 60000);
+  }
+  function fmtMoney(n) {
+    return "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+  }
+  function fmtTime(d) {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: D.event.tz, hour: "numeric", minute: "2-digit", hour12: true
+    }).format(d);
+  }
+  function fmtClock(d) {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: D.event.tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+    }).format(d);
+  }
+  function fmtDate(d) {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: D.event.tz, weekday: "short", month: "short", day: "numeric"
+    }).format(d);
+  }
+  function countdown(to, from = now()) {
+    const ms = to - from;
+    const sign = ms < 0 ? "−" : "";
+    const abs = Math.abs(ms);
+    const totalSec = Math.floor(abs / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    if (h > 0) return `${sign}${h}h ${String(m).padStart(2, "0")}m`;
+    return `${sign}${m}m ${String(s).padStart(2, "0")}s`;
+  }
+
+  /* ---- tabs ---- */
+  function showTab(id) {
+    $$("main [data-tab]").forEach((el) => { el.hidden = el.dataset.tab !== id; });
+    $$(".nav button").forEach((btn) => {
+      btn.setAttribute("aria-current", btn.dataset.go === id ? "page" : "false");
+    });
+  }
+  $$(".nav button").forEach((btn) => btn.addEventListener("click", () => showTab(btn.dataset.go)));
+
+  /* ---- check-in ---- */
+  const passGrid = $("#passGrid");
+  function renderPasses() {
+    const q = ($("#passSearch").value || "").replace(/\D/g, "");
+    passGrid.innerHTML = "";
+    const checked = new Set(state.checked);
+    const overCap = checked.size >= CAP;
+    for (let n = 1; n <= PASS_COUNT; n++) {
+      if (q && !String(n).padStart(3, "0").includes(q) && String(n) !== q) continue;
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "pass" + (checked.has(n) ? " in" : "") + (!checked.has(n) && overCap ? " over" : "");
+      b.textContent = String(n).padStart(3, "0");
+      b.setAttribute("role", "listitem");
+      b.setAttribute("aria-pressed", checked.has(n) ? "true" : "false");
+      b.addEventListener("click", () => togglePass(n));
+      passGrid.appendChild(b);
+    }
+    $("#passMeta").textContent = `001–${String(PASS_COUNT).padStart(3, "0")} · ${checked.size} in`;
+    $("#countIn").textContent = String(checked.size);
+    $("#countCap").textContent = String(CAP);
+    $("#countLeft").textContent = String(Math.max(0, CAP - checked.size));
+    $("#statIn").classList.toggle("ok", checked.size > 0 && checked.size < CAP);
+    $("#statIn").classList.toggle("hot", checked.size >= CAP);
+    $("#statLeft").classList.toggle("hot", CAP - checked.size <= 5);
+  }
+  function togglePass(n) {
+    const set = new Set(state.checked);
+    const wasIn = set.has(n);
+    if (wasIn) set.delete(n);
+    else {
+      if (set.size >= CAP) {
+        if (!confirm(`At working cap (${CAP}, estimate). Check in pass ${String(n).padStart(3, "0")} anyway?`)) return;
+      }
+      set.add(n);
+    }
+    undoStack.push({ n, wasIn });
+    state.checked = [...set].sort((a, b) => a - b);
+    save();
+    renderPasses();
+  }
+  $("#btnUndo").addEventListener("click", () => {
+    const last = undoStack.pop();
+    if (!last) return;
+    const set = new Set(state.checked);
+    if (last.wasIn) set.add(last.n);
+    else set.delete(last.n);
+    state.checked = [...set].sort((a, b) => a - b);
+    save();
+    renderPasses();
+  });
+  $("#btnResetCheckin").addEventListener("click", () => {
+    if (!confirm("Clear all check-ins on this device?")) return;
+    state.checked = [];
+    undoStack = [];
+    save();
+    renderPasses();
+  });
+  $("#passSearch").addEventListener("input", renderPasses);
+
+  /* ---- run of show ---- */
+  function rosMoments() {
+    return D.runOfShow.map((r) => {
+      const at = eventDateTime(r.at);
+      return { ...r, at };
+    });
+  }
+  function renderTimeline() {
+    const t = now();
+    const items = rosMoments();
+    let currentIdx = -1;
+    for (let i = 0; i < items.length; i++) {
+      const start = items[i].at;
+      const end = i + 1 < items.length ? items[i + 1].at : new Date(start.getTime() + 60 * 60000);
+      if (t >= start && t < end) currentIdx = i;
+    }
+    if (currentIdx < 0 && t < items[0].at) currentIdx = -1;
+    if (currentIdx < 0 && t >= items[items.length - 1].at) currentIdx = items.length - 1;
+
+    const ul = $("#timeline");
+    ul.innerHTML = "";
+    items.forEach((r, i) => {
+      const li = document.createElement("li");
+      li.className = r.kind + (i === currentIdx ? " now" : "") + (t >= (items[i + 1] ? items[i + 1].at : r.at) && i !== currentIdx ? " past" : "");
+      if (t > r.at && i < currentIdx) li.classList.add("past");
+      const cd = i === currentIdx
+        ? `NOW · ${countdown(items[i + 1] ? items[i + 1].at : eventDateTime(D.event.hardStop))} to next`
+        : (t < r.at ? `in ${countdown(r.at)}` : "done");
+      li.innerHTML = `<div class="when mono">${r.at.toLocaleString ? fmtTime(r.at) : r.at}</div>
+        <div class="moment">${r.moment}</div>
+        <div class="lead">${r.lead}${r.alert === "collision" ? " · collision window" : ""}</div>
+        <div class="cd mono">${cd}</div>`;
+      ul.appendChild(li);
+    });
+
+    const upcoming = items.find((r) => r.at > t) || items[items.length - 1];
+    if (upcoming) {
+      $("#nextCueTime").textContent = fmtTime(upcoming.at).replace(" ", "");
+      $("#nextCueName").textContent = upcoming.moment;
+      $("#statCue").classList.toggle("hot", upcoming.alert === "collision" || upcoming.kind === "cue");
+    }
+  }
+
+  /* ---- welfare ---- */
+  function welfareSlots() {
+    const start = eventDateTime(D.welfare.start);
+    const end = eventDateTime(D.welfare.end);
+    const collision = eventDateTime(D.welfare.collisionAt);
+    const slots = [];
+    let t = new Date(start.getTime());
+    let i = 1;
+    while (t <= end) {
+      const isCollision = Math.abs(t - collision) < 60000;
+      slots.push({
+        id: "w" + i,
+        n: i,
+        at: new Date(t.getTime()),
+        collision: isCollision
+      });
+      t = new Date(t.getTime() + D.welfare.intervalMin * 60000);
+      i += 1;
+    }
+    return slots;
+  }
+  function renderWelfare() {
+    const t = now();
+    const slots = welfareSlots();
+    const next = slots.find((s) => !state.welfareLog[s.id] && s.at >= new Date(t.getTime() - 5 * 60000)) || slots.find((s) => !state.welfareLog[s.id]);
+    const due = slots.find((s) => !state.welfareLog[s.id] && s.at <= t);
+
+    if (due) {
+      $("#welfareCountdown").textContent = "DUE NOW";
+      $("#welfareNextLabel").textContent = `Round ${due.n} · ${fmtTime(due.at)}${due.collision ? " · COLLISION with last entry + fader" : ""}`;
+    } else if (next) {
+      $("#welfareCountdown").textContent = countdown(next.at);
+      $("#welfareNextLabel").textContent = `Round ${next.n} · ${fmtTime(next.at)}${next.collision ? " · " + D.welfare.collisionNote : ""}`;
+    } else {
+      $("#welfareCountdown").textContent = "Done";
+      $("#welfareNextLabel").textContent = "All rounds logged or past hard stop.";
+    }
+
+    const list = $("#roundList");
+    list.innerHTML = "";
+    slots.forEach((s) => {
+      const logged = state.welfareLog[s.id];
+      const el = document.createElement("div");
+      el.className = "round" + (logged ? " done" : "") + (!logged && s.at <= t ? " due" : "") + (s.collision ? " collision" : "");
+      el.innerHTML = `<div class="t mono">${fmtTime(s.at)}</div>
+        <div class="n"><b>Round ${s.n}</b>${s.collision ? " · last entry + fader + round" : ""}${logged ? "<br>Logged " + new Date(logged).toLocaleTimeString() : ""}</div>
+        <button class="btn ${logged ? "ghost" : "primary"}" type="button" data-round="${s.id}">${logged ? "Undo" : "Log"}</button>`;
+      list.appendChild(el);
+    });
+    list.querySelectorAll("[data-round]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.round;
+        if (state.welfareLog[id]) delete state.welfareLog[id];
+        else state.welfareLog[id] = new Date().toISOString();
+        save();
+        renderWelfare();
+        updateAlerts();
+      });
+    });
+
+    $("#btnLogRound").onclick = () => {
+      const target = due || next;
+      if (!target) return;
+      state.welfareLog[target.id] = new Date().toISOString();
+      save();
+      renderWelfare();
+      updateAlerts();
+    };
+  }
+  $("#btnResetWelfare").addEventListener("click", () => {
+    if (!confirm("Clear welfare log on this device?")) return;
+    state.welfareLog = {};
+    save();
+    renderWelfare();
+  });
+
+  /* ---- budget ---- */
+  function renderBudget() {
+    $("#budPool").textContent = fmtMoney(D.budget.pool.amount);
+    $("#budSpend").textContent = fmtMoney(D.budget.spend.amount);
+    $("#budBuffer").textContent = fmtMoney(D.budget.buffer.amount);
+    const box = $("#budgetLines");
+    box.innerHTML = "";
+    D.budget.lines.forEach((line) => {
+      const el = document.createElement("div");
+      el.className = "line";
+      el.innerHTML = `<div>${line.item}<div class="from">${line.from} · <span class="label-tag ${line.label}">${line.label}</span></div></div>
+        <div class="amt mono">${fmtMoney(line.amount)}</div>`;
+      box.appendChild(el);
+    });
+  }
+
+  /* ---- alerts ---- */
+  function updateAlerts() {
+    const t = now();
+    const collision = eventDateTime(D.welfare.collisionAt);
+    const banner = $("#alertBanner");
+    const mins = (collision - t) / 60000;
+    const slot = welfareSlots().find((s) => s.collision);
+    const logged = slot && state.welfareLog[slot.id];
+
+    if (mins <= 45 && mins >= -15) {
+      banner.hidden = false;
+      banner.className = "banner alert";
+      banner.innerHTML = `<strong>12:30 collision</strong> — last entry closes, master fader check, and welfare round ${slot ? slot.n : ""} land together. ${logged ? "Round logged." : "Log the round and assign cover."}`;
+    } else if (mins > 45 && mins <= 90) {
+      banner.hidden = false;
+      banner.className = "banner";
+      banner.innerHTML = `<strong>Heads up</strong> — 12:30 collision window in ${countdown(collision)}.`;
+    } else {
+      banner.hidden = true;
+    }
+  }
+
+  /* ---- clock UI ---- */
+  function renderClock() {
+    const t = now();
+    $("#nowClock").textContent = fmtClock(t);
+    $("#nowDate").textContent = fmtDate(t) + (state.clockMode !== "live" ? " · sim" : "");
+  }
+  $("#clockMode").value = state.clockMode;
+  $("#clockOffset").value = state.clockOffsetMin;
+  $("#offsetWrap").hidden = state.clockMode !== "custom";
+  $("#clockMode").addEventListener("change", () => {
+    state.clockMode = $("#clockMode").value;
+    $("#offsetWrap").hidden = state.clockMode !== "custom";
+    save();
+    tick();
+  });
+  $("#clockOffset").addEventListener("change", () => {
+    state.clockOffsetMin = Number($("#clockOffset").value) || 0;
+    save();
+    tick();
+  });
+
+  $("#btnExport").addEventListener("click", () => {
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      event: D.event.id,
+      checkedIn: state.checked,
+      count: state.checked.length,
+      cap: CAP,
+      capLabel: D.capacity.workingCapLabel,
+      welfareLog: state.welfareLog
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "motion-night-ops-log.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  /* ---- offline ---- */
+  function updateNet() {
+    const el = $("#netStatus");
+    const on = navigator.onLine;
+    el.classList.toggle("on", on);
+    el.classList.toggle("off", !on);
+    el.querySelector("span").textContent = on ? "online" : "offline · local storage";
+  }
+  window.addEventListener("online", updateNet);
+  window.addEventListener("offline", updateNet);
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  }
+
+  function tick() {
+    renderClock();
+    renderTimeline();
+    renderWelfare();
+    updateAlerts();
+  }
+
+  renderPasses();
+  renderBudget();
+  updateNet();
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>

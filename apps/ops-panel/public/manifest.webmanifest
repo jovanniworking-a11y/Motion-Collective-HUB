@@ -1,0 +1,9 @@
+{
+  "name": "MOTION Operations Panel",
+  "short_name": "MOTION Ops",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060B13",
+  "theme_color": "#060B13",
+  "description": "Crew ops panel for Devil's Night · AFTERIMAGE 001 (local draft)."
+}
