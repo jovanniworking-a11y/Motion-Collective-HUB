@@ -82,8 +82,11 @@
 
 ```
 default_branch=claude/motion-files-consolidated-dx17w2
-merge_commit=06890c571aa3e7a2b2238b89db0962d0894badf0
+backend_merge_commit=06890c571aa3e7a2b2238b89db0962d0894badf0
+acting_content_commit=1649ced (on cursor/acting-orchestrator-4cc7)
+default_tip_after_acting_merge=66628bc6f401fc1938eb9c80cc8e6453328ef384
 backend_tip=9799bb60956831396046158a6050cf7012bc1223
 api_fold=fc419bb71039333920a547bcd74d7026897a53a0
 acting_branch=cursor/acting-orchestrator-4cc7
+pytest_services_api=8 passed
 ```
