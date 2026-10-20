@@ -31,3 +31,6 @@ None required. Optional later: note “Ops panel = apps/ops-panel” in SoT Inde
 1. Prefer live Claude (set `ANTHROPIC_API_KEY`) vs keep mock for crew phones?
 2. Host this panel privately (Vercel/self-host) when you’re ready, or Electron wrap first?
 3. Working cap still **50 estimate** / passes **70 open** — confirm before door night.
+
+## Commit
+`d02a6bce0d580615a1ba598afb085fb79d254bbf` on `cursor/ops-software-1366`
