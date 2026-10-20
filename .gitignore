@@ -19,6 +19,22 @@ venv/
 Thumbs.db
 ~$*
 
+# Next.js ops panel
+apps/ops-panel/.next/
+apps/ops-panel/out/
+apps/ops-panel/test-results/
+apps/ops-panel/playwright-report/
+apps/ops-panel/blob-report/
+apps/ops-panel/.turbo/
+
+# MOTION control-plane local drafts
+services/api/data/*.sqlite3
+services/api/data/*.json
+!services/api/data/.gitkeep
+apps/ops-panel/.next/
+apps/ops-panel/coverage/
+desktop/dist/
+
 # music: only Jovanni's licensed copies, only in media/audio/licensed/ (private repo; never post or share the files)
 *.mp3
 *.wav
