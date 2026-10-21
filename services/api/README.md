@@ -2,6 +2,8 @@
 
 Single surviving backend for MOTION Ops (BFF + Muse `/api/data/*`). Draft / local only.
 
+**Seat:** Cursor owns this package until Claude returns. Codex T-002 and T-009 merge in here when they land. Do not add a second HTTP service.
+
 ## Run (local)
 
 ```bash
