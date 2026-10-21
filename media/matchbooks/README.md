@@ -8,7 +8,7 @@ Draft artwork for 100 full-color 20-strike matchbooks. Not ordered. Not uploaded
 2. Edit the constants at the top of `src/render_matchbook.py` (`TRIM_W_IN`, `TRIM_H_IN`, `STRIKER_H_IN`, bleed, safe).
 3. Run `python3 media/matchbooks/src/render_matchbook.py`.
 4. Open the three `*_600dpi.png` print files at full size. The striker proof and the assembly are for checking, not for the vendor's upload slot.
-5. If the new cover is tall enough, put the whole eyes triptych on the front and keep the face at the full trim width. Do not crop the sides of the face to force the stack.
+5. The front already places the whole eyes triptych above `DEVIL’S NIGHT`. A new trim refits that stack. Do not crop the sides of the face.
 
 ## Do not
 

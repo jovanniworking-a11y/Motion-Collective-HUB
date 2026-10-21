@@ -19,7 +19,7 @@ Same family as the matchbox: the photographic eyes, then Bodoni; the dimensional
 | Bone | `#EDE6DA` | |
 | Type | Bodoni Moda italic (opsz 96, weight 500) and Jost | no other faces |
 | Mark | `media/brand/MOTION_mark_3d.png` | the dimensional MMMM, not redrawn |
-| Eyes | `media/flyers/final_v6/eyes_hc.png` | middle frame only, see front |
+| Eyes | `media/flyers/final_v6/eyes_hc.png` | full triptych, uncropped |
 
 Red on the back plate measures **2.89%** of the frame (oxblood trail on the mark). The eyes are neutral black and white. No red tint.
 
@@ -27,11 +27,11 @@ Rebuild: `python3 media/matchbooks/src/render_matchbook.py`. Numbers below are w
 
 ## 1. Front cover
 
-The middle frame of the triptych, full width, both eyes and the cheeks. The pinprick frame and the blown-oval frame do not fit above the name once the face is held at the trim width. Cropping the sides to squeeze all three frames in would cut the face off. If a taller dieline arrives, use the full stack and keep this width rule.
+The whole eyes triptych, all three frames, then the name on the void under the stack. The photograph is scaled to the height left above the name and centered. The cheeks are not cropped. Void fills the side fields. Top of the photograph runs into the top bleed.
 
-- Source crop: x 0–1080, y 630–922. That ends on the frame's own black rule, so the photograph meets the void in black.
-- Placed at x 0, y 0, 1350 × 365 px. Full bleed left and right. Top of the photograph runs into the top bleed.
-- `DEVIL’S NIGHT` in Bodoni Moda italic, 128 px (15.36 pt), bone, tracking 6 px. Ink box x 183–1187, y 437–541. Center (675, 489). On the void, under the photograph, inside the safe box. Nothing else.
+- Source: `eyes_hc.png`, 1080 × 1350, no crop. Pinprick, glow, and blown oval all stay.
+- Placed at x 336, y 0, 677 × 846 px.
+- `DEVIL’S NIGHT` in Bodoni Moda italic, 86 px (10.32 pt), bone, tracking 3 px. Ink box x 350–1013, y 862–933. Center (675, 897.5). On the void, under the photograph, inside the safe box. Nothing else.
 
 ## 2. Inside front
 
@@ -76,4 +76,4 @@ These stay open until the vendor's dieline is the authority:
 - Bleed and safe, if the vendor's numbers differ from 0.125 in and 0.0625 in.
 - Imposition. Do not force this estimate onto a different dieline. Change the constants in `src/render_matchbook.py` and rebuild.
 
-If the new trim is tall enough that the full triptych can sit at this face width with the name still on void, switch the front crop to the whole `eyes_hc.png` stack. Do not crop the cheeks to make the stack fit.
+The front already uses the whole `eyes_hc.png` stack. A new trim refits that stack to the height above the name. Do not crop the cheeks.

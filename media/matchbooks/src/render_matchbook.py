@@ -34,12 +34,8 @@ BONE = (237, 230, 218)
 # Proof marks only. Never on a print plate.
 GUIDE = (237, 230, 218)
 
-# Middle frame of the triptych (the glow). Full source width, so the cheeks
-# are not cropped. The three-frame stack is taller than this cover once the
-# face is held at the trim width.
-# Ends on the triptych's own black rule (source y 916–920) so the plate
-# meets the void in black. No fade — a dissolve would read as fog.
-EYE_CROP = (0, 630, 1080, 922)
+# Full triptych. Scaled to the height left above the name so all three
+# frames stay intact. Sides stay uncropped; the void field fills the rest.
 
 
 def px(inches: float) -> int:
@@ -125,15 +121,9 @@ def new_plate() -> Image.Image:
     return Image.new("RGBA", (W, H), VOID + (255,))
 
 
-def eyes_plate() -> tuple[Image.Image, int]:
-    src = Image.open(EYES).convert("RGB").crop(EYE_CROP)
-    # Force a neutral black-and-white plate. No grade, no red.
-    bw = src.convert("L").convert("RGB")
-    scaled_h = int(round(bw.height * (W / bw.width)))
-    bw = bw.resize((W, scaled_h), Image.Resampling.LANCZOS)
-    plate = new_plate()
-    plate.paste(bw.convert("RGBA"), (0, 0))
-    return plate, scaled_h
+def eyes_bw() -> Image.Image:
+    # Full triptych, neutral black and white. No grade, no red, no crop.
+    return Image.open(EYES).convert("L").convert("RGB")
 
 
 def fit_mark(max_w: int) -> Image.Image:
@@ -165,37 +155,53 @@ def assert_inside(bbox: tuple[int, int, int, int], box: tuple[int, int, int, int
 
 
 def build_front(fonts: dict) -> tuple[Image.Image, dict]:
-    plate, eye_h = eyes_plate()
-    # Title sits in the void under the photograph, centered in that band
-    # and kept inside the safe box.
-    probe = fonts["display"].getbbox("DEVIL’S NIGHT")
-    title_h = probe[3] - probe[1]
-    # Caption sits just under the photograph. The rest of the cover is quiet margin.
-    band_center_y = eye_h + 72 + title_h / 2
-    bbox = draw_tracked(
-        plate,
-        "DEVIL’S NIGHT",
-        (W / 2, band_center_y),
-        fonts["display"],
-        BONE,
-        tracking=6,
-    )
-    assert_inside(bbox, SAFE_BOX, "DEVIL’S NIGHT")
-    if bbox[1] < eye_h:
+    """All three frames, then the name on the void under them."""
+    title = "DEVIL’S NIGHT"
+    src = eyes_bw()
+    gap = 16
+    tracking = 3
+    bottom = SAFE_BOX[3] - 4
+    # Largest name that still leaves the whole triptych above it.
+    bodoni = fonts["display"].path
+    chosen: tuple | None = None
+    for size in range(96, 55, -2):
+        font = ImageFont.truetype(bodoni, size)
+        probe = font.getbbox(title)
+        title_h = probe[3] - probe[1]
+        image_h = bottom - gap - title_h
+        image_w = int(round(src.width * (image_h / src.height)))
+        if image_w > W or image_h < 1:
+            continue
+        if text_width(font, title, tracking) > image_w - 8:
+            continue
+        chosen = (size, font, image_w, image_h, title_h)
+        break
+    if chosen is None:
+        raise SystemExit("DEVIL’S NIGHT does not fit under the triptych")
+    size, font, image_w, image_h, title_h = chosen
+    fitted = src.resize((image_w, image_h), Image.Resampling.LANCZOS)
+    plate = new_plate()
+    origin_x = (W - image_w) // 2
+    plate.paste(fitted.convert("RGBA"), (origin_x, 0))
+    center_y = image_h + gap + title_h / 2
+    bbox = draw_tracked(plate, title, (W / 2, center_y), font, BONE, tracking)
+    assert_inside(bbox, SAFE_BOX, title)
+    if bbox[1] < image_h:
         raise SystemExit("title overlaps the photograph")
     spec = {
         "surface": "front",
-        "eyes_crop_source_px": list(EYE_CROP),
-        "eyes_placed": [0, 0, W, eye_h],
+        "eyes": "full triptych, uncropped",
+        "eyes_source_px": [src.width, src.height],
+        "eyes_placed": [origin_x, 0, image_w, image_h],
         "title": {
-            "text": "DEVIL’S NIGHT",
+            "text": title,
             "font": "Bodoni Moda italic, opsz 96, wght 500",
-            "size_px": 128,
-            "size_pt": round(128 / DPI * 72, 2),
-            "tracking_px": 6,
+            "size_px": size,
+            "size_pt": round(size / DPI * 72, 2),
+            "tracking_px": tracking,
             "color": "#EDE6DA",
             "ink_bbox": list(bbox),
-            "center": [W / 2, band_center_y],
+            "center": [W / 2, center_y],
         },
     }
     return plate, spec

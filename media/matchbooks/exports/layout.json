@@ -31,34 +31,33 @@
   "quantity_label": "requested \u2014 not ordered",
   "front": {
     "surface": "front",
-    "eyes_crop_source_px": [
-      0,
-      630,
+    "eyes": "full triptych, uncropped",
+    "eyes_source_px": [
       1080,
-      922
+      1350
     ],
     "eyes_placed": [
+      336,
       0,
-      0,
-      1350,
-      365
+      677,
+      846
     ],
     "title": {
       "text": "DEVIL\u2019S NIGHT",
       "font": "Bodoni Moda italic, opsz 96, wght 500",
-      "size_px": 128,
-      "size_pt": 15.36,
-      "tracking_px": 6,
+      "size_px": 86,
+      "size_pt": 10.32,
+      "tracking_px": 3,
       "color": "#EDE6DA",
       "ink_bbox": [
-        183,
-        437,
-        1187,
-        541
+        350,
+        862,
+        1013,
+        933
       ],
       "center": [
         675.0,
-        489.0
+        897.5
       ]
     }
   },

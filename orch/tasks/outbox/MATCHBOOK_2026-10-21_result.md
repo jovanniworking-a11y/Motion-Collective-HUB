@@ -4,7 +4,7 @@
 
 ## What
 
-20-strike fold-over matchbook art in the matchbox family. Eyes on the front, dimensional MMMM on the back, one inside line, striker left clear.
+20-strike fold-over matchbook art in the matchbox family. Full eyes triptych on the front with Devil’s Night on the void underneath, dimensional MMMM on the back, one inside line, striker left clear.
 
 ## Files
 
@@ -19,7 +19,7 @@
 
 ## Verify
 
-Script checks: title stays off the photograph and inside the safe box, back type stays above the striker, striker pixels are void, oxblood on the back is 2.89% of the plate. Plates were opened and read at full pixel size.
+Script checks: the full 1080 × 1350 triptych is uncropped, the title stays off the photograph and inside the safe box, back type stays above the striker, striker pixels are void, oxblood on the back is 2.89% of the plate. Front placed at x 336, y 0, 677 × 846. Title ink x 350–1013, y 862–933, 86 px (10.32 pt). The trim crop was opened and read: pinprick, glow, and blown oval all read, and the name sits under them.
 
 ## Proposed SoT
 
