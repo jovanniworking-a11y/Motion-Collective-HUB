@@ -1,0 +1,136 @@
+{
+  "dpi": 600,
+  "trim_in": [
+    2.0,
+    1.5
+  ],
+  "trim_label": "estimate",
+  "bleed_in": 0.125,
+  "safe_in": 0.0625,
+  "canvas_px": [
+    1350,
+    1050
+  ],
+  "trim_px": [
+    75,
+    75,
+    1275,
+    975
+  ],
+  "safe_px": [
+    113,
+    113,
+    1237,
+    937
+  ],
+  "colors": {
+    "void": "#0A0810",
+    "bone": "#EDE6DA"
+  },
+  "quantity_requested": 100,
+  "quantity_label": "requested \u2014 not ordered",
+  "front": {
+    "surface": "front",
+    "eyes_crop_source_px": [
+      0,
+      630,
+      1080,
+      922
+    ],
+    "eyes_placed": [
+      0,
+      0,
+      1350,
+      365
+    ],
+    "title": {
+      "text": "DEVIL\u2019S NIGHT",
+      "font": "Bodoni Moda italic, opsz 96, wght 500",
+      "size_px": 128,
+      "size_pt": 15.36,
+      "tracking_px": 6,
+      "color": "#EDE6DA",
+      "ink_bbox": [
+        183,
+        437,
+        1187,
+        541
+      ],
+      "center": [
+        675.0,
+        489.0
+      ]
+    }
+  },
+  "back": {
+    "surface": "back",
+    "mark": {
+      "file": "media/brand/MOTION_mark_3d.png",
+      "placed": [
+        295,
+        158,
+        760,
+        249
+      ]
+    },
+    "red_fraction": 0.0289,
+    "lines": [
+      {
+        "text": "MOTION COLLECTIVE",
+        "ink_bbox": [
+          299,
+          443,
+          1049,
+          486
+        ],
+        "tracking_px": 12
+      },
+      {
+        "text": "AFTERIMAGE 001",
+        "ink_bbox": [
+          452,
+          522,
+          892,
+          555
+        ],
+        "tracking_px": 8
+      },
+      {
+        "text": "10.30.26  \u00b7  AUSTIN",
+        "ink_bbox": [
+          412,
+          577,
+          938,
+          612
+        ],
+        "tracking_px": 8
+      }
+    ],
+    "striker": {
+      "rect": [
+        75,
+        675,
+        1275,
+        975
+      ],
+      "height_in": 0.5,
+      "label": "estimate",
+      "ink": "none \u2014 same void as the cover"
+    }
+  },
+  "inside": {
+    "surface": "inside",
+    "text": "INVITE ONLY",
+    "font": "Jost, wght 500, letterspaced caps",
+    "size_px": 58,
+    "size_pt": 6.96,
+    "tracking_px": 16,
+    "color": "#EDE6DA",
+    "ink_bbox": [
+      424,
+      503,
+      931,
+      548
+    ]
+  }
+}
