@@ -7,7 +7,7 @@ import json
 import time
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from .platform_db import DrinkEvent, FlowCount, ImagingObservation, SimRun, init_platform_db, session_scope
 from .sims import ALLOWLIST, get_job, list_jobs, start_sim
@@ -168,6 +168,127 @@ def ingest_drink_event(
             "source": row.source,
             "label": row.label,
         }
+
+
+COUNTER_ZONES = ("living_room", "dance_floor", "kitchen_bar", "hallway", "balcony")
+COUNTER_SOURCE = "counter"
+COUNTER_STALE_SEC = 15
+COUNTER_OFFLINE_SEC = 60
+_BANNED_COUNTER_KEYS = BANNED_META_KEYS | {"image", "image_path", "boxes", "track_id", "track_ids"}
+
+
+class CounterPayloadError(ValueError):
+    pass
+
+
+def parse_counter_frame(body: dict[str, Any]) -> dict[str, Any]:
+    """Jerry's night-of frame. Counts and zones only."""
+    if not isinstance(body, dict):
+        raise CounterPayloadError("body must be an object")
+    unknown = sorted(set(body) - {"ts", "zones", "total"})
+    if unknown:
+        raise CounterPayloadError(f"unknown field: {unknown[0]}")
+    for key in body:
+        if str(key).lower() in _BANNED_COUNTER_KEYS:
+            raise CounterPayloadError(f"forbidden field: {key}")
+    if "ts" not in body or body["ts"] is None:
+        raise CounterPayloadError("missing field: ts")
+    if "zones" not in body or body["zones"] is None:
+        raise CounterPayloadError("missing field: zones")
+    if "total" not in body or body["total"] is None:
+        raise CounterPayloadError("missing field: total")
+    ts = _unix_seconds(body["ts"], "ts")
+    zones_in = body["zones"]
+    if not isinstance(zones_in, dict):
+        raise CounterPayloadError("zones must be an object")
+    extra_zones = sorted(set(zones_in) - set(COUNTER_ZONES))
+    if extra_zones:
+        raise CounterPayloadError(f"unknown zone: {extra_zones[0]}")
+    missing_zones = [name for name in COUNTER_ZONES if name not in zones_in]
+    if missing_zones:
+        raise CounterPayloadError(f"missing zone: {missing_zones[0]}")
+    zones = {name: _headcount(zones_in[name], name) for name in COUNTER_ZONES}
+    total = _headcount(body["total"], "total")
+    return {"ts": ts, "zones": zones, "total": total}
+
+
+def ingest_counter_frames(frames: list[dict[str, Any]]) -> dict[str, Any]:
+    """Insert one flow_counts row per zone plus the house total. One transaction."""
+    if not frames:
+        raise CounterPayloadError("body required")
+    if len(frames) > 2000:
+        raise CounterPayloadError("too many frames")
+    parsed = [parse_counter_frame(frame) for frame in frames]
+    ensure_db()
+    with session_scope() as session:
+        for frame in parsed:
+            rows = [(zone, count) for zone, count in frame["zones"].items()]
+            rows.append(("total", frame["total"]))
+            for zone, count in rows:
+                session.add(
+                    FlowCount(
+                        created_at=float(frame["ts"]),
+                        zone=zone,
+                        count=count,
+                        window_sec=0,
+                        source=COUNTER_SOURCE,
+                        label="estimate",
+                        meta_json="{}",
+                    )
+                )
+        session.flush()
+    return {"inserted": len(parsed) * (len(COUNTER_ZONES) + 1)}
+
+
+def counter_status(last_seen: float | None, now: float) -> str:
+    """live ≤15s, stale above 15s through 60s, offline above 60s or never seen."""
+    if last_seen is None:
+        return "offline"
+    age = now - float(last_seen)
+    if age > COUNTER_OFFLINE_SEC:
+        return "offline"
+    if age > COUNTER_STALE_SEC:
+        return "stale"
+    return "live"
+
+
+def counter_health(now: float | None = None) -> dict[str, Any]:
+    """Latest counter frame. Sim flow rows do not count as the live counter."""
+    ensure_db()
+    clock = time.time() if now is None else float(now)
+    with session_scope() as session:
+        last = session.scalar(
+            select(func.max(FlowCount.created_at)).where(FlowCount.source == COUNTER_SOURCE)
+        )
+    last_seen = _whole_unix(last) if last is not None else None
+    return {"status": counter_status(None if last is None else float(last), clock), "last_seen": last_seen}
+
+
+def _unix_seconds(value: Any, field: str) -> int:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise CounterPayloadError(f"{field} must be unix seconds")
+    if isinstance(value, float) and value != value:
+        raise CounterPayloadError(f"{field} must be unix seconds")
+    if value < 0 or value > 4_000_000_000:
+        raise CounterPayloadError(f"{field} must be unix seconds")
+    if isinstance(value, float) and not value.is_integer():
+        raise CounterPayloadError(f"{field} must be unix seconds")
+    return int(value)
+
+
+def _headcount(value: Any, field: str) -> int:
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise CounterPayloadError(f"{field} must be an integer")
+    if value < 0 or value > 500:
+        raise CounterPayloadError(f"{field} must be between 0 and 500")
+    return value
+
+
+def _whole_unix(value: float) -> int | float:
+    number = float(value)
+    if number.is_integer():
+        return int(number)
+    return number
 
 
 def ingest_flow_count(

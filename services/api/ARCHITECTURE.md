@@ -14,7 +14,7 @@ Python **FastAPI** backend-for-frontend for MOTION Ops. **One backend** — Muse
 - Agent runs — implemented as `/api/agents`, `/api/agents/{id}/chat`, sim jobs under `/api/sims/*`
 - Router: `GET /api/routing`, `POST /api/routing/resolve` — **one** primary model per action
 - Data MVP: `/api/data/*` (health, sims persist, observations, drinks, flow, compare). Panel route `/data` is the only UI for this contract.
-- Occupancy: `/api/data/occupancy` stores zone counts only (`occupancy_samples`). Dance is inside living and is not added into the house total. Panel route `/occupancy`.
+- Occupancy: `/api/data/occupancy` stores one zone sample, or Jerry's counter frame (`ts`, `zones`, `total`) into `flow_counts` (201). `GET /api/data/counter-health` is live / stale / offline from the newest counter frame. `MOTION_DB_LOCAL=1` points the API at localhost Postgres and ignores Neon.
 - Agent writes: `POST /api/data/sim_runs` (insert-only, 409 when `sim_id` exists), `POST /api/data/zones`, `POST /api/data/events`, `POST /api/data/occupancy_samples`, `POST /api/data/drink_events`. Postgres sessions use `SET LOCAL ROLE motion_api`. Bad input returns 400. Each success body is `{"id": ...}`.
 
 **Storage:** SQLite under `data/` / `MOTION_DATA_DIR` (git-ignore DB files). Job queue for Studio sims — never block request handlers on long sims (`smoke-stub` default).

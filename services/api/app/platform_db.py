@@ -5,7 +5,6 @@ Privacy MVP: store counts/features/hashes only — never faces, guest names, or 
 
 from __future__ import annotations
 
-import os
 import time
 from contextlib import contextmanager
 from typing import Any, Generator
@@ -13,13 +12,9 @@ from typing import Any, Generator
 from sqlalchemy import Float, Integer, String, Text, create_engine, event
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
-from .config import DATA_DIR, DATABASE_URL as CONFIG_DATABASE_URL
+from .config import DATA_DIR, database_url_from_env
 
-DATABASE_URL = (
-    CONFIG_DATABASE_URL
-    or os.environ.get("DATABASE_URL", "").strip()
-    or f"sqlite:///{(DATA_DIR / 'muse_platform.sqlite3').as_posix()}"
-)
+DATABASE_URL = database_url_from_env() or f"sqlite:///{(DATA_DIR / 'muse_platform.sqlite3').as_posix()}"
 
 
 class Base(DeclarativeBase):

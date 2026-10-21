@@ -409,8 +409,9 @@ def _create_missing(conn: Connection) -> None:
         conn.execute(text(_POSTGRES_LOCK))
         conn.execute(text(_POSTGRES_TRIGGER))
         conn.execute(text(_POSTGRES_TRIGGER_CREATE))
-    for name in created:
-        _grant_motion_api(conn, name)
+    if created and _role_exists(conn, "motion_api"):
+        for name in created:
+            _grant_motion_api(conn, name)
 
 
 def _grant_motion_api(conn: Connection, table: str) -> None:
@@ -464,6 +465,13 @@ def _table_name_from_ddl(statement: str) -> str:
         if f"TABLE IF NOT EXISTS {name}" in statement:
             return name
     raise RuntimeError("contract DDL is missing a known table name")
+
+
+def _role_exists(conn: Connection, role: str) -> bool:
+    if conn.dialect.name != "postgresql":
+        return False
+    row = conn.execute(text("SELECT 1 FROM pg_roles WHERE rolname = :name"), {"name": role}).first()
+    return row is not None
 
 
 def _table_exists(conn: Connection, name: str) -> bool:

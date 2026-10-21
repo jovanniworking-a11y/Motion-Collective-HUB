@@ -8,17 +8,20 @@ from typing import Any
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from . import __version__
 from .activity import activity_feed
 from .chat import chat, history
 from .config import CORS_ORIGINS, STUDIO_DIR
 from .platform import (
+    CounterPayloadError,
     compare_sim_vs_imaging,
+    counter_health,
     ensure_db,
+    ingest_counter_frames,
     ingest_drink_event,
     ingest_flow_count,
     ingest_observation,
@@ -383,9 +386,60 @@ async def api_data_drink_events(request: Request) -> dict[str, Any]:
     return _contract(insert_drink_event, await _contract_body(request))
 
 
+def _counter_frames(raw: bytes) -> tuple[list[dict[str, Any]] | dict[str, Any], bool]:
+    """Return (payload, is_counter). JSONL is counter-only. A JSON object with zones is Jerry's frame."""
+    if not raw or not raw.strip():
+        raise HTTPException(400, "body required")
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise HTTPException(400, "invalid json") from exc
+    stripped = text.strip()
+    try:
+        data = json.loads(stripped)
+    except json.JSONDecodeError:
+        frames: list[dict[str, Any]] = []
+        for line in stripped.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                item = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise HTTPException(400, "invalid json") from exc
+            if not isinstance(item, dict):
+                raise HTTPException(400, "body must be an object")
+            frames.append(item)
+        if not frames:
+            raise HTTPException(400, "body required")
+        return frames, True
+    if isinstance(data, dict) and "zones" in data:
+        return [data], True
+    if isinstance(data, dict):
+        return data, False
+    raise HTTPException(400, "body must be an object")
+
+
 @app.post("/api/data/occupancy")
-def api_occupancy_post(body: OccupancyIn) -> dict[str, Any]:
-    return {"sample": save_samples([body.model_dump()])[0]}
+async def api_occupancy_post(request: Request) -> Any:
+    """One zone sample, or Jerry's counter frame (JSON or JSONL) into flow_counts."""
+    payload, is_counter = _counter_frames(await request.body())
+    if is_counter:
+        try:
+            body = ingest_counter_frames(payload)  # type: ignore[arg-type]
+        except CounterPayloadError as exc:
+            raise HTTPException(400, str(exc)) from exc
+        return JSONResponse(body, status_code=201)
+    try:
+        sample = OccupancyIn.model_validate(payload)
+    except ValidationError as exc:
+        raise HTTPException(422, exc.errors()) from exc
+    return {"sample": save_samples([sample.model_dump()])[0]}
+
+
+@app.get("/api/data/counter-health")
+def api_counter_health() -> dict[str, Any]:
+    return counter_health()
 
 
 @app.post("/api/data/occupancy/batch")

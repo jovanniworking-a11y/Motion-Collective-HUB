@@ -328,6 +328,93 @@ def test_contract_upserts_and_inserts_counts(client: TestClient):
     assert count == 2
 
 
+def _counter_frame(ts: int, living: int = 4, total: int = 10) -> dict:
+    return {
+        "ts": ts,
+        "zones": {
+            "living_room": living,
+            "dance_floor": 3,
+            "kitchen_bar": 2,
+            "hallway": 1,
+            "balcony": 0,
+        },
+        "total": total,
+    }
+
+
+def test_counter_frame_lands_in_flow_counts(client: TestClient):
+    from sqlalchemy import select
+
+    from app.platform import counter_health
+    from app.platform_db import FlowCount, session_scope
+
+    ts = 1_700_000_000
+    res = client.post("/api/data/occupancy", json=_counter_frame(ts, living=4, total=7))
+    assert res.status_code == 201
+    assert res.json()["inserted"] == 6
+    with session_scope() as session:
+        rows = session.scalars(select(FlowCount).where(FlowCount.created_at == float(ts))).all()
+    stored = {row.zone: row.count for row in rows}
+    assert stored["living_room"] == 4
+    assert stored["dance_floor"] == 3
+    assert stored["total"] == 7
+    assert all(row.source == "counter" and row.label == "estimate" for row in rows)
+    # Dance is not added into total. Jerry's total is stored as sent.
+    assert stored["total"] != sum(stored[name] for name in stored if name != "total")
+    assert counter_health(now=float(ts))["status"] == "live"
+    assert counter_health(now=float(ts))["last_seen"] == ts
+    assert counter_health(now=float(ts) + 15)["status"] == "live"
+    assert counter_health(now=float(ts) + 15.01)["status"] == "stale"
+    assert counter_health(now=float(ts) + 60)["status"] == "stale"
+    assert counter_health(now=float(ts) + 60.01)["status"] == "offline"
+
+
+def test_counter_health_http_and_bad_input(client: TestClient):
+    from app.platform import counter_status
+
+    assert counter_status(None, 1_000) == "offline"
+    ts = int(time.time())
+    res = client.post("/api/data/occupancy", json=_counter_frame(ts, living=1, total=6))
+    assert res.status_code == 201
+    health = client.get("/api/data/counter-health").json()
+    assert health["status"] == "live"
+    assert health["last_seen"] >= ts
+    missing = client.post("/api/data/occupancy", json={"ts": ts, "total": 1, "zones": {"living_room": 1}})
+    assert missing.status_code == 400
+    named = _counter_frame(ts)
+    named["name"] = "someone"
+    assert client.post("/api/data/occupancy", json=named).status_code == 400
+    lines = "\n".join(
+        [
+            __import__("json").dumps(_counter_frame(ts - 30, living=2, total=7)),
+            __import__("json").dumps(_counter_frame(ts - 20, living=3, total=8)),
+        ]
+    )
+    batch = client.post("/api/data/occupancy", content=lines, headers={"content-type": "application/x-ndjson"})
+    assert batch.status_code == 201
+    assert batch.json()["inserted"] == 12
+    assert client.post(
+        "/api/data/occupancy",
+        content='{"ts":1}\nnot-json',
+        headers={"content-type": "application/x-ndjson"},
+    ).status_code == 400
+
+
+def test_local_db_flag_ignores_neon():
+    from app.config import LOCAL_DATABASE_URL, database_url_from_env
+
+    neon = "postgresql+psycopg://motion_api:secret@ep-cool.neon.tech/motion?sslmode=require"
+    assert database_url_from_env({"MOTION_DB_LOCAL": "1", "DATABASE_URL": neon}) == LOCAL_DATABASE_URL
+    assert "neon" not in database_url_from_env({"MOTION_DB_LOCAL": "1", "DATABASE_URL": neon})
+    local = "postgresql+psycopg://motion@127.0.0.1:5432/motion"
+    assert database_url_from_env({"MOTION_DB_LOCAL": "1", "MOTION_DB_LOCAL_URL": local}) == local
+    with pytest.raises(ValueError):
+        database_url_from_env({"MOTION_DB_LOCAL": "1", "MOTION_DB_LOCAL_URL": neon})
+    assert database_url_from_env({"MOTION_DB_LOCAL": "0", "DATABASE_URL": "sqlite:////tmp/x.sqlite3"}) == (
+        "sqlite:////tmp/x.sqlite3"
+    )
+
+
 def test_contract_postgres_role_and_lock_are_declared():
     import inspect
 
