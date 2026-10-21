@@ -70,6 +70,22 @@ class DrinkEvent(Base):
     meta_json: Mapped[str] = mapped_column(Text, nullable=False, default="{}")
 
 
+class OccupancySample(Base):
+    """One zone count. No image, boxes, track ids, or names."""
+
+    __tablename__ = "occupancy_samples"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    captured_at: Mapped[float] = mapped_column(Float, nullable=False)
+    zone: Mapped[str] = mapped_column(String(32), nullable=False)
+    count: Mapped[int] = mapped_column(Integer, nullable=False)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False)
+    count_quality: Mapped[str] = mapped_column(String(16), nullable=False)
+    camera_id: Mapped[str] = mapped_column(String(32), nullable=False)
+    sample_kind: Mapped[str] = mapped_column(String(16), nullable=False)
+    label: Mapped[str] = mapped_column(String(16), nullable=False, default="estimate")
+
+
 class FlowCount(Base):
     __tablename__ = "flow_counts"
 

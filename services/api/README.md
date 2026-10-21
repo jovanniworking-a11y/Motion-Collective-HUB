@@ -37,6 +37,19 @@ See `.env.example` (no real secrets in git).
 
 Routing: `MODEL_ROUTING.md`. BFF constraints: `ARCHITECTURE.md` (package) + root `ARCHITECTURE.md`. Data/compare: `/api/data/*` · `docs/MUSE_DATA_PLATFORM.md`.
 
+Occupancy (counts only, local SQLite or `DATABASE_URL`):
+
+```bash
+# one zone row
+curl -s -X POST http://127.0.0.1:8787/api/data/occupancy \
+  -H 'content-type: application/json' \
+  -d '{"captured_at":1700000000,"zone":"dance","count":12,"confidence":0.8,"count_quality":"ok","camera_id":"wyze_living","sample_kind":"primary"}'
+# boxes in, counts out — boxes are not stored
+curl -s http://127.0.0.1:8787/api/data/occupancy/board
+```
+
+Do not add Ultralytics or camera weights to this repo. The count endpoint accepts person boxes already measured on the crew laptop.
+
 ## Privacy
 
 No guest names, no venue address, no provider keys in responses. Imaging ingest stores path **hashes** + counts/density only.

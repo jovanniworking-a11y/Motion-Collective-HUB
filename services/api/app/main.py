@@ -9,7 +9,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from . import __version__
 from .activity import activity_feed
@@ -29,6 +29,15 @@ from .platform import (
 from .routing import AGENT_REGISTRY, MODEL_ROUTES, get_agent, route_for
 from .sims import get_job, list_jobs, list_sim_kinds, start_sim
 from .studio import load_layout, patch_layout, save_layout, studio_paths
+from .occupancy import (
+    count_frame,
+    latest_board,
+    list_samples,
+    rollup,
+    save_samples,
+    scorecard,
+    spot_check,
+)
 from .usage import init_usage_db, usage_summary
 
 
@@ -106,6 +115,46 @@ class FlowCountIn(BaseModel):
 class CompareQuery(BaseModel):
     sim_run_id: int | None = None
     zone: str | None = None
+
+
+class OccupancyIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    captured_at: float
+    zone: str = Field(pattern="^(living|dance|kitchen|hallway|balcony)$")
+    count: int = Field(ge=0, le=500)
+    confidence: float = Field(ge=0, le=1)
+    count_quality: str = Field(pattern="^(ok|low|no_feed)$")
+    camera_id: str = Field(pattern="^(wyze_living|gopro_booth|action_2|camcorder|iphone_spot)$")
+    sample_kind: str = Field(pattern="^(primary|validation|spot)$")
+    label: str = Field(default="estimate", pattern="^(confirmed|estimate|open)$")
+
+
+class OccupancyBatch(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    samples: list[OccupancyIn]
+
+
+class DetectionIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    conf: float = Field(ge=0, le=1)
+    x1: float
+    y1: float
+    x2: float
+    y2: float
+
+
+class CountIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    captured_at: float
+    camera_id: str = Field(pattern="^(wyze_living|gopro_booth|action_2|camcorder|iphone_spot)$")
+    sample_kind: str = Field(default="primary", pattern="^(primary|validation|spot)$")
+    zones: list[str] | None = None
+    detections: list[DetectionIn]
+
+
+class SpotIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    count: int = Field(ge=0, le=500)
 
 
 class RouteQuery(BaseModel):
@@ -275,6 +324,69 @@ def api_data_compare(body: CompareQuery) -> dict[str, Any]:
 @app.get("/api/data/compare")
 def api_data_compare_get(sim_run_id: int | None = None, zone: str | None = None) -> dict[str, Any]:
     return compare_sim_vs_imaging(sim_run_id=sim_run_id, zone=zone)
+
+
+@app.post("/api/data/occupancy")
+def api_occupancy_post(body: OccupancyIn) -> dict[str, Any]:
+    return {"sample": save_samples([body.model_dump()])[0]}
+
+
+@app.post("/api/data/occupancy/batch")
+def api_occupancy_batch(body: OccupancyBatch) -> dict[str, Any]:
+    return {"samples": save_samples([s.model_dump() for s in body.samples])}
+
+
+@app.post("/api/data/occupancy/count")
+def api_occupancy_count(body: CountIn) -> dict[str, Any]:
+    try:
+        counted = count_frame(
+            [d.model_dump() for d in body.detections],
+            camera_id=body.camera_id,
+            zones=body.zones,
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    samples = save_samples(
+        [
+            {
+                **row,
+                "captured_at": body.captured_at,
+                "camera_id": body.camera_id,
+                "sample_kind": body.sample_kind,
+                "label": "estimate",
+            }
+            for row in counted
+        ]
+    )
+    return {"samples": samples}
+
+
+@app.get("/api/data/occupancy")
+def api_occupancy_list(zone: str | None = None, limit: int = 200) -> dict[str, Any]:
+    return {"samples": list_samples(zone=zone, limit=min(max(limit, 1), 500))}
+
+
+@app.get("/api/data/occupancy/board")
+def api_occupancy_board() -> dict[str, Any]:
+    return latest_board()
+
+
+@app.get("/api/data/occupancy/rollup")
+def api_occupancy_rollup(bucket_sec: int = 60) -> dict[str, Any]:
+    return rollup(bucket_sec=min(max(bucket_sec, 10), 3600))
+
+
+@app.get("/api/data/occupancy/scorecard")
+def api_occupancy_scorecard() -> dict[str, Any]:
+    return scorecard()
+
+
+@app.post("/api/data/occupancy/{sample_id}/spot")
+def api_occupancy_spot(sample_id: int, body: SpotIn) -> dict[str, Any]:
+    try:
+        return {"sample": spot_check(sample_id, body.count)}
+    except KeyError as exc:
+        raise HTTPException(404, f"unknown sample: {sample_id}") from exc
 
 
 if STUDIO_DIR.exists():

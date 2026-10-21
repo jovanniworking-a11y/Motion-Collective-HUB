@@ -12,6 +12,7 @@ Python **FastAPI** backend-for-frontend for MOTION Ops. **One backend** — Muse
 - Agent runs — implemented as `/api/agents`, `/api/agents/{id}/chat`, sim jobs under `/api/sims/*`
 - Router: `GET /api/routing`, `POST /api/routing/resolve` — **one** primary model per action
 - Data MVP: `/api/data/*` (health, sims persist, observations, drinks, flow, compare)
+- Occupancy: `/api/data/occupancy` stores zone counts only (`occupancy_samples`). Dance is inside living and is not added into the house total.
 
 **Storage:** SQLite under `data/` / `MOTION_DATA_DIR` (git-ignore DB files). Job queue for Studio sims — never block request handlers on long sims (`smoke-stub` default).
 
