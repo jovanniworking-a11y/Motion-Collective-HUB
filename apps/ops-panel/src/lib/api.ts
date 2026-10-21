@@ -123,4 +123,40 @@ export const api = {
       body: JSON.stringify(body),
     }),
   dataCompare: () => req<{ metrics: Record<string, unknown> }>("/api/data/compare"),
+  occupancyBoard: () =>
+    req<{
+      zones: {
+        id: number | null;
+        zone: string;
+        count: number | null;
+        confidence: number | null;
+        count_quality: string;
+        label: "confirmed" | "estimate" | "open";
+        age_sec: number | null;
+        camera_id: string | null;
+      }[];
+      house_total: number;
+      house_note: string;
+      sim_dance_peak: number;
+      sim_dance_label: "confirmed" | "estimate" | "open";
+      sim_guests: number;
+      cap: number;
+      cap_label: "confirmed" | "estimate" | "open";
+      polygons_label: "confirmed" | "estimate" | "open";
+      spot_queue: { id: number; zone: string; count: number; count_quality: string; age_sec: number }[];
+      scorecard: {
+        verdict: string;
+        dance_peak?: number;
+        dance_peak_error?: number;
+        sim_dance_peak: number;
+        label: "confirmed" | "estimate" | "open";
+        jam_proxy_min?: number;
+        jam_verdict?: string;
+      };
+    }>("/api/data/occupancy/board"),
+  occupancySpot: (id: number, count: number) =>
+    req<{ sample: { id: number; count: number; label: string } }>(`/api/data/occupancy/${id}/spot`, {
+      method: "POST",
+      body: JSON.stringify({ count }),
+    }),
 };

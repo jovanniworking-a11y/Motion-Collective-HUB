@@ -56,7 +56,14 @@ See also: `apps/ops-panel/CLAUDE_PRO_BRIDGE.md`, `services/api/MODEL_ROUTING.md`
 | GET | `/api/data/observations` | List observations |
 | POST | `/api/data/drinks` | Drink event |
 | POST | `/api/data/flow` | Flow count |
+| POST | `/api/data/occupancy` | One zone sample, or Jerry's counter frame into `flow_counts` (201) |
+| GET | `/api/data/counter-health` | `live` ≤15s, `stale` >15s through 60s, `offline` >60s |
 | GET/POST | `/api/data/compare` | Stub metrics (all `estimate`) |
+| POST | `/api/data/sim_runs` | Insert-only locked prediction. 409 if `sim_id` exists. No update or delete |
+| POST | `/api/data/events` | Upsert an event record |
+| POST | `/api/data/zones` | Upsert a zone definition |
+| POST | `/api/data/occupancy_samples` | Insert one zone headcount |
+| POST | `/api/data/drink_events` | Insert one drink serve |
 
 ## Privacy
 

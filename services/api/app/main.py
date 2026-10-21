@@ -2,22 +2,26 @@
 
 from __future__ import annotations
 
+import json
 from contextlib import asynccontextmanager
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from . import __version__
 from .activity import activity_feed
 from .chat import chat, history
 from .config import CORS_ORIGINS, STUDIO_DIR
 from .platform import (
+    CounterPayloadError,
     compare_sim_vs_imaging,
+    counter_health,
     ensure_db,
+    ingest_counter_frames,
     ingest_drink_event,
     ingest_flow_count,
     ingest_observation,
@@ -29,12 +33,31 @@ from .platform import (
 from .routing import AGENT_REGISTRY, MODEL_ROUTES, get_agent, route_for
 from .sims import get_job, list_jobs, list_sim_kinds, start_sim
 from .studio import load_layout, patch_layout, save_layout, studio_paths
+from .occupancy import (
+    count_frame,
+    latest_board,
+    list_samples,
+    rollup,
+    save_samples,
+    scorecard,
+    spot_check,
+)
 from .usage import init_usage_db, usage_summary
+from .contract import (
+    ContractError,
+    bootstrap_contract_schema,
+    insert_drink_event,
+    insert_occupancy_sample,
+    insert_sim_run,
+    upsert_event,
+    upsert_zone,
+)
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     init_usage_db()
+    bootstrap_contract_schema()
     ensure_db()
     yield
 
@@ -106,6 +129,46 @@ class FlowCountIn(BaseModel):
 class CompareQuery(BaseModel):
     sim_run_id: int | None = None
     zone: str | None = None
+
+
+class OccupancyIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    captured_at: float
+    zone: str = Field(pattern="^(living|dance|kitchen|hallway|balcony)$")
+    count: int = Field(ge=0, le=500)
+    confidence: float = Field(ge=0, le=1)
+    count_quality: str = Field(pattern="^(ok|low|no_feed)$")
+    camera_id: str = Field(pattern="^(wyze_living|gopro_booth|action_2|camcorder|iphone_spot)$")
+    sample_kind: str = Field(pattern="^(primary|validation|spot)$")
+    label: str = Field(default="estimate", pattern="^(confirmed|estimate|open)$")
+
+
+class OccupancyBatch(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    samples: list[OccupancyIn]
+
+
+class DetectionIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    conf: float = Field(ge=0, le=1)
+    x1: float
+    y1: float
+    x2: float
+    y2: float
+
+
+class CountIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    captured_at: float
+    camera_id: str = Field(pattern="^(wyze_living|gopro_booth|action_2|camcorder|iphone_spot)$")
+    sample_kind: str = Field(default="primary", pattern="^(primary|validation|spot)$")
+    zones: list[str] | None = None
+    detections: list[DetectionIn]
+
+
+class SpotIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    count: int = Field(ge=0, le=500)
 
 
 class RouteQuery(BaseModel):
@@ -275,6 +338,166 @@ def api_data_compare(body: CompareQuery) -> dict[str, Any]:
 @app.get("/api/data/compare")
 def api_data_compare_get(sim_run_id: int | None = None, zone: str | None = None) -> dict[str, Any]:
     return compare_sim_vs_imaging(sim_run_id=sim_run_id, zone=zone)
+
+
+async def _contract_body(request: Request) -> dict[str, Any]:
+    raw = await request.body()
+    if not raw or not raw.strip():
+        raise HTTPException(400, "body required")
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise HTTPException(400, "invalid json") from exc
+    if not isinstance(data, dict):
+        raise HTTPException(400, "body must be an object")
+    return data
+
+
+def _contract(fn: Any, body: dict[str, Any]) -> dict[str, Any]:
+    try:
+        return fn(body)
+    except ContractError as exc:
+        raise HTTPException(exc.status, exc.detail) from exc
+
+
+@app.post("/api/data/sim_runs")
+async def api_data_sim_runs(request: Request) -> dict[str, Any]:
+    """Insert one locked sim prediction. Duplicate sim_id returns 409."""
+    return _contract(insert_sim_run, await _contract_body(request))
+
+
+@app.post("/api/data/zones")
+async def api_data_zones(request: Request) -> dict[str, Any]:
+    return _contract(upsert_zone, await _contract_body(request))
+
+
+@app.post("/api/data/events")
+async def api_data_events(request: Request) -> dict[str, Any]:
+    return _contract(upsert_event, await _contract_body(request))
+
+
+@app.post("/api/data/occupancy_samples")
+async def api_data_occupancy_samples(request: Request) -> dict[str, Any]:
+    return _contract(insert_occupancy_sample, await _contract_body(request))
+
+
+@app.post("/api/data/drink_events")
+async def api_data_drink_events(request: Request) -> dict[str, Any]:
+    return _contract(insert_drink_event, await _contract_body(request))
+
+
+def _counter_frames(raw: bytes) -> tuple[list[dict[str, Any]] | dict[str, Any], bool]:
+    """Return (payload, is_counter). JSONL is counter-only. A JSON object with zones is Jerry's frame."""
+    if not raw or not raw.strip():
+        raise HTTPException(400, "body required")
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise HTTPException(400, "invalid json") from exc
+    stripped = text.strip()
+    try:
+        data = json.loads(stripped)
+    except json.JSONDecodeError:
+        frames: list[dict[str, Any]] = []
+        for line in stripped.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                item = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise HTTPException(400, "invalid json") from exc
+            if not isinstance(item, dict):
+                raise HTTPException(400, "body must be an object")
+            frames.append(item)
+        if not frames:
+            raise HTTPException(400, "body required")
+        return frames, True
+    if isinstance(data, dict) and "zones" in data:
+        return [data], True
+    if isinstance(data, dict):
+        return data, False
+    raise HTTPException(400, "body must be an object")
+
+
+@app.post("/api/data/occupancy")
+async def api_occupancy_post(request: Request) -> Any:
+    """One zone sample, or Jerry's counter frame (JSON or JSONL) into flow_counts."""
+    payload, is_counter = _counter_frames(await request.body())
+    if is_counter:
+        try:
+            body = ingest_counter_frames(payload)  # type: ignore[arg-type]
+        except CounterPayloadError as exc:
+            raise HTTPException(400, str(exc)) from exc
+        return JSONResponse(body, status_code=201)
+    try:
+        sample = OccupancyIn.model_validate(payload)
+    except ValidationError as exc:
+        raise HTTPException(422, exc.errors()) from exc
+    return {"sample": save_samples([sample.model_dump()])[0]}
+
+
+@app.get("/api/data/counter-health")
+def api_counter_health() -> dict[str, Any]:
+    return counter_health()
+
+
+@app.post("/api/data/occupancy/batch")
+def api_occupancy_batch(body: OccupancyBatch) -> dict[str, Any]:
+    return {"samples": save_samples([s.model_dump() for s in body.samples])}
+
+
+@app.post("/api/data/occupancy/count")
+def api_occupancy_count(body: CountIn) -> dict[str, Any]:
+    try:
+        counted = count_frame(
+            [d.model_dump() for d in body.detections],
+            camera_id=body.camera_id,
+            zones=body.zones,
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    samples = save_samples(
+        [
+            {
+                **row,
+                "captured_at": body.captured_at,
+                "camera_id": body.camera_id,
+                "sample_kind": body.sample_kind,
+                "label": "estimate",
+            }
+            for row in counted
+        ]
+    )
+    return {"samples": samples}
+
+
+@app.get("/api/data/occupancy")
+def api_occupancy_list(zone: str | None = None, limit: int = 200) -> dict[str, Any]:
+    return {"samples": list_samples(zone=zone, limit=min(max(limit, 1), 500))}
+
+
+@app.get("/api/data/occupancy/board")
+def api_occupancy_board() -> dict[str, Any]:
+    return latest_board()
+
+
+@app.get("/api/data/occupancy/rollup")
+def api_occupancy_rollup(bucket_sec: int = 60) -> dict[str, Any]:
+    return rollup(bucket_sec=min(max(bucket_sec, 10), 3600))
+
+
+@app.get("/api/data/occupancy/scorecard")
+def api_occupancy_scorecard() -> dict[str, Any]:
+    return scorecard()
+
+
+@app.post("/api/data/occupancy/{sample_id}/spot")
+def api_occupancy_spot(sample_id: int, body: SpotIn) -> dict[str, Any]:
+    try:
+        return {"sample": spot_check(sample_id, body.count)}
+    except KeyError as exc:
+        raise HTTPException(404, f"unknown sample: {sample_id}") from exc
 
 
 if STUDIO_DIR.exists():

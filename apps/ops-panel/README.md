@@ -33,6 +33,7 @@ npm run typecheck && npm run test
 |------|------|
 | `/` | Dashboard |
 | `/night-of` | Door / show / welfare / budget |
+| `/occupancy` | Zone counts only (dance stays inside living) |
 | `/agents` · `/agents/[id]` | Area bots → FastAPI chat |
 | `/usage` | Metered calls |
 | `/activity` | Board + outbox feed |

@@ -5,7 +5,6 @@ Privacy MVP: store counts/features/hashes only — never faces, guest names, or 
 
 from __future__ import annotations
 
-import os
 import time
 from contextlib import contextmanager
 from typing import Any, Generator
@@ -13,13 +12,9 @@ from typing import Any, Generator
 from sqlalchemy import Float, Integer, String, Text, create_engine, event
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
-from .config import DATA_DIR, DATABASE_URL as CONFIG_DATABASE_URL
+from .config import DATA_DIR, database_url_from_env
 
-DATABASE_URL = (
-    CONFIG_DATABASE_URL
-    or os.environ.get("DATABASE_URL", "").strip()
-    or f"sqlite:///{(DATA_DIR / 'muse_platform.sqlite3').as_posix()}"
-)
+DATABASE_URL = database_url_from_env() or f"sqlite:///{(DATA_DIR / 'muse_platform.sqlite3').as_posix()}"
 
 
 class Base(DeclarativeBase):
@@ -68,6 +63,22 @@ class DrinkEvent(Base):
     source: Mapped[str] = mapped_column(String(64), nullable=False, default="sim")
     label: Mapped[str] = mapped_column(String(32), nullable=False, default="estimate")
     meta_json: Mapped[str] = mapped_column(Text, nullable=False, default="{}")
+
+
+class OccupancySample(Base):
+    """One zone count. No image, boxes, track ids, or names."""
+
+    __tablename__ = "occupancy_samples"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    captured_at: Mapped[float] = mapped_column(Float, nullable=False)
+    zone: Mapped[str] = mapped_column(String(32), nullable=False)
+    count: Mapped[int] = mapped_column(Integer, nullable=False)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False)
+    count_quality: Mapped[str] = mapped_column(String(16), nullable=False)
+    camera_id: Mapped[str] = mapped_column(String(32), nullable=False)
+    sample_kind: Mapped[str] = mapped_column(String(16), nullable=False)
+    label: Mapped[str] = mapped_column(String(16), nullable=False, default="estimate")
 
 
 class FlowCount(Base):

@@ -344,6 +344,65 @@ button {
   margin-top: 14px;
 }
 
+.q-low {
+  color: var(--red);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.occ-bar {
+  position: relative;
+  height: 8px;
+  margin: 12px 0;
+  background: rgba(191, 221, 240, 0.12);
+  border-radius: 99px;
+}
+
+.occ-fill {
+  display: block;
+  height: 100%;
+  background: var(--ice);
+  border-radius: 99px;
+}
+
+.occ-sim {
+  position: absolute;
+  top: -3px;
+  width: 2px;
+  height: 14px;
+  background: var(--bone);
+}
+
+.occ-queue {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.occ-queue li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.occ-queue input {
+  width: 72px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.occ-ok {
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 6px 12px;
+}
+
 .panel h2 {
   font-family: var(--f-display);
   font-size: 1.35rem;

@@ -1,0 +1,11 @@
+{
+  "label": "open",
+  "note": "Placeholder quads in a 0–1 frame. Replace with taped corners after the 23 Oct mount. Dance sits inside living.",
+  "polygons": {
+    "living": [[0.02, 0.02], [0.68, 0.02], [0.68, 0.98], [0.02, 0.98]],
+    "dance": [[0.18, 0.30], [0.58, 0.30], [0.58, 0.82], [0.18, 0.82]],
+    "kitchen": [[0.70, 0.02], [0.98, 0.02], [0.98, 0.42], [0.70, 0.42]],
+    "hallway": [[0.70, 0.46], [0.98, 0.46], [0.98, 0.72], [0.70, 0.72]],
+    "balcony": [[0.70, 0.76], [0.98, 0.76], [0.98, 0.98], [0.70, 0.98]]
+  }
+}
