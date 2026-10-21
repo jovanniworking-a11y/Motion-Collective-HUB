@@ -112,7 +112,8 @@ def _run_stub(job_id: str, kind: str) -> None:
                 final = data.get("final") or {}
                 report["existing_report"] = name
                 report["score"] = final.get("score")
-                report["label"] = "confirmed" if final.get("score") is not None else "estimate"
+                # A stub did not re-run the night. A copied score stays estimate.
+                report["label"] = "estimate"
             except (OSError, json.JSONDecodeError):
                 pass
             break

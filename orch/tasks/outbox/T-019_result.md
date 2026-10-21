@@ -27,7 +27,13 @@ Hosting configs stay on `cursor/muse-cloud-platform-c430`. This branch does not 
 
 ## How verified
 
-See the commit that follows this note and the test log in the PR. Checker command: `python scripts/check_links.py`.
+- `python scripts/check_links.py` → OK. **36** missing font files reported as open, not a failure. **confirmed** this run.
+- `cd services/api && python3 -m pytest -q` → **9 passed** (includes the link check and a completed `smoke-stub` row). **confirmed** this run.
+- `cd apps/ops-panel && npm run typecheck && npm test` → typecheck clean, **16** vitest tests passed. **confirmed** this run.
+- Live uvicorn `:8787` and Next `:3000`: every nav route returned 200. `/legacy-note` is 404 because that card now opens the `main` blob for `web/index.html`. GitHub blobs for the Source of Truth, board, and `web/index.html` returned 200. **confirmed** this run.
+- Browser: seed on `/data` finishes `completed` and stays `estimate`; Compare shows `label: estimate`; Library, Night pass 003 (count 0 → 1), and Dash all load. **confirmed** this run.
+
+Debug fixed in the same branch: `/api/data/sims/run` used to store the row while the thread was still `running`. Short stubs now wait (under 2s) and store the finished row. A copied studio score stays `estimate` because the stub did not re-run the night.
 
 ## Open
 

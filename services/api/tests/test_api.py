@@ -64,7 +64,9 @@ def test_data_platform_ingest_and_compare(client: TestClient):
     assert client.get("/api/data/health").json()["ok"] is True
     run = client.post("/api/data/sims/run", json={"kind": "smoke-stub", "params": {"guests": 50}})
     assert run.status_code == 200
-    assert "sim_run" in run.json()
+    body = run.json()
+    assert body["sim_run"]["status"] == "completed"
+    assert body["sim_run"]["params"]["guests"] == 50
     obs = client.post(
         "/api/data/observations",
         json={

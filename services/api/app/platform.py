@@ -10,7 +10,7 @@ from typing import Any
 from sqlalchemy import select
 
 from .platform_db import DrinkEvent, FlowCount, ImagingObservation, SimRun, init_platform_db, session_scope
-from .sims import get_job, list_jobs, start_sim
+from .sims import ALLOWLIST, get_job, list_jobs, start_sim
 
 
 BANNED_META_KEYS = {
@@ -72,9 +72,23 @@ def record_sim_from_job(job: dict[str, Any]) -> dict[str, Any]:
 
 
 def queue_or_run_sim(kind: str = "smoke-stub", params: dict[str, Any] | None = None) -> dict[str, Any]:
-    """Bridge: start allowlisted sim job and persist a queued/row snapshot for compare."""
+    """Start an allowlisted sim and store one row.
+
+    Short stubs are waited out (under 2s) so the Data page does not freeze on
+    "running". Heavy studio jobs return the queued snapshot and stay off the
+    request thread.
+    """
     job = start_sim(kind, params=params)
-    row = record_sim_from_job({**job, "result": {"mode": "queued", "label": "estimate"}, "status": job.get("status")})
+    heavy = bool(ALLOWLIST.get(kind, {}).get("heavy"))
+    if not heavy:
+        deadline = time.time() + 2.0
+        while time.time() < deadline:
+            current = get_job(str(job.get("id"))) or job
+            job = current
+            if current.get("status") in {"completed", "failed"}:
+                break
+            time.sleep(0.05)
+    row = record_sim_from_job(job)
     return {"job": job, "sim_run": row}
 
 
