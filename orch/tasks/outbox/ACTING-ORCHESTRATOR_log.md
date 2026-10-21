@@ -12,7 +12,7 @@ Cursor is the acting Source-of-Truth editor until Claude returns. This file is t
 ## 21 Oct — hygiene, then merge
 
 - Hygiene on `cursor/file-push-2026-10-21` was failing on lineup rot and dead scratch. The clearing commit is `dfc33d4` and that commit is `origin/main`. Latest hygiene run on `main`: success (`39637971832`). Local `python3 orch/hygiene/scan.py` prints `hygiene ok`.
-- Jovanni authorized the merge to `main` after that fix. The link-audit branch (`cursor/architecture-link-audit-3a45`, PR #2) is the data-platform API work still ahead of `main` (Data page, stub-sim finish, link check). Hygiene and autonomy on that PR are success. The Vercel status is failure; the build log is behind Vercel login, so the compiler error is not in this log. Atlas’s check. Merge proceeds on the authorization above.
+- Jovanni authorized the merge to `main` after that fix. PR #2 (`cursor/architecture-link-audit-3a45`) merged at `d1ac94c` (21 Oct 18:24 UTC). It carries the Data page, the stub-sim finish, the link check, and this seat note. Hygiene and autonomy on the PR were success before the merge. The Vercel status on that head was still failure; the build log is behind Vercel login. Atlas’s check. Product deploys stay off until Jovanni OKs them.
 
 ## SoT
 
