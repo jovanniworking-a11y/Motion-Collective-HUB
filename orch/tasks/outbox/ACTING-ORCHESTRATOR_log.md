@@ -24,4 +24,6 @@ No new Source of Truth facts in this entry. `orch/context/CURRENT_LOCK.md` (21 O
 - Jovanni restored both on that branch: `b384c81` (`vercel.json`, services + rewrites) and `c143987` (`psycopg[binary]>=3.1.0`).
 - Head `c143987` went green before the merge. Vercel deployment completed. Hygiene `scan` succeeded. Autonomy `check` succeeded (link check, API pytest, panel typecheck and unit tests). Merge state was clean.
 - Jovanni had authorized the merge into `main` once that build was green. PR #4 merged at `ea7f505` (21 Oct 18:57 UTC). The diff against the previous `main` was those two files only.
+- Merge commit `ea7f505` itself finished green: Vercel deployment completed, hygiene `scan` succeeded, autonomy `check` succeeded.
+- A later commit on `main`, `ccfd2d5` ("Fix panel API base"), is red. Autonomy fails in `apps/ops-panel/src/lib/api.test.ts`: `apiBase()` returns `""` in the browser, and the test still expects port `8787`. Vercel and hygiene on that commit succeeded. The file is Atlas's. No API change.
 - No new Source of Truth facts. `orch/context/CURRENT_LOCK.md` (21 Oct) still wins.
