@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import json
 from contextlib import asynccontextmanager
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -39,11 +40,21 @@ from .occupancy import (
     spot_check,
 )
 from .usage import init_usage_db, usage_summary
+from .contract import (
+    ContractError,
+    bootstrap_contract_schema,
+    insert_drink_event,
+    insert_occupancy_sample,
+    insert_sim_run,
+    upsert_event,
+    upsert_zone,
+)
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     init_usage_db()
+    bootstrap_contract_schema()
     ensure_db()
     yield
 
@@ -324,6 +335,52 @@ def api_data_compare(body: CompareQuery) -> dict[str, Any]:
 @app.get("/api/data/compare")
 def api_data_compare_get(sim_run_id: int | None = None, zone: str | None = None) -> dict[str, Any]:
     return compare_sim_vs_imaging(sim_run_id=sim_run_id, zone=zone)
+
+
+async def _contract_body(request: Request) -> dict[str, Any]:
+    raw = await request.body()
+    if not raw or not raw.strip():
+        raise HTTPException(400, "body required")
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise HTTPException(400, "invalid json") from exc
+    if not isinstance(data, dict):
+        raise HTTPException(400, "body must be an object")
+    return data
+
+
+def _contract(fn: Any, body: dict[str, Any]) -> dict[str, Any]:
+    try:
+        return fn(body)
+    except ContractError as exc:
+        raise HTTPException(exc.status, exc.detail) from exc
+
+
+@app.post("/api/data/sim_runs")
+async def api_data_sim_runs(request: Request) -> dict[str, Any]:
+    """Insert one locked sim prediction. Duplicate sim_id returns 409."""
+    return _contract(insert_sim_run, await _contract_body(request))
+
+
+@app.post("/api/data/zones")
+async def api_data_zones(request: Request) -> dict[str, Any]:
+    return _contract(upsert_zone, await _contract_body(request))
+
+
+@app.post("/api/data/events")
+async def api_data_events(request: Request) -> dict[str, Any]:
+    return _contract(upsert_event, await _contract_body(request))
+
+
+@app.post("/api/data/occupancy_samples")
+async def api_data_occupancy_samples(request: Request) -> dict[str, Any]:
+    return _contract(insert_occupancy_sample, await _contract_body(request))
+
+
+@app.post("/api/data/drink_events")
+async def api_data_drink_events(request: Request) -> dict[str, Any]:
+    return _contract(insert_drink_event, await _contract_body(request))
 
 
 @app.post("/api/data/occupancy")

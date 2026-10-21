@@ -177,3 +177,164 @@ def test_occupancy_spot_check_confirms_count(client: TestClient):
     assert body["label"] == "confirmed"
     assert body["needs_spot"] is False
     assert "image" not in body
+
+
+def test_contract_sim_run_is_insert_only(client: TestClient):
+    from sqlalchemy import text
+    from sqlalchemy.exc import IntegrityError
+
+    from app.contract import contract_engine
+
+    body = {
+        "sim_id": "E001-layout-b",
+        "event_id": "E001",
+        "model": "room-studio",
+        "params_json": {"guests": 50},
+        "predicted_peak_curve": [30.42],
+    }
+    first = client.post("/api/data/sim_runs", json=body)
+    assert first.status_code == 200
+    row_id = first.json()["id"]
+    assert isinstance(row_id, int)
+    again = client.post(
+        "/api/data/sim_runs",
+        json={**body, "params_json": {"guests": 70}, "predicted_peak_curve": [99]},
+    )
+    assert again.status_code == 409
+    with contract_engine().connect() as conn:
+        stored = conn.execute(
+            text("SELECT params_json, predicted_peak_curve FROM sim_runs WHERE sim_id = :sim_id"),
+            {"sim_id": "E001-layout-b"},
+        ).one()
+    assert "50" in str(stored[0])
+    assert "70" not in str(stored[0])
+    assert "99" not in str(stored[1])
+    with pytest.raises(IntegrityError, match="insert-only"):
+        with contract_engine().begin() as conn:
+            conn.execute(text("UPDATE sim_runs SET model = 'edited' WHERE sim_id = 'E001-layout-b'"))
+    with pytest.raises(IntegrityError, match="insert-only"):
+        with contract_engine().begin() as conn:
+            conn.execute(text("DELETE FROM sim_runs WHERE sim_id = 'E001-layout-b'"))
+    assert client.put("/api/data/sim_runs", json=body).status_code == 405
+    assert client.delete("/api/data/sim_runs").status_code == 405
+
+
+def test_contract_rejects_bad_input(client: TestClient):
+    missing = client.post("/api/data/sim_runs", json={"sim_id": "only"})
+    assert missing.status_code == 400
+    banned = client.post(
+        "/api/data/sim_runs",
+        json={
+            "sim_id": "E001-banned",
+            "event_id": "E001",
+            "model": "room-studio",
+            "params_json": {"address": "nope"},
+            "predicted_peak_curve": [],
+        },
+    )
+    assert banned.status_code == 400
+    unknown = client.post(
+        "/api/data/events",
+        json={"event_id": "E001", "name": "AFTERIMAGE 001", "phone": "555"},
+    )
+    assert unknown.status_code == 400
+    invalid = client.post(
+        "/api/data/events",
+        content="not-json",
+        headers={"content-type": "application/json"},
+    )
+    assert invalid.status_code == 400
+    array = client.post("/api/data/zones", json=["dance"])
+    assert array.status_code == 400
+    named = client.post(
+        "/api/data/occupancy_samples",
+        json={
+            "ts": 1_700_000_000,
+            "event_id": "E001",
+            "zone_id": "dance",
+            "headcount": 3,
+            "source": "wyze_living",
+            "confidence": 0.8,
+            "name": "someone",
+        },
+    )
+    assert named.status_code == 400
+    zero = client.post(
+        "/api/data/drink_events",
+        json={"ts": "2026-10-30T21:00:00Z", "event_id": "E001", "drink_id": "paloma", "qty": 0},
+    )
+    assert zero.status_code == 400
+
+
+def test_contract_upserts_and_inserts_counts(client: TestClient):
+    from sqlalchemy import text
+
+    from app.contract import contract_engine
+
+    event = client.post("/api/data/events", json={"event_id": "E001", "name": "AFTERIMAGE 001", "cap": 70})
+    assert event.status_code == 200
+    assert event.json()["id"] == "E001"
+    renamed = client.post("/api/data/events", json={"event_id": "E001", "name": "AFTERIMAGE 001"})
+    assert renamed.status_code == 200
+    assert renamed.json()["id"] == "E001"
+    zone = client.post(
+        "/api/data/zones",
+        json={"zone_id": "dance", "event_id": "E001", "name": "dance", "area_sqft": 124.5},
+    )
+    assert zone.status_code == 200
+    assert zone.json()["id"] == "dance"
+    moved = client.post(
+        "/api/data/zones",
+        json={"zone_id": "dance", "event_id": "E001", "name": "dance floor", "area_sqft": 124.5},
+    )
+    assert moved.json()["id"] == "dance"
+    sample_a = client.post(
+        "/api/data/occupancy_samples",
+        json={
+            "ts": 1_700_000_000,
+            "event_id": "E001",
+            "zone_id": "dance",
+            "headcount": 30,
+            "source": "wyze_living",
+            "confidence": 0.8,
+        },
+    )
+    sample_b = client.post(
+        "/api/data/occupancy_samples",
+        json={
+            "ts": 1_700_000_010,
+            "event_id": "E001",
+            "zone_id": "dance",
+            "headcount": 31,
+            "source": "wyze_living",
+            "confidence": 0.7,
+        },
+    )
+    assert sample_a.status_code == 200
+    assert sample_b.status_code == 200
+    assert sample_a.json()["id"] != sample_b.json()["id"]
+    drink = client.post(
+        "/api/data/drink_events",
+        json={"ts": 1_700_000_000, "event_id": "E001", "drink_id": "paloma", "qty": 1},
+    )
+    assert drink.status_code == 200
+    assert isinstance(drink.json()["id"], int)
+    with contract_engine().connect() as conn:
+        zone_name = conn.execute(text("SELECT name FROM zones WHERE zone_id = 'dance'")).scalar()
+        cap = conn.execute(text("SELECT cap FROM events WHERE event_id = 'E001'")).scalar()
+        count = conn.execute(text("SELECT COUNT(*) FROM occupancy_samples")).scalar()
+    assert zone_name == "dance floor"
+    assert cap == 70
+    assert count == 2
+
+
+def test_contract_postgres_role_and_lock_are_declared():
+    import inspect
+
+    from app import contract
+
+    assert "SET LOCAL ROLE motion_api" in inspect.getsource(contract._assume_motion_api)
+    assert "BEFORE UPDATE OR DELETE" in contract._POSTGRES_TRIGGER_CREATE
+    assert "REVOKE UPDATE, DELETE ON sim_runs" in inspect.getsource(contract._grant_motion_api)
+    assert "UPDATE sim_runs" not in inspect.getsource(contract._write_insert)
+    assert "DELETE FROM sim_runs" not in inspect.getsource(contract._write_insert)
