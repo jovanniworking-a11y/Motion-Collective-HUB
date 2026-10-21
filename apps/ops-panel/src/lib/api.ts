@@ -117,7 +117,7 @@ export const api = {
       method: "POST",
       body: JSON.stringify(body),
     }),
-  dataIngestFlow: (body: { zone?: string; count?: number, label?: string }) =>
+  dataIngestFlow: (body: { zone?: string; count?: number; label?: string }) =>
     req<{ flow_count: unknown }>("/api/data/flow", {
       method: "POST",
       body: JSON.stringify(body),
