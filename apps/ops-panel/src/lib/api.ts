@@ -1,6 +1,12 @@
 /** Client for MOTION control-plane FastAPI backend. */
 
 function resolveApiBase(): string {
+  // In the browser, always use same-origin relative URLs. The hosting
+  // platform's rewrites route /api/*, /health, /studio/embed to the api
+  // service, so this works on production, previews, and custom domains
+  // with zero env config. A baked NEXT_PUBLIC_* URL goes stale or points
+  // at localhost — that was the "Failed to fetch" outage.
+  if (typeof window !== "undefined") return "";
   const raw =
     process.env.NEXT_PUBLIC_API_URL ||
     process.env.NEXT_PUBLIC_MOTION_API_URL ||
@@ -111,7 +117,7 @@ export const api = {
       method: "POST",
       body: JSON.stringify(body),
     }),
-  dataIngestFlow: (body: { zone?: string; count?: number; label?: string }) =>
+  dataIngestFlow: (body: { zone?: string; count?: number, label?: string }) =>
     req<{ flow_count: unknown }>("/api/data/flow", {
       method: "POST",
       body: JSON.stringify(body),
