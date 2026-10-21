@@ -10,6 +10,7 @@ and to learn from every event.
     python hub.py board                 task board as a table
     python hub.py files [--ext .xlsx]   every file in the repo
     python hub.py check                 missing files / unregistered files
+    python hub.py links                 fail if a route, API path, or local link is broken
     python hub.py events | compare [E001] | lessons [--area flow]
     python hub.py add-metric E001 guests_total 52 --category attendance --unit people
     python hub.py add-lesson E001 flow "Line at the island at 23:30" "Second dispenser"
@@ -190,6 +191,11 @@ def cmd_add_lesson(event_id, area, lesson, next_time):
 
 # ---------- check / export ----------
 
+def cmd_links():
+    script = ROOT / "scripts" / "check_links.py"
+    raise SystemExit(subprocess.call([sys.executable, str(script)], cwd=ROOT))
+
+
 def cmd_check():
     reg = load_registry()
     missing = reg[~reg["exists"]]
@@ -289,6 +295,7 @@ def main():
     sub.add_parser("board")
     sub.add_parser("files").add_argument("--ext")
     sub.add_parser("check")
+    sub.add_parser("links")
     sub.add_parser("events")
     sub.add_parser("compare").add_argument("event_id", nargs="?")
     sub.add_parser("lessons").add_argument("--area")
@@ -319,6 +326,8 @@ def main():
         show(f[f["ext"] == a.ext.lower()] if a.ext else f)
     elif a.cmd == "check":
         cmd_check()
+    elif a.cmd == "links":
+        cmd_links()
     elif a.cmd == "events":
         show(pd.read_csv(EVENTS))
     elif a.cmd == "compare":

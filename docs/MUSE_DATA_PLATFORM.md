@@ -2,7 +2,7 @@
 
 Draft only. Never spend / send / post / publish without Jovanni’s OK. **Camera (+$67.96 estimate from muse brief @ `220f6b6`) is not ordered** — awaits explicit human buy order.
 
-**Canonical home:** `/api/data/*` inside `services/api` on the `cursor/claude-pro-bridge` line. `services/data/` is a pointer only (no second HTTP server). Cloud deploy files (`fly.toml`, Docker) may live on other branches — local run does not require them.
+**Canonical home:** `/api/data/*` inside `services/api` (Cursor’s seat until Claude returns). Codex T-002 and T-009 fold into this package when they land. `services/data/` is a pointer only (no second HTTP server). Cloud deploy files (`fly.toml`, Docker) may live on other branches — local run does not require them.
 
 ## Vision (active scaffold)
 
@@ -77,10 +77,12 @@ See also: `apps/ops-panel/CLAUDE_PRO_BRIDGE.md`, `services/api/MODEL_ROUTING.md`
 
 ```bash
 pip install -r services/api/requirements.txt
+python scripts/check_links.py
 python3 -m uvicorn app.main:app --app-dir services/api --port 8787
 # panel Data page: apps/ops-panel → /data
-cd orch/context/studio && python3 _t2.py smoke
 ```
+
+`orch/context/studio/_t2.py` is **not on this branch** (**open** — it lives on `cursor/muse-cloud-platform-c430`). Do not treat that smoke command as runnable here.
 
 ## Status this run
 

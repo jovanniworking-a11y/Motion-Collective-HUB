@@ -217,7 +217,7 @@ export const LIBRARY_SEED: LibraryItem[] = [
     title: "Legacy crew hub (static)",
     source: "Repo",
     type: "app",
-    url: "/legacy-note",
+    url: "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/main/web/index.html",
     description: "Original web/index.html catalog — superseded by this ops panel for day-to-day work.",
     pinned: false,
     tags: ["legacy"],

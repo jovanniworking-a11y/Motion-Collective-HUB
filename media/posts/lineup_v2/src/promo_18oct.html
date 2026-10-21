@@ -26,7 +26,7 @@ html, body { background: var(--night); }
 .strip .holes.l { left: -62px; } .strip .holes.r2 { right: -62px; }
 .strip .holes i { width: 26px; height: 36px; border-radius: 4px; background: var(--bone); opacity: .85; display: block; }
 .strip .edge { position: absolute; font: 500 20px JB, monospace; color: #e7b34b; letter-spacing: .12em; }
-.strip .img { position: absolute; inset: 0; background: url("../flyer/eyes_hc.png") center 30%/cover; filter: contrast(1.15); }
+.strip .img { position: absolute; inset: 0; background: url("../../../flyers/final_v6/eyes_hc.png") center 30%/cover; filter: contrast(1.15); }
 .strip .img::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(255,255,255,.35), transparent 55%); mix-blend-mode: screen; }
 /* lineup */
 .lu { position: absolute; left: 72px; right: 72px; top: 250px; display: grid; gap: 26px; justify-items: center; text-align: center; }
@@ -47,7 +47,7 @@ html, body { background: var(--night); }
 .list div { display: grid; grid-template-columns: 70px 1fr; align-items: baseline; border-top: 1px solid rgba(242,239,232,.14); padding-top: 22px; }
 .list b { font-size: 46px; font-weight: 500; }
 .list span { font: 400 20px JB, monospace; color: var(--dim); }
-.eyes { position: absolute; left: 150px; right: 150px; top: 150px; height: 760px; background: url("../flyer/eyes_hc.png") center/cover; }
+.eyes { position: absolute; left: 150px; right: 150px; top: 150px; height: 760px; background: url("../../../flyers/final_v6/eyes_hc.png") center/cover; }
 .eyes::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, var(--night) 0%, transparent 18%, transparent 70%, var(--night) 100%); }
 /* door sign (letter, ink saver = light) */
 .door { width: 1275px; height: 1650px; background: #fff; color: #0b0b0e; position: relative; font-family: Jost; overflow: hidden; }
@@ -65,7 +65,7 @@ html, body { background: var(--night); }
 .s.story .sticker { position: absolute; left: 72px; right: 72px; height: 170px; border: 1px dashed rgba(242,239,232,.28); display: grid; place-items: center; font: 500 16px Jost; letter-spacing: .4em; color: rgba(242,239,232,.35); text-transform: uppercase; }
 </style></head><body><div id="root"></div><script>
 const v = new URLSearchParams(location.search).get('v'), R = document.getElementById('root');
-const MARK = '<img src="../logo/MOTION_mark_3d.png" alt="">';
+const MARK = '<img src="../../../brand/MOTION_mark_3d.png" alt="">';
 const FOOT = (l, r) => `<div class="foot"><span class="k">${l}</span><span class="k">${r}</span></div>`;
 const holes = n => Array.from({length: n}, () => '<i></i>').join('');
 const V = {
@@ -99,7 +99,7 @@ const V = {
       <div class="list"><div><span>01</span><b>21+ · ID at the door</b></div><div><span>02</span><b>The address comes by DM</b></div>
       <div><span>03</span><b>Stay out of frame? Tell the crew</b></div><div><span>04</span><b>Costumes on · best look wins cash</b></div></div></div>
     ${FOOT('Invite only', 'RSVP · link in bio')}</div>`,
-  door: `<div class="door"><div class="in">${'<img class="mk" src="../logo/MOTION_mark_3d.png" alt="">'}<div class="rec"><i></i>OFFICIAL RECORDING IN PROGRESS</div>
+  door: `<div class="door"><div class="in">${'<img class="mk" src="../../../brand/MOTION_mark_3d.png" alt="">'}<div class="rec"><i></i>OFFICIAL RECORDING IN PROGRESS</div>
     <h1 class="it">Tonight is on the record.</h1><div class="hr"></div>
     <p>MOTION is recording audio and video of the sets and the room tonight.</p>
     <p>5 disposable cameras are going around. Grab one, shoot, pass it on. Photos may be shared by MOTION.</p>
