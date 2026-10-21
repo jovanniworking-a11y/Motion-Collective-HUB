@@ -5,7 +5,7 @@
 | T-002 | Rebuild budget workbook with live prices. Rohan Rali is on the lineup at no fee (21 Oct), so his DJ fee stays out. Reconcile with Logistics Control "Budget" tab | Codex | ready |
 | T-003 | Audit Drive sheets (Master Planning, Logistics Control, 01–05 planning) vs SoT; list contradictions | Gemini | ready |
 | T-004 | Review Higgsfield shots / reel against Playbook checklist | Gemini | needs clips from Jovanni |
-| T-005 | Neighbour note + IG captions. No Glamz. Locked lineup, no set times unless asked | ChatGPT | ready |
+| T-005 | Neighbour note + IG captions. Glamz canceled, not on the lineup. Locked lineup, no set times unless asked | ChatGPT | ready |
 | T-006 | Pricing check: extra alcohol carts (Austin), ice, Sam's/Costco | ChatGPT | ready |
 | T-007 | Promo pass: pull Glamz off flyer v6, post 5, and the reel. Add Rohan Rali b2b Shubh Samtani. Her name in no copy | Claude (+Gemini review) | ready |
 | T-008 | Decorating + art plan, agent design review first | Claude | next |

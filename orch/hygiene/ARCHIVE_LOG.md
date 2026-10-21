@@ -11,3 +11,5 @@ Git history is the copy. These paths were removed from the working tree because 
 | 2026-10-21 | `orch/context/assets/flyer_v4_glamz/FINAL4_no_genres_src.py` | Same. |
 
 Not removed: `legacy/ch31-planner/` (already quarantined, not imported by the ops panel or the API), Room Studio `index.html`, budget builders, the Source of Truth body (header lock added; history kept for the T-002 rebuild).
+
+The rows above were written before the files left the tree. They were still present at `1707126` and are removed in the hygiene fix that follows.

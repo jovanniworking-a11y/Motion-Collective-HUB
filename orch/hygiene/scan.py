@@ -42,6 +42,7 @@ SKIP_PARTS = (
     "/orch/hygiene/",
     "/legacy/",
     "/node_modules/",
+    "/.next/",
 )
 
 ALLOW = ("cancel", "archiv", "do not", "no copy", "removed", "not on the lineup", "her name")

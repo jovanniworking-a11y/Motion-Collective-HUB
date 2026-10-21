@@ -1010,7 +1010,7 @@
   },
   {
    "id": "t-005",
-   "title": "Draft Glamz confirmation text, neighbour note, IG captions (no Rohan)",
+   "title": "Neighbour note and IG captions. Glamz canceled, not on the lineup",
    "owner": "Claude",
    "status": "ready",
    "area": "promo",
@@ -1032,13 +1032,13 @@
   },
   {
    "id": "t-007",
-   "title": "Promo pass after Glamz answers: flyer v5, post 5, reel",
+   "title": "Promo pass. Glamz canceled, not on the lineup. Flyer, post, and reel use the 21 Oct lock",
    "owner": "Claude",
-   "status": "blocked",
+   "status": "ready",
    "area": "promo",
    "due": null,
    "ref": "T-007",
-   "note": "Blocked on Glamz",
+   "note": "Glamz canceled 20 Oct",
    "order": 6
   },
   {
@@ -1075,14 +1075,14 @@
    "order": 9
   },
   {
-   "id": "c-glamz",
-   "title": "Confirm Glamz: playing, fee and promo permission",
+   "id": "c-middle-lock",
+   "title": "Glamz canceled 20 Oct, not on the lineup",
    "owner": "Jovanni",
-   "status": "open",
+   "status": "canceled",
    "area": "lineup",
    "due": "2026-10-17",
    "ref": "Control #1",
-   "note": "Blocks lineup, set times, flyer and reel",
+   "note": "Played free. No money impact. Do not put the name in new copy",
    "order": 10
   },
   {
@@ -1256,12 +1256,12 @@
    "id": "r2300",
    "sort": 2300,
    "time": "11:00 PM",
-   "moment": "Glamz (solo)",
-   "lead": "Glamz",
+   "moment": "Rohan Rali b2b Shubh Samtani",
+   "lead": "Rohan Rali b2b Shubh Samtani",
    "support": "",
    "cue": "Build energy toward midnight",
    "guests": "Monitor capacity",
-   "status": "Confirmed (time assumed)"
+   "status": "Locked 21 Oct · no fee"
   },
   {
    "id": "r2415",
@@ -1717,7 +1717,7 @@
    "event_id": "E001",
    "date": "2026-10-14",
    "area": "lineup",
-   "lesson": "Two acts were put on promo before their fee and availability were confirmed (Rohan cut; Glamz unconfirmed)",
+   "lesson": "Two acts were put on promo before their fee and availability were confirmed (Rohan was cut, then returned; Glamz canceled, not on the lineup)",
    "next_time": "No name on any promo until fee and date are confirmed in writing",
    "source": "SoT 13-14 Oct"
   },

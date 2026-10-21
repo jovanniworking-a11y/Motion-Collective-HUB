@@ -49,7 +49,7 @@ test.describe("MOTION ops panel smoke", () => {
     await expect(page.getByTestId("claude-mode")).toContainText(/Pro bridge|API/i);
     await page.getByTestId("claude-input").fill("lineup order");
     await page.getByTestId("claude-send").click();
-    await expect(page.getByTestId("chat-log")).toContainText(/iamariology|Glamz|HE\/\//i, {
+    await expect(page.getByTestId("chat-log")).toContainText(/iamariology|Rohan Rali|HE\/\//i, {
       timeout: 10_000,
     });
   });
