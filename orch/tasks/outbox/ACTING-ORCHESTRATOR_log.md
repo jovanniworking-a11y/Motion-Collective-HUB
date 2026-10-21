@@ -27,3 +27,11 @@ No new Source of Truth facts in this entry. `orch/context/CURRENT_LOCK.md` (21 O
 - Merge commit `ea7f505` itself finished green: Vercel deployment completed, hygiene `scan` succeeded, autonomy `check` succeeded.
 - A later commit on `main`, `ccfd2d5` ("Fix panel API base"), is red. Autonomy fails in `apps/ops-panel/src/lib/api.test.ts`: `apiBase()` returns `""` in the browser, and the test still expects port `8787`. Vercel and hygiene on that commit succeeded. The file is Atlas's. No API change.
 - No new Source of Truth facts. `orch/context/CURRENT_LOCK.md` (21 Oct) still wins.
+
+## 21 Oct — same-origin API base
+
+- The browser client stays same-origin. `apiBase()` returns `""` when `window` exists, and Vercel rewrites carry `/api/*`, `/health`, and `/studio/embed` to `services/api`. That is the fix for the "Failed to fetch" outage. Outside the browser the default remains `http://127.0.0.1:8787`.
+- Autonomy on `main` (`9b9a5f7`) was red for one reason: `apps/ops-panel/src/lib/api.test.ts` still expected port 8787 inside jsdom. Vercel and hygiene on that commit were success. Muse's data API is unchanged.
+- Local `next.config.ts` now proxies the same bare collection roots the panel calls (`/api/agents`, `/api/data`, `/api/routing`, `/api/sims`, `/api/studio`). `vercel.json` already had those exact paths.
+- `160c3b0` made page navigations network-first so a deploy is not stuck on a stale bundle. `scripts/check_links.py` was still requiring every nav route in the service-worker precache list. The check now requires `/` in that list, network-first navigations, and `/api/` left uncached.
+- No new Source of Truth facts.

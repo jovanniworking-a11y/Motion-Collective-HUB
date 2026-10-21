@@ -11,6 +11,11 @@
     }
   },
   "rewrites": [
+    { "source": "/api/agents", "destination": { "service": "api" } },
+    { "source": "/api/data", "destination": { "service": "api" } },
+    { "source": "/api/routing", "destination": { "service": "api" } },
+    { "source": "/api/sims", "destination": { "service": "api" } },
+    { "source": "/api/studio", "destination": { "service": "api" } },
     { "source": "/api/agents/(.*)", "destination": { "service": "api" } },
     { "source": "/api/data/(.*)", "destination": { "service": "api" } },
     { "source": "/api/routing/(.*)", "destination": { "service": "api" } },

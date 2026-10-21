@@ -1,8 +1,18 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { apiBase } from "./api";
 
 describe("api client", () => {
-  it("defaults to local FastAPI port", () => {
-    expect(apiBase()).toMatch(/8787/);
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("uses a same-origin base in the browser", () => {
+    expect(typeof window).not.toBe("undefined");
+    expect(apiBase()).toBe("");
+  });
+
+  it("defaults to the local FastAPI port outside the browser", () => {
+    vi.stubGlobal("window", undefined);
+    expect(apiBase()).toBe("http://127.0.0.1:8787");
   });
 });
