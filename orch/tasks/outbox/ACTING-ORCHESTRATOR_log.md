@@ -17,3 +17,11 @@ Cursor is the acting Source-of-Truth editor until Claude returns. This file is t
 ## SoT
 
 No new Source of Truth facts in this entry. `orch/context/CURRENT_LOCK.md` (21 Oct) still wins. Header pointer in `SOURCE_OF_TRUTH_latest.md` stays.
+
+## 21 Oct — same-origin API base
+
+- The browser client stays same-origin. `apiBase()` returns `""` when `window` exists, and Vercel rewrites carry `/api/*`, `/health`, and `/studio/embed` to `services/api`. That is the fix for the "Failed to fetch" outage. Outside the browser the default remains `http://127.0.0.1:8787`.
+- Autonomy on `main` (`9b9a5f7`) was red for one reason: `apps/ops-panel/src/lib/api.test.ts` still expected port 8787 inside jsdom. Vercel and hygiene on that commit were success. Muse's data API is unchanged.
+- Local `next.config.ts` now proxies the same bare collection roots the panel calls (`/api/agents`, `/api/data`, `/api/routing`, `/api/sims`, `/api/studio`). `vercel.json` already had those exact paths.
+- `160c3b0` made page navigations network-first so a deploy is not stuck on a stale bundle. `scripts/check_links.py` was still requiring every nav route in the service-worker precache list. The check now requires `/` in that list, network-first navigations, and `/api/` left uncached.
+- No new Source of Truth facts.

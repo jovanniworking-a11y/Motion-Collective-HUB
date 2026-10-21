@@ -106,9 +106,15 @@ def check_nav_and_shell() -> None:
 
     sw = read(PANEL / "public" / "sw.js")
     shell_routes = re.findall(r'"(/[^"]*)"', sw.split("SHELL", 1)[-1].split("];", 1)[0])
-    for href in nav:
-        if href not in shell_routes:
-            fail(f"service worker SHELL does not precache NAV route {href}")
+    # Pages are network-first. Precaching every nav route served a stale
+    # bundle after deploy (the "Failed to fetch" outage). SHELL is the
+    # offline fallback, not a copy of the nav.
+    if "/" not in shell_routes:
+        fail("service worker SHELL does not precache /")
+    if 'req.mode === "navigate"' not in sw:
+        fail("service worker navigations are not network-first")
+    if 'startsWith("/api/")' not in sw:
+        fail("service worker does not leave /api/ uncached")
     for href in shell_routes:
         if href.startswith("/api"):
             continue
