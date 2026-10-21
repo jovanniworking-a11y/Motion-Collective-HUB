@@ -1,4 +1,5 @@
 # MOTION · AFTERIMAGE 001 — Devil's Night — Source of Truth
+**CURRENT LOCK:** `orch/context/CURRENT_LOCK.md` (21 Oct) wins over every paragraph below.
 Last consolidated: Wed 14 Oct 2026, afternoon · 16 days to doors (Rohan Rali cut) · **16 Oct update below wins where it conflicts**
 
 ## Decided 18 Oct (owner)

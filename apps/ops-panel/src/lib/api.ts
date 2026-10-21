@@ -1,11 +1,21 @@
 /** Client for MOTION control-plane FastAPI backend. */
 
-const DEFAULT_BASE =
-  process.env.NEXT_PUBLIC_MOTION_API_URL?.replace(/\/$/, "") ||
-  "http://127.0.0.1:8787";
+function resolveApiBase(): string {
+  // In the browser, always use same-origin relative URLs. The hosting
+  // platform's rewrites route /api/*, /health, /studio/embed to the api
+  // service, so this works on production, previews, and custom domains
+  // with zero env config. A baked NEXT_PUBLIC_* URL goes stale or points
+  // at localhost — that was the "Failed to fetch" outage.
+  if (typeof window !== "undefined") return "";
+  const raw =
+    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.NEXT_PUBLIC_MOTION_API_URL ||
+    "http://127.0.0.1:8787";
+  return raw.replace(/\/$/, "");
+}
 
 export function apiBase(): string {
-  return DEFAULT_BASE;
+  return resolveApiBase();
 }
 
 async function req<T>(path: string, init?: RequestInit): Promise<T> {
@@ -87,6 +97,32 @@ export const api = {
       `/api/sims/jobs/${id}`,
     ),
   studioEmbedUrl: () => `${apiBase()}/studio/embed`,
+  dataHealth: () =>
+    req<{ ok: boolean; database_url_scheme: string; tables: string[] }>("/api/data/health"),
+  dataSims: () => req<{ sims: unknown[]; label: string }>("/api/data/sims"),
+  dataObservations: () => req<{ observations: unknown[] }>("/api/data/observations"),
+  dataRunSim: (kind: string, params: Record<string, unknown> = {}) =>
+    req<{ job: { id: string; status: string }; sim_run: unknown }>("/api/data/sims/run", {
+      method: "POST",
+      body: JSON.stringify({ kind, params }),
+    }),
+  dataIngestObservation: (body: {
+    crew_count?: number;
+    density_est?: number;
+    zone?: string;
+    image_path?: string;
+    label?: string;
+  }) =>
+    req<{ observation: unknown }>("/api/data/observations", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  dataIngestFlow: (body: { zone?: string; count?: number; label?: string }) =>
+    req<{ flow_count: unknown }>("/api/data/flow", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  dataCompare: () => req<{ metrics: Record<string, unknown> }>("/api/data/compare"),
   occupancyBoard: () =>
     req<{
       zones: {

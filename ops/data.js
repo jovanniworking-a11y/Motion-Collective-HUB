@@ -40,7 +40,7 @@ window.OPS_DATA = {
     { id: "r1945", at: "19:45", moment: "Sound check", lead: "HE//THEY / Jovanni", kind: "ops" },
     { id: "r2030", at: "20:30", moment: "Crew briefing", lead: "Alex", kind: "ops" },
     { id: "r2100", at: "21:00", moment: "Doors · iamariology b2b raymixes", lead: "iamariology b2b raymixes", kind: "set" },
-    { id: "r2300", at: "23:00", moment: "Glamz (solo)", lead: "Glamz", kind: "set" },
+    { id: "r2300", at: "23:00", moment: "Rohan Rali b2b Shubh Samtani", lead: "Rohan Rali b2b Shubh Samtani", kind: "set" },
     { id: "r2415", at: "00:15", moment: "HE//THEY · co.b b2b NiiON", lead: "HE//THEY", kind: "set" },
     { id: "r2430", at: "00:30", moment: "Last entry", lead: "Door / welfare", kind: "cue", alert: "collision" },
     { id: "r2530", at: "01:30", moment: "Costume winner", lead: "Jovanni", kind: "cue" },

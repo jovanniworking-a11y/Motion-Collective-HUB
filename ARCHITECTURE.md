@@ -30,6 +30,7 @@ One Discord-like ops control plane is **in**. Ship **phased**. Do not rebuild Cu
 3. FastAPI: health, ops read, `usage_events`, stub `agent_runs`  
 4. One agent channel UI → BFF → router table  
 5. Meter every routed call  
+6. Panel `/data` reads Muse `/api/data/*` on this same BFF (no second data service)  
 
 **Later:** live Studio embed, sim workers, cost charts, auth/hosted.
 

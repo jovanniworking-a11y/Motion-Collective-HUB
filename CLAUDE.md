@@ -16,7 +16,7 @@ Start every reply to a new task with one line: **Route: <bot> — <why>**. If pa
 ## Hard rules (from the Source of Truth + Agent Playbook)
 - The venue address never goes in any file, post or page.
 - Artists (iamariology, raymixes and the lineup) OK'd posting their clips (17 Oct). Guests' faces in crowd shots still need care.
-- No unconfirmed names on promo. Rohan Rali is cut (14 Oct). Glamz confirmed 16 Oct and plays SOLO in the middle (17 Oct; credit wording still to confirm). Order: iamariology b2b raymixes → Glamz → HE//THEY. HE//THEY is credited exactly "HE//THEY · co.b b2b NiiON".
+- No unconfirmed names on promo. Glamz canceled 20 Oct (played free; no money impact). Her name appears in no copy. Locked lineup: iamariology b2b raymixes (opener) → Rohan Rali b2b Shubh Samtani (11:00 PM–12:15 AM, no fee) → HE//THEY · co.b b2b NiiON (headliner). HE//THEY is credited exactly "HE//THEY · co.b b2b NiiON".
 - Never spend, send, post or publish without Jovanni's OK. Draft only.
 - No YSL marks, no haze/fog, no lasers. Bodoni Moda + Jost. Red ≤ 10% of the frame.
 - Label every number confirmed / estimate / open.

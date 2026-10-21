@@ -116,7 +116,7 @@ export const OPS_DATA = {
     { id: "r1945", at: "19:45", moment: "Sound check", lead: "HE//THEY / Jovanni", kind: "ops" },
     { id: "r2030", at: "20:30", moment: "Crew briefing", lead: "Alex", kind: "ops" },
     { id: "r2100", at: "21:00", moment: "Doors · iamariology b2b raymixes", lead: "iamariology b2b raymixes", kind: "set" },
-    { id: "r2300", at: "23:00", moment: "Glamz (solo)", lead: "Glamz", kind: "set" },
+    { id: "r2300", at: "23:00", moment: "Rohan Rali b2b Shubh Samtani", lead: "Rohan Rali b2b Shubh Samtani", kind: "set" },
     { id: "r2415", at: "00:15", moment: "HE//THEY · co.b b2b NiiON", lead: "HE//THEY", kind: "set" },
     { id: "r2430", at: "00:30", moment: "Last entry", lead: "Door / welfare", kind: "cue", alert: "collision" },
     { id: "r2530", at: "01:30", moment: "Costume winner", lead: "Jovanni", kind: "cue" },
@@ -126,7 +126,7 @@ export const OPS_DATA = {
   ] as RunMoment[],
   lineupPublic: [
     { name: "iamariology", credit: "b2b", partner: "raymixes" },
-    { name: "Glamz", credit: "solo", partner: null },
+    { name: "Rohan Rali", credit: "b2b", partner: "Shubh Samtani" },
     { name: "HE//THEY", credit: "co.b b2b NiiON", partner: null },
   ],
   welfare: {
@@ -151,20 +151,21 @@ Passes: numbered 001–070 planned (open); working door cap ~50 (estimate) until
 
 Lineup (promo order, no public set times):
 1. iamariology b2b raymixes
-2. Glamz (solo, middle)
+2. Rohan Rali b2b Shubh Samtani (no fee)
 3. HE//THEY · co.b b2b NiiON (headliner, fee $300 confirmed, paid by Jovanni not from pool)
 
-Crew set times (internal only): doors/open 21:00 · Glamz 23:00 · HE//THEY 00:15.
+Crew set times (internal only): doors/open 21:00 · Rohan Rali b2b Shubh Samtani 23:00–00:15 · HE//THEY 00:15.
 
 Money: pool $450 confirmed (Jovanni/Haven/Alex $150 each). Pool spend ~$381.13 estimate, buffer ~$68.87 estimate.
-Outside pool: HE//THEY $300 confirmed; CDJ rental $345 confirmed (Rock n Roll Rentals).
+Outside pool: HE//THEY $300 confirmed; CDJ rental $345 confirmed (Rock n Roll Rentals). Middle set has no fee.
 Drinks: 150-cocktail menu locked (90 lemonades + 60 Palomas) — ~$231.13 estimate incl tax for drinks/ice/cups.
+Retired figures, do not quote: $391.42, $171.88, $58.58.
 
 Rules: never spend/send/post without Jovanni OK. Draft only. No haze/fog/lasers. Brand: night #060B13, ice, red accent ≤10%, Bodoni Moda + Jost.
 Costume prize $40 (confirmed 16 Oct); judging 1:30 AM (originality 40 / execution 30 / commitment 30).
 Welfare: 30-min rounds doors→hard stop; 12:30 collision (last entry + fader + welfare).
 
-Rohan Rali is cut. No unconfirmed names on promo. Guest personal data never in git or this app.
+No unconfirmed names on promo. Guest personal data never in git or this app.
 `.trim();
 
 export const LIBRARY_SEED: LibraryItem[] = [
@@ -192,12 +193,12 @@ export const LIBRARY_SEED: LibraryItem[] = [
   },
   {
     id: "sot",
-    title: "Source of Truth",
+    title: "Current lock",
     source: "GitHub",
     type: "doc",
-    url: "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/context/SOURCE_OF_TRUTH_latest.md",
+    url: "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/main/orch/context/CURRENT_LOCK.md",
     description:
-      "Master record of every decision. Wins over older sources, except where the 15 Oct sheet is newer.",
+      "21 Oct lineup and money lock. Wins over older Source of Truth paragraphs.",
     pinned: true,
     tags: ["decisions", "core"],
   },
@@ -206,7 +207,7 @@ export const LIBRARY_SEED: LibraryItem[] = [
     title: "Task board",
     source: "GitHub",
     type: "doc",
-    url: "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/claude/motion-files-consolidated-dx17w2/orch/tasks/BOARD.md",
+    url: "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/main/orch/tasks/BOARD.md",
     description: "T-001 to T-010+, owners and status for the agent orchestra.",
     pinned: false,
     tags: ["tasks"],
@@ -216,7 +217,7 @@ export const LIBRARY_SEED: LibraryItem[] = [
     title: "Legacy crew hub (static)",
     source: "Repo",
     type: "app",
-    url: "/legacy-note",
+    url: "https://github.com/jovanniworking-a11y/Motion-Collective-HUB/blob/main/web/index.html",
     description: "Original web/index.html catalog — superseded by this ops panel for day-to-day work.",
     pinned: false,
     tags: ["legacy"],

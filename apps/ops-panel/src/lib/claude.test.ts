@@ -12,8 +12,10 @@ describe("claude mock", () => {
   it("answers lineup questions", () => {
     const r = mockAssist("lineup order please");
     expect(r).toMatch(/iamariology/i);
-    expect(r).toMatch(/Glamz/);
+    expect(r).toMatch(/Rohan Rali/);
+    expect(r).toMatch(/Shubh Samtani/);
     expect(r).toMatch(/HE\/\/THEY/);
+    expect(r).not.toMatch(/Glamz/);
   });
 
   it("defaults to mock without keys", () => {

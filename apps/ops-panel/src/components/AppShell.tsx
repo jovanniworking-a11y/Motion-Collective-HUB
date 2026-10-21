@@ -8,11 +8,13 @@ import { api } from "@/lib/api";
 const NAV = [
   { href: "/", label: "Dash", ico: "01" },
   { href: "/night-of", label: "Night", ico: "02" },
-  { href: "/occupancy", label: "Count", ico: "04" },
+  { href: "/occupancy", label: "Count", ico: "05" },
   { href: "/agents", label: "Agents", ico: "#" },
   { href: "/usage", label: "Usage", ico: "◉" },
   { href: "/activity", label: "Live", ico: "◎" },
   { href: "/muse", label: "Muse", ico: "◇" },
+  { href: "/data", label: "Data", ico: "▣" },
+  { href: "/library", label: "Library", ico: "04" },
   { href: "/assist", label: "Claude", ico: "03" },
 ] as const;
 
