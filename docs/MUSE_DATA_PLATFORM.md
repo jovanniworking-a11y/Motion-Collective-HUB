@@ -77,10 +77,12 @@ See also: `apps/ops-panel/CLAUDE_PRO_BRIDGE.md`, `services/api/MODEL_ROUTING.md`
 
 ```bash
 pip install -r services/api/requirements.txt
+python scripts/check_links.py
 python3 -m uvicorn app.main:app --app-dir services/api --port 8787
 # panel Data page: apps/ops-panel → /data
-cd orch/context/studio && python3 _t2.py smoke
 ```
+
+`orch/context/studio/_t2.py` is **not on this branch** (**open** — it lives on `cursor/muse-cloud-platform-c430`). Do not treat that smoke command as runnable here.
 
 ## Status this run
 

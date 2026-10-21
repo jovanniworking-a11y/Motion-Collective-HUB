@@ -1,0 +1,29 @@
+name: autonomy
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Link and architecture check
+        run: python scripts/check_links.py
+      - name: Install API deps
+        run: pip install -r services/api/requirements.txt
+      - name: API tests
+        working-directory: services/api
+        run: python -m pytest -q
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: apps/ops-panel/package-lock.json
+      - name: Panel typecheck and unit tests
+        working-directory: apps/ops-panel
+        run: npm ci && npm run typecheck && npm test

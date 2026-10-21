@@ -19,8 +19,8 @@ python3 -m uvicorn app.main:app --app-dir services/api --host 127.0.0.1 --port 8
 ## Tests
 
 ```bash
-cd services/api
-python3 -m pytest -q
+python scripts/check_links.py
+cd services/api && python3 -m pytest -q
 ```
 
 ## Env

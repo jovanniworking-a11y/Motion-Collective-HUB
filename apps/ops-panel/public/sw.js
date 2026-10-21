@@ -1,6 +1,17 @@
 /* MOTION Ops — offline shell cache (draft). */
-const CACHE = "motion-ops-panel-v1";
-const SHELL = ["/", "/night-of", "/assist", "/library", "/manifest.webmanifest"];
+const CACHE = "motion-ops-panel-v2";
+const SHELL = [
+  "/",
+  "/night-of",
+  "/agents",
+  "/usage",
+  "/activity",
+  "/muse",
+  "/data",
+  "/library",
+  "/assist",
+  "/manifest.webmanifest",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

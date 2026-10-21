@@ -25,7 +25,7 @@ export default function LibraryPage() {
       <div className="lib-grid" data-testid="library-grid">
         {items.map((item) => {
           const external = item.url.startsWith("http");
-          const href = item.id === "crew-hub" ? "/" : item.url;
+          const href = item.url;
           return (
             <a
               key={item.id}
