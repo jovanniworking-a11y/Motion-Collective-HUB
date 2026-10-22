@@ -56,6 +56,8 @@ See also: `apps/ops-panel/CLAUDE_PRO_BRIDGE.md`, `services/api/MODEL_ROUTING.md`
 | GET | `/api/data/observations` | List observations |
 | POST | `/api/data/drinks` | Drink event |
 | POST | `/api/data/flow` | Flow count |
+| POST | `/api/data/occupancy` | Counter frame `{ts, zones, total}` → `flow_counts` (201) |
+| GET | `/api/data/counter-health` | `live` ≤15s, `stale` >15s through 60s, `offline` >60s |
 | GET/POST | `/api/data/compare` | Stub metrics (all `estimate`) |
 
 ## Privacy
