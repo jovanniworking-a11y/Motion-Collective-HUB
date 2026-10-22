@@ -58,6 +58,7 @@ See also: `apps/ops-panel/CLAUDE_PRO_BRIDGE.md`, `services/api/MODEL_ROUTING.md`
 | POST | `/api/data/flow` | Flow count |
 | POST | `/api/data/occupancy` | Counter frame `{ts, zones, total}` → `flow_counts` (201) |
 | GET | `/api/data/counter-health` | `live` ≤15s, `stale` >15s through 60s, `offline` >60s |
+| POST | `/api/data/sim_runs` | Insert-only locked sim. Duplicate `sim_id` is 409. Returns `{"id": ...}` |
 | GET/POST | `/api/data/compare` | Stub metrics (all `estimate`) |
 
 ## Privacy

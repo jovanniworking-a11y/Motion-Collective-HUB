@@ -34,11 +34,13 @@ from .routing import AGENT_REGISTRY, MODEL_ROUTES, get_agent, route_for
 from .sims import get_job, list_jobs, list_sim_kinds, start_sim
 from .studio import load_layout, patch_layout, save_layout, studio_paths
 from .usage import init_usage_db, usage_summary
+from .contract import ContractError, bootstrap_contract_schema, insert_sim_run
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     init_usage_db()
+    bootstrap_contract_schema()
     ensure_db()
     yield
 
@@ -316,6 +318,32 @@ async def api_occupancy_post(request: Request) -> JSONResponse:
 @app.get("/api/data/counter-health")
 def api_counter_health() -> dict[str, Any]:
     return counter_health()
+
+
+async def _contract_body(request: Request) -> dict[str, Any]:
+    raw = await request.body()
+    if not raw or not raw.strip():
+        raise HTTPException(400, "body required")
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise HTTPException(400, "invalid json") from exc
+    if not isinstance(data, dict):
+        raise HTTPException(400, "body must be an object")
+    return data
+
+
+def _contract(fn: Any, body: dict[str, Any]) -> dict[str, Any]:
+    try:
+        return fn(body)
+    except ContractError as exc:
+        raise HTTPException(exc.status, exc.detail) from exc
+
+
+@app.post("/api/data/sim_runs")
+async def api_data_sim_runs(request: Request) -> dict[str, Any]:
+    """Insert one locked sim prediction. Duplicate sim_id returns 409. No update or delete."""
+    return _contract(insert_sim_run, await _contract_body(request))
 
 
 @app.post("/api/data/compare")

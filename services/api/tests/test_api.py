@@ -212,3 +212,55 @@ def test_local_db_flag_ignores_neon():
     assert database_url_from_env({"MOTION_DB_LOCAL": "0", "DATABASE_URL": "sqlite:////tmp/x.sqlite3"}) == (
         "sqlite:////tmp/x.sqlite3"
     )
+
+
+def test_contract_sim_run_is_insert_only(client: TestClient):
+    from sqlalchemy import text
+    from sqlalchemy.exc import IntegrityError
+
+    from app.contract import contract_engine
+
+    body = {
+        "sim_id": "E001-layout-b",
+        "event_id": "E001",
+        "model": "room-studio",
+        "params_json": {"guests": 50},
+        "predicted_peak_curve": [30.42],
+    }
+    first = client.post("/api/data/sim_runs", json=body)
+    assert first.status_code == 200
+    assert isinstance(first.json()["id"], int)
+    again = client.post(
+        "/api/data/sim_runs",
+        json={**body, "params_json": {"guests": 70}, "predicted_peak_curve": [99]},
+    )
+    assert again.status_code == 409
+    with contract_engine().connect() as conn:
+        stored = conn.execute(
+            text("SELECT params_json, predicted_peak_curve FROM sim_runs WHERE sim_id = :sim_id"),
+            {"sim_id": "E001-layout-b"},
+        ).one()
+    assert "50" in str(stored[0])
+    assert "70" not in str(stored[0])
+    assert "99" not in str(stored[1])
+    with pytest.raises(IntegrityError, match="insert-only"):
+        with contract_engine().begin() as conn:
+            conn.execute(text("UPDATE sim_runs SET model = 'edited' WHERE sim_id = 'E001-layout-b'"))
+    with pytest.raises(IntegrityError, match="insert-only"):
+        with contract_engine().begin() as conn:
+            conn.execute(text("DELETE FROM sim_runs WHERE sim_id = 'E001-layout-b'"))
+    assert client.put("/api/data/sim_runs", json=body).status_code == 405
+    assert client.delete("/api/data/sim_runs").status_code == 405
+    missing = client.post("/api/data/sim_runs", json={"sim_id": "only"})
+    assert missing.status_code == 400
+    banned = client.post(
+        "/api/data/sim_runs",
+        json={
+            "sim_id": "E001-banned",
+            "event_id": "E001",
+            "model": "room-studio",
+            "params_json": {"address": "nope"},
+            "predicted_peak_curve": [],
+        },
+    )
+    assert banned.status_code == 400

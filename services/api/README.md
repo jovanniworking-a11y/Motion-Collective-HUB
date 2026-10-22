@@ -58,3 +58,5 @@ curl -s http://127.0.0.1:8787/api/data/counter-health
 ```
 
 `POST /api/data/occupancy` returns 201 and writes six `flow_counts` rows (`source=counter`, label `estimate`): the five zones plus `total` as sent. `GET /api/data/counter-health` returns `live` when the newest counter frame is 15 seconds old or newer, `stale` when it is older than 15 seconds through 60 seconds, and `offline` when it is older than 60 seconds or missing. `last_seen` is that frame's `ts`. Sim flow rows do not change this status.
+
+`POST /api/data/sim_runs` inserts one locked prediction (`sim_id`, `event_id`, `model`, `params_json`, `predicted_peak_curve`, optional `locked_at`) and returns `{"id": ...}`. A second post with the same `sim_id` returns 409 and leaves the first row. The app has no update or delete for that table. This process does not invent a sim row. Codex posts the real curve.
