@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CAP, passLabel, roomLeft, togglePass } from "./checkin";
+import { CAP, PASS_COUNT, passLabel, roomLeft, togglePass } from "./checkin";
 
 describe("check-in", () => {
   it("uses the confirmed door cap", () => {
@@ -27,6 +27,13 @@ describe("check-in", () => {
     const forced = togglePass(full, CAP + 1, true);
     expect(forced.blocked).toBe(false);
     expect(forced.next).toContain(CAP + 1);
+  });
+
+  it("caps the house and the pass grid at 70", () => {
+    expect(CAP).toBe(70);
+    expect(PASS_COUNT).toBe(70);
+    expect(passLabel(PASS_COUNT)).toBe("070");
+    expect(roomLeft(0)).toBe(70);
   });
 
   it("computes room left", () => {

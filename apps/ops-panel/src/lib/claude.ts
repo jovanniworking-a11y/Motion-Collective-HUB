@@ -66,7 +66,7 @@ export function mockAssist(message: string): string {
   }
   if (q.includes("cap") || q.includes("pass") || q.includes("door")) {
     return [
-      "Capacity (mock): door cap 70 (confirmed). Passes planned 001–070 (open).",
+      "Capacity (mock): door cap 70 (confirmed). Passes 001–070 (confirmed).",
       "Check-in stores pass numbers only — no guest names, no venue address.",
     ].join("\n");
   }

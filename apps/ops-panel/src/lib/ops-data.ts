@@ -4,6 +4,8 @@
  * No guest names, no venue address.
  */
 
+import { PASS_COUNT, VENUE_CAP } from "./capacity";
+
 export type ConfidenceLabel = "confirmed" | "estimate" | "open";
 
 export type MoneyLine = {
@@ -48,11 +50,11 @@ export const OPS_DATA = {
     status: "planning" as const,
   },
   capacity: {
-    workingCap: 70,
+    workingCap: VENUE_CAP,
     workingCapLabel: "confirmed" as ConfidenceLabel,
-    passesPlanned: 70,
-    passesPlannedLabel: "open" as ConfidenceLabel,
-    note: "Door cap 70 confirmed. Passes are numbers only — no guest names in this app.",
+    passesPlanned: PASS_COUNT,
+    passesPlannedLabel: "confirmed" as ConfidenceLabel,
+    note: "Cap 70 confirmed (Jovanni, 21 Oct). Passes 001–070 are numbers only — no guest names in this app.",
   },
   budget: {
     pool: {
@@ -147,7 +149,7 @@ MOTION Collective · Devil's Night · AFTERIMAGE 001 (crew assist context)
 
 Event: Friday 30 October 2026. Doors 9:00 PM, last entry 12:30 AM, last pour 1:45 AM, hard stop 2:00 AM (America/Chicago).
 Venue: private Rio apartment — address never stored or shared in this system; day-of by DM only.
-Passes: numbered 001–070 planned (open); door cap 70 (confirmed).
+Passes: numbered 001–070 (confirmed); door cap 70 (confirmed, Jovanni 21 Oct).
 
 Lineup (promo order, no public set times):
 1. iamariology b2b raymixes

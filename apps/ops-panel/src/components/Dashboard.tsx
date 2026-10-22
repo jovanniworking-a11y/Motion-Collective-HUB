@@ -66,7 +66,7 @@ export function Dashboard() {
         <div className={`tile ${left <= 5 ? "hot" : ""}`}>
           <div className="k">Room left</div>
           <div className="v mono">{left}</div>
-          <div className="s">vs working cap</div>
+          <div className="s">vs cap</div>
         </div>
         <div className="tile">
           <div className="k">

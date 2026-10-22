@@ -75,7 +75,7 @@ export function NightOfClient() {
     if (!checkedSet.has(n) && checkedSet.size >= CAP) {
       if (
         !window.confirm(
-          `At door cap (${CAP}, ${OPS_DATA.capacity.workingCapLabel}). Check in pass ${passLabel(n)} anyway?`,
+          `At cap (${CAP}, ${OPS_DATA.capacity.workingCapLabel}). Check in pass ${passLabel(n)} anyway?`,
         )
       ) {
         return;
@@ -168,7 +168,7 @@ export function NightOfClient() {
         <div className={`stat ${roomLeft(checkedSet.size) <= 5 ? "hot" : ""}`}>
           <div className="k">Room left</div>
           <div className="v mono">{roomLeft(checkedSet.size)}</div>
-          <div className="s">vs working cap</div>
+          <div className="s">vs cap</div>
         </div>
         <div
           className={`stat ${upcoming.alert === "collision" || upcoming.kind === "cue" ? "hot" : ""}`}
@@ -211,7 +211,7 @@ export function NightOfClient() {
             </span>
           </h2>
           <p className="lede">
-            Numbered passes only — no guest names. Door cap is {CAP} (
+            Numbered passes only — no guest names. Cap {CAP} (
             {OPS_DATA.capacity.workingCapLabel}).
           </p>
           <div className="tools">

@@ -187,6 +187,8 @@ button {
 
 .bottom-nav a {
   flex: 1 0 4.5rem;
+  min-height: 44px;
+  justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;

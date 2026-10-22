@@ -8,6 +8,7 @@ import { api } from "@/lib/api";
 const NAV = [
   { href: "/", label: "Dash", ico: "01" },
   { href: "/night-of", label: "Night", ico: "02" },
+  { href: "/live-ops", label: "Live Ops", ico: "●" },
   { href: "/agents", label: "Agents", ico: "#" },
   { href: "/usage", label: "Usage", ico: "◉" },
   { href: "/activity", label: "Live", ico: "◎" },
