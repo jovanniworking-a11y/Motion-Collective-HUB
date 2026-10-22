@@ -48,11 +48,11 @@ export const OPS_DATA = {
     status: "planning" as const,
   },
   capacity: {
-    workingCap: 50,
-    workingCapLabel: "estimate" as ConfidenceLabel,
+    workingCap: 70,
+    workingCapLabel: "confirmed" as ConfidenceLabel,
     passesPlanned: 70,
     passesPlannedLabel: "open" as ConfidenceLabel,
-    note: "Working cap ~50 until kitchen + hall measurement. Passes are numbers only — no guest names in this app.",
+    note: "Door cap 70 confirmed. Passes are numbers only — no guest names in this app.",
   },
   budget: {
     pool: {
@@ -147,7 +147,7 @@ MOTION Collective · Devil's Night · AFTERIMAGE 001 (crew assist context)
 
 Event: Friday 30 October 2026. Doors 9:00 PM, last entry 12:30 AM, last pour 1:45 AM, hard stop 2:00 AM (America/Chicago).
 Venue: private Rio apartment — address never stored or shared in this system; day-of by DM only.
-Passes: numbered 001–070 planned (open); working door cap ~50 (estimate) until kitchen+hall measurement.
+Passes: numbered 001–070 planned (open); door cap 70 (confirmed).
 
 Lineup (promo order, no public set times):
 1. iamariology b2b raymixes

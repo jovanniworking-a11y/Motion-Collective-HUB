@@ -91,3 +91,35 @@ def test_data_platform_ingest_and_compare(client: TestClient):
     assert cmp_["metrics"]["label"] == "estimate"
     assert cmp_["metrics"]["obs_mean_crew_count"] == 42
     assert "face" not in str(cmp_).lower() or "no face" in str(cmp_).lower()
+
+
+def test_observations_survive_missing_column(client: TestClient):
+    """A live table missing an ORM column used to 500. Align adds it."""
+    from sqlalchemy import inspect, text
+
+    from app.platform_db import get_engine
+
+    seeded = client.post(
+        "/api/data/observations",
+        json={"crew_count": 3, "zone": "hallway", "label": "estimate"},
+    )
+    assert seeded.status_code == 200
+    engine = get_engine()
+    with engine.begin() as conn:
+        conn.execute(text("ALTER TABLE imaging_observations DROP COLUMN note"))
+    cols = {c["name"] for c in inspect(engine).get_columns("imaging_observations")}
+    assert "note" not in cols
+
+    listed = client.get("/api/data/observations")
+    assert listed.status_code == 200, listed.text
+    rows = listed.json()["observations"]
+    assert rows
+    assert all(row["note"] == "no faces/PII stored" for row in rows)
+
+    again = client.post(
+        "/api/data/observations",
+        json={"crew_count": 4, "zone": "kitchen", "label": "open"},
+    )
+    assert again.status_code == 200, again.text
+    assert again.json()["observation"]["note"] == "no faces/PII stored"
+    assert again.json()["observation"]["zone"] == "kitchen"

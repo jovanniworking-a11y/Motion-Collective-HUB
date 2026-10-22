@@ -40,6 +40,7 @@ npm run typecheck && npm run test
 | `/data` | Muse sim vs imaging compare |
 | `/assist` | Ask Claude (Next route) + Pro bridge |
 | `/library` | Pinned tools |
+| `/hq` | Chaka live-ops dashboard (HQ view). Booth websocket is the counter on :8766 |
 
 ## Claude Pro ≠ API
 

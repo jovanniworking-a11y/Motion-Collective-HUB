@@ -2,6 +2,10 @@ import { describe, expect, it } from "vitest";
 import { CAP, passLabel, roomLeft, togglePass } from "./checkin";
 
 describe("check-in", () => {
+  it("uses the confirmed door cap", () => {
+    expect(CAP).toBe(70);
+  });
+
   it("labels passes with three digits", () => {
     expect(passLabel(1)).toBe("001");
     expect(passLabel(50)).toBe("050");
