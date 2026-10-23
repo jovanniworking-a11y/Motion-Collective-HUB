@@ -3,10 +3,10 @@
 You are a **worker**. Claude is the orchestrator. Read `README_ORCHESTRATION.md` first, then `context/CURRENT_LOCK.md`, then take your task from `tasks/inbox/`. Put results in `tasks/outbox/`. Do not edit `context/` except when the orchestrator assigns a lock update.
 
 ## The project in 10 lines
-- MOTION is a six-friend Austin party collective (creative director Jovanni; PM Alex; Haven). First event: **Devil's Night · AFTERIMAGE 001**, **Fri 30 Oct 2026**, doors 9 PM, hard stop 2 AM, in a **Rio 3BD/2BA apartment**, invite-only, **70 numbered passes** (cap under review — living room measured 14 ft × 18 ft 1 in = 253 sq ft; working cap ~50).
+- MOTION is a six-friend Austin party collective (creative director Jovanni; PM Alex; Haven). First event: **Devil's Night · AFTERIMAGE 001**, **Fri 30 Oct 2026**, doors 9 PM, hard stop 2 AM, in a private 3BD/2BA apartment, invite-only, **70 numbered passes** (cap 70 confirmed 20 Oct; living room measured 14 ft × 18 ft 1 in = 253 sq ft, so ~4.8 sq ft walkable each at 70, estimate).
 - Crowd: **UT Austin college students** — liberal on smoking (balcony cannabis/cigs, free cigs outside, vapes OK inside), part BYOB, arrivals/drinking pace unknown for a first event.
-- Lineup (21 Oct lock): opener **iamariology b2b raymixes** → **Rohan Rali b2b Shubh Samtani** (11:00 PM–12:15 AM, no fee) → **HE//THEY · co.b b2b NiiON** (headliner, $300). A canceled 20 Oct act is not on the lineup.
-- Money: pool $450 (Jovanni/Haven/Alex $150 each); spend $381.13 estimate; buffer $68.87 estimate. Retired, do not copy: $391.42 / $171.88 / $58.58. DJs paid by Jovanni except the no-fee middle set. CDJ-2000NXS2 ×2 + DJM-900NXS2 rented from Rock n Roll Rentals $345. Gear/lighting PA from Rapid Ric (unconfirmed list).
+- Lineup (21 Oct lock): opener **iamariology b2b raymixes** → **Rohan Rali b2b Shubh Samtani** (11:00 PM–12:15 AM; Rohan $175 confirmed 23 Oct) → **HE//THEY · co.b b2b NiiON** (headliner, $300). A canceled 20 Oct act is not on the lineup.
+- Money (23 Oct): pool $498 (3 × $166; Haven received, Alex + Jovanni promised); spend $381.13 estimate; buffer $116.87 estimate. Retired, do not copy: $391.42 / $171.88 / $58.58 / pool $450 / buffer $68.87. DJ fees $475 (HE//THEY $300 + Rohan $175), paid by Jovanni. CDJ-2000NXS2 ×2 + DJM-900NXS2 rented from Rock n Roll Rentals $345. Gear/lighting PA from Rapid Ric (unconfirmed list).
 - Brand: night #060B13, ice #BFDDF0 / #58C4F0, red #FF3B30 (accent ≤10%), oxblood #A13B42. Type: Bodoni Moda (set opsz) + Jost.
 - Facts: `context/CURRENT_LOCK.md` wins. `context/SOURCE_OF_TRUTH_latest.md` below its lock header is history. Then `context/project_docs/`, `context/drive/`.
 

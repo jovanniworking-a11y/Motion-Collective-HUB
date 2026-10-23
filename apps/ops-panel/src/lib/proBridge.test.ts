@@ -11,7 +11,7 @@ describe("proBridge", () => {
   it("builds a paste-ready prompt with safe SoT + question", () => {
     const p = buildProBridgePrompt({ question: "What's the pool?" });
     expect(p).toMatch(/Pro bridge/i);
-    expect(p).toMatch(/\$450/);
+    expect(p).toMatch(/\$498/);
     expect(p).toMatch(/What's the pool\?/);
     expect(p).not.toMatch(/guest name/i);
     expect(p.toLowerCase()).not.toMatch(/\d{3,5}\s+\w+\s+(st|ave|rd|blvd)/);

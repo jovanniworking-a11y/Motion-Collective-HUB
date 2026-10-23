@@ -42,8 +42,8 @@
 | T-033 | SoT update: pool $498 (Haven paid), merch change, Rohan back at $175, cameras and matchbox approved | Claude chat | ready (slot still open) |
 | T-034 | Group-size DMs to the two group leads ("6+" and 5) (drafts: ChatGPT prompt) | Jovanni | ready |
 | T-035 | MOTION Ops · CI: `.github/workflows/ci.yml` (API pytest on SQLite + Postgres; panel ci, typecheck, lint, vitest, build, e2e, login e2e) | Claude Code | **done 23 Oct** |
-| T-036 | MOTION Ops · Night-Of readiness: door check-in to cap 70, offline phone test, lineup data with Rohan (slot from D-1), Playwright e2e on `/night-of` | Cursor | ready (lineup rows wait on the D-1 slot) |
+| T-036 | MOTION Ops · Night-Of readiness: cap 70, offline door, lineup + money from CURRENT_LOCK, Playwright e2e | Claude Code | **done 23 Oct** · `outbox/T-035_T-040_result.md` |
 | T-037 | MOTION Ops · Login with 2FA (password + authenticator code) on panel and API, fails closed on Vercel. Setup: `apps/ops-panel/DEPLOY_LOGIN.md` | Claude Code → **Jovanni sets the Vercel env vars** | built 23 Oct · waiting on env vars |
-| T-038 | MOTION Ops · Metering check: every agent call writes `usage_events`; router table matches `MODEL_ROUTING.md`; refresh the stale chat seed (buffer, DJ $475) | Cursor | ready |
+| T-038 | MOTION Ops · Metering tests, money facts refreshed, current model IDs | Claude Code | **done 23 Oct** |
 | T-039 | MOTION Ops · Desktop on Jovanni's PC: install, `npm run desktop`, confirm it loads the panel and works offline | Codex | ready |
-| T-040 | MOTION Ops · Night-of runbook (one page): who opens what, on which phone, the offline fallback, the 2 AM shutdown | Cursor | ready |
+| T-040 | MOTION Ops · Night-of runbook `ops/RUNBOOK.md` | Claude Code | **done 23 Oct** |

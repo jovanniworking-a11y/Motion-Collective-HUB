@@ -68,8 +68,8 @@ def _mock_reply(agent: dict[str, Any], prompt: str, action: str) -> str:
         )
     if "budget" in pl or "money" in pl or "pool" in pl:
         return (
-            f"[{agent['name']}] Pool $450 (confirmed). Pool spend ~$381.13 (estimate). "
-            f"Buffer ~$68.87 (estimate). HE//THEY $300 (confirmed); CDJ rental $345 (confirmed)."
+            f"[{agent['name']}] Pool $498 (confirmed plan, 3 × $166). Pool spend ~$381.13 (estimate). "
+            f"Buffer ~$116.87 (estimate). DJ fees $475 (HE//THEY $300 + Rohan $175, confirmed); CDJ rental $345 (confirmed)."
         )
     return (
         f"[{agent['name']}] Received (mock — Pro bridge: Open in Claude.ai in the ops panel, "
@@ -83,10 +83,10 @@ def _anthropic_reply(agent: dict[str, Any], prompt: str, action: str) -> tuple[s
     import httpx
 
     model_map = {
-        "claude-sonnet": "claude-sonnet-4-20250514",
-        "claude-haiku": "claude-3-5-haiku-latest",
+        "claude-sonnet": "claude-sonnet-5-5",
+        "claude-haiku": "claude-haiku-5-5",
     }
-    model = model_map.get(agent["default_model"], "claude-3-5-haiku-latest")
+    model = model_map.get(agent["default_model"], "claude-haiku-5-5")
     system = (
         f"You are the MOTION Collective agent for area '{agent['area']}' "
         f"({agent['name']}). {agent['description']} {STANDING} Action mode: {action}."

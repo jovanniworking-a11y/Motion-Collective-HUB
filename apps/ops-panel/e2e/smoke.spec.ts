@@ -40,7 +40,7 @@ test.describe("MOTION ops panel smoke", () => {
     expect(post.status()).toBe(200);
     const data = await post.json();
     expect(data.ok).toBe(true);
-    expect(String(data.reply)).toMatch(/450/);
+    expect(String(data.reply)).toMatch(/498/);
 
     await page.goto("/assist");
     await expect(page.getByTestId("pro-bridge")).toBeVisible();

@@ -1261,7 +1261,7 @@
    "support": "",
    "cue": "Build energy toward midnight",
    "guests": "Monitor capacity",
-   "status": "Locked 21 Oct · no fee"
+   "status": "Locked 21 Oct · Rohan $175 (23 Oct)"
   },
   {
    "id": "r2415",
@@ -1515,11 +1515,11 @@
    "category": "money",
    "metric": "pool_available",
    "unit": "USD",
-   "planned": 450.0,
+   "planned": 498.0,
    "actual": null,
    "status": "confirmed",
-   "source": "SoT",
-   "notes": "Jovanni + Haven + Alex at $150"
+   "source": "Jovanni 23 Oct",
+   "notes": "3 x $166: Haven received; Alex + Jovanni promised"
   },
   {
    "id": "E001-pool_spend",

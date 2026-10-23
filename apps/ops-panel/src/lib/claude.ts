@@ -41,10 +41,10 @@ export function mockAssist(message: string): string {
   if (q.includes("budget") || q.includes("pool") || q.includes("buffer")) {
     return [
       "Budget snapshot (mock):",
-      "• Pool $450 — confirmed (Jovanni / Haven / Alex $150 each)",
+      "• Pool $498 — confirmed plan (3 × $166; Haven received, Alex + Jovanni promised)",
       "• Spend ~$381.13 — estimate",
-      "• Buffer ~$68.87 — estimate",
-      "• HE//THEY $300 + CDJs $345 sit outside the pool (confirmed).",
+      "• Buffer ~$116.87 — estimate",
+      "• DJ fees $475 (HE//THEY $300 + Rohan $175) + CDJs $345 sit outside the pool, paid by Jovanni (confirmed).",
       "Nothing spends from this panel — Jovanni OK required.",
     ].join("\n");
   }
@@ -52,7 +52,7 @@ export function mockAssist(message: string): string {
     return [
       "Lineup (promo order, mock):",
       "1. iamariology b2b raymixes",
-      "2. Rohan Rali b2b Shubh Samtani (no fee)",
+      "2. Rohan Rali b2b Shubh Samtani (Rohan $175)",
       "3. HE//THEY · co.b b2b NiiON",
       "Crew times (internal): doors 21:00 · Rohan Rali b2b Shubh Samtani 23:00–00:15 · HE//THEY 00:15. Keep set times off public promo.",
     ].join("\n");
@@ -88,7 +88,7 @@ export async function liveAssist(
   const key = getApiKey();
   if (!key) throw new Error("No API key");
 
-  const model = process.env.CLAUDE_MODEL || "claude-sonnet-4-20250514";
+  const model = process.env.CLAUDE_MODEL || "claude-sonnet-5-5";
   const messages = [
     ...(history ?? []).map((h) => ({
       role: h.role,

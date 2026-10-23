@@ -14,23 +14,24 @@ window.OPS_DATA = {
     status: "planning"
   },
   capacity: {
-    workingCap: 50,
-    workingCapLabel: "estimate",
+    workingCap: 70,
+    workingCapLabel: "confirmed",
     passesPlanned: 70,
-    passesPlannedLabel: "open",
-    note: "Working cap ~50 until kitchen + hall measurement. Passes are numbers only — no guest names in this app."
+    passesPlannedLabel: "confirmed",
+    note: "Pass cap 70 (confirmed 20 Oct). Room sim: ~4.8 sq ft walkable each at 70 (estimate) — watch heat and the hall. Passes are numbers only — no guest names in this app."
   },
   budget: {
-    pool: { amount: 450, label: "confirmed", note: "Jovanni + Haven + Alex · $150 each" },
+    pool: { amount: 498, label: "confirmed", note: "3 × $166 · Haven received · Alex + Jovanni promised (open)" },
     spend: { amount: 381.13, label: "estimate", note: "Reconciled sheet · drinks/ice/cups + decor + DIY + smoking" },
-    buffer: { amount: 68.87, label: "estimate", note: "pool − spend" },
+    buffer: { amount: 116.87, label: "estimate", note: "pool − spend" },
     lines: [
       { item: "Drinks, ice + cups (150-cocktail menu)", amount: 231.13, from: "pool", label: "estimate" },
       { item: "Decor (mirror ball, bulbs, cloth)", amount: 76, from: "pool", label: "estimate" },
       { item: "DIY (eye posters + labels)", amount: 30, from: "pool", label: "estimate" },
       { item: "Smoking (cigs, lighters, decals)", amount: 44, from: "pool", label: "estimate" },
       { item: "HE//THEY fee", amount: 300, from: "jovanni", label: "confirmed" },
-      { item: "CDJs + mixer rental", amount: 345, from: "rental", label: "confirmed" }
+      { item: "Rohan Rali fee", amount: 175, from: "jovanni", label: "confirmed" },
+      { item: "CDJs + mixer rental (paid by Jovanni)", amount: 345, from: "rental", label: "confirmed" }
     ]
   },
   /* Crew-only set / cue times. Do not put these on public promo. */
@@ -40,7 +41,7 @@ window.OPS_DATA = {
     { id: "r1945", at: "19:45", moment: "Sound check", lead: "HE//THEY / Jovanni", kind: "ops" },
     { id: "r2030", at: "20:30", moment: "Crew briefing", lead: "Alex", kind: "ops" },
     { id: "r2100", at: "21:00", moment: "Doors · iamariology b2b raymixes", lead: "iamariology b2b raymixes", kind: "set" },
-    { id: "r2300", at: "23:00", moment: "Rohan Rali b2b Shubh Samtani", lead: "Rohan Rali b2b Shubh Samtani", kind: "set" },
+    { id: "r2300", at: "23:00", moment: "Rohan Rali b2b Shubh Samtani", lead: "Rohan Rali b2b Shubh Samtani", kind: "set", end: "00:15" },
     { id: "r2415", at: "00:15", moment: "HE//THEY · co.b b2b NiiON", lead: "HE//THEY", kind: "set" },
     { id: "r2430", at: "00:30", moment: "Last entry", lead: "Door / welfare", kind: "cue", alert: "collision" },
     { id: "r2530", at: "01:30", moment: "Costume winner", lead: "Jovanni", kind: "cue" },
