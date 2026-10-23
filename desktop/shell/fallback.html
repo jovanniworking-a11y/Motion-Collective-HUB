@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MOTION Ops</title>
+    <style>
+      :root {
+        --night: #060b13;
+        --ice: #bfddf0;
+        --ice-bright: #58c4f0;
+        --red: #ff3b30;
+        --steel: #1a2433;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Jost", "Segoe UI", sans-serif;
+        background:
+          radial-gradient(ellipse 80% 50% at 20% 0%, #122033 0%, transparent 55%),
+          radial-gradient(ellipse 60% 40% at 90% 100%, #0c1826 0%, transparent 50%),
+          var(--night);
+        color: var(--ice);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+      .panel {
+        max-width: 34rem;
+        width: 100%;
+      }
+      h1 {
+        font-family: "Bodoni Moda", "Times New Roman", serif;
+        font-size: clamp(2.4rem, 6vw, 3.4rem);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        margin: 0 0 0.35rem;
+        line-height: 1.05;
+      }
+      .mark {
+        display: inline-block;
+        width: 0.55rem;
+        height: 0.55rem;
+        background: var(--red);
+        margin-right: 0.45rem;
+        vertical-align: middle;
+      }
+      .sub {
+        color: var(--ice-bright);
+        opacity: 0.9;
+        margin: 0 0 1.5rem;
+        font-size: 1rem;
+        letter-spacing: 0.02em;
+      }
+      p {
+        line-height: 1.55;
+        margin: 0 0 1rem;
+        color: #d7e7f4;
+        opacity: 0.92;
+      }
+      code {
+        font-family: ui-monospace, "Cascadia Code", monospace;
+        font-size: 0.88em;
+        background: var(--steel);
+        padding: 0.12em 0.4em;
+        border-radius: 3px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 1.15rem;
+        line-height: 1.7;
+      }
+      .hint {
+        margin-top: 1.75rem;
+        font-size: 0.85rem;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <h1><span class="mark" aria-hidden="true"></span>MOTION Ops</h1>
+      <p class="sub">AFTERIMAGE desktop shell — waiting for a panel target</p>
+      <p>
+        This window is the Discord-like desktop host. Point it at the ops panel
+        when ready:
+      </p>
+      <ul>
+        <li>
+          Next panel: set <code>MOTION_OPS_URL=http://localhost:3000</code> and
+          run <code>npm run dev</code> in <code>apps/ops-panel</code>
+        </li>
+        <li>
+          Night-Of crew page: run without that env — the shell serves
+          <code>ops/</code> automatically
+        </li>
+        <li>
+          Override: <code>MOTION_OPS_URL</code> or
+          <code>MOTION_OPS_FALLBACK=night-of|panel|shell</code>
+        </li>
+      </ul>
+      <p class="hint">Draft only · local · no publish</p>
+    </div>
+  </body>
+</html>

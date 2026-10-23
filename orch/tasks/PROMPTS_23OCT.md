@@ -33,17 +33,17 @@ Do not edit anything — report only.
 ```
 Open MOTION_Budget_and_Carts.xlsx. Update it, keeping every formula live (no hardcoded totals):
 1) Pool = 3 × $166 = $498 (Haven paid; Alex and Jovanni pending — add a "status" column).
-2) Swap in the live ✓ prices from SOURCE_OF_TRUTH_latest.md (Drinks section, 13 Oct evening).
+2) Use the live 150-cocktail menu figures from SOURCE_OF_TRUTH_latest.md (Reconciled 20 Oct: drinks $231.13, pool spend $381.13).
 3) Remove Cap 01 merch. Add a Merch tab: towels ×7, stickers ×100, matchboxes ×100 ($73.02 confirmed + shipping open), each with a label column (confirmed/estimate/open).
-4) Add a "Rohan" toggle cell (0/1) that adds $175 to the DJ line when 1.
+4) DJ line = $475 committed (HE//THEY $300 + $175 open split); add a note cell for the D-1 slot decision.
 5) Summary: pool spend vs $498, buffer, Jovanni's personal total, donation gap.
 Save as MOTION_Budget_v2.xlsx next to the original. Don't commit guest data anywhere.
 ```
 
 ## → Claude chat ("MOTION EFFEcts") · D-1 + T-014
 ```
-Decision needed: Rohan Rali says he's back at $175 for the 11:00–12:15 set — that's Glamz's confirmed slot (plays free). Lay out the 3 options (Rohan takes it + Glamz moves to the 9 PM b3b / Rohan elsewhere / Rohan stays cut) with impact on set times, DJ spend (HE//THEY $300 + $175?), the camera money that came from Rohan's cut ($275 saved), and promo. Recommend one. Then, once I pick, update the SoT money section: pool now $498 (3 × $166, Haven paid), Cap 01 merch cut, new merch (towels/stickers/matchboxes, est. $200–310).
+Decision needed: Rohan Rali says he's back at $175 for the 11:00–12:15 set — that's Glamz's confirmed slot (plays free). Lay out the 3 options (Rohan takes it + Glamz moves to the 9 PM b3b / Rohan elsewhere / Rohan stays cut) with impact on set times, DJ spend (HE//THEY $300 + $175?), the camera money that came from Rohan's cut ($275 saved), and promo. Recommend one. Note: on 20 Oct the acting orchestrator recorded DJ fees committed at $475 (= HE//THEY $300 + $175, split marked open) — reconcile that with whatever I pick. Then update the SoT money section: pool now $498 (3 × $166, Haven paid; spend $381.13 est → buffer $116.87), Cap 01 merch cut, new merch (towels/stickers/matchboxes, est. $200–310).
 ```
 
-## → Pip · T-011 matchbox
+## → Pip · T-019 matchbox
 Build from `media/merch/matchbox/BUILD_SPEC_v2.md` using the three PNGs in that folder. Match Zazzle's face template size first. Send the Zazzle proof to Jovanni. **Don't check out.**
