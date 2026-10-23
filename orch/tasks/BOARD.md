@@ -47,3 +47,9 @@
 | T-038 | MOTION Ops · Metering tests, money facts refreshed, current model IDs | Claude Code | **done 23 Oct** |
 | T-039 | MOTION Ops · Desktop on Jovanni's PC: install, `npm run desktop`, confirm it loads the panel and works offline | Codex | ready |
 | T-040 | MOTION Ops · Night-of runbook `ops/RUNBOOK.md` | Claude Code | **done 23 Oct** |
+| T-041 | Live Ops desk: one-line "Counter offline — use the door phone" state + Playwright test | Cursor | ready |
+| T-042 | Bottom nav at 390 px: active item scrolls into view, 44 pt targets, screenshots | Cursor | ready |
+
+### 23 Oct · code status (Claude Code)
+- Merged into the working branch, then into `main`: PR #9 (Live Ops desk, cap 70) and PR #10 (Jerry's occupancy bridge — files were base64, decoded; mock + conftest added). PR #7 is superseded by #9/#10 (close, don't merge). PRs #8 (matchbook plates, superseded by matchbox v2), #5 (log stamp) and #1 (Mochi sims/ops drafts) stay open for their owners.
+- Agent prompts: `orch/tasks/PROMPTS_AGENTS_23OCT.md`.

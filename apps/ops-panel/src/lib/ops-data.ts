@@ -184,7 +184,7 @@ export const LIBRARY_SEED: LibraryItem[] = [
     type: "app",
     url: "https://claude.ai/artifact/49y1uMCWh1em8QAfMbvBiV",
     description:
-      "3D plan of the Rio room at real size, gear drag-and-drop, drink-spot ranking and night crowd sims.",
+      "3D plan of the room at real size, gear drag-and-drop, drink-spot ranking and night crowd sims.",
     pinned: true,
     tags: ["venue", "sim", "3D"],
   },
