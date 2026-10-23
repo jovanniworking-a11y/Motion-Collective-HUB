@@ -25,8 +25,8 @@ Ready-to-paste prompts: `orch/tasks/PROMPTS_23OCT.md`. A daily check-in at 8:52 
 ### Decisions (Jovanni, 23 Oct)
 | ID | Decision | Status |
 |---|---|---|
-| D-1 | **Rohan Rali is back, $175** (confirmed). This fills the open $175 in the $475 DJ total (HE//THEY $300 + Rohan $175). **Still open: which slot.** 11:00–12:15 is Glamz's. Promo and set times wait on the slot. | fee decided · slot **open** |
-| D-2 | CDJ rental stays at **$345** (confirmed). Payer not stated; assumed Jovanni personally, outside the pool. | decided · payer open |
+| D-1 | **Rohan Rali plays 11:00 PM–12:15 AM, $175** (confirmed, 23 Oct). DJ fees $475 = HE//THEY $300 + Rohan $175. That was Glamz's slot: **where Glamz plays now is open** (Jovanni said "Glam set"; to confirm). | slot decided · Glamz slot **open** |
+| D-2 | CDJ rental **$345, paid by Jovanni** (confirmed, 23 Oct), outside the pool. | **decided** |
 | D-3 | **Matchbox v2 approved.** Pip builds it, checks the proof, then orders with Express (T-019). | **approved** |
 | D-4 | **Buy the 5 Fujifilm QuickSnaps.** Lab: Lago Vista Film Lab, about 1-hour C-41 turnaround (confirm hours). | **approved** · buyer Jovanni |
 
@@ -52,9 +52,9 @@ Ready-to-paste prompts: `orch/tasks/PROMPTS_23OCT.md`. A daily check-in at 8:52 
 | T-021 | Post the b2b reel + mood board edit (RSVP push) | Jovanni | ready |
 | T-022 | SoT update: pool $498 (Haven paid), merch change, Rohan back at $175, cameras and matchbox approved | Claude chat | ready (slot still open) |
 | T-023 | Group-size DMs: Johan "6+", Aamer 5 (drafts: ChatGPT prompt) | Jovanni | ready |
-| T-024 | MOTION Ops · CI: GitHub Actions running the API pytest and the panel's npm ci, typecheck, vitest and build on every push | Cursor | ready · brief in `inbox/DEVOPS_23OCT.md` |
+| T-024 | MOTION Ops · CI: `.github/workflows/ci.yml` (API pytest on SQLite + Postgres; panel ci, typecheck, lint, vitest, build, e2e, login e2e) | Claude Code | **done 23 Oct** |
 | T-025 | MOTION Ops · Night-Of readiness: door check-in to cap 70, offline phone test, lineup data with Rohan (slot from D-1), Playwright e2e on `/night-of` | Cursor | ready (lineup rows wait on the D-1 slot) |
-| T-026 | MOTION Ops · Hosting gate: `vercel.json` exists, but nothing goes public before auth. Add an auth gate and a preview-only plan; **no deploy without Jovanni's OK** | Cursor | ready |
+| T-026 | MOTION Ops · Login with 2FA (password + authenticator code) on panel and API, fails closed on Vercel. Setup: `apps/ops-panel/DEPLOY_LOGIN.md` | Claude Code → **Jovanni sets the Vercel env vars** | built 23 Oct · waiting on env vars |
 | T-027 | MOTION Ops · Metering check: every agent call writes `usage_events`; router table matches `MODEL_ROUTING.md`; refresh the stale chat seed (buffer, DJ $475) | Cursor | ready |
 | T-028 | MOTION Ops · Desktop on Jovanni's PC: install, `npm run desktop`, confirm it loads the panel and works offline | Codex | ready |
 | T-029 | MOTION Ops · Night-of runbook (one page): who opens what, on which phone, the offline fallback, the 2 AM shutdown | Cursor | ready |

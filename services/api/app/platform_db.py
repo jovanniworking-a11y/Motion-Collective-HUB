@@ -10,16 +10,28 @@ import time
 from contextlib import contextmanager
 from typing import Any, Generator
 
-from sqlalchemy import Float, Integer, String, Text, create_engine, event
+from sqlalchemy import Float, Integer, String, Text, create_engine, event, text
+from sqlalchemy.pool import NullPool
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
 from .config import DATA_DIR, DATABASE_URL as CONFIG_DATABASE_URL
 
-DATABASE_URL = (
+def normalize_url(url: str) -> str:
+    """Vercel/Neon/Supabase hand out postgres:// or postgresql:// URLs. SQLAlchemy would pick
+    psycopg2 for those (not installed); we ship psycopg 3, so name the driver explicitly."""
+    if url.startswith("postgres://"):
+        url = "postgresql://" + url[len("postgres://"):]
+    if url.startswith("postgresql://"):
+        url = "postgresql+psycopg://" + url[len("postgresql://"):]
+    return url
+
+
+DATABASE_URL = normalize_url(
     CONFIG_DATABASE_URL
     or os.environ.get("DATABASE_URL", "").strip()
     or f"sqlite:///{(DATA_DIR / 'muse_platform.sqlite3').as_posix()}"
 )
+IS_POSTGRES = DATABASE_URL.startswith("postgresql")
 
 
 class Base(DeclarativeBase):
@@ -83,8 +95,26 @@ class FlowCount(Base):
     meta_json: Mapped[str] = mapped_column(Text, nullable=False, default="{}")
 
 
+class UsageEvent(Base):
+    """Metered agent/sim calls. Counts only — never raw prompts, guest data or the address."""
+
+    __tablename__ = "usage_events"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    ts: Mapped[float] = mapped_column(Float, nullable=False, default=time.time, index=True)
+    agent_id: Mapped[str] = mapped_column(String(64), nullable=False)
+    area: Mapped[str] = mapped_column(String(64), nullable=False)
+    model: Mapped[str] = mapped_column(String(128), nullable=False)
+    action: Mapped[str] = mapped_column(String(64), nullable=False)
+    tokens_in: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    tokens_out: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    label: Mapped[str] = mapped_column(String(32), nullable=False, default="estimate")
+    meta: Mapped[str] = mapped_column(Text, nullable=False, default="")
+
+
 _engine = None
 _SessionLocal = None
+_initialized = False
 
 
 def _make_engine():
@@ -92,7 +122,11 @@ def _make_engine():
     if DATABASE_URL.startswith("sqlite"):
         connect_args["check_same_thread"] = False
         DATA_DIR.mkdir(parents=True, exist_ok=True)
-    eng = create_engine(DATABASE_URL, future=True, connect_args=connect_args)
+    kwargs: dict[str, Any] = {"future": True, "connect_args": connect_args, "pool_pre_ping": True}
+    if IS_POSTGRES and os.environ.get("VERCEL"):
+        # Serverless: don't hold connections between invocations; use the provider's pooled URL.
+        kwargs["poolclass"] = NullPool
+    eng = create_engine(DATABASE_URL, **kwargs)
     if DATABASE_URL.startswith("sqlite"):
 
         @event.listens_for(eng, "connect")
@@ -124,11 +158,27 @@ def get_session_factory():
     return _SessionLocal
 
 
+def _lock_down_postgres(eng) -> None:
+    """Turn on row-level security for our tables. The API connects as the table owner, so it
+    is unaffected; anything else (e.g. Supabase/Neon public data APIs with an anon key) sees nothing."""
+    with eng.begin() as conn:
+        for name in Base.metadata.tables:
+            conn.execute(text(f'ALTER TABLE "{name}" ENABLE ROW LEVEL SECURITY'))
+
+
 def init_platform_db() -> dict[str, Any]:
+    global _initialized
     eng = get_engine()
-    Base.metadata.create_all(eng)
+    if not _initialized:
+        Base.metadata.create_all(eng)
+        if IS_POSTGRES:
+            _lock_down_postgres(eng)
+        _initialized = True
+    with eng.connect() as conn:
+        conn.execute(text("SELECT 1"))
     return {
         "ok": True,
+        "postgres": IS_POSTGRES,
         "database_url_scheme": DATABASE_URL.split(":", 1)[0],
         "sqlite": DATABASE_URL.startswith("sqlite"),
         "tables": sorted(Base.metadata.tables.keys()),

@@ -12,6 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import __version__
+from .auth import SessionGate
 from .activity import activity_feed
 from .chat import chat, history
 from .config import CORS_ORIGINS, STUDIO_DIR
@@ -46,6 +47,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Login gate first, CORS added after it so CORS stays outermost (401s still carry CORS headers).
+app.add_middleware(SessionGate)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,

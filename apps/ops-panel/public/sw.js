@@ -1,12 +1,8 @@
-/* MOTION Ops — offline shell cache (draft). */
-const CACHE = "motion-ops-panel-v1";
-const SHELL = ["/", "/night-of", "/assist", "/library", "/manifest.webmanifest"];
+/* MOTION Ops — offline cache (draft). Network first, so the login gate always applies when online;
+   the last good copy of each page is the offline fallback. Logging out clears this cache. */
+const CACHE = "motion-ops-panel-v2";
 
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting()),
-  );
-});
+self.addEventListener("install", () => self.skipWaiting());
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
@@ -20,19 +16,17 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
-  if (url.pathname.startsWith("/api/")) return;
+  if (url.origin !== self.location.origin) return;
+  if (url.pathname.startsWith("/api/") || url.pathname === "/login" || url.pathname === "/health") return;
   event.respondWith(
-    caches.match(req).then((hit) =>
-      hit ||
-      fetch(req)
-        .then((res) => {
+    fetch(req)
+      .then((res) => {
+        if (res.ok && !res.redirected && res.type === "basic") {
           const copy = res.clone();
-          if (res.ok && url.origin === self.location.origin) {
-            caches.open(CACHE).then((c) => c.put(req, copy));
-          }
-          return res;
-        })
-        .catch(() => caches.match("/") || Response.error()),
-    ),
+          caches.open(CACHE).then((c) => c.put(req, copy));
+        }
+        return res;
+      })
+      .catch(() => caches.match(req).then((hit) => hit || caches.match("/night-of") || Response.error())),
   );
 });

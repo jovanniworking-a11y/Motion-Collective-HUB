@@ -12,13 +12,14 @@ OUTBOX_DIR = ORCH_ROOT / "tasks" / "outbox"
 STUDIO_DIR = ORCH_ROOT / "context" / "studio"
 
 # Cloud MVP: set MOTION_DATA_DIR=/tmp/motion-api-data (ephemeral) or a mounted volume.
-_default_data = Path(__file__).resolve().parents[1] / "data"
+# On Vercel the code directory is read-only; only /tmp is writable.
+_default_data = Path("/tmp/motion-api-data") if os.environ.get("VERCEL") else Path(__file__).resolve().parents[1] / "data"
 DATA_DIR = Path(os.environ.get("MOTION_DATA_DIR", str(_default_data))).expanduser().resolve()
 USAGE_DB = DATA_DIR / "usage.sqlite3"
 LAYOUT_STORE = DATA_DIR / "studio_layout.json"
 CHAT_STORE = DATA_DIR / "agent_chats.json"
 # Muse platform DB: override with DATABASE_URL=postgresql+psycopg://... for Postgres.
-DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+DATABASE_URL = (os.environ.get("DATABASE_URL", "") or os.environ.get("POSTGRES_URL", "")).strip()
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
 SIM_EXECUTE = os.environ.get("MOTION_SIM_EXECUTE", "").strip() in {"1", "true", "yes"}
