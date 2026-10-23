@@ -22,6 +22,6 @@ Also: merged `main` (21 Oct lock, live-ops, link + hygiene checks) into the work
 Record the 23 Oct lock section in the SoT body: Rohan $175 (replaces "no fee"), DJ $475, pool $498, buffer $116.87 (est), CDJs $345 by Jovanni, matchbox + cameras approved, Cap 01 cut.
 
 ## Questions for Jovanni
-1. Does Shubh Samtani have a fee? (open)
+1. ~~Does Shubh Samtani have a fee?~~ No — not paid (Jovanni, 23 Oct).
 2. OK to merge this branch into `main`? It is a clean fast-forward (no conflicts), and it is what puts the login on the version Vercel deploys.
 3. The Vercel settings for the login (`DEPLOY_LOGIN.md`) are yours to add.

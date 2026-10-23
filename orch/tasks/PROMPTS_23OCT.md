@@ -42,7 +42,7 @@ Save as MOTION_Budget_v2.xlsx next to the original. Don't commit guest data anyw
 
 ## → Claude chat ("MOTION EFFEcts") · T-033 SoT update
 ```
-Record Jovanni's 23 Oct decisions in the Source of Truth (they are already in orch/context/CURRENT_LOCK.md): Rohan Rali b2b Shubh Samtani plays 11:00 PM–12:15 AM and Rohan is paid $175 (replaces the 21 Oct "no fee"), so DJ fees are $475 = HE//THEY $300 + Rohan $175. Pool $498 (3 × $166, Haven paid; spend $381.13 est → buffer $116.87 est). CDJ rental $345 paid by Jovanni. Matchbox v2 and 5 Fujifilm cameras (lab: Lago Vista Film Lab) approved. Cap 01 cut; towels/stickers/matchboxes release after the event (est. $200–310). Open: Shubh Samtani's fee.
+Record Jovanni's 23 Oct decisions in the Source of Truth (they are already in orch/context/CURRENT_LOCK.md): Rohan Rali b2b Shubh Samtani plays 11:00 PM–12:15 AM and Rohan is paid $175 (replaces the 21 Oct "no fee"), so DJ fees are $475 = HE//THEY $300 + Rohan $175. Pool $498 (3 × $166, Haven paid; spend $381.13 est → buffer $116.87 est). CDJ rental $345 paid by Jovanni. Matchbox v2 and 5 Fujifilm cameras (lab: Lago Vista Film Lab) approved. Cap 01 cut; towels/stickers/matchboxes release after the event (est. $200–310). Shubh Samtani is not paid.
 ```
 
 ## → Pip · T-030 matchbox

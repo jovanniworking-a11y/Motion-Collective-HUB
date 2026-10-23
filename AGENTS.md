@@ -13,7 +13,7 @@ You are a **worker** on the MOTION Collective hub. Claude (project "MOTION EFFEc
 
 ## Project snapshot
 - Event: **Devil's Night · AFTERIMAGE 001**, Fri 30 Oct 2026, doors 9 PM, hard stop 2 AM (Austin).
-- Lineup: iamariology b2b raymixes → Rohan Rali b2b Shubh Samtani (11:00 PM–12:15 AM; Rohan $175 confirmed 23 Oct, replacing the 21 Oct "no fee") → HE//THEY · co.b b2b NiiON. A canceled 20 Oct act is not on this lineup and does not go in copy.
+- Lineup: iamariology b2b raymixes → Rohan Rali b2b Shubh Samtani (11:00 PM–12:15 AM; Rohan $175 confirmed 23 Oct, replacing the 21 Oct "no fee"; Shubh Samtani unpaid) → HE//THEY · co.b b2b NiiON. A canceled 20 Oct act is not on this lineup and does not go in copy.
 - Hub: `python hub.py` · fan site `site/` · crew hub `web/` · orchestra kit `orch/` · hygiene `orch/hygiene/`.
 
 ## MOTION Ops control plane

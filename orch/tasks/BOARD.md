@@ -14,7 +14,7 @@
 ## 23 Oct · Jovanni's decisions (recorded by Claude Code)
 | ID | Decision | Status |
 |---|---|---|
-| D-1 | **Rohan Rali (b2b Shubh Samtani) plays 11:00 PM–12:15 AM; Rohan is paid $175** (confirmed 23 Oct, replaces the 21 Oct "no fee"). DJ fees $475 = HE//THEY $300 + Rohan $175. Glamz canceled 20 Oct, so no slot to fill. Open: whether Shubh Samtani has a fee. | **decided** · Shubh fee open |
+| D-1 | **Rohan Rali (b2b Shubh Samtani) plays 11:00 PM–12:15 AM; Rohan is paid $175** (confirmed 23 Oct, replaces the 21 Oct "no fee"). DJ fees $475 = HE//THEY $300 + Rohan $175. Glamz canceled 20 Oct, so no slot to fill. Shubh Samtani is not paid (23 Oct). | **decided** |
 | D-2 | CDJ rental **$345, paid by Jovanni**, outside the pool. | **decided** |
 | D-3 | **Matchbox v2 approved.** Pip builds it, checks the proof, orders with Express (T-030). | **approved** |
 | D-4 | **Buy the 5 Fujifilm QuickSnaps.** Lab: Lago Vista Film Lab, about 1-hour C-41 (confirm hours). | **approved** · buyer Jovanni |
