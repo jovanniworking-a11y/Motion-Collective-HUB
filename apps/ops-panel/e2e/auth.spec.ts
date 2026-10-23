@@ -28,6 +28,11 @@ test("locked out without a session", async ({ page, request }) => {
   await expect(page).toHaveURL(/\/login\?next=%2Fnight-of/);
   await expect(page.getByTestId("login")).toBeVisible();
   expect((await request.get("/api/claude")).status()).toBe(401);
+  for (const path of ["/live-ops", "/hq", "/counter-demo", "/data", "/hq/index.html"]) {
+    const res = await request.get(path, { maxRedirects: 0 });
+    expect([307, 308], path).toContain(res.status());
+    expect(res.headers()["location"] || "", path).toContain("/login");
+  }
 });
 
 test("wrong code is refused", async ({ page }) => {

@@ -91,3 +91,184 @@ def test_data_platform_ingest_and_compare(client: TestClient):
     assert cmp_["metrics"]["label"] == "estimate"
     assert cmp_["metrics"]["obs_mean_crew_count"] == 42
     assert "face" not in str(cmp_).lower() or "no face" in str(cmp_).lower()
+
+
+def test_observations_survive_missing_column(client: TestClient):
+    """A live table missing an ORM column used to 500. Align adds it."""
+    from sqlalchemy import inspect, text
+
+    from app.platform_db import get_engine
+
+    seeded = client.post(
+        "/api/data/observations",
+        json={"crew_count": 3, "zone": "hallway", "label": "estimate"},
+    )
+    assert seeded.status_code == 200
+    engine = get_engine()
+    with engine.begin() as conn:
+        conn.execute(text("ALTER TABLE imaging_observations DROP COLUMN note"))
+    cols = {c["name"] for c in inspect(engine).get_columns("imaging_observations")}
+    assert "note" not in cols
+
+    listed = client.get("/api/data/observations")
+    assert listed.status_code == 200, listed.text
+    rows = listed.json()["observations"]
+    assert rows
+    assert all(row["note"] == "no faces/PII stored" for row in rows)
+
+    again = client.post(
+        "/api/data/observations",
+        json={"crew_count": 4, "zone": "kitchen", "label": "open"},
+    )
+    assert again.status_code == 200, again.text
+    assert again.json()["observation"]["note"] == "no faces/PII stored"
+    assert again.json()["observation"]["zone"] == "kitchen"
+
+
+def _counter_frame(ts: int, living: int = 4, total: int = 10) -> dict:
+    return {
+        "ts": ts,
+        "zones": {
+            "living_room": living,
+            "dance_floor": 3,
+            "kitchen_bar": 2,
+            "hallway": 1,
+            "balcony": 0,
+        },
+        "total": total,
+    }
+
+
+def test_counter_frame_lands_in_flow_counts(client: TestClient):
+    from sqlalchemy import select
+
+    from app.platform import counter_health
+    from app.platform_db import FlowCount, session_scope
+
+    ts = 1_700_000_000
+    res = client.post("/api/data/occupancy", json=_counter_frame(ts, living=4, total=7))
+    assert res.status_code == 201
+    assert res.json()["inserted"] == 6
+    with session_scope() as session:
+        rows = session.scalars(select(FlowCount).where(FlowCount.created_at == float(ts))).all()
+    stored = {row.zone: row.count for row in rows}
+    assert stored["living_room"] == 4
+    assert stored["dance_floor"] == 3
+    assert stored["total"] == 7
+    assert all(row.source == "counter" and row.label == "estimate" for row in rows)
+    assert stored["total"] != sum(stored[name] for name in stored if name != "total")
+    assert counter_health(now=float(ts))["status"] == "live"
+    assert counter_health(now=float(ts))["last_seen"] == ts
+    assert counter_health(now=float(ts) + 15)["status"] == "live"
+    assert counter_health(now=float(ts) + 15.01)["status"] == "stale"
+    assert counter_health(now=float(ts) + 60)["status"] == "stale"
+    assert counter_health(now=float(ts) + 60.01)["status"] == "offline"
+
+
+def test_counter_health_http_and_bad_input(client: TestClient):
+    from app.platform import counter_status
+
+    assert counter_status(None, 1_000) == "offline"
+    ts = int(time.time())
+    res = client.post("/api/data/occupancy", json=_counter_frame(ts, living=1, total=6))
+    assert res.status_code == 201
+    health = client.get("/api/data/counter-health").json()
+    assert health["status"] == "live"
+    assert health["last_seen"] >= ts
+    missing = client.post("/api/data/occupancy", json={"ts": ts, "total": 1, "zones": {"living_room": 1}})
+    assert missing.status_code == 400
+    named = _counter_frame(ts)
+    named["name"] = "someone"
+    assert client.post("/api/data/occupancy", json=named).status_code == 400
+    lines = "\n".join(
+        [
+            __import__("json").dumps(_counter_frame(ts - 30, living=2, total=7)),
+            __import__("json").dumps(_counter_frame(ts - 20, living=3, total=8)),
+        ]
+    )
+    batch = client.post("/api/data/occupancy", content=lines, headers={"content-type": "application/x-ndjson"})
+    assert batch.status_code == 201
+    assert batch.json()["inserted"] == 12
+    assert (
+        client.post(
+            "/api/data/occupancy",
+            content='{"ts":1}\nnot-json',
+            headers={"content-type": "application/x-ndjson"},
+        ).status_code
+        == 400
+    )
+
+
+def test_local_db_flag_ignores_neon():
+    from app.config import LOCAL_DATABASE_URL, database_url_from_env
+
+    neon = "postgresql+psycopg://motion_api:secret@ep-cool.neon.tech/motion?sslmode=require"
+    assert database_url_from_env({"MOTION_DB_LOCAL": "1", "DATABASE_URL": neon}) == LOCAL_DATABASE_URL
+    assert "neon" not in database_url_from_env({"MOTION_DB_LOCAL": "1", "DATABASE_URL": neon})
+    local = "postgresql+psycopg://motion@127.0.0.1:5432/motion"
+    assert database_url_from_env({"MOTION_DB_LOCAL": "1", "MOTION_DB_LOCAL_URL": local}) == local
+    with pytest.raises(ValueError):
+        database_url_from_env({"MOTION_DB_LOCAL": "1", "MOTION_DB_LOCAL_URL": neon})
+    assert database_url_from_env({"MOTION_DB_LOCAL": "0", "DATABASE_URL": "sqlite:////tmp/x.sqlite3"}) == (
+        "sqlite:////tmp/x.sqlite3"
+    )
+
+
+def test_contract_sim_run_is_insert_only(client: TestClient):
+    from sqlalchemy import text
+    from sqlalchemy.exc import DBAPIError
+
+    from app.contract import contract_engine
+
+    body = {
+        "sim_id": "E001-layout-b",
+        "event_id": "E001",
+        "model": "room-studio",
+        "params_json": {"guests": 50},
+        "predicted_peak_curve": [30.42],
+    }
+    first = client.post("/api/data/sim_runs", json=body)
+    assert first.status_code == 200
+    assert isinstance(first.json()["id"], int)
+    again = client.post(
+        "/api/data/sim_runs",
+        json={**body, "params_json": {"guests": 70}, "predicted_peak_curve": [99]},
+    )
+    assert again.status_code == 409
+    def _contract_path(conn):
+        # On Postgres the locked contract lives in its own schema, next to muse's public.sim_runs.
+        if conn.dialect.name == "postgresql":
+            conn.execute(text("SET LOCAL search_path TO motion_contract, public"))
+
+    with contract_engine().begin() as conn:
+        _contract_path(conn)
+        stored = conn.execute(
+            text("SELECT params_json, predicted_peak_curve FROM sim_runs WHERE sim_id = :sim_id"),
+            {"sim_id": "E001-layout-b"},
+        ).one()
+    assert "50" in str(stored[0])
+    assert "70" not in str(stored[0])
+    assert "99" not in str(stored[1])
+    with pytest.raises(DBAPIError, match="insert-only"):  # SQLite IntegrityError, Postgres trigger RAISE
+        with contract_engine().begin() as conn:
+            _contract_path(conn)
+            conn.execute(text("UPDATE sim_runs SET model = 'edited' WHERE sim_id = 'E001-layout-b'"))
+    with pytest.raises(DBAPIError, match="insert-only"):  # SQLite IntegrityError, Postgres trigger RAISE
+        with contract_engine().begin() as conn:
+            _contract_path(conn)
+            conn.execute(text("DELETE FROM sim_runs WHERE sim_id = 'E001-layout-b'"))
+    assert client.put("/api/data/sim_runs", json=body).status_code == 405
+    assert client.delete("/api/data/sim_runs").status_code == 405
+    missing = client.post("/api/data/sim_runs", json={"sim_id": "only"})
+    assert missing.status_code == 400
+    banned = client.post(
+        "/api/data/sim_runs",
+        json={
+            "sim_id": "E001-banned",
+            "event_id": "E001",
+            "model": "room-studio",
+            "params_json": {"address": "nope"},
+            "predicted_peak_curve": [],
+        },
+    )
+    assert banned.status_code == 400

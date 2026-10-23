@@ -28,9 +28,15 @@ jobs:
       - run: pip install -r services/api/requirements.txt
       - name: pytest (SQLite)
         run: python -m pytest -q services/api
+      - name: live-ops tests (counter, bridge, fader)
+        run: pip install -r live-ops/requirements.txt && python -m pytest -q live-ops
+      - name: Postgres role the data contract writes as
+        env:
+          PGPASSWORD: motion
+        run: psql -h 127.0.0.1 -U motion -d motion -c "CREATE ROLE motion_api NOLOGIN; GRANT motion_api TO motion;"
       - name: pytest (Postgres)
         env:
-          DATABASE_URL: postgres://motion:motion@127.0.0.1:5432/motion
+          MOTION_TEST_DATABASE_URL: postgres://motion:motion@127.0.0.1:5432/motion
           MOTION_DATA_DIR: /tmp/motion-api-pg
         run: python -m pytest -q services/api
 

@@ -1,7 +1,7 @@
-import { OPS_DATA } from "./ops-data";
+import { PASS_COUNT as PASSES, VENUE_CAP } from "./capacity";
 
-export const CAP = OPS_DATA.capacity.workingCap;
-export const PASS_COUNT = CAP;
+export const CAP = VENUE_CAP;
+export const PASS_COUNT = PASSES;
 
 export function togglePass(
   checked: number[],

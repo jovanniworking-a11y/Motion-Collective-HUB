@@ -187,6 +187,8 @@ button {
 
 .bottom-nav a {
   flex: 1 0 4.5rem;
+  min-height: 44px;
+  justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -213,6 +215,8 @@ button {
 @media (min-width: 900px) {
   .bottom-nav {
     max-width: 980px;
+    width: 100%;
+    right: auto;
     margin: 0 auto;
     left: 50%;
     transform: translateX(-50%);

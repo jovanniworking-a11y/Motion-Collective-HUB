@@ -4,6 +4,8 @@
  * No guest names, no venue address.
  */
 
+import { PASS_COUNT, VENUE_CAP } from "./capacity";
+
 export type ConfidenceLabel = "confirmed" | "estimate" | "open";
 
 export type MoneyLine = {
@@ -48,11 +50,11 @@ export const OPS_DATA = {
     status: "planning" as const,
   },
   capacity: {
-    workingCap: 70,
+    workingCap: VENUE_CAP,
     workingCapLabel: "confirmed" as ConfidenceLabel,
-    passesPlanned: 70,
+    passesPlanned: PASS_COUNT,
     passesPlannedLabel: "confirmed" as ConfidenceLabel,
-    note: "Pass cap 70 (confirmed 20 Oct). Room sim: ~4.8 sq ft walkable each at 70 (estimate) — watch heat and the hall. Passes are numbers only — no guest names in this app.",
+    note: "Cap 70 confirmed (Jovanni, 21 Oct). Room sim: ~4.8 sq ft walkable each at 70 (estimate) — watch heat and the hall. Passes 001–070 are numbers only — no guest names in this app.",
   },
   budget: {
     pool: {

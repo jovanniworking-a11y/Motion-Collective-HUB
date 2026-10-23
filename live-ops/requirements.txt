@@ -1,0 +1,5 @@
+numpy>=1.24
+websockets>=12
+# optional, free, only for a real RTSP night — not required for --test-video:
+# opencv-python
+# ultralytics

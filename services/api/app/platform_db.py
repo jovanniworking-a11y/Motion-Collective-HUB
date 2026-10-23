@@ -10,11 +10,11 @@ import time
 from contextlib import contextmanager
 from typing import Any, Generator
 
-from sqlalchemy import Float, Integer, String, Text, create_engine, event, text
+from sqlalchemy import Float, Integer, String, Text, create_engine, event, inspect, text
 from sqlalchemy.pool import NullPool
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
-from .config import DATA_DIR, DATABASE_URL as CONFIG_DATABASE_URL
+from .config import DATA_DIR, database_url_from_env
 
 def normalize_url(url: str) -> str:
     """Vercel/Neon/Supabase hand out postgres:// or postgresql:// URLs. SQLAlchemy would pick
@@ -27,9 +27,7 @@ def normalize_url(url: str) -> str:
 
 
 DATABASE_URL = normalize_url(
-    CONFIG_DATABASE_URL
-    or os.environ.get("DATABASE_URL", "").strip()
-    or f"sqlite:///{(DATA_DIR / 'muse_platform.sqlite3').as_posix()}"
+    database_url_from_env() or f"sqlite:///{(DATA_DIR / 'muse_platform.sqlite3').as_posix()}"
 )
 IS_POSTGRES = DATABASE_URL.startswith("postgresql")
 
@@ -166,6 +164,69 @@ def _lock_down_postgres(eng) -> None:
             conn.execute(text(f'ALTER TABLE "{name}" ENABLE ROW LEVEL SECURITY'))
 
 
+# Constant defaults for columns added onto a table create_all will not alter.
+# Neon (and any DB created before a column landed) otherwise 500s on SELECT.
+_OBS_ADD_DEFAULTS = {
+    "created_at": "0",
+    "zone": "'unknown'",
+    "meta_json": "'{}'",
+    "label": "'estimate'",
+    "note": "'no faces/PII stored'",
+}
+
+
+def _obs_column_sql(col: Any, dialect: str) -> str:
+    kind = col.type
+    if isinstance(kind, Float):
+        type_sql = "DOUBLE PRECISION" if dialect == "postgresql" else "REAL"
+    elif isinstance(kind, Integer):
+        type_sql = "INTEGER"
+    elif isinstance(kind, String):
+        type_sql = f"VARCHAR({kind.length or 255})"
+    elif isinstance(kind, Text):
+        type_sql = "TEXT"
+    else:
+        raise RuntimeError(f"cannot align imaging_observations.{col.name}")
+    clause = f"{col.name} {type_sql}"
+    if col.nullable:
+        return clause
+    default = _OBS_ADD_DEFAULTS.get(col.name)
+    if default is None:
+        raise RuntimeError(f"no align default for imaging_observations.{col.name}")
+    return f"{clause} NOT NULL DEFAULT {default}"
+
+
+def align_imaging_observations(eng: Any | None = None) -> list[str]:
+    """Add ORM columns missing from an existing imaging_observations table.
+
+    create_all does not ALTER. A live Neon table created from an earlier shape
+    (for example without `note`) makes GET and POST /api/data/observations 500.
+    """
+    eng = eng or get_engine()
+    insp = inspect(eng)
+    table = ImagingObservation.__tablename__
+    if not insp.has_table(table):
+        return []
+    have = {c["name"] for c in insp.get_columns(table)}
+    missing = [
+        col
+        for col in ImagingObservation.__table__.columns
+        if col.name not in have and not col.primary_key
+    ]
+    if not missing:
+        return []
+    added: list[str] = []
+    with eng.begin() as conn:
+        for col in missing:
+            conn.execute(
+                text(
+                    f"ALTER TABLE {table} ADD COLUMN {_obs_column_sql(col, eng.dialect.name)}"
+                )
+            )
+            added.append(col.name)
+    return added
+
+
 def init_platform_db() -> dict[str, Any]:
     global _initialized
     eng = get_engine()
@@ -174,6 +235,8 @@ def init_platform_db() -> dict[str, Any]:
         if IS_POSTGRES:
             _lock_down_postgres(eng)
         _initialized = True
+    # Cheap (one inspect); heals a live table that lost or never had a column.
+    align_imaging_observations(eng)
     with eng.connect() as conn:
         conn.execute(text("SELECT 1"))
     return {

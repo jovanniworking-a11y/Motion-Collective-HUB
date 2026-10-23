@@ -1,0 +1,25 @@
+MOTION reactive template — build sheet, not a .toe
+TouchDesigner free license caps the window at 1280x1280. No fine text.
+A binary .toe cannot be honestly generated from this seat. Build this once
+in TD on the booth machine and save AFTERIMAGE_reactive.toe yourself.
+
+Network (top to bottom):
+1. Audio Device In — device is the DJM USB. Set the input to the REC/USB return you actually hear.
+2. Audio Spectrum CHOP, then Analyze CHOP (RMS or max) on the low band only. Rename the channel kick.
+3. Math CHOP — range the kick to 0..1. Lag CHOP, 0.05s, so it doesn't chatter.
+4. Four scenes, all SOP/TOP, chunky, no text:
+   a. Rectangle TOP, full frame, bone #EDE6DA, resolution 1280x1280.
+   b. Circle TOP, radius driven by kick (0.2 to 0.8 of the frame).
+   c. Noise TOP, monochrome, period large (chunky), multiply by kick.
+   d. Level TOP — black floor #0A0810 so the room stays dark.
+5. Switch TOP or a Cross TOP between the four. Select by a Constant CHOP you can tap, not by typing.
+6. Cornerpin TOP — four corners, in case the projector is off-square. Default identity.
+7. Out TOP — set the window to Perform Mode, 1280x1280, borderless, on the projector display.
+
+OSC stubs (for later, not for Friday):
+- OSC In CHOP, port 7000. Channel /motion/kick if a future sender exists.
+- OSC Out CHOP, port 7001, host 127.0.0.1. Send /motion/scene 0..3.
+
+Do not put the venue address in any TD comment or file name.
+
+Hands-on (29 Oct): confirm the DJM shows up as the Audio Device In, and that Perform Mode lands on the projector rather than the laptop panel.
