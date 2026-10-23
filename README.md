@@ -18,7 +18,8 @@ cd apps/ops-panel && npm install && npm run dev   # → http://localhost:3000
 cd desktop && npm install && npm run desktop
 ```
 
-Tests: `cd services/api && python3 -m pytest -q` · `cd apps/ops-panel && npm run test`  
+Tests: `python scripts/check_links.py` · `cd services/api && python3 -m pytest -q` · `cd apps/ops-panel && npm run test`  
+Same link check: `python hub.py links`. GitHub Actions job `autonomy` runs it on every push.  
 Routing: `services/api/MODEL_ROUTING.md`. Draft only — never publish.
 
 ## Web hub (static / Claude artifact)

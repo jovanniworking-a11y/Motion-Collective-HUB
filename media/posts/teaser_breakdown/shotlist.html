@@ -26,7 +26,7 @@ h1 { font-family: "Bodoni Moda", serif; font-style: italic; font-weight: 400; fo
 .foot { position: absolute; left: 72px; right: 72px; bottom: 60px; display: flex; justify-content: space-between; align-items: center; }
 .r { color: var(--red); }
 /* cover */
-.cover .eyes { position: absolute; left: 150px; right: 150px; top: 140px; height: 780px; background: url("eyes_hc.png") center/cover; }
+.cover .eyes { position: absolute; left: 150px; right: 150px; top: 140px; height: 780px; background: url("../../flyers/final_v6/eyes_hc.png") center/cover; }
 .cover .eyes::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, var(--night) 0%, transparent 18%, transparent 70%, var(--night) 100%); }
 .cover .t { position: absolute; left: 72px; right: 72px; top: 960px; display: grid; gap: 22px; }
 .cover h1 { font-size: 118px; }
@@ -38,7 +38,7 @@ h1 { font-family: "Bodoni Moda", serif; font-style: italic; font-weight: 400; fo
 .story .strip { gap: 10px; } .story .strip img { width: 228px; height: 345px; } .story .strip figure { width: 228px; gap: 0; }
 </style></head><body><div id="root"></div><script>
 const q = new URLSearchParams(location.search), v = q.get('v');
-const MARK = '<img src="MOTION_mark_3d.png" alt="">';
+const MARK = '<img src="../../brand/MOTION_mark_3d.png" alt="">';
 const FOOT = (right) => `<div class="foot"><span class="k">IAMARIOLOGY <span class="r">B2B</span> RAYMIXES</span><span class="k">${right}</span></div>`;
 const ACTS = {
   1: ['The mark', '00:00 — 00:03', 'The mark flies in. The red M’s peel out of the white one.', [['v20', '00:00.7'], ['v30', '00:01.0'], ['v50', '00:01.7']]],

@@ -5,13 +5,15 @@ Canonical product standard: **[`/ARCHITECTURE.md`](../../ARCHITECTURE.md)** (**T
 ## This package
 Python **FastAPI** backend-for-frontend for MOTION Ops. **One backend** — Muse `/api/data/*` lives here (not a second service under `services/data/`).
 
+**Seat (21 Oct, until Claude returns):** Cursor owns `services/api`, including the data-platform routes. Codex still runs T-002 (budget workbook) and T-009 (drink sims). When those land, they merge into this package. Atlas owns `apps/ops-panel` and Vercel.
+
 **MVP endpoints (contract for UI agents — keep semantics; paths may be `/api/*`-prefixed as implemented):**
 - `GET /health`
 - Ops / night seed read (no PII, no address) — implemented today via studio/layout + panel seed, not a separate `/ops/snapshot` yet (**open**)
 - Usage metering — implemented as `GET /api/usage` (SQLite); append-style `/usage/events` shape still **open** to align naming
 - Agent runs — implemented as `/api/agents`, `/api/agents/{id}/chat`, sim jobs under `/api/sims/*`
 - Router: `GET /api/routing`, `POST /api/routing/resolve` — **one** primary model per action
-- Data MVP: `/api/data/*` (health, sims persist, observations, drinks, flow, compare)
+- Data MVP: `/api/data/*` (health, sims persist, observations, drinks, flow, compare). Panel route `/data` is the only UI for this contract.
 
 **Storage:** SQLite under `data/` / `MOTION_DATA_DIR` (git-ignore DB files). Job queue for Studio sims — never block request handlers on long sims (`smoke-stub` default).
 

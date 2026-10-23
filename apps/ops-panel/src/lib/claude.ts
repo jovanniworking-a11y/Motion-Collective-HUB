@@ -52,9 +52,9 @@ export function mockAssist(message: string): string {
     return [
       "Lineup (promo order, mock):",
       "1. iamariology b2b raymixes",
-      "2. Glamz (solo)",
+      "2. Rohan Rali b2b Shubh Samtani (no fee)",
       "3. HE//THEY · co.b b2b NiiON",
-      "Crew times (internal): doors 21:00 · Glamz 23:00 · HE//THEY 00:15. Keep set times off public promo.",
+      "Crew times (internal): doors 21:00 · Rohan Rali b2b Shubh Samtani 23:00–00:15 · HE//THEY 00:15. Keep set times off public promo.",
     ].join("\n");
   }
   if (q.includes("welfare") || q.includes("collision") || q.includes("12:30")) {

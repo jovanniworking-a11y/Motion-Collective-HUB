@@ -5,8 +5,8 @@ Rules that ride along with every prompt: never put the venue address anywhere; n
 ## → ChatGPT · T-005 drafts (texts + DMs)
 ```
 Write short, warm, casual texts (lowercase ok, no hashtags) for a private Austin house party "Devil's Night · AFTERIMAGE 001" on Fri 10.30.26. Never mention an address. Give 2 options each:
-1) To Johan: he RSVP'd "6+" — ask for the exact headcount and names of his group by Mon 26 Oct.
-2) To Aamer: confirm his group of 5 is still coming.
+1) To the group lead who RSVP'd "6+" (name from the Tally sheet; never paste it here): ask for the exact headcount and names of the group by Mon 26 Oct.
+2) To the group lead who RSVP'd 5: confirm the group of 5 is still coming.
 3) Donation DM to close friends: raising ~$350–500 for DJs, film cameras and drinks; tiers $20 supporter / $50 inner circle / $100+ founding friend; Venmo @____ (Friends & Family). No "ticket" wording.
 4) Thank-you text to Haven for chipping in $166.
 5) Neighbour note (printed, slid under doors): heads-up about a get-together Fri 10/30, ends by [time], contact number ____ if anything's too loud.
@@ -20,7 +20,7 @@ Use the full prompt sent on 20 Oct (drinks, decor, smoking, CDJs, cameras, merch
 ```
 Open my Google Drive sheets: "Master Planning", "Logistics Control" (esp. the Budget tab) and the 01–05 planning sheets. Compare them to these current facts and list every contradiction as a table (sheet · cell/row · says · should say):
 - Event: Devil's Night · AFTERIMAGE 001, Fri 30 Oct 2026, doors 9 PM, invite/RSVP only
-- Lineup order: iamariology b2b raymixes (9 PM) → Glamz (11:00–12:15, plays free) → HE//THEY · co.b b2b NiiON (12:15 AM). Rohan Rali: cut 14 Oct (possible return under discussion — flag any row that names him)
+- Lineup (CURRENT_LOCK, 21 Oct + 23 Oct): iamariology b2b raymixes (9 PM) → Rohan Rali b2b Shubh Samtani (11:00 PM–12:15 AM; Rohan $175) → HE//THEY · co.b b2b NiiON (12:15 AM). The act canceled 20 Oct must not appear in any live row — flag any that still has it.
 - Pool: $498 = Haven $166 (paid) + Alex $166 + Jovanni $166
 - DJs paid by Jovanni: HE//THEY $300
 - CDJ rental $345 (2× CDJ-2000NXS2 + DJM-900NXS2, Rock n Roll Rentals)
@@ -40,21 +40,21 @@ Open MOTION_Budget_and_Carts.xlsx. Update it, keeping every formula live (no har
 Save as MOTION_Budget_v2.xlsx next to the original. Don't commit guest data anywhere.
 ```
 
-## → Claude chat ("MOTION EFFEcts") · D-1 + T-014
+## → Claude chat ("MOTION EFFEcts") · T-033 SoT update
 ```
-Decided 23 Oct: Rohan Rali is back at $175 (confirmed). Still open: his slot. He asked for 11:00–12:15, which is Glamz's confirmed slot (plays free). Lay out the slot options (Rohan takes 11:00–12:15 and Glamz moves to the 9 PM b3b / Rohan opens before the b2b / Rohan closes after HE//THEY) with impact on set times, DJ spend (HE//THEY $300 + $175?), the camera money that came from Rohan's cut ($275 saved), and promo. Recommend one. Also record: CDJ rental $345 (confirmed), matchbox v2 approved, 5 Fujifilm cameras approved (lab: Lago Vista Film Lab). Note: on 20 Oct the acting orchestrator recorded DJ fees committed at $475 (= HE//THEY $300 + $175, split marked open) — reconcile that with whatever I pick. Then update the SoT money section: pool now $498 (3 × $166, Haven paid; spend $381.13 est → buffer $116.87), Cap 01 merch cut, new merch (towels/stickers/matchboxes, est. $200–310).
+Record Jovanni's 23 Oct decisions in the Source of Truth (they are already in orch/context/CURRENT_LOCK.md): Rohan Rali b2b Shubh Samtani plays 11:00 PM–12:15 AM and Rohan is paid $175 (replaces the 21 Oct "no fee"), so DJ fees are $475 = HE//THEY $300 + Rohan $175. Pool $498 (3 × $166, Haven paid; spend $381.13 est → buffer $116.87 est). CDJ rental $345 paid by Jovanni. Matchbox v2 and 5 Fujifilm cameras (lab: Lago Vista Film Lab) approved. Cap 01 cut; towels/stickers/matchboxes release after the event (est. $200–310). Open: Shubh Samtani's fee.
 ```
 
-## → Pip · T-019 matchbox
+## → Pip · T-030 matchbox
 Jovanni **approved v2 on 23 Oct**. Build from `media/merch/matchbox/BUILD_SPEC_v2.md` using the three PNGs in that folder. Match Zazzle's face template size first. Check the proof against the spec (striker strip clear, type sharp at 6–7 pt). Then order 100 with **Express** (arrive by Tue 27 Oct) using the 15% code. If the total is over $100, ask Jovanni before paying.
 
-## → Cursor · MOTION Ops dev work (T-024 to T-027, T-029)
+## → Cursor · MOTION Ops dev work (T-035 to T-038, T-040)
 Full brief: `orch/tasks/inbox/DEVOPS_23OCT.md`. Paste:
 ```
-You're a worker on MOTION Collective HUB. Read AGENTS.md, ARCHITECTURE.md and orch/tasks/inbox/DEVOPS_23OCT.md. Do T-024, then T-025, T-027, T-029, then T-026, in that order, each on its own cursor/<task> branch, merged into claude/motion-files-consolidated-dx17w2 only when tests pass. Write a T-###_result.md in orch/tasks/outbox/ for each. Never deploy, spend, send or post. No guest PII, no venue address.
+You're a worker on MOTION Collective HUB. Read AGENTS.md, ARCHITECTURE.md and orch/tasks/inbox/DEVOPS_23OCT.md. Do T-035, then T-036, T-038, T-040, then T-037, in that order, each on its own cursor/<task> branch, merged into claude/motion-files-consolidated-dx17w2 only when tests pass. Write a T-###_result.md in orch/tasks/outbox/ for each. Never deploy, spend, send or post. No guest PII, no venue address.
 ```
 
-## → Codex (Jovanni's PC) · T-028 desktop
+## → Codex (Jovanni's PC) · T-039 desktop
 ```
-Pull claude/motion-files-consolidated-dx17w2. In apps/ops-panel run npm ci (the lock file was re-synced on 23 Oct), then from the repo root start the API (python -m uvicorn app.main:app --app-dir services/api --port 8787), the panel (npm run dev in apps/ops-panel) and the desktop shell (npm run desktop). Confirm: the desktop window loads the panel; /night-of works with Wi-Fi off; ops/index.html opens on a phone on the same network. Write the result (what worked, any errors verbatim) to orch/tasks/outbox/T-028_result.md. Don't commit .env or guest data.
+Pull claude/motion-files-consolidated-dx17w2. In apps/ops-panel run npm ci (the lock file was re-synced on 23 Oct), then from the repo root start the API (python -m uvicorn app.main:app --app-dir services/api --port 8787), the panel (npm run dev in apps/ops-panel) and the desktop shell (npm run desktop). Confirm: the desktop window loads the panel; /night-of works with Wi-Fi off; ops/index.html opens on a phone on the same network. Write the result (what worked, any errors verbatim) to orch/tasks/outbox/T-039_result.md. Don't commit .env or guest data.
 ```

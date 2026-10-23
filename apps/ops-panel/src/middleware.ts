@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE, authMode, verifySession } from "@/lib/auth/session";
 
-const PUBLIC = new Set(["/login", "/api/auth/login", "/manifest.webmanifest", "/sw.js", "/favicon.ico"]);
+const PUBLIC = new Set(["/login", "/api/auth/login", "/health", "/manifest.webmanifest", "/sw.js", "/favicon.ico"]);
 
 export async function middleware(req: NextRequest) {
   const mode = authMode();

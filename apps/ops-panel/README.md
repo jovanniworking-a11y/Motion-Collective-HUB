@@ -37,6 +37,7 @@ npm run typecheck && npm run test
 | `/usage` | Metered calls |
 | `/activity` | Board + outbox feed |
 | `/muse` | Studio embed + Run sim |
+| `/data` | Muse sim vs imaging compare |
 | `/assist` | Ask Claude (Next route) + Pro bridge |
 | `/library` | Pinned tools |
 
