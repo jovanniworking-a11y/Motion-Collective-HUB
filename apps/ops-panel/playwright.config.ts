@@ -13,12 +13,16 @@ export default defineConfig({
   use: {
     baseURL: BASE,
     trace: "on-first-retry",
+    // Optional: point at a preinstalled browser when the bundled revision isn't downloaded.
+    launchOptions: process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {},
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: `npm run start -- -p ${PORT}`,
+    command: process.env.MOTION_E2E_AUTH
+      ? `node e2e/auth-env.mjs npm run start -- -p ${PORT}`
+      : `npm run start -- -p ${PORT}`,
     url: BASE,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI && !process.env.MOTION_E2E_AUTH,
     timeout: 120_000,
   },
 });

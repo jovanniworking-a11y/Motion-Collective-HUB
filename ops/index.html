@@ -249,15 +249,15 @@ main { padding: 16px 16px 24px; display: grid; gap: 16px; }
 </header>
 
 <section class="stats" aria-live="polite">
-  <div class="stat" id="statIn"><div class="k">Checked in</div><div class="v mono" id="countIn">0</div><div class="s">of <span id="countCap">50</span> cap <span class="label-tag estimate">estimate</span></div></div>
-  <div class="stat" id="statLeft"><div class="k">Room left</div><div class="v mono" id="countLeft">50</div><div class="s">vs working cap</div></div>
+  <div class="stat" id="statIn"><div class="k">Checked in</div><div class="v mono" id="countIn">0</div><div class="s">of <span id="countCap">70</span> cap <span class="label-tag confirmed" id="capLabel">confirmed</span></div></div>
+  <div class="stat" id="statLeft"><div class="k">Room left</div><div class="v mono" id="countLeft">70</div><div class="s">vs pass cap</div></div>
   <div class="stat" id="statCue"><div class="k">Next cue</div><div class="v mono" id="nextCueTime">—</div><div class="s" id="nextCueName">—</div></div>
 </section>
 
 <main>
   <section class="panel" data-tab="checkin">
     <h2>Pass check-in <span class="meta" id="passMeta">001–050</span></h2>
-    <p class="lede">Numbered passes only — no guest names stored. Tap to check in / undo. Cap is the working estimate (~50).</p>
+    <p class="lede">Numbered passes only — no guest names stored. Tap to check in / undo. Door cap: 70 numbered passes.</p>
     <div class="tools">
       <input id="passSearch" type="search" inputmode="numeric" placeholder="Jump to #" aria-label="Jump to pass number">
       <button class="btn ghost" type="button" id="btnUndo">Undo last</button>
@@ -292,7 +292,7 @@ main { padding: 16px 16px 24px; display: grid; gap: 16px; }
     <div class="budget-grid">
       <div class="budget-tile">
         <div class="k">Pool <span class="label-tag confirmed">confirmed</span></div>
-        <div class="v mono" id="budPool">$450</div>
+        <div class="v mono" id="budPool">$498</div>
       </div>
       <div class="budget-tile">
         <div class="k">Spend <span class="label-tag estimate">estimate</span></div>
@@ -300,7 +300,7 @@ main { padding: 16px 16px 24px; display: grid; gap: 16px; }
       </div>
       <div class="budget-tile">
         <div class="k">Buffer <span class="label-tag estimate">estimate</span></div>
-        <div class="v mono" id="budBuffer">$68.87</div>
+        <div class="v mono" id="budBuffer">$116.87</div>
       </div>
     </div>
     <div class="lines" id="budgetLines"></div>
@@ -335,7 +335,7 @@ main { padding: 16px 16px 24px; display: grid; gap: 16px; }
   const D = window.OPS_DATA;
   const STORE_KEY = "motion-night-ops-v1";
   const CAP = D.capacity.workingCap;
-  const PASS_COUNT = CAP; /* door list = working cap; planned 70 stays open */
+  const PASS_COUNT = CAP; /* door list = pass cap (70, confirmed 20 Oct) */
 
   const $ = (sel, el = document) => el.querySelector(sel);
   const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
@@ -476,7 +476,7 @@ main { padding: 16px 16px 24px; display: grid; gap: 16px; }
     if (wasIn) set.delete(n);
     else {
       if (set.size >= CAP) {
-        if (!confirm(`At working cap (${CAP}, estimate). Check in pass ${String(n).padStart(3, "0")} anyway?`)) return;
+        if (!confirm(`At the ${CAP}-pass cap (${D.capacity.workingCapLabel}). Check in pass ${String(n).padStart(3, "0")} anyway?`)) return;
       }
       set.add(n);
     }

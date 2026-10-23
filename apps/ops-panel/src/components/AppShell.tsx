@@ -8,6 +8,7 @@ import { api } from "@/lib/api";
 const NAV = [
   { href: "/", label: "Dash", ico: "01" },
   { href: "/night-of", label: "Night", ico: "02" },
+  { href: "/live-ops", label: "Live Ops", ico: "●" },
   { href: "/agents", label: "Agents", ico: "#" },
   { href: "/usage", label: "Usage", ico: "◉" },
   { href: "/activity", label: "Live", ico: "◎" },
@@ -19,6 +20,7 @@ const NAV = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const bare = pathname === "/login";
   const [online, setOnline] = useState(true);
   const [apiOk, setApiOk] = useState<boolean | null>(null);
 
@@ -51,6 +53,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  async function logout() {
+    await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
+    if ("caches" in window) {
+      const keys = await caches.keys().catch(() => [] as string[]);
+      await Promise.all(keys.map((k) => caches.delete(k)));
+    }
+    window.location.assign("/login");
+  }
+
+  if (bare) return <main className="shell-main">{children}</main>;
+
   return (
     <div className="shell">
       <header className="app-head">
@@ -67,6 +80,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               api {apiOk === null ? "…" : apiOk ? "up" : "down"}
             </span>
             <span className="caps dim">crew · draft only</span>
+            <button type="button" className="caps dim logout" onClick={logout} data-testid="logout">
+              log out
+            </button>
           </div>
         </div>
         <p className="head-sub">

@@ -1,13 +1,30 @@
-/* MOTION Ops — offline shell cache (network-first for pages). */
-const CACHE = "motion-ops-panel-v3";
+/* MOTION Ops — offline shell cache (network-first for pages).
+   Behind the login, a page fetched while logged out comes back as a redirect to /login;
+   those are never cached, so the gate always applies online. Logging out clears this cache. */
+const CACHE = "motion-ops-panel-v4";
 const SHELL = [
   "/",
   "/manifest.webmanifest",
 ];
 
+function cacheable(res, url) {
+  return res.ok && !res.redirected && res.type === "basic" && url.origin === self.location.origin;
+}
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting()),
+    caches
+      .open(CACHE)
+      .then((cache) =>
+        Promise.all(
+          SHELL.map((path) =>
+            fetch(path)
+              .then((res) => (cacheable(res, new URL(path, self.location.origin)) ? cache.put(path, res) : null))
+              .catch(() => null),
+          ),
+        ),
+      )
+      .then(() => self.skipWaiting()),
   );
 });
 
@@ -23,21 +40,24 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
-  if (url.pathname.startsWith("/api/")) return;
+  if (url.origin !== self.location.origin) return;
+  if (url.pathname.startsWith("/api/") || url.pathname === "/login" || url.pathname === "/health") return;
   // Navigations go network-first: a fresh deploy's HTML (with new hashed
-  // JS chunks) is picked up immediately instead of serving a stale bundle
-  // that points at a dead API address. Offline falls back to cache.
+  // JS chunks) is picked up immediately, and the login gate always runs.
+  // Offline falls back to the last good copy of the page.
   if (req.mode === "navigate") {
     event.respondWith(
       fetch(req)
         .then((res) => {
-          const copy = res.clone();
-          if (res.ok && url.origin === self.location.origin) {
+          if (cacheable(res, url)) {
+            const copy = res.clone();
             caches.open(CACHE).then((c) => c.put(req, copy));
           }
           return res;
         })
-        .catch(() => caches.match(req).then((hit) => hit || caches.match("/"))),
+        .catch(() =>
+          caches.match(req).then((hit) => hit || caches.match("/night-of")).then((hit) => hit || caches.match("/")),
+        ),
     );
     return;
   }
@@ -47,8 +67,8 @@ self.addEventListener("fetch", (event) => {
       (hit) =>
         hit ||
         fetch(req).then((res) => {
-          const copy = res.clone();
-          if (res.ok && url.origin === self.location.origin) {
+          if (cacheable(res, url)) {
+            const copy = res.clone();
             caches.open(CACHE).then((c) => c.put(req, copy));
           }
           return res;

@@ -1,50 +1,33 @@
-"""Local usage metering — SQLite, tokens/calls per bot, labeled."""
+"""Usage metering — tokens/calls per bot, labeled. Same database as the Muse platform
+(SQLite locally, Postgres when DATABASE_URL is set), so it survives serverless restarts."""
 
 from __future__ import annotations
 
-import sqlite3
 import time
-from contextlib import contextmanager
-from typing import Any, Iterator
+from typing import Any
 
-from .config import USAGE_DB
+from sqlalchemy import func, select
 
-
-def _connect() -> sqlite3.Connection:
-    USAGE_DB.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(USAGE_DB), check_same_thread=False)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
-@contextmanager
-def db() -> Iterator[sqlite3.Connection]:
-    conn = _connect()
-    try:
-        yield conn
-        conn.commit()
-    finally:
-        conn.close()
+from .platform_db import UsageEvent, init_platform_db, session_scope
 
 
 def init_usage_db() -> None:
-    with db() as conn:
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS usage_events (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                ts REAL NOT NULL,
-                agent_id TEXT NOT NULL,
-                area TEXT NOT NULL,
-                model TEXT NOT NULL,
-                action TEXT NOT NULL,
-                tokens_in INTEGER NOT NULL DEFAULT 0,
-                tokens_out INTEGER NOT NULL DEFAULT 0,
-                label TEXT NOT NULL DEFAULT 'estimate',
-                meta TEXT NOT NULL DEFAULT ''
-            )
-            """
-        )
+    init_platform_db()
+
+
+def _row(e: UsageEvent) -> dict[str, Any]:
+    return {
+        "id": e.id,
+        "ts": e.ts,
+        "agent_id": e.agent_id,
+        "area": e.area,
+        "model": e.model,
+        "action": e.action,
+        "tokens_in": e.tokens_in,
+        "tokens_out": e.tokens_out,
+        "label": e.label,
+        "meta": e.meta,
+    }
 
 
 def log_usage(
@@ -59,61 +42,58 @@ def log_usage(
     meta: str = "",
 ) -> dict[str, Any]:
     init_usage_db()
-    ts = time.time()
-    with db() as conn:
-        cur = conn.execute(
-            """
-            INSERT INTO usage_events
-            (ts, agent_id, area, model, action, tokens_in, tokens_out, label, meta)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """,
-            (ts, agent_id, area, model, action, tokens_in, tokens_out, label, meta),
+    with session_scope() as s:
+        e = UsageEvent(
+            ts=time.time(),
+            agent_id=agent_id,
+            area=area,
+            model=model,
+            action=action,
+            tokens_in=int(tokens_in),
+            tokens_out=int(tokens_out),
+            label=label,
+            meta=meta,
         )
-        row_id = cur.lastrowid
-    return {
-        "id": row_id,
-        "ts": ts,
-        "agent_id": agent_id,
-        "area": area,
-        "model": model,
-        "action": action,
-        "tokens_in": tokens_in,
-        "tokens_out": tokens_out,
-        "label": label,
-        "meta": meta,
-    }
+        s.add(e)
+        s.flush()
+        return _row(e)
 
 
 def usage_summary() -> dict[str, Any]:
     init_usage_db()
-    with db() as conn:
-        rows = conn.execute(
-            """
-            SELECT agent_id, area, model,
-                   COUNT(*) AS calls,
-                   SUM(tokens_in) AS tokens_in,
-                   SUM(tokens_out) AS tokens_out
-            FROM usage_events
-            GROUP BY agent_id, area, model
-            ORDER BY calls DESC
-            """
-        ).fetchall()
-        recent = conn.execute(
-            """
-            SELECT id, ts, agent_id, area, model, action,
-                   tokens_in, tokens_out, label, meta
-            FROM usage_events
-            ORDER BY id DESC
-            LIMIT 50
-            """
-        ).fetchall()
+    with session_scope() as s:
+        grouped = s.execute(
+            select(
+                UsageEvent.agent_id,
+                UsageEvent.area,
+                UsageEvent.model,
+                func.count().label("calls"),
+                func.coalesce(func.sum(UsageEvent.tokens_in), 0).label("tokens_in"),
+                func.coalesce(func.sum(UsageEvent.tokens_out), 0).label("tokens_out"),
+            )
+            .group_by(UsageEvent.agent_id, UsageEvent.area, UsageEvent.model)
+            .order_by(func.count().desc())
+        ).all()
+        recent = s.scalars(select(UsageEvent).order_by(UsageEvent.id.desc()).limit(50)).all()
+        by_bot = [
+            {
+                "agent_id": r.agent_id,
+                "area": r.area,
+                "model": r.model,
+                "calls": int(r.calls),
+                "tokens_in": int(r.tokens_in),
+                "tokens_out": int(r.tokens_out),
+            }
+            for r in grouped
+        ]
+        recent_rows = [_row(e) for e in recent]
     return {
-        "by_bot": [dict(r) for r in rows],
-        "recent": [dict(r) for r in recent],
+        "by_bot": by_bot,
+        "recent": recent_rows,
         "totals": {
-            "calls": sum(int(r["calls"]) for r in rows),
-            "tokens_in": sum(int(r["tokens_in"] or 0) for r in rows),
-            "tokens_out": sum(int(r["tokens_out"] or 0) for r in rows),
+            "calls": sum(r["calls"] for r in by_bot),
+            "tokens_in": sum(r["tokens_in"] for r in by_bot),
+            "tokens_out": sum(r["tokens_out"] for r in by_bot),
             "label": "estimate",
         },
     }

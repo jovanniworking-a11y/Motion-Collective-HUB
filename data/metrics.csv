@@ -1,15 +1,16 @@
 event_id,category,metric,unit,planned,actual,status,source,notes
-E001,capacity,passes_issued,count,50,,estimate,Logistics Control 15 Oct,Working cap 50 until the kitchen + hall measurement (was 70)
+E001,capacity,passes_issued,count,70,,confirmed,Jovanni/acting brief 20 Oct (T-003),Cap 70; retires working-cap-50 from Logistics Control 15 Oct / metrics
 E001,capacity,living_room_sqft,sq ft,253,,confirmed,SoT 5 Oct tape,14 ft x 18 ft 1 in
 E001,capacity,safe_capacity_living_room,people,36,,estimate,SoT,7 sq ft per person
 E001,capacity,walkable_sqft_per_guest_at_70,sq ft,4.8,,estimate,Room Studio sim 14 Oct,Comfortable standing is 7+
 E001,attendance,guests_peak,people,,,open,,Count at midnight
 E001,attendance,guests_total,people,,,open,,Unique pass numbers scanned at the door
 E001,attendance,no_show_rate,%,,,open,,1 - guests_total / passes_issued
-E001,money,dj_fees,USD,300,,confirmed,SoT 14 Oct,HE//THEY; paid by Jovanni
-E001,money,pool_available,USD,450,,confirmed,SoT,Jovanni + Haven + Alex at $150
-E001,money,pool_spend,USD,391.42,,estimate,SoT 13 Oct,Workbook not yet re-run with live prices (T-002)
-E001,money,drinks_with_tax,USD,171.88,,estimate,SoT 13 Oct evening,Hand recalculation
+E001,money,dj_fees,USD,475,,confirmed,Jovanni 23 Oct,HE//THEY $300 + Rohan Rali $175 (both confirmed)
+E001,money,pool_available,USD,498,,confirmed,Jovanni 23 Oct,3 x $166: Haven received; Alex + Jovanni promised
+E001,money,pool_spend,USD,381.13,,estimate,Logistics Control 15 Oct / SoT Decided 16 Oct (T-003),Retires $391.42 (SoT 13 Oct workbook)
+E001,money,pool_buffer,USD,116.87,,estimate,Jovanni 23 Oct (pool 498 - spend 381.13); was Logistics Control 15 Oct / SoT Decided 16 Oct (T-003),Retires $58.58 (SoT 13 Oct)
+E001,money,drinks_ice_cups_with_tax,USD,231.13,,estimate,SoT Decided 16 Oct 150-cocktail menu (T-003),Retires $171.88 jungle-juice hand recalc (SoT 13 Oct evening)
 E001,money,cdj_rental,USD,345,,confirmed,SoT 13 Oct,Rock n Roll Rentals weekend rate; not from the pool
 E001,money,cost_per_guest,USD,,,open,,(pool_spend + dj_fees + cdj_rental) / guests_total
 E001,drinks,standard_drinks_stocked,drinks,170,,estimate,SoT,55 drinkers x 3

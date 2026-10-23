@@ -187,6 +187,8 @@ button {
 
 .bottom-nav a {
   flex: 1 0 4.5rem;
+  min-height: 44px;
+  justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -213,6 +215,8 @@ button {
 @media (min-width: 900px) {
   .bottom-nav {
     max-width: 980px;
+    width: 100%;
+    right: auto;
     margin: 0 auto;
     left: 50%;
     transform: translateX(-50%);
@@ -924,3 +928,15 @@ button {
     transform: none;
   }
 }
+
+/* Login gate */
+.login { max-width: 360px; margin: 12vh auto 0; padding: 28px 22px; }
+.login h1 { font: 500 30px/1.1 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 6px; }
+.login form { display: grid; gap: 14px; margin-top: 18px; }
+.login label { display: grid; gap: 6px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
+.login input { background: var(--void2); border: 1px solid var(--line); color: var(--bone); padding: 11px 12px; font: 400 16px var(--f-ui); border-radius: 4px; }
+.login input:focus { outline: 1px solid var(--ice-bright); border-color: var(--ice-bright); }
+.login button { margin-top: 6px; padding: 12px; background: var(--bone); color: var(--void); border: 0; font: 500 14px var(--f-ui); letter-spacing: 0.14em; text-transform: uppercase; border-radius: 4px; cursor: pointer; }
+.login button:disabled { opacity: 0.6; }
+.login-error { color: var(--warn); margin: 0; font-size: 14px; }
+.logout { background: none; border: 0; padding: 0; cursor: pointer; font: inherit; color: var(--dim); }

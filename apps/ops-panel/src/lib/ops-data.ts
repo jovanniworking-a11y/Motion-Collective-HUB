@@ -4,6 +4,8 @@
  * No guest names, no venue address.
  */
 
+import { PASS_COUNT, VENUE_CAP } from "./capacity";
+
 export type ConfidenceLabel = "confirmed" | "estimate" | "open";
 
 export type MoneyLine = {
@@ -48,17 +50,17 @@ export const OPS_DATA = {
     status: "planning" as const,
   },
   capacity: {
-    workingCap: 50,
-    workingCapLabel: "estimate" as ConfidenceLabel,
-    passesPlanned: 70,
-    passesPlannedLabel: "open" as ConfidenceLabel,
-    note: "Working cap ~50 until kitchen + hall measurement. Passes are numbers only — no guest names in this app.",
+    workingCap: VENUE_CAP,
+    workingCapLabel: "confirmed" as ConfidenceLabel,
+    passesPlanned: PASS_COUNT,
+    passesPlannedLabel: "confirmed" as ConfidenceLabel,
+    note: "Cap 70 confirmed (Jovanni, 21 Oct). Room sim: ~4.8 sq ft walkable each at 70 (estimate) — watch heat and the hall. Passes 001–070 are numbers only — no guest names in this app.",
   },
   budget: {
     pool: {
-      amount: 450,
+      amount: 498,
       label: "confirmed" as ConfidenceLabel,
-      note: "Jovanni + Haven + Alex · $150 each",
+      note: "3 × $166 · Haven received · Alex + Jovanni promised (open)",
     },
     spend: {
       amount: 381.13,
@@ -66,7 +68,7 @@ export const OPS_DATA = {
       note: "Reconciled sheet · drinks/ice/cups + decor + DIY + smoking",
     },
     buffer: {
-      amount: 68.87,
+      amount: 116.87,
       label: "estimate" as ConfidenceLabel,
       note: "pool − spend",
     },
@@ -102,7 +104,13 @@ export const OPS_DATA = {
         label: "confirmed",
       },
       {
-        item: "CDJs + mixer rental",
+        item: "Rohan Rali fee",
+        amount: 175,
+        from: "jovanni",
+        label: "confirmed",
+      },
+      {
+        item: "CDJs + mixer rental (paid by Jovanni)",
         amount: 345,
         from: "rental",
         label: "confirmed",
@@ -116,7 +124,7 @@ export const OPS_DATA = {
     { id: "r1945", at: "19:45", moment: "Sound check", lead: "HE//THEY / Jovanni", kind: "ops" },
     { id: "r2030", at: "20:30", moment: "Crew briefing", lead: "Alex", kind: "ops" },
     { id: "r2100", at: "21:00", moment: "Doors · iamariology b2b raymixes", lead: "iamariology b2b raymixes", kind: "set" },
-    { id: "r2300", at: "23:00", moment: "Rohan Rali b2b Shubh Samtani", lead: "Rohan Rali b2b Shubh Samtani", kind: "set" },
+    { id: "r2300", at: "23:00", moment: "Rohan Rali b2b Shubh Samtani", lead: "Rohan Rali b2b Shubh Samtani", kind: "set", end: "00:15" },
     { id: "r2415", at: "00:15", moment: "HE//THEY · co.b b2b NiiON", lead: "HE//THEY", kind: "set" },
     { id: "r2430", at: "00:30", moment: "Last entry", lead: "Door / welfare", kind: "cue", alert: "collision" },
     { id: "r2530", at: "01:30", moment: "Costume winner", lead: "Jovanni", kind: "cue" },
@@ -146,18 +154,18 @@ export const CLAUDE_SAFE_CONTEXT = `
 MOTION Collective · Devil's Night · AFTERIMAGE 001 (crew assist context)
 
 Event: Friday 30 October 2026. Doors 9:00 PM, last entry 12:30 AM, last pour 1:45 AM, hard stop 2:00 AM (America/Chicago).
-Venue: private Rio apartment — address never stored or shared in this system; day-of by DM only.
-Passes: numbered 001–070 planned (open); working door cap ~50 (estimate) until kitchen+hall measurement.
+Venue: private apartment — address never stored or shared in this system; day-of by DM only.
+Passes: numbered 001–070; door cap 70 (confirmed 20 Oct). Room sim ~4.8 sq ft walkable each at 70 (estimate).
 
 Lineup (promo order, no public set times):
 1. iamariology b2b raymixes
-2. Rohan Rali b2b Shubh Samtani (no fee)
+2. Rohan Rali b2b Shubh Samtani (Rohan $175 confirmed 23 Oct, paid by Jovanni)
 3. HE//THEY · co.b b2b NiiON (headliner, fee $300 confirmed, paid by Jovanni not from pool)
 
 Crew set times (internal only): doors/open 21:00 · Rohan Rali b2b Shubh Samtani 23:00–00:15 · HE//THEY 00:15.
 
-Money: pool $450 confirmed (Jovanni/Haven/Alex $150 each). Pool spend ~$381.13 estimate, buffer ~$68.87 estimate.
-Outside pool: HE//THEY $300 confirmed; CDJ rental $345 confirmed (Rock n Roll Rentals). Middle set has no fee.
+Money: pool $498 confirmed plan (3 × $166; Haven received, Alex + Jovanni promised). Pool spend ~$381.13 estimate, buffer ~$116.87 estimate.
+Outside pool (Jovanni): DJ fees $475 confirmed (HE//THEY $300 + Rohan $175); CDJ rental $345 confirmed (Rock n Roll Rentals).
 Drinks: 150-cocktail menu locked (90 lemonades + 60 Palomas) — ~$231.13 estimate incl tax for drinks/ice/cups.
 Retired figures, do not quote: $391.42, $171.88, $58.58.
 
@@ -176,7 +184,7 @@ export const LIBRARY_SEED: LibraryItem[] = [
     type: "app",
     url: "https://claude.ai/artifact/49y1uMCWh1em8QAfMbvBiV",
     description:
-      "3D plan of the Rio room at real size, gear drag-and-drop, drink-spot ranking and night crowd sims.",
+      "3D plan of the room at real size, gear drag-and-drop, drink-spot ranking and night crowd sims.",
     pinned: true,
     tags: ["venue", "sim", "3D"],
   },

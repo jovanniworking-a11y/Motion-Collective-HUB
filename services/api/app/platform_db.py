@@ -10,16 +10,26 @@ import time
 from contextlib import contextmanager
 from typing import Any, Generator
 
-from sqlalchemy import Float, Integer, String, Text, create_engine, event
+from sqlalchemy import Float, Integer, String, Text, create_engine, event, inspect, text
+from sqlalchemy.pool import NullPool
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
-from .config import DATA_DIR, DATABASE_URL as CONFIG_DATABASE_URL
+from .config import DATA_DIR, database_url_from_env
 
-DATABASE_URL = (
-    CONFIG_DATABASE_URL
-    or os.environ.get("DATABASE_URL", "").strip()
-    or f"sqlite:///{(DATA_DIR / 'muse_platform.sqlite3').as_posix()}"
+def normalize_url(url: str) -> str:
+    """Vercel/Neon/Supabase hand out postgres:// or postgresql:// URLs. SQLAlchemy would pick
+    psycopg2 for those (not installed); we ship psycopg 3, so name the driver explicitly."""
+    if url.startswith("postgres://"):
+        url = "postgresql://" + url[len("postgres://"):]
+    if url.startswith("postgresql://"):
+        url = "postgresql+psycopg://" + url[len("postgresql://"):]
+    return url
+
+
+DATABASE_URL = normalize_url(
+    database_url_from_env() or f"sqlite:///{(DATA_DIR / 'muse_platform.sqlite3').as_posix()}"
 )
+IS_POSTGRES = DATABASE_URL.startswith("postgresql")
 
 
 class Base(DeclarativeBase):
@@ -83,8 +93,26 @@ class FlowCount(Base):
     meta_json: Mapped[str] = mapped_column(Text, nullable=False, default="{}")
 
 
+class UsageEvent(Base):
+    """Metered agent/sim calls. Counts only — never raw prompts, guest data or the address."""
+
+    __tablename__ = "usage_events"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    ts: Mapped[float] = mapped_column(Float, nullable=False, default=time.time, index=True)
+    agent_id: Mapped[str] = mapped_column(String(64), nullable=False)
+    area: Mapped[str] = mapped_column(String(64), nullable=False)
+    model: Mapped[str] = mapped_column(String(128), nullable=False)
+    action: Mapped[str] = mapped_column(String(64), nullable=False)
+    tokens_in: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    tokens_out: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    label: Mapped[str] = mapped_column(String(32), nullable=False, default="estimate")
+    meta: Mapped[str] = mapped_column(Text, nullable=False, default="")
+
+
 _engine = None
 _SessionLocal = None
+_initialized = False
 
 
 def _make_engine():
@@ -92,7 +120,11 @@ def _make_engine():
     if DATABASE_URL.startswith("sqlite"):
         connect_args["check_same_thread"] = False
         DATA_DIR.mkdir(parents=True, exist_ok=True)
-    eng = create_engine(DATABASE_URL, future=True, connect_args=connect_args)
+    kwargs: dict[str, Any] = {"future": True, "connect_args": connect_args, "pool_pre_ping": True}
+    if IS_POSTGRES and os.environ.get("VERCEL"):
+        # Serverless: don't hold connections between invocations; use the provider's pooled URL.
+        kwargs["poolclass"] = NullPool
+    eng = create_engine(DATABASE_URL, **kwargs)
     if DATABASE_URL.startswith("sqlite"):
 
         @event.listens_for(eng, "connect")
@@ -124,11 +156,92 @@ def get_session_factory():
     return _SessionLocal
 
 
+def _lock_down_postgres(eng) -> None:
+    """Turn on row-level security for our tables. The API connects as the table owner, so it
+    is unaffected; anything else (e.g. Supabase/Neon public data APIs with an anon key) sees nothing."""
+    with eng.begin() as conn:
+        for name in Base.metadata.tables:
+            conn.execute(text(f'ALTER TABLE "{name}" ENABLE ROW LEVEL SECURITY'))
+
+
+# Constant defaults for columns added onto a table create_all will not alter.
+# Neon (and any DB created before a column landed) otherwise 500s on SELECT.
+_OBS_ADD_DEFAULTS = {
+    "created_at": "0",
+    "zone": "'unknown'",
+    "meta_json": "'{}'",
+    "label": "'estimate'",
+    "note": "'no faces/PII stored'",
+}
+
+
+def _obs_column_sql(col: Any, dialect: str) -> str:
+    kind = col.type
+    if isinstance(kind, Float):
+        type_sql = "DOUBLE PRECISION" if dialect == "postgresql" else "REAL"
+    elif isinstance(kind, Integer):
+        type_sql = "INTEGER"
+    elif isinstance(kind, String):
+        type_sql = f"VARCHAR({kind.length or 255})"
+    elif isinstance(kind, Text):
+        type_sql = "TEXT"
+    else:
+        raise RuntimeError(f"cannot align imaging_observations.{col.name}")
+    clause = f"{col.name} {type_sql}"
+    if col.nullable:
+        return clause
+    default = _OBS_ADD_DEFAULTS.get(col.name)
+    if default is None:
+        raise RuntimeError(f"no align default for imaging_observations.{col.name}")
+    return f"{clause} NOT NULL DEFAULT {default}"
+
+
+def align_imaging_observations(eng: Any | None = None) -> list[str]:
+    """Add ORM columns missing from an existing imaging_observations table.
+
+    create_all does not ALTER. A live Neon table created from an earlier shape
+    (for example without `note`) makes GET and POST /api/data/observations 500.
+    """
+    eng = eng or get_engine()
+    insp = inspect(eng)
+    table = ImagingObservation.__tablename__
+    if not insp.has_table(table):
+        return []
+    have = {c["name"] for c in insp.get_columns(table)}
+    missing = [
+        col
+        for col in ImagingObservation.__table__.columns
+        if col.name not in have and not col.primary_key
+    ]
+    if not missing:
+        return []
+    added: list[str] = []
+    with eng.begin() as conn:
+        for col in missing:
+            conn.execute(
+                text(
+                    f"ALTER TABLE {table} ADD COLUMN {_obs_column_sql(col, eng.dialect.name)}"
+                )
+            )
+            added.append(col.name)
+    return added
+
+
 def init_platform_db() -> dict[str, Any]:
+    global _initialized
     eng = get_engine()
-    Base.metadata.create_all(eng)
+    if not _initialized:
+        Base.metadata.create_all(eng)
+        if IS_POSTGRES:
+            _lock_down_postgres(eng)
+        _initialized = True
+    # Cheap (one inspect); heals a live table that lost or never had a column.
+    align_imaging_observations(eng)
+    with eng.connect() as conn:
+        conn.execute(text("SELECT 1"))
     return {
         "ok": True,
+        "postgres": IS_POSTGRES,
         "database_url_scheme": DATABASE_URL.split(":", 1)[0],
         "sqlite": DATABASE_URL.startswith("sqlite"),
         "tables": sorted(Base.metadata.tables.keys()),

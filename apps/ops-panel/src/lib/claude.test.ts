@@ -4,7 +4,7 @@ import { mockAssist, resolveMode } from "./claude";
 describe("claude mock", () => {
   it("answers budget questions with labeled numbers", () => {
     const r = mockAssist("What is the budget pool?");
-    expect(r).toMatch(/\$450/);
+    expect(r).toMatch(/\$498/);
     expect(r).toMatch(/confirmed/i);
     expect(r).toMatch(/estimate/i);
   });

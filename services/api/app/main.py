@@ -2,22 +2,27 @@
 
 from __future__ import annotations
 
+import json
 from contextlib import asynccontextmanager
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import __version__
+from .auth import SessionGate
 from .activity import activity_feed
 from .chat import chat, history
 from .config import CORS_ORIGINS, STUDIO_DIR
 from .platform import (
+    CounterPayloadError,
     compare_sim_vs_imaging,
+    counter_health,
     ensure_db,
+    ingest_counter_frames,
     ingest_drink_event,
     ingest_flow_count,
     ingest_observation,
@@ -30,11 +35,13 @@ from .routing import AGENT_REGISTRY, MODEL_ROUTES, get_agent, route_for
 from .sims import get_job, list_jobs, list_sim_kinds, start_sim
 from .studio import load_layout, patch_layout, save_layout, studio_paths
 from .usage import init_usage_db, usage_summary
+from .contract import ContractError, bootstrap_contract_schema, insert_sim_run
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     init_usage_db()
+    bootstrap_contract_schema()
     ensure_db()
     yield
 
@@ -46,6 +53,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Login gate first, CORS added after it so CORS stays outermost (401s still carry CORS headers).
+app.add_middleware(SessionGate)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
@@ -265,6 +274,79 @@ def api_data_drinks(body: DrinkEventIn) -> dict[str, Any]:
 @app.post("/api/data/flow")
 def api_data_flow(body: FlowCountIn) -> dict[str, Any]:
     return {"flow_count": ingest_flow_count(**body.model_dump())}
+
+
+def _counter_frames(raw: bytes) -> list[dict[str, Any]]:
+    """Jerry's frame, or one JSON object per line. An object without zones is still a frame and fails in the parser."""
+    if not raw or not raw.strip():
+        raise HTTPException(400, "body required")
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise HTTPException(400, "invalid json") from exc
+    stripped = text.strip()
+    try:
+        data = json.loads(stripped)
+    except json.JSONDecodeError:
+        frames: list[dict[str, Any]] = []
+        for line in stripped.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                item = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise HTTPException(400, "invalid json") from exc
+            if not isinstance(item, dict):
+                raise HTTPException(400, "body must be an object")
+            frames.append(item)
+        if not frames:
+            raise HTTPException(400, "body required")
+        return frames
+    if isinstance(data, dict):
+        return [data]
+    raise HTTPException(400, "body must be an object")
+
+
+@app.post("/api/data/occupancy")
+async def api_occupancy_post(request: Request) -> JSONResponse:
+    """Night-of counter frame into flow_counts. Counts and zones only."""
+    try:
+        body = ingest_counter_frames(_counter_frames(await request.body()))
+    except CounterPayloadError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    return JSONResponse(body, status_code=201)
+
+
+@app.get("/api/data/counter-health")
+def api_counter_health() -> dict[str, Any]:
+    return counter_health()
+
+
+async def _contract_body(request: Request) -> dict[str, Any]:
+    raw = await request.body()
+    if not raw or not raw.strip():
+        raise HTTPException(400, "body required")
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise HTTPException(400, "invalid json") from exc
+    if not isinstance(data, dict):
+        raise HTTPException(400, "body must be an object")
+    return data
+
+
+def _contract(fn: Any, body: dict[str, Any]) -> dict[str, Any]:
+    try:
+        return fn(body)
+    except ContractError as exc:
+        raise HTTPException(exc.status, exc.detail) from exc
+
+
+@app.post("/api/data/sim_runs")
+async def api_data_sim_runs(request: Request) -> dict[str, Any]:
+    """Insert one locked sim prediction. Duplicate sim_id returns 409. No update or delete."""
+    return _contract(insert_sim_run, await _contract_body(request))
 
 
 @app.post("/api/data/compare")

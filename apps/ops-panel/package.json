@@ -8,12 +8,16 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "auth:add-user": "node scripts/add-user.mjs",
+    "test:e2e:auth": "MOTION_E2E_AUTH=1 E2E_TOTP=JBSWY3DPEHPK3PXPJBSWY3DPEHPK3PX playwright test e2e/auth.spec.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "pipeline": "npm run typecheck && npm run test && npm run build && npm run test:e2e"
   },
   "dependencies": {
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow/tfjs": "^4.22.0",
     "next": "^15.5.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

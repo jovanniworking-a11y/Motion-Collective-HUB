@@ -14,6 +14,7 @@ function resolveApiBase(): string {
   return raw.replace(/\/$/, "");
 }
 
+/** Configured URL wins; otherwise local dev talks to :8787 and a deployed panel uses its own origin (Vercel rewrites). */
 export function apiBase(): string {
   return resolveApiBase();
 }
@@ -23,7 +24,11 @@ async function req<T>(path: string, init?: RequestInit): Promise<T> {
     ...init,
     headers: { "Content-Type": "application/json", ...(init?.headers || {}) },
     cache: "no-store",
+    credentials: "include",
   });
+  if (res.status === 401 && typeof window !== "undefined" && window.location.pathname !== "/login") {
+    window.location.assign(`/login?next=${encodeURIComponent(window.location.pathname)}`);
+  }
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     throw new Error(`${res.status} ${path}: ${text.slice(0, 200)}`);
