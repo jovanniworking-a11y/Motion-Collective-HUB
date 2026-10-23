@@ -12,7 +12,7 @@ You are a **worker** on the MOTION Collective hub. Claude (project "MOTION EFFEc
 
 ## Project snapshot
 - Event: **Devil's Night · AFTERIMAGE 001**, Fri 30 Oct 2026, doors 9 PM, hard stop 2 AM (Austin).
-- Lineup (promo order): iamariology b2b raymixes → Glamz → HE//THEY · co.b b2b NiiON. Rohan Rali is cut.
+- Lineup (promo order): iamariology b2b raymixes → Glamz → HE//THEY · co.b b2b NiiON. Rohan Rali is back at $175 (23 Oct); slot open, so he stays off promo until it's set.
 - Hub: `python hub.py` · fan site `site/` · crew hub `web/` · orchestra kit `orch/`.
 
 ## MOTION Ops control plane

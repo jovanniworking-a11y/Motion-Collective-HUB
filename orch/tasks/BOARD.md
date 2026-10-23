@@ -22,13 +22,13 @@
 ## Claude Code consolidation · Fri 23 Oct
 Ready-to-paste prompts: `orch/tasks/PROMPTS_23OCT.md`. A daily check-in at 8:52 AM Austin time pulls RSVPs and refreshes this section.
 
-### Decisions waiting on Jovanni
-| ID | Decision | Why it blocks |
+### Decisions (Jovanni, 23 Oct)
+| ID | Decision | Status |
 |---|---|---|
-| D-1 | **The $175 slot.** DJ fees of $475 were recorded as committed on 20 Oct (HE//THEY $300 + $175). Jovanni said on 19 Oct that **Rohan Rali is back at $175 for 11:00–12:15**, but that is **Glamz's confirmed slot** (he plays free). Options: Rohan takes it and Glamz moves to the 9 PM b3b; Rohan gets another slot; or Rohan stays out. The SoT still says "Rohan is off". | Set times, promo (no unconfirmed names), camera money (it came from Rohan's cut) |
-| D-2 | Who pays the CDJ rental ($345, confirmed quote)? | Budget |
-| D-3 | Approve matchbox v2 (`media/merch/matchbox/`) before ordering. Express is needed to arrive Tue 27 Oct. | Merch arrives in time |
-| D-4 | Buy the 5 Fujifilm cameras and pick a developing lab | Camera program |
+| D-1 | **Rohan Rali is back, $175** (confirmed). This fills the open $175 in the $475 DJ total (HE//THEY $300 + Rohan $175). **Still open: which slot.** 11:00–12:15 is Glamz's. Promo and set times wait on the slot. | fee decided · slot **open** |
+| D-2 | CDJ rental stays at **$345** (confirmed). Payer not stated; assumed Jovanni personally, outside the pool. | decided · payer open |
+| D-3 | **Matchbox v2 approved.** Pip builds it, checks the proof, then orders with Express (T-019). | **approved** |
+| D-4 | **Buy the 5 Fujifilm QuickSnaps.** Lab: Lago Vista Film Lab, about 1-hour C-41 turnaround (confirm hours). | **approved** · buyer Jovanni |
 
 ### Money update (19–23 Oct, from Jovanni)
 | Item | Amount | Label |
@@ -47,8 +47,14 @@ Ready-to-paste prompts: `orch/tasks/PROMPTS_23OCT.md`. A daily check-in at 8:52 
 ### New tasks
 | ID | Task | Owner | Status |
 |---|---|---|---|
-| T-019 | Matchbox v2: build in the Zazzle customizer from `media/merch/matchbox/BUILD_SPEC_v2.md`, then send the proof to Jovanni. **Don't check out.** | Pip | ready |
-| T-020 | Artist towels ×6–7: a printed order was due about 22–23 Oct; otherwise DIY fallback | Jovanni | **late: decide today** |
+| T-019 | Matchbox v2 (**approved 23 Oct**): build in Zazzle from `media/merch/matchbox/BUILD_SPEC_v2.md`, check the proof against the spec, then order 100 with Express (about $73.02 + shipping). Ask Jovanni first if the total goes over $100. | Pip | **go** |
+| T-020 | Artist towels ×6–7: options in the 23 Oct chat (Custom Ink 3-day Super Rush, or blank black towels plus a same-day DTF print at ATX DTF Printing) | Jovanni | **pick a vendor today** |
 | T-021 | Post the b2b reel + mood board edit (RSVP push) | Jovanni | ready |
-| T-022 | SoT update: pool $498 (Haven paid), merch change, D-1 outcome | Claude chat | waiting on D-1 |
+| T-022 | SoT update: pool $498 (Haven paid), merch change, Rohan back at $175, cameras and matchbox approved | Claude chat | ready (slot still open) |
 | T-023 | Group-size DMs: Johan "6+", Aamer 5 (drafts: ChatGPT prompt) | Jovanni | ready |
+| T-024 | MOTION Ops · CI: GitHub Actions running the API pytest and the panel's npm ci, typecheck, vitest and build on every push | Cursor | ready · brief in `inbox/DEVOPS_23OCT.md` |
+| T-025 | MOTION Ops · Night-Of readiness: door check-in to cap 70, offline phone test, lineup data with Rohan (slot from D-1), Playwright e2e on `/night-of` | Cursor | ready (lineup rows wait on the D-1 slot) |
+| T-026 | MOTION Ops · Hosting gate: `vercel.json` exists, but nothing goes public before auth. Add an auth gate and a preview-only plan; **no deploy without Jovanni's OK** | Cursor | ready |
+| T-027 | MOTION Ops · Metering check: every agent call writes `usage_events`; router table matches `MODEL_ROUTING.md`; refresh the stale chat seed (buffer, DJ $475) | Cursor | ready |
+| T-028 | MOTION Ops · Desktop on Jovanni's PC: install, `npm run desktop`, confirm it loads the panel and works offline | Codex | ready |
+| T-029 | MOTION Ops · Night-of runbook (one page): who opens what, on which phone, the offline fallback, the 2 AM shutdown | Cursor | ready |

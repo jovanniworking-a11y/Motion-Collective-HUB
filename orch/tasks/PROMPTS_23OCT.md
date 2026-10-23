@@ -42,8 +42,19 @@ Save as MOTION_Budget_v2.xlsx next to the original. Don't commit guest data anyw
 
 ## → Claude chat ("MOTION EFFEcts") · D-1 + T-014
 ```
-Decision needed: Rohan Rali says he's back at $175 for the 11:00–12:15 set — that's Glamz's confirmed slot (plays free). Lay out the 3 options (Rohan takes it + Glamz moves to the 9 PM b3b / Rohan elsewhere / Rohan stays cut) with impact on set times, DJ spend (HE//THEY $300 + $175?), the camera money that came from Rohan's cut ($275 saved), and promo. Recommend one. Note: on 20 Oct the acting orchestrator recorded DJ fees committed at $475 (= HE//THEY $300 + $175, split marked open) — reconcile that with whatever I pick. Then update the SoT money section: pool now $498 (3 × $166, Haven paid; spend $381.13 est → buffer $116.87), Cap 01 merch cut, new merch (towels/stickers/matchboxes, est. $200–310).
+Decided 23 Oct: Rohan Rali is back at $175 (confirmed). Still open: his slot. He asked for 11:00–12:15, which is Glamz's confirmed slot (plays free). Lay out the slot options (Rohan takes 11:00–12:15 and Glamz moves to the 9 PM b3b / Rohan opens before the b2b / Rohan closes after HE//THEY) with impact on set times, DJ spend (HE//THEY $300 + $175?), the camera money that came from Rohan's cut ($275 saved), and promo. Recommend one. Also record: CDJ rental $345 (confirmed), matchbox v2 approved, 5 Fujifilm cameras approved (lab: Lago Vista Film Lab). Note: on 20 Oct the acting orchestrator recorded DJ fees committed at $475 (= HE//THEY $300 + $175, split marked open) — reconcile that with whatever I pick. Then update the SoT money section: pool now $498 (3 × $166, Haven paid; spend $381.13 est → buffer $116.87), Cap 01 merch cut, new merch (towels/stickers/matchboxes, est. $200–310).
 ```
 
 ## → Pip · T-019 matchbox
-Build from `media/merch/matchbox/BUILD_SPEC_v2.md` using the three PNGs in that folder. Match Zazzle's face template size first. Send the Zazzle proof to Jovanni. **Don't check out.**
+Jovanni **approved v2 on 23 Oct**. Build from `media/merch/matchbox/BUILD_SPEC_v2.md` using the three PNGs in that folder. Match Zazzle's face template size first. Check the proof against the spec (striker strip clear, type sharp at 6–7 pt). Then order 100 with **Express** (arrive by Tue 27 Oct) using the 15% code. If the total is over $100, ask Jovanni before paying.
+
+## → Cursor · MOTION Ops dev work (T-024 to T-027, T-029)
+Full brief: `orch/tasks/inbox/DEVOPS_23OCT.md`. Paste:
+```
+You're a worker on MOTION Collective HUB. Read AGENTS.md, ARCHITECTURE.md and orch/tasks/inbox/DEVOPS_23OCT.md. Do T-024, then T-025, T-027, T-029, then T-026, in that order, each on its own cursor/<task> branch, merged into claude/motion-files-consolidated-dx17w2 only when tests pass. Write a T-###_result.md in orch/tasks/outbox/ for each. Never deploy, spend, send or post. No guest PII, no venue address.
+```
+
+## → Codex (Jovanni's PC) · T-028 desktop
+```
+Pull claude/motion-files-consolidated-dx17w2. In apps/ops-panel run npm ci (the lock file was re-synced on 23 Oct), then from the repo root start the API (python -m uvicorn app.main:app --app-dir services/api --port 8787), the panel (npm run dev in apps/ops-panel) and the desktop shell (npm run desktop). Confirm: the desktop window loads the panel; /night-of works with Wi-Fi off; ops/index.html opens on a phone on the same network. Write the result (what worked, any errors verbatim) to orch/tasks/outbox/T-028_result.md. Don't commit .env or guest data.
+```
