@@ -58,3 +58,12 @@ Money out, public posts, messages to people, final lineup and creative calls, lo
 2. Standing rule for code: may Claude merge a pull request once CI and review are green? (yes / ask each time)
 3. Retire the Grok relay and Cursor relay for repo code? (yes / keep Cursor as backup)
 4. Move the budget workbook to Google Sheets? (yes / no)
+
+<!-- AGENT_WORKLOG:BEGIN -->
+<!-- AGENT_LOG {"v":"1.0","ts":"2026-10-24T21:04:59.976Z","agent":"claude-code","trace":"tr_724bb0267f4e4086","status":"completed","verify":"verified_passed","hash":"sha256:a01c933851f2ff3a67c88fcd60b8075029df2add7b3ab15369c378cd9d62eb14","ledger":".agent/ledger.jsonl"} -->
+
+#### Agent work log
+| UTC | Agent | Status | Summary | Next | Trace |
+|---|---|---|---|---|---|
+| 2026-10-24T21:04:59Z | claude-code | completed / verified_passed | Close the four provenance limits: shared leases, guest denylist, coverage gate, agent reg… | Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION… | `tr_724bb0267f4e4086` |
+<!-- AGENT_WORKLOG:END -->

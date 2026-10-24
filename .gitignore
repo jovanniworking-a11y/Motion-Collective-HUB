@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:04:59Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_8bff36caad784921]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 # secrets
 .env
 .env.*
@@ -45,3 +48,4 @@ desktop/dist/
 .agent/leases/
 .agent/*.lock
 .agent/approvals/
+.agent/private/

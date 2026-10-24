@@ -31,3 +31,12 @@ Clips: IMG_2616 (3.2 s, 4K 24 fps, overhead crowd shot of a truss stage) and IMG
 ## Open
 - Projector: rent or borrow (open). Position it so the three circles land on the eye wall. Check corner-pin on 29 Oct.
 - Tempo per set (open): the loop is 128 BPM. Re-render at each DJ's tempo, or let TouchDesigner follow the DJM.
+
+<!-- AGENT_WORKLOG:BEGIN -->
+<!-- AGENT_LOG {"v":"1.0","ts":"2026-10-24T21:04:59.951Z","agent":"claude-code","trace":"tr_86a6536906914008","status":"completed","verify":"verified_passed","hash":"sha256:e6e68811644ca0310290634dc46387dc5815553dc27a2ff2468c6a5c91dd2d57","ledger":".agent/ledger.jsonl"} -->
+
+#### Agent work log
+| UTC | Agent | Status | Summary | Next | Trace |
+|---|---|---|---|---|---|
+| 2026-10-24T21:04:59Z | claude-code | completed / verified_passed | Close the four provenance limits: shared leases, guest denylist, coverage gate, agent reg… | Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION… | `tr_86a6536906914008` |
+<!-- AGENT_WORKLOG:END -->

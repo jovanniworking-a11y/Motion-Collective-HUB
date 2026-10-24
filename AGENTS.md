@@ -31,3 +31,12 @@ Read **`ARCHITECTURE.md`** before growing `apps/ops-panel`, `services/api`, or `
 - Router table `area → model` — never fan-out every model on every click.
 - Keys server-only; no guest PII; no venue address; no spend/send/post; auth later.
 - Kill: in-app coding IDE (use Cursor), `hub.py` as HTTP server.
+
+<!-- AGENT_WORKLOG:BEGIN -->
+<!-- AGENT_LOG {"v":"1.0","ts":"2026-10-24T21:04:59.859Z","agent":"claude-code","trace":"tr_d259553969a144f9","status":"completed","verify":"verified_passed","hash":"sha256:e21aa41f3b77f5495bbd5f7b21c471b9ef686f8b2c3382577559bef053da9463","ledger":".agent/ledger.jsonl"} -->
+
+#### Agent work log
+| UTC | Agent | Status | Summary | Next | Trace |
+|---|---|---|---|---|---|
+| 2026-10-24T21:04:59Z | claude-code | completed / verified_passed | Close the four provenance limits: shared leases, guest denylist, coverage gate, agent reg… | Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION… | `tr_d259553969a144f9` |
+<!-- AGENT_WORKLOG:END -->

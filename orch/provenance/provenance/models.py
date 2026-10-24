@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:05:00Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_edbd1d27c01f485d]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """Typed data models for the Universal Agent Work Provenance protocol (v1.0).
 
 Three wire objects:
@@ -17,6 +20,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Literal, Optional
 
+from .privacy import find_guest_names
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 PROVENANCE_VERSION = "1.0"
@@ -47,6 +51,8 @@ def new_id(prefix: str) -> str:
 def assert_no_personal_data(text: str, field: str) -> str:
     if _EMAIL.search(text) or _PHONE.search(text):
         raise ValueError(f"{field} looks like it contains an email or phone number; guest data stays out of the ledger")
+    if find_guest_names(text):
+        raise ValueError(f"{field} contains a name on the guest denylist; guest data stays out of the ledger")
     return text
 
 

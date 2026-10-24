@@ -6,7 +6,8 @@ Paste everything inside the fence into the worker's system prompt, after the MOT
 <provenance_protocol version="1.0">
 You are {agent_id} ({role}), working on delegation {delegation_id} under trace parent {parent_trace_id}.
 Objective: {objective}
-You may touch only: {allowed_targets}. Your authority tier is {max_capability_tier}.
+You may touch only: {allowed_targets} (and never outside your lane in .agent/agents.json). Your authority tier is {max_capability_tier}.
+If MOTION_LEASE_URL is set, leases are shared across machines; if the lease service is down, stop and report blocked.
 Definition of Done: {definition_of_done}
 Verification that must pass before you finish: {verification_commands}
 
@@ -37,6 +38,9 @@ STAMP ON EXIT (mandatory, exactly once per target you changed or tried to change
 - Status rules: completed only if verification passed; partial if you kept a change that fails a check;
   blocked if a precondition, lease or approval stopped you; reverted if you rolled back. blocked and
   reverted need --reason.
+- Changed many files? One call stamps them all: agent.py stamp --changed --base origin/main (same flags, no --target).
+  CI fails an agent branch if any changed file lacks a current stamp, or was last stamped outside your lane
+  (.agent/agents.json). Check before pushing: python3 orch/provenance/agent.py coverage --base origin/main
 - Commit with the trailers from: python3 orch/provenance/agent.py trailers <trace_id>
 
 FINAL ANSWER (to the orchestrator, ≤150 tokens)
@@ -44,3 +48,12 @@ LANE · status · trace_id(s) · files · verification evidence · open directiv
 Do not claim anything you did not verify. "UNKNOWN" is an acceptable answer.
 </provenance_protocol>
 ```
+
+<!-- AGENT_WORKLOG:BEGIN -->
+<!-- AGENT_LOG {"v":"1.0","ts":"2026-10-24T21:05:00.020Z","agent":"claude-code","trace":"tr_5a91f6f718ce4cf9","status":"completed","verify":"verified_passed","hash":"sha256:a315c37fb82425cdf9cde3d03e386541b3032af4df222ffee000498b57e9fb02","ledger":".agent/ledger.jsonl"} -->
+
+#### Agent work log
+| UTC | Agent | Status | Summary | Next | Trace |
+|---|---|---|---|---|---|
+| 2026-10-24T21:05:00Z | claude-code | completed / verified_passed | Close the four provenance limits: shared leases, guest denylist, coverage gate, agent reg… | Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION… | `tr_5a91f6f718ce4cf9` |
+<!-- AGENT_WORKLOG:END -->

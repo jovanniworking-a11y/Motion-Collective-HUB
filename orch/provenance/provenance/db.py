@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:05:00Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_abdfd9f008c9405d]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """Database surface: transactional outbox + shadow audit columns.
 
 Write the business change and the stamp in ONE transaction:

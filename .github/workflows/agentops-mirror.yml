@@ -1,0 +1,32 @@
+# @agent-provenance [2026-10-24T21:04:59Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_91ca1aafaeeb46ee]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
+name: Agent ops mirror
+
+# Copies new ledger stamps into the shared database so the panel's Activity page shows them.
+# Idempotent (stamp_id). Does nothing until Jovanni adds the MOTION_API_URL and MOTION_AGENT_TOKEN secrets.
+on:
+  push:
+    branches: [main, claude/motion-files-consolidated-dx17w2]
+    paths: [".agent/ledger.jsonl"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "pydantic>=2"
+      - name: mirror ledger
+        env:
+          MOTION_API_URL: ${{ secrets.MOTION_API_URL }}
+          MOTION_AGENT_TOKEN: ${{ secrets.MOTION_AGENT_TOKEN }}
+        run: |
+          if [ -z "$MOTION_API_URL" ] || [ -z "$MOTION_AGENT_TOKEN" ]; then echo "secrets not set; skipping"; exit 0; fi
+          python orch/provenance/agent.py mirror --url "$MOTION_API_URL"

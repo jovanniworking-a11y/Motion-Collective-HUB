@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:04:59Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_ce701d65fd2e44a8]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """Block-build eyes loop for the projector (fallback if TouchDesigner isn't up).
 
 Look learned from Jovanni's festival reference (24 Oct): round LED panels whose content builds in and

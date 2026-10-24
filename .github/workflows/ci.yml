@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:04:59Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_449ea655617b4567]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 name: CI
 
 on:
@@ -9,6 +12,39 @@ permissions:
   contents: read
 
 jobs:
+  provenance-coverage:
+    # Every file an agent branch changes needs a current stamp (enforced on agent branches, report-only otherwise).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r services/api/requirements.txt
+      - name: coverage vs main
+        env:
+          GUEST_DENYLIST: ${{ secrets.GUEST_DENYLIST }}
+        run: |
+          git fetch -q origin main
+          python orch/provenance/agent.py coverage --base origin/main
+      - name: no denylisted guest names in this change (skipped when the secret is unset)
+        env:
+          GUEST_DENYLIST: ${{ secrets.GUEST_DENYLIST }}
+        run: |
+          [ -n "$GUEST_DENYLIST" ] || { echo "GUEST_DENYLIST secret not set; skipping"; exit 0; }
+          python - <<'PY'
+          import subprocess, sys
+          sys.path.insert(0, "orch/provenance")
+          from provenance import find_guest_names
+          diff = subprocess.run(["git", "diff", "-U0", "origin/main...HEAD"], capture_output=True, text=True).stdout
+          added = "\n".join(l[1:] for l in diff.splitlines() if l.startswith("+") and not l.startswith("+++"))
+          hits = find_guest_names(added)
+          print(f"{len(hits)} denylisted name(s) in added lines")
+          sys.exit(1 if hits else 0)
+          PY
+
   api:
     runs-on: ubuntu-latest
     services:

@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:05:00Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_763f610c600846aa]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """@track_agent_work: the Read-Before-Write / Stamp-On-Exit loop as a context manager and decorator.
 
     with track_agent_work("apps/ops-panel/src/lib/api.ts", agent=me, intent="Same-origin API base",
@@ -42,7 +45,7 @@ from .contracts import (
 )
 from .hashing import content_hash_bytes
 from .hydrate import HydrationBriefing, hydrate_agent_context
-from .leases import LeaseManager
+from .remote import lease_manager_for
 from .ledger import Ledger, find_repo_root
 from .models import (
     AgentIdentity,
@@ -217,7 +220,7 @@ def track_agent_work(
         yield WorkSession(target_uri, prior.trace_id, b, already_done=True, prior_stamp=prior)
         return
 
-    leases = LeaseManager(root)
+    leases = lease_manager_for(root)
     ttl = lease_ttl or (contract.lease_ttl_seconds if contract else 900)
     token = _current_trace.set(trace_id)
     try:

@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:05:00Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_5dc922558b244022]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """Login gate for the API — verifies the panel's signed session cookie.
 
 The panel (Next) issues `motion_session` after password + TOTP. On Vercel the
@@ -21,6 +24,15 @@ from starlette.responses import JSONResponse, Response
 
 SESSION_COOKIE = "motion_session"
 PUBLIC_PATHS = {"/health"}
+AGENT_PATH_PREFIX = "/api/agentops/"
+
+
+def agent_token_ok(header: str) -> bool:
+    """Machines (agents on other computers) use `Authorization: Bearer $MOTION_AGENT_TOKEN`, agentops routes only."""
+    want = os.environ.get("MOTION_AGENT_TOKEN", "")
+    if len(want) < 32 or not header.startswith("Bearer "):
+        return False
+    return hmac.compare_digest(header[7:].strip().encode(), want.encode())
 
 
 def auth_mode(env: dict[str, str] | None = None) -> str:
@@ -74,6 +86,8 @@ class SessionGate(BaseHTTPMiddleware):
             return await call_next(request)
         if mode == "misconfigured":
             return JSONResponse({"ok": False, "error": "login not configured"}, status_code=503)
+        if request.url.path.startswith(AGENT_PATH_PREFIX) and agent_token_ok(request.headers.get("authorization", "")):
+            return await call_next(request)
         if verify_session(request.cookies.get(SESSION_COOKIE), os.environ["MOTION_SESSION_SECRET"]) is None:
             return JSONResponse({"ok": False, "error": "login required"}, status_code=401)
         return await call_next(request)

@@ -1,14 +1,23 @@
+// @agent-provenance [2026-10-24T21:04:59Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_c3ee9ecae4e0488a]
+// @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+// @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 "use client";
 
 import { useEffect, useState } from "react";
 import { LabelTag } from "@/components/LabelTag";
-import { api } from "@/lib/api";
+import { api, type AgentLease, type AgentStampBrief } from "@/lib/api";
 
 type Act = Awaited<ReturnType<typeof api.activity>>;
+
+function short(path: string): string {
+  return path.length > 48 ? `…${path.slice(-47)}` : path;
+}
 
 export default function ActivityPage() {
   const [data, setData] = useState<Act | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [leases, setLeases] = useState<AgentLease[]>([]);
+  const [stamps, setStamps] = useState<{ source: string; stamps: AgentStampBrief[] } | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -25,11 +34,18 @@ export default function ActivityPage() {
           if (alive) setErr(e.message);
         });
     };
+    const tickAgents = () => {
+      api.agentLeases().then((d) => alive && setLeases(d.leases)).catch(() => undefined);
+      api.agentStamps(15).then((d) => alive && setStamps(d)).catch(() => undefined);
+    };
     tick();
+    tickAgents();
+    const agentsId = window.setInterval(tickAgents, 15000);
     const id = window.setInterval(tick, 5000);
     return () => {
       alive = false;
       window.clearInterval(id);
+      window.clearInterval(agentsId);
     };
   }, []);
 
@@ -73,6 +89,47 @@ export default function ActivityPage() {
               ) : null}
             </div>
             <span className="status">{item.status}</span>
+          </div>
+        ))}
+      </section>
+      <h2 style={{ marginTop: "1.5rem" }}>Who is editing what</h2>
+      <section className="panel" data-testid="agent-leases">
+        {leases.length === 0 ? (
+          <div className="dim">No file is leased right now.</div>
+        ) : (
+          leases.map((l) => (
+            <div key={l.resource} className="feed-item">
+              <span className="kind">lease</span>
+              <div>
+                <div className="mono">{short(l.resource)}</div>
+                <div className="dim" style={{ fontSize: "0.78rem" }}>
+                  @{l.owner}
+                </div>
+              </div>
+              <span className="status">{Math.max(0, Math.round(l.expires_at - Date.now() / 1000))}s left</span>
+            </div>
+          ))
+        )}
+      </section>
+      <h2 style={{ marginTop: "1.5rem" }}>Agent work log</h2>
+      <p className="dim" style={{ fontSize: "0.78rem" }}>
+        From {stamps?.source === "database" ? "the shared database" : "the repo ledger"}. Newest first.
+      </p>
+      <section className="panel" data-testid="agent-stamps">
+        {(stamps?.stamps || []).map((s) => (
+          <div key={s.trace_id + s.timestamp_utc} className="feed-item">
+            <span className="kind">{s.agent_id}</span>
+            <div>
+              <div>{s.intent}</div>
+              <div className="dim mono" style={{ fontSize: "0.78rem" }}>
+                {short(s.target_uri)}
+                {s.next ? ` · next: ${s.next}` : ""}
+                {s.failure_reason ? ` · why: ${s.failure_reason}` : ""}
+              </div>
+            </div>
+            <span className="status">
+              {s.status} / {s.verification_status.replace("verified_", "")}
+            </span>
           </div>
         ))}
       </section>

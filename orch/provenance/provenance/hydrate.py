@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:05:00Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_7c9f8f6fdb4944d5]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """Read-before-write: rebuild context from prior stamps and brief the incoming agent compactly.
 
     briefing = HydrateAgentContext("apps/ops-panel/src/lib/api.ts")

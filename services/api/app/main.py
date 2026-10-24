@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:05:00Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_281029010dcf46bc]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """MOTION Collective control-plane — FastAPI entry."""
 
 from __future__ import annotations
@@ -14,6 +17,7 @@ from pydantic import BaseModel, Field
 
 from . import __version__
 from .auth import SessionGate
+from . import agentops
 from .activity import activity_feed
 from .chat import chat, history
 from .config import CORS_ORIGINS, STUDIO_DIR
@@ -218,6 +222,60 @@ def api_sim_job(job_id: str) -> dict[str, Any]:
     if not job:
         raise HTTPException(404, f"unknown job: {job_id}")
     return {"job": job}
+
+
+class LeaseIn(BaseModel):
+    resource: str = Field(min_length=1, max_length=400)
+    owner: str = Field(min_length=2, max_length=64, pattern=r"^[a-z0-9][a-z0-9._-]{1,63}$")
+    ttl: float = Field(default=900.0, ge=10, le=86400)
+
+
+class LeaseRef(BaseModel):
+    resource: str = Field(min_length=1, max_length=400)
+    lease_id: str = Field(min_length=4, max_length=40)
+
+
+class StampsIn(BaseModel):
+    stamps: list[dict[str, Any]] = Field(max_length=2000)
+
+
+@app.post("/api/agentops/leases/acquire")
+def api_lease_acquire(body: LeaseIn) -> dict[str, Any]:
+    try:
+        return {"lease": agentops.acquire(body.resource, body.owner, body.ttl)}
+    except agentops.Conflict as exc:
+        raise HTTPException(409, str(exc)) from exc
+
+
+@app.post("/api/agentops/leases/heartbeat")
+def api_lease_heartbeat(body: LeaseRef) -> dict[str, Any]:
+    try:
+        return {"lease": agentops.heartbeat(body.resource, body.lease_id)}
+    except agentops.Conflict as exc:
+        raise HTTPException(409, str(exc)) from exc
+
+
+@app.post("/api/agentops/leases/release")
+def api_lease_release(body: LeaseRef) -> dict[str, Any]:
+    return {"released": agentops.release(body.resource, body.lease_id)}
+
+
+@app.get("/api/agentops/leases")
+def api_leases() -> dict[str, Any]:
+    return {"leases": agentops.active_leases()}
+
+
+@app.post("/api/agentops/stamps")
+def api_stamps_mirror(body: StampsIn) -> dict[str, Any]:
+    try:
+        return agentops.mirror_stamps(body.stamps)
+    except (ValueError, KeyError, TypeError) as exc:
+        raise HTTPException(400, f"bad stamp: {exc}") from exc
+
+
+@app.get("/api/agentops/stamps")
+def api_stamps(limit: int = 30) -> dict[str, Any]:
+    return agentops.recent_stamps(limit=min(max(limit, 1), 200))
 
 
 @app.get("/api/data/health")

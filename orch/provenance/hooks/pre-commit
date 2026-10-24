@@ -1,0 +1,3 @@
+#!/bin/sh
+# Block commits whose staged lines contain a name from the private guest denylist.
+exec python3 "$(git rev-parse --show-toplevel)/orch/provenance/agent.py" scan-staged

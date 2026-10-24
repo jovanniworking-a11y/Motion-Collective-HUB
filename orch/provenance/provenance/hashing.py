@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:05:00Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_567b9c04de1b4546]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """Content hashing that ignores provenance breadcrumbs.
 
 The hash of an artifact is taken over its content with every provenance region removed, so:
@@ -23,33 +26,32 @@ def sha256_bytes(data: bytes) -> str:
     return "sha256:" + hashlib.sha256(data).hexdigest()
 
 
+_PREAMBLE = re.compile(r"^(#!|#.*coding[:=]|\s*<!doctype|\s*<\?xml)", re.I)  # lines the SDK keeps above the block
+
+
 def strip_provenance(text: str) -> str:
-    """Remove the inline breadcrumb block and any Markdown work-log region."""
-    # Markdown / HTML work-log region (inclusive of markers and one trailing newline).
-    while WORKLOG_BEGIN in text:
-        start = text.index(WORKLOG_BEGIN)
-        end = text.find(WORKLOG_END, start)
-        if end == -1:
-            raise ValueError("AGENT_WORKLOG:BEGIN without END marker; refusing to guess the region")
-        end += len(WORKLOG_END)
-        if text[end:end + 1] == "\n":
-            end += 1
-        # also drop the blank separator line we insert before the region
-        if text[max(0, start - 2):start] == "\n\n":
-            start -= 1
-        text = text[:start] + text[end:]
-    out: list[str] = []
+    """Remove the inline breadcrumb block (top of file) and the work-log region (end of file).
+
+    Both are matched only where the SDK writes them, so code, tests or docs that merely mention
+    the markers or show an example block are left alone.
+    """
+    start = text.rfind("\n" + WORKLOG_BEGIN + "\n")
+    if start == -1 and text.startswith(WORKLOG_BEGIN + "\n"):
+        start = 0
+    if start != -1:
+        end = text.find("\n" + WORKLOG_END, start)
+        if end != -1 and not text[end + 1 + len(WORKLOG_END):].strip():
+            text = text[:start].rstrip("\n") + "\n"
     lines = text.splitlines(keepends=True)
     i = 0
-    while i < len(lines):
-        if _INLINE_START.match(lines[i]):
-            i += 1
-            while i < len(lines) and _INLINE_CONT.match(lines[i]) and lines[i].strip():
-                i += 1
-            continue
-        out.append(lines[i])
+    while i < len(lines) and i < 2 and _PREAMBLE.match(lines[i]):
         i += 1
-    return "".join(out)
+    if i < len(lines) and _INLINE_START.match(lines[i]):
+        j = i + 1
+        while j < len(lines) and _INLINE_CONT.match(lines[j]) and lines[j].strip():
+            j += 1
+        return "".join(lines[:i] + lines[j:])
+    return text
 
 
 def content_hash_text(text: str) -> str:

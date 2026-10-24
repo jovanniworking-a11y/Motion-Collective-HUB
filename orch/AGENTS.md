@@ -27,3 +27,12 @@ Middle-set fee is closed (no fee). Costume prize amount was $40 on 16 Oct. Artis
 Provenance is mandatory: hydrate before you edit, stamp after (`orch/provenance/WORKER_PROMPT.md`).
 
 Result file `tasks/outbox/T-###_result.md`: what you did · files produced (paths) · how you verified · **Proposed SoT changes** · questions for Jovanni. Keep it short. Run `python3 orch/hygiene/scan.py` if you touched lineup copy.
+
+<!-- AGENT_WORKLOG:BEGIN -->
+<!-- AGENT_LOG {"v":"1.0","ts":"2026-10-24T21:04:59.939Z","agent":"claude-code","trace":"tr_114105cc1a774923","status":"completed","verify":"verified_passed","hash":"sha256:18a5da1ec032257b5fd88767ad9f1884cb333ed733d644a46642067af01ab154","ledger":".agent/ledger.jsonl"} -->
+
+#### Agent work log
+| UTC | Agent | Status | Summary | Next | Trace |
+|---|---|---|---|---|---|
+| 2026-10-24T21:04:59Z | claude-code | completed / verified_passed | Close the four provenance limits: shared leases, guest denylist, coverage gate, agent reg… | Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION… | `tr_114105cc1a774923` |
+<!-- AGENT_WORKLOG:END -->

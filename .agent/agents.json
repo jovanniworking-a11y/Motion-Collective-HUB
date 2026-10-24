@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "note": "Who each agent is and which files its lane may write. Coverage checks this; stamp warns outside it. No model ids here (house rule).",
+  "agents": [
+    {"id": "claude-code", "seat": "Claude Code (cloud sessions + scheduled tasks)", "lane": "orchestrator", "owns": ["**"], "max_tier": "mutate_shared", "branch_prefixes": ["claude/"]},
+    {"id": "cursor", "seat": "Cursor (Jovanni's PC)", "lane": "code", "owns": ["apps/**", "services/**", "web/**", "site/**", "ops/**", "e2e/**", "orch/tasks/outbox/**"], "max_tier": "mutate_shared", "branch_prefixes": ["cursor/"]},
+    {"id": "codex", "seat": "Codex (Jovanni's PC)", "lane": "pc-files", "owns": ["media/**", "orch/tasks/outbox/**"], "max_tier": "sandbox_write", "branch_prefixes": ["codex/"]},
+    {"id": "grok-jerry", "seat": "Grok · Jerry", "lane": "live-ops backend", "owns": ["live-ops/counter/*.py", "live-ops/counter/tests/**", "live-ops/fader/*.py", "orch/tasks/outbox/**"], "max_tier": "sandbox_write", "branch_prefixes": ["grok/jerry", "jerry/"]},
+    {"id": "grok-chaka", "seat": "Grok · Chaka", "lane": "live-ops visuals", "owns": ["live-ops/dashboard/**", "live-ops/fader/index.html", "live-ops/touchdesigner/**", "orch/tasks/outbox/**"], "max_tier": "sandbox_write", "branch_prefixes": ["grok/chaka", "chaka/"]},
+    {"id": "grok-bartholomew", "seat": "Grok · Bartholomew", "lane": "audits", "owns": ["live-ops/audits/**", "orch/tasks/outbox/**"], "max_tier": "sandbox_write", "branch_prefixes": ["grok/bartholomew", "bartholomew/"]},
+    {"id": "pip", "seat": "Pip", "lane": "ops notes", "owns": ["orch/tasks/outbox/**"], "max_tier": "sandbox_write", "branch_prefixes": ["pip/"]},
+    {"id": "chatgpt", "seat": "ChatGPT (copy)", "lane": "copy drafts", "owns": ["orch/tasks/outbox/**"], "max_tier": "read", "branch_prefixes": []},
+    {"id": "gemini", "seat": "Gemini (video + sheet audits)", "lane": "reviews", "owns": ["orch/tasks/outbox/**"], "max_tier": "read", "branch_prefixes": []}
+  ]
+}

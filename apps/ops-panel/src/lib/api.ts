@@ -1,3 +1,6 @@
+// @agent-provenance [2026-10-24T21:04:59Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_6fba8059cd614049]
+// @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+// @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 /** Client for MOTION control-plane FastAPI backend. */
 
 function resolveApiBase(): string {
@@ -57,7 +60,32 @@ export type ChatMessage = {
   provider?: string;
 };
 
+export type AgentLease = {
+  resource: string;
+  owner: string;
+  lease_id: string;
+  acquired_at: number;
+  expires_at: number;
+  ttl: number;
+};
+
+export type AgentStampBrief = {
+  timestamp_utc: string;
+  agent_id: string;
+  role?: string;
+  target_uri: string;
+  status: string;
+  verification_status: string;
+  intent: string;
+  trace_id: string;
+  next?: string | null;
+  failure_reason?: string | null;
+};
+
 export const api = {
+  agentLeases: () => req<{ leases: AgentLease[] }>("/api/agentops/leases"),
+  agentStamps: (limit = 20) =>
+    req<{ source: string; stamps: AgentStampBrief[] }>(`/api/agentops/stamps?limit=${limit}`),
   health: () => req<{ ok: boolean }>("/health"),
   agents: () => req<{ agents: Agent[] }>("/api/agents"),
   agent: (id: string) =>

@@ -1,9 +1,12 @@
+# @agent-provenance [2026-10-24T21:05:00Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_ca1a52bce1934969]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """Time-bounded resource leases with heartbeats and optimistic concurrency (ETag = content hash).
 
 Leases live in `.agent/leases/<sha1(resource)>.json`. Acquisition is atomic (O_EXCL create);
 an expired lease can be taken over. While held, a background heartbeat extends the expiry.
-Scope: one host or a shared filesystem. Across machines, agents coordinate through git branches
-plus the ledger; a Postgres-backed lease table is the drop-in for a shared server (see ARCHITECTURE.md).
+Scope: one host or a shared filesystem. Across machines set MOTION_LEASE_URL and the tracker uses
+RemoteLeaseManager (remote.py), backed by the API's Postgres lease table.
 """
 from __future__ import annotations
 

@@ -44,7 +44,7 @@ sequenceDiagram
 |---|---|---|
 | Orchestrator | this Claude Code session | Splits asks, issues `DelegationContract`s, reviews stamps, merges green PRs |
 | Worker | any agent (Claude Code child session, Cursor, Codex, Grok, scripts) | Does one contract. Python agents use `track_agent_work`; others use the CLI `stamp` |
-| Lease manager | `leases.py` | O_EXCL lease files, TTL + heartbeat thread, takeover after expiry, `StaleWrite` on an ETag (content hash) mismatch |
+| Lease manager | `leases.py`, `remote.py` | O_EXCL lease files (one host) or the shared API lease table (`MOTION_LEASE_URL`), TTL + heartbeat thread, takeover after expiry, `StaleWrite` on an ETag (content hash) mismatch |
 | Hydrator | `hydrate.py` | Read-before-write briefing, integrity check (`ok` / `DRIFT` / `untracked` / `external`), rolling state summary |
 | Verification gate | `verify.py`, `contracts.py` | Commands must exit 0 and postconditions must hold; otherwise roll back or mark partial |
 | Ledger | `ledger.py` | Append-only JSONL, hash-chained, union-mergeable, dead-letter file, idempotency lookup |
@@ -66,11 +66,19 @@ sequenceDiagram
 
 **(a) Source and config files.** One block, three lines, at the top. It goes after any shebang, Python encoding line, `<!doctype>` or `<?xml?>`, and is replaced on every stamp:
 ```
+# @agent-provenance [2026-10-24T20:32:23.412Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_9f8a7d6c5b4a3e21]
+# @summary: Extract retry backoff into an idempotent helper
+# @handoff: Cover backoff() in tests | ledger: .agent/ledger.jsonl#tr_9f8a7d6c5b4a3e21
 ```
 Comment syntax follows the extension: `#` for py, sh, yaml and toml; `//` for ts, js, go and rs; `--` for sql; `/* */` for css; `<!-- -->` for html, xml and svg. Files with no comment syntax (JSON, lockfiles, binaries) get ledger-only stamps.
 
 **(b) Markdown and docs.** A region at the bottom holds one machine comment plus a visible table (newest first, capped at 10 rows; the full history is in the ledger):
 ```
+<!-- AGENT_WORKLOG:BEGIN -->
+<!-- AGENT_LOG {"v":"1.0","ts":"…","agent":"claude-code","trace":"tr_…","status":"completed","verify":"verified_passed","hash":"sha256:…"} -->
+#### Agent work log
+| UTC | Agent | Status | Summary | Next | Trace |
+<!-- AGENT_WORKLOG:END -->
 ```
 
 **(c) Git.** Every autonomous commit carries trailers. Get them with `agent.py trailers <trace_id>`; `agent.py check-commit-msg` is the commit-msg hook:
@@ -98,17 +106,22 @@ Agent-Trace-URI: .agent/ledger.jsonl#tr_9f8a7d6c5b4a3e21
 2. **Negative-constraint injection.** Every `do_not_repeat`, earlier `FAILED BEFORE` reason and assumption goes into the worker's prompt as a hard constraint. On DRIFT, re-read the file before trusting older notes.
 3. **Atomic commit + stamp.** Verify, write the breadcrumb (atomic replace), then append to the ledger with fsync. If either fails, the artifact is restored.
 
-## 6. Limits (be honest)
-- Leases are file-based: one host or a shared filesystem. Across machines, agents coordinate through branches and the ledger. A Postgres lease table is the next step if several hosts write the same checkout.
-- The PII guard catches emails and phone numbers only. Agents must still never put guest names in stamps.
-- An agent that edits files without the SDK or CLI leaves no stamp. CI's chain check and DRIFT detection make that visible but can't prevent it.
-- House rule: leave `agent.model` empty in this repo (no model ids in pushed artifacts).
+## 6. Limits, and what now covers them
+| Limit (v1.0) | Now | Where |
+|---|---|---|
+| Leases were file-based, one host | Set `MOTION_LEASE_URL` + `MOTION_AGENT_TOKEN` and every tracker/CLI on every machine leases through the API's lease table (row-locked, Postgres in the cloud). If the service is unreachable, work stops: no lease, no write. The panel's Activity page shows who holds what. | `remote.py`, `services/api/app/agentops.py`, `/activity` |
+| PII guard caught emails and phones only | Plus a private guest-name denylist: `.agent/private/guest_names.txt` (gitignored, refreshed from Tally by the daily check-in with `agent.py denylist --stdin`) and the `GUEST_DENYLIST` secret in CI and on the API. Checked in every stamp, by the pre-commit hook (`scan-staged`) and by CI on the diff. Full names only; a single word only when that's all the guest gave. | `privacy.py`, `hooks/pre-commit` |
+| Agents skipping the SDK left only DRIFT | Coverage gate: every changed file on an agent branch needs a stamp whose hash matches the file now. CI fails the branch otherwise. `agent.py stamp --changed` stamps the whole change set in one call. Human branches get a report only. | `coverage.py`, CI job `provenance-coverage` |
+| `agent.model` empty, so identity was thin | Agent registry `.agent/agents.json`: seat, lane, owned globs, max tier and branch prefixes. Stamps warn outside the lane; coverage fails a file last stamped by an agent outside its lane (one writer per file). | `registry.py` |
+
+Still true: the ledger can't stop a person or a tool with direct push rights from bypassing CI. Branch protection on `main` (required check `provenance-coverage`) closes that. Jovanni turns it on in GitHub settings. The denylist only knows names that are on it. House rule unchanged: no model ids in pushed artifacts.
 
 <!-- AGENT_WORKLOG:BEGIN -->
-<!-- AGENT_LOG {"v":"1.0","ts":"2026-10-24T20:50:20.706Z","agent":"claude-code","trace":"tr_f425f9a4eff54327","status":"completed","verify":"verified_passed","hash":"sha256:a010e650fd9f68d74283c0bc1d801d03a3c79c537b580f92a23293fea1337036","ledger":".agent/ledger.jsonl"} -->
+<!-- AGENT_LOG {"v":"1.0","ts":"2026-10-24T21:04:59.990Z","agent":"claude-code","trace":"tr_127ba23c92ae4d44","status":"completed","verify":"verified_passed","hash":"sha256:18b213db299ff5b38fa6dba6583995b0f4a498db69f52da58df0778e24fb059d","ledger":".agent/ledger.jsonl"} -->
 
 #### Agent work log
 | UTC | Agent | Status | Summary | Next | Trace |
 |---|---|---|---|---|---|
+| 2026-10-24T21:04:59Z | claude-code | completed / verified_passed | Close the four provenance limits: shared leases, guest denylist, coverage gate, agent reg… | Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION… | `tr_127ba23c92ae4d44` |
 | 2026-10-24T20:50:20Z | claude-code | completed / verified_passed | Blueprint: components, seven autonomy pillars, embedding rules, tamper evidence | Add a Postgres lease table if several hosts write one checkout | `tr_f425f9a4eff54327` |
 <!-- AGENT_WORKLOG:END -->

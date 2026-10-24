@@ -1,3 +1,6 @@
+# @agent-provenance [2026-10-24T21:05:00Z] [agent:claude-code] [status:completed/verified_passed] [trace:tr_6baf428c517c455f]
+# @summary: Close the four provenance limits: shared leases, guest denylist, coverage gate, agent registry
+# @handoff: Jovanni: set MOTION_AGENT_TOKEN on Vercel api + GitHub secrets MOTION_API_URL/MOTION_AGENT_TOKEN; optional GUEST_DENYLIST
 """Surface adapters: where a stamp is written at the site of work.
 
 (a) Source/config files: one compact block (3 content lines) at the top, replaced on each stamp.
@@ -114,9 +117,11 @@ _ROW = re.compile(r"^\| (\d{4}-\d{2}-\d{2}T[^|]+) \|")
 
 
 def _existing_rows(text: str) -> list[str]:
-    if WORKLOG_BEGIN not in text:
+    start = text.rfind("\n" + WORKLOG_BEGIN + "\n")
+    end = text.find("\n" + WORKLOG_END, start + 1)
+    if start == -1 or end == -1:
         return []
-    region = text[text.index(WORKLOG_BEGIN): text.index(WORKLOG_END)]
+    region = text[start:end]
     return [l for l in region.splitlines() if _ROW.match(l)]
 
 
