@@ -23,3 +23,13 @@ OSC stubs (for later, not for Friday):
 Do not put the venue address in any TD comment or file name.
 
 Hands-on (29 Oct): confirm the DJM shows up as the Audio Device In, and that Perform Mode lands on the projector rather than the laptop panel.
+
+Scene e — BLOCK EYES (added 24 Oct from Jovanni's festival reference; see orch/creative/research/visuals_led_blocks_24oct.md)
+- Three Circle TOPs (radius ~0.14 of the frame, 40 px margin to the edge) composited side by side = the 3x eyes.
+- Grid: a Ramp/Noise TOP quantised to 32x32 cells (40 px), 3 px black seams so it reads as LED.
+- Build: per circle, a Threshold TOP on a stepped gradient (corner → corner) whose level steps up one notch per 8th note
+  (Beat CHOP → Count CHOP → Math 0..1 over 2 bars). Erode = the same level stepping down.
+- Checker: a Checker pattern (Pattern TOP or GLSL) whose phase flips on every beat.
+- Second half: multiply the blocks by the eyes art (media/flyers/final_v6/eyes_hc.png, one strip per circle).
+- Feedback TOP with Level 0.78 = the afterimage trail. No red except one 2 px hairline under the centre eye.
+- Fallback if TD is not up: loop media/visuals/MOTION_block_eyes_128bpm_1280.mp4 (8 bars at 128 BPM, loops on the beat).
