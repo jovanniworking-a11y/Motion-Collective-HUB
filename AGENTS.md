@@ -3,6 +3,7 @@
 You are a **worker** on the MOTION Collective hub. Claude (project "MOTION EFFEcts") is the orchestrator. Read `orch/AGENTS.md`, `orch/CLAUDE.md`, and `orch/context/CURRENT_LOCK.md` before changing anything. On conflict, **CURRENT_LOCK.md and root CLAUDE.md hard rules win** over older Source of Truth paragraphs.
 
 ## Standing orders
+- **Provenance (read before write, stamp on exit):** before editing any file run `python3 orch/provenance/agent.py hydrate <file>`; after editing run `agent.py stamp …` and put `agent.py trailers <trace>` in the commit. Rules: `orch/provenance/WORKER_PROMPT.md`.
 - **Never spend, send, post, or publish.** Drafts and local builds only. Jovanni OK required before anything goes out.
 - **Label every number** `confirmed` / `estimate` / `open`.
 - **Never write the venue address** or any **guest personal data** into any file, post, or page.

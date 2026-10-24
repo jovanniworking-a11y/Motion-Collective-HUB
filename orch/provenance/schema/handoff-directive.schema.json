@@ -1,0 +1,131 @@
+{
+  "$defs": {
+    "Condition": {
+      "additionalProperties": false,
+      "description": "A machine-checkable pre/postcondition (see contracts.evaluate).",
+      "properties": {
+        "description": {
+          "default": "",
+          "maxLength": 240,
+          "title": "Description",
+          "type": "string"
+        },
+        "expected": {
+          "anyOf": [
+            {
+              "maxLength": 400,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected"
+        },
+        "kind": {
+          "enum": [
+            "file_exists",
+            "file_absent",
+            "file_hash_equals",
+            "command_succeeds",
+            "ledger_status_is",
+            "no_drift"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "target": {
+          "maxLength": 400,
+          "minLength": 1,
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "target"
+      ],
+      "title": "Condition",
+      "type": "object"
+    }
+  },
+  "$id": "https://motion-collective.local/schemas/provenance/handoff-directive.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "created_at_utc": {
+      "title": "Created At Utc",
+      "type": "string"
+    },
+    "deadline_utc": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Deadline Utc"
+    },
+    "directive_id": {
+      "title": "Directive Id",
+      "type": "string"
+    },
+    "from_agent_id": {
+      "pattern": "^[a-z0-9][a-z0-9._-]{1,63}$",
+      "title": "From Agent Id",
+      "type": "string"
+    },
+    "from_trace_id": {
+      "title": "From Trace Id",
+      "type": "string"
+    },
+    "instruction": {
+      "maxLength": 600,
+      "minLength": 5,
+      "title": "Instruction",
+      "type": "string"
+    },
+    "preconditions": {
+      "items": {
+        "$ref": "#/$defs/Condition"
+      },
+      "title": "Preconditions",
+      "type": "array"
+    },
+    "priority": {
+      "default": "p1",
+      "enum": [
+        "p0",
+        "p1",
+        "p2"
+      ],
+      "title": "Priority",
+      "type": "string"
+    },
+    "target_uri": {
+      "maxLength": 400,
+      "minLength": 1,
+      "title": "Target Uri",
+      "type": "string"
+    },
+    "to_role": {
+      "maxLength": 64,
+      "minLength": 2,
+      "title": "To Role",
+      "type": "string"
+    }
+  },
+  "required": [
+    "from_trace_id",
+    "from_agent_id",
+    "to_role",
+    "target_uri",
+    "instruction"
+  ],
+  "title": "HandoffDirective",
+  "type": "object"
+}

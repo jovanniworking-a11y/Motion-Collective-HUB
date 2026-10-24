@@ -28,6 +28,8 @@ jobs:
       - run: pip install -r services/api/requirements.txt
       - name: pytest (SQLite)
         run: python -m pytest -q services/api
+      - name: agent provenance tests + ledger integrity
+        run: pip install jsonschema && python -m pytest -q orch/provenance/tests && python orch/provenance/agent.py verify-chain
       - name: live-ops tests (counter, bridge, fader)
         run: pip install -r live-ops/requirements.txt && python -m pytest -q live-ops
       - name: Postgres role the data contract writes as

@@ -24,4 +24,6 @@ Square-to-wall + locked placements (no arbitrary rotation) · DJ table on the lo
 Middle-set fee is closed (no fee). Costume prize amount was $40 on 16 Oct. Artists' clips; Rapid Ric cables + lights; Cap 01 colourway + quotes; capacity after the kitchen+hall measurement (also tape the DJ wall and recalibrate the Studio); mirror-ball rigging; **re-run budget workbook** with live prices (T-002); proposed extra alcohol (~$97 w/ tax: 3rd vodka JJ, 2nd Miller Lite 30-pk, 2nd White Claw 24-pk, +~$6 ice) — unconfirmed; to verify on site: Bed 3 door position, Bed 3 occupant consent, front-door location, 9 ft ceiling.
 
 ## Output format
+Provenance is mandatory: hydrate before you edit, stamp after (`orch/provenance/WORKER_PROMPT.md`).
+
 Result file `tasks/outbox/T-###_result.md`: what you did · files produced (paths) · how you verified · **Proposed SoT changes** · questions for Jovanni. Keep it short. Run `python3 orch/hygiene/scan.py` if you touched lineup copy.

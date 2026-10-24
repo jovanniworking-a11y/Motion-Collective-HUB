@@ -1,0 +1,3 @@
+#!/bin/sh
+# Agent commits (any Agent-* trailer) must carry the required trailers. Human commits pass.
+exec python3 "$(git rev-parse --show-toplevel)/orch/provenance/agent.py" check-commit-msg "$1"

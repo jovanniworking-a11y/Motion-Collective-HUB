@@ -40,3 +40,8 @@ desktop/dist/
 *.wav
 *.m4a
 !media/audio/licensed/*.mp3
+
+# agent provenance: leases and locks are runtime state; the ledger, dead letter and STATE.md are shared
+.agent/leases/
+.agent/*.lock
+.agent/approvals/

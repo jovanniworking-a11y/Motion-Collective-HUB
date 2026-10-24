@@ -1,0 +1,265 @@
+{
+  "$defs": {
+    "Budget": {
+      "additionalProperties": false,
+      "properties": {
+        "max_tool_calls": {
+          "default": 200,
+          "maximum": 100000,
+          "minimum": 1,
+          "title": "Max Tool Calls",
+          "type": "integer"
+        },
+        "max_wall_seconds": {
+          "default": 1800,
+          "maximum": 86400,
+          "minimum": 1,
+          "title": "Max Wall Seconds",
+          "type": "integer"
+        }
+      },
+      "title": "Budget",
+      "type": "object"
+    },
+    "CapabilityTier": {
+      "description": "Bounded authority. Ordered: read < sandbox_write < mutate_shared < external_side_effect.",
+      "enum": [
+        "read",
+        "sandbox_write",
+        "mutate_shared",
+        "external_side_effect"
+      ],
+      "title": "CapabilityTier",
+      "type": "string"
+    },
+    "Condition": {
+      "additionalProperties": false,
+      "description": "A machine-checkable pre/postcondition (see contracts.evaluate).",
+      "properties": {
+        "description": {
+          "default": "",
+          "maxLength": 240,
+          "title": "Description",
+          "type": "string"
+        },
+        "expected": {
+          "anyOf": [
+            {
+              "maxLength": 400,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected"
+        },
+        "kind": {
+          "enum": [
+            "file_exists",
+            "file_absent",
+            "file_hash_equals",
+            "command_succeeds",
+            "ledger_status_is",
+            "no_drift"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "target": {
+          "maxLength": 400,
+          "minLength": 1,
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "target"
+      ],
+      "title": "Condition",
+      "type": "object"
+    },
+    "Escalation": {
+      "additionalProperties": false,
+      "properties": {
+        "always_escalate_tiers": {
+          "items": {
+            "$ref": "#/$defs/CapabilityTier"
+          },
+          "title": "Always Escalate Tiers",
+          "type": "array"
+        },
+        "confidence_threshold": {
+          "default": 0.7,
+          "description": "Below this self-rated confidence, stop and escalate",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence Threshold",
+          "type": "number"
+        },
+        "escalate_to": {
+          "default": "orchestrator",
+          "maxLength": 64,
+          "title": "Escalate To",
+          "type": "string"
+        }
+      },
+      "title": "Escalation",
+      "type": "object"
+    }
+  },
+  "$id": "https://motion-collective.local/schemas/provenance/delegation-contract.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_targets": {
+      "description": "Glob patterns the worker may touch, e.g. 'apps/ops-panel/src/**'",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Allowed Targets",
+      "type": "array"
+    },
+    "assigned_role": {
+      "maxLength": 64,
+      "minLength": 2,
+      "title": "Assigned Role",
+      "type": "string"
+    },
+    "budget": {
+      "$ref": "#/$defs/Budget"
+    },
+    "deadline_utc": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Deadline Utc"
+    },
+    "definition_of_done": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Definition Of Done",
+      "type": "array"
+    },
+    "delegation_id": {
+      "title": "Delegation Id",
+      "type": "string"
+    },
+    "escalation": {
+      "$ref": "#/$defs/Escalation"
+    },
+    "input_schema": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "JSON Schema the inputs must satisfy",
+      "title": "Input Schema"
+    },
+    "inputs": {
+      "additionalProperties": true,
+      "title": "Inputs",
+      "type": "object"
+    },
+    "issued_at_utc": {
+      "title": "Issued At Utc",
+      "type": "string"
+    },
+    "issued_by": {
+      "pattern": "^[a-z0-9][a-z0-9._-]{1,63}$",
+      "title": "Issued By",
+      "type": "string"
+    },
+    "lease_ttl_seconds": {
+      "default": 900,
+      "maximum": 86400,
+      "minimum": 30,
+      "title": "Lease Ttl Seconds",
+      "type": "integer"
+    },
+    "max_capability_tier": {
+      "$ref": "#/$defs/CapabilityTier",
+      "default": "mutate_shared"
+    },
+    "objective": {
+      "maxLength": 600,
+      "minLength": 5,
+      "title": "Objective",
+      "type": "string"
+    },
+    "output_schema": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "JSON Schema the worker's result must satisfy",
+      "title": "Output Schema"
+    },
+    "parent_trace_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Trace Id"
+    },
+    "postconditions": {
+      "items": {
+        "$ref": "#/$defs/Condition"
+      },
+      "title": "Postconditions",
+      "type": "array"
+    },
+    "preconditions": {
+      "items": {
+        "$ref": "#/$defs/Condition"
+      },
+      "title": "Preconditions",
+      "type": "array"
+    },
+    "verification_commands": {
+      "description": "Commands that must all exit 0 before commit",
+      "items": {
+        "type": "string"
+      },
+      "title": "Verification Commands",
+      "type": "array"
+    }
+  },
+  "required": [
+    "issued_by",
+    "assigned_role",
+    "objective",
+    "allowed_targets",
+    "definition_of_done"
+  ],
+  "title": "DelegationContract",
+  "type": "object"
+}

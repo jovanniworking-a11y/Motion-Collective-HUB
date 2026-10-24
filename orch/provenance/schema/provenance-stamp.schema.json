@@ -1,0 +1,348 @@
+{
+  "$defs": {
+    "AgentIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "agent_id": {
+          "description": "Stable id of the worker, e.g. 'claude-code' or 'grok-jerry'",
+          "pattern": "^[a-z0-9][a-z0-9._-]{1,63}$",
+          "title": "Agent Id",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional. Leave empty in this repo (house rule: no model ids in pushed artifacts).",
+          "title": "Model"
+        },
+        "parent_delegation_id": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Delegation Id"
+        },
+        "role": {
+          "description": "Capability/role, e.g. 'backend-builder'",
+          "maxLength": 64,
+          "minLength": 2,
+          "title": "Role",
+          "type": "string"
+        },
+        "session_id": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Session Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "agent_id",
+        "role",
+        "session_id"
+      ],
+      "title": "AgentIdentity",
+      "type": "object"
+    },
+    "CapabilityTier": {
+      "description": "Bounded authority. Ordered: read < sandbox_write < mutate_shared < external_side_effect.",
+      "enum": [
+        "read",
+        "sandbox_write",
+        "mutate_shared",
+        "external_side_effect"
+      ],
+      "title": "CapabilityTier",
+      "type": "string"
+    },
+    "HandoffContext": {
+      "additionalProperties": false,
+      "properties": {
+        "assumptions_made": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Assumptions Made",
+          "type": "array"
+        },
+        "do_not_repeat": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Do Not Repeat",
+          "type": "array"
+        },
+        "failure_reason": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failure Reason"
+        },
+        "next_agent_directives": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Next Agent Directives",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/HandoffStatus"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "HandoffContext",
+      "type": "object"
+    },
+    "HandoffStatus": {
+      "enum": [
+        "completed",
+        "partial",
+        "blocked",
+        "reverted"
+      ],
+      "title": "HandoffStatus",
+      "type": "string"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "post_state_hash": {
+          "anyOf": [
+            {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Post State Hash"
+        },
+        "pre_state_hash": {
+          "anyOf": [
+            {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pre State Hash"
+        },
+        "surface_type": {
+          "$ref": "#/$defs/SurfaceType"
+        },
+        "target_uri": {
+          "description": "Repo-relative path (+ optional #L10-L20) or scheme URI, e.g. db://motion/sim_runs/42",
+          "maxLength": 400,
+          "minLength": 1,
+          "title": "Target Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "surface_type",
+        "target_uri"
+      ],
+      "title": "Scope",
+      "type": "object"
+    },
+    "SurfaceType": {
+      "enum": [
+        "code_file",
+        "doc_section",
+        "database_row",
+        "issue_ticket",
+        "pull_request",
+        "git_commit",
+        "state_node"
+      ],
+      "title": "SurfaceType",
+      "type": "string"
+    },
+    "VerificationStatus": {
+      "enum": [
+        "verified_passed",
+        "verified_failed",
+        "unverified"
+      ],
+      "title": "VerificationStatus",
+      "type": "string"
+    },
+    "WorkSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "actions_taken": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 25,
+          "title": "Actions Taken",
+          "type": "array"
+        },
+        "intent": {
+          "maxLength": 240,
+          "minLength": 3,
+          "title": "Intent",
+          "type": "string"
+        },
+        "verification_evidence": {
+          "default": "",
+          "maxLength": 800,
+          "title": "Verification Evidence",
+          "type": "string"
+        },
+        "verification_status": {
+          "$ref": "#/$defs/VerificationStatus",
+          "default": "unverified"
+        }
+      },
+      "required": [
+        "intent"
+      ],
+      "title": "WorkSummary",
+      "type": "object"
+    }
+  },
+  "$id": "https://motion-collective.local/schemas/provenance/provenance-stamp.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "agent": {
+      "$ref": "#/$defs/AgentIdentity"
+    },
+    "capability_tier": {
+      "$ref": "#/$defs/CapabilityTier",
+      "default": "mutate_shared"
+    },
+    "delegation_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Delegation Id"
+    },
+    "entry_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Entry Hash"
+    },
+    "handoff_context": {
+      "$ref": "#/$defs/HandoffContext"
+    },
+    "idempotency_key": {
+      "anyOf": [
+        {
+          "maxLength": 160,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Idempotency Key"
+    },
+    "parent_trace_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Trace that caused this one (delegation or nesting)",
+      "title": "Parent Trace Id"
+    },
+    "prev_entry_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Prev Entry Hash"
+    },
+    "provenance_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Provenance Version",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    },
+    "stamp_id": {
+      "title": "Stamp Id",
+      "type": "string"
+    },
+    "timestamp_utc": {
+      "title": "Timestamp Utc",
+      "type": "string"
+    },
+    "trace_id": {
+      "description": "Causal id of this unit of work",
+      "title": "Trace Id",
+      "type": "string"
+    },
+    "work_summary": {
+      "$ref": "#/$defs/WorkSummary"
+    }
+  },
+  "required": [
+    "agent",
+    "scope",
+    "work_summary",
+    "handoff_context"
+  ],
+  "title": "ProvenanceStamp",
+  "type": "object"
+}
